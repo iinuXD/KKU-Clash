@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bnq86anou8efi"]
+
+[ext_resource type="Texture2D" uid="uid://ugsgbhofeups" path="res://asset/places5.png" id="1_ng5dc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oshej"]
+size = Vector2(73.5, 62.75)
+
+[sub_resource type="LabelSettings" id="LabelSettings_oshej"]
+font_size = 30
+
+[node name="Area2D" type="Area2D" unique_id=2057062151]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=11267842]
+position = Vector2(1.25, -29.625)
+shape = SubResource("RectangleShape2D_oshej")
+
+[node name="Label" type="Label" parent="." unique_id=1611643477]
+offset_left = -76.0
+offset_top = -103.0
+offset_right = 79.0
+offset_bottom = -53.0
+text = "Library"
+label_settings = SubResource("LabelSettings_oshej")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=81602999]
+position = Vector2(2.3841858e-07, -40)
+scale = Vector2(1.245, 1.245)
+texture = ExtResource("1_ng5dc")
+region_rect = Rect2(155.32341, 316.03284, 212.19276, 159.4585)

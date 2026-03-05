@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://c15k21ss7x3so"]
+
+[ext_resource type="Texture2D" uid="uid://cxneftj7mavey" path="res://asset/places10.png" id="1_1y73j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oshej"]
+size = Vector2(70.5, 60.75)
+
+[sub_resource type="LabelSettings" id="LabelSettings_oshej"]
+font_size = 30
+
+[node name="Area2D" type="Area2D" unique_id=2057062151]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=11267842]
+position = Vector2(0.75, -29.625)
+shape = SubResource("RectangleShape2D_oshej")
+
+[node name="Label" type="Label" parent="." unique_id=1611643477]
+offset_left = -65.0
+offset_top = -101.0
+offset_right = 74.0
+offset_bottom = -56.0
+text = "Hospital"
+label_settings = SubResource("LabelSettings_oshej")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=81602999]
+position = Vector2(0, -38)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("1_1y73j")
+region_rect = Rect2(155.32341, 316.03284, 212.19276, 159.4585)

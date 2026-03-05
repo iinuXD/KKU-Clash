@@ -1,3 +1,51 @@
 [gd_scene format=3 uid="uid://oa1qyrd15ta0"]
 
-[node name="Node2D" type="Node2D" unique_id=1108432382]
+[ext_resource type="Script" uid="uid://bj8bk37efrdit" path="res://core/script/GameMananger.gd" id="1_8bh3d"]
+[ext_resource type="Texture2D" uid="uid://dueohcohekhw3" path="res://icon.svg" id="1_ogwyi"]
+[ext_resource type="PackedScene" uid="uid://dwtxdks72knxi" path="res://locations/Dorm.tscn" id="2_1j5ml"]
+[ext_resource type="PackedScene" uid="uid://de7edduoqhje1" path="res://ui/player_ui.tscn" id="2_u1cyh"]
+[ext_resource type="PackedScene" uid="uid://d0uekogrmcluc" path="res://locations/FoodCourt.tscn" id="3_blgbp"]
+[ext_resource type="PackedScene" uid="uid://c34lv6rup6fav" path="res://locations/StudyHall.tscn" id="4_u1cyh"]
+[ext_resource type="Script" uid="uid://cslnhhqgceqxh" path="res://core/script/MapMananger.gd" id="6_7t0kv"]
+
+[sub_resource type="Curve2D" id="Curve2D_8bh3d"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -3, -1, -68.59485, -154.33841, 68.59485, 154.33841, 382, 108, 101.17741, -99.46255, -101.17741, 99.46255, 400, 431, 0, 0, 0, 0, -3, -1)
+}
+point_count = 4
+
+[node name="MainGame" type="Node2D" unique_id=1108432382]
+position = Vector2(515, 127)
+script = ExtResource("1_8bh3d")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=540502140]
+
+[node name="PlayerUI" parent="UILayer" unique_id=1594373216 instance=ExtResource("2_u1cyh")]
+
+[node name="Dorm" parent="UILayer" unique_id=2057062151 instance=ExtResource("2_1j5ml")]
+position = Vector2(515, 117)
+
+[node name="FoodCourt" parent="UILayer" unique_id=1357537524 instance=ExtResource("3_blgbp")]
+position = Vector2(904, 228)
+
+[node name="StudyHall" parent="UILayer" unique_id=2083110892 instance=ExtResource("4_u1cyh")]
+position = Vector2(917, 555)
+
+[node name="Map" type="Node2D" parent="." unique_id=825449724]
+script = ExtResource("6_7t0kv")
+
+[node name="Path2D" type="Path2D" parent="Map" unique_id=1669176678]
+curve = SubResource("Curve2D_8bh3d")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Map/Path2D" unique_id=900370425]
+position = Vector2(160.36665, 252.0362)
+rotation = -2.2022161
+progress = 1102.8033
+
+[node name="Sprite2D" type="Sprite2D" parent="Map/Path2D/PathFollow2D" unique_id=357204771]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_ogwyi")
+
+[connection signal="input_event" from="UILayer/Dorm" to="Map" method="_on_dorm_input_event"]
+[connection signal="input_event" from="UILayer/FoodCourt" to="Map" method="_on_food_court_input_event"]
+[connection signal="input_event" from="UILayer/StudyHall" to="Map" method="_on_study_hall_input_event"]

@@ -1,0 +1,34 @@
+extends Node
+
+# Player Stats
+var money: int = 2000
+var study_score: int = 0
+var happy: int = 40
+var energy: int = 100
+var hunger: int = 50
+
+var current_round: int = 1
+var max_rounds: int = 5
+
+var time_remaining: int = 24 # Let's assume 24 "hours" or units per round
+var max_time: int = 24
+
+# Event Modifiers
+var travel_time_cost: int = 2
+var travel_energy_cost: int = 0
+var is_injured: bool = false
+var is_sick: bool = false
+
+# Quests
+var sick_sleep_count: int = 0
+var has_medicine: bool = false
+var lost_item_active: bool = false
+
+# Helper function to keep stats between 0 and 100 (except money/study)
+func update_stat(stat_name: String, amount: int):
+	match stat_name:
+		"happy": happy = clampi(happy + amount, 0, 100)
+		"energy": energy = clampi(energy + amount, 0, 100)
+		"hunger": hunger = clampi(hunger + amount, 0, 100)
+		"money": money += amount
+		"study_score": study_score += amount

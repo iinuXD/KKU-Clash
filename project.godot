@@ -11,18 +11,27 @@ config_version=5
 [application]
 
 config/name="Project"
+run/main_scene="uid://oa1qyrd15ta0"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+config/run/main_scene="res://locations/mapscreen.tscn"
 
 [autoload]
 
 Dialogic="*uid://ds2q0uclmolvu"
+Global="*uid://b6qyp4iayeb1x"
 
 [dialogic]
 
 directories/dch_directory={}
 directories/dtl_directory={}
 layout/style_directory={}
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 

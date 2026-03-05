@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bifm1a6vusvip"]
+
+[ext_resource type="Texture2D" uid="uid://dwpabca4wcdnp" path="res://asset/places8.png" id="1_wmpvj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oshej"]
+size = Vector2(71, 63.5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_oshej"]
+font_size = 30
+
+[node name="Area2D" type="Area2D" unique_id=2057062151]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=11267842]
+position = Vector2(0, -33)
+shape = SubResource("RectangleShape2D_oshej")
+
+[node name="Label" type="Label" parent="." unique_id=1611643477]
+offset_left = -72.0
+offset_top = -110.0
+offset_right = 83.0
+offset_bottom = -60.0
+text = "Fun place"
+label_settings = SubResource("LabelSettings_oshej")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=81602999]
+position = Vector2(4.7683716e-07, -39.000004)
+scale = Vector2(1.205, 1.205)
+texture = ExtResource("1_wmpvj")
+region_rect = Rect2(155.32341, 316.03284, 212.19276, 159.4585)

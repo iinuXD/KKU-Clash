@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://de7edduoqhje1"]
+
+[ext_resource type="Script" uid="uid://cb3logb14kxdd" path="res://ui/player_ui.gd" id="1_cfom6"]
+
+[node name="PlayerUI" type="Control" unique_id=1594373216]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cfom6")
+
+[node name="Status" type="Panel" parent="." unique_id=1624817388]
+layout_mode = 0
+offset_right = 327.0
+offset_bottom = 166.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Status" unique_id=1074540170]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 277.0
+
+[node name="HungerBox" type="HBoxContainer" parent="Status/VBoxContainer" unique_id=1296756440]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Status/VBoxContainer/HungerBox" unique_id=514681690]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.38
+text = "Hunger"
+
+[node name="HungerProgressBar" type="ProgressBar" parent="Status/VBoxContainer/HungerBox" unique_id=1112731412]
+modulate = Color(1, 0.5411765, 0.29411766, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+rounded = true
+
+[node name="HappyBox" type="HBoxContainer" parent="Status/VBoxContainer" unique_id=1526545451]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Status/VBoxContainer/HappyBox" unique_id=592736406]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.39
+text = "Happy"
+
+[node name="HappyProgressBar" type="ProgressBar" parent="Status/VBoxContainer/HappyBox" unique_id=1658936441]
+modulate = Color(0.32424015, 0.73581535, 0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+rounded = true
+
+[node name="StudyBox" type="HBoxContainer" parent="Status/VBoxContainer" unique_id=1083286028]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Status/VBoxContainer/StudyBox" unique_id=510190067]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.39
+text = "Study"
+
+[node name="StudyProgressBar" type="ProgressBar" parent="Status/VBoxContainer/StudyBox" unique_id=1737020562]
+modulate = Color(0.17184411, 0.53013366, 0.96857667, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+rounded = true
+
+[node name="EnergyBox" type="HBoxContainer" parent="Status/VBoxContainer" unique_id=975698932]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Status/VBoxContainer/EnergyBox" unique_id=2116856305]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.39
+text = "Energy"
+
+[node name="EnergyProgressBar" type="ProgressBar" parent="Status/VBoxContainer/EnergyBox" unique_id=518404721]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+rounded = true
+
+[node name="Money" type="HBoxContainer" parent="Status/VBoxContainer" unique_id=1106627776]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Status/VBoxContainer/Money" unique_id=1115673444]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.38
+text = "Money :"
+
+[node name="MoneyAmount" type="Label" parent="Status/VBoxContainer/Money" unique_id=683638794]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2000"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=514821661]
+layout_mode = 0
+offset_left = 773.0
+offset_top = 1.0
+offset_right = 1270.0
+offset_bottom = 94.0
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1257933917]
+layout_mode = 2
+text = "Timer"
+horizontal_alignment = 1
+
+[node name="TimeProgessBar" type="ProgressBar" parent="VBoxContainer" unique_id=182320296]
+layout_mode = 2
+max_value = 24.0
+
+[node name="RoundLabel" type="Label" parent="VBoxContainer" unique_id=382630144]
+layout_mode = 2
