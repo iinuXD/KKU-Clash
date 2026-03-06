@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6iys13gemq7c"
-path="res://.godot/imported/places9.png-c359fa79a77e34c357c4340a0d680467.ctex"
+uid="uid://oid0wg2uq8hu"
+path="res://.godot/imported/ME_Singles_Camping_32x32_Tree_Wall_Modular_6.png-61b3217989eef451d68394154857afb2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://asset/places9.png"
-dest_files=["res://.godot/imported/places9.png-c359fa79a77e34c357c4340a0d680467.ctex"]
+source_file="res://asset/dec/ME_Singles_Camping_32x32_Tree_Wall_Modular_6.png"
+dest_files=["res://.godot/imported/ME_Singles_Camping_32x32_Tree_Wall_Modular_6.png-61b3217989eef451d68394154857afb2.ctex"]
 
 [params]
 

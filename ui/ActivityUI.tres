@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="DialogicStyle" format=3 uid="uid://sbb1k8ok1qyw"]
+
+[ext_resource type="PackedScene" uid="uid://3us14wtinwrk" path="res://ui/CustomActivityUi/custom_activity_ui.tscn" id="1_xixyp"]
+[ext_resource type="Script" uid="uid://bwg6yncmh2cml" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="2_qvrsc"]
+[ext_resource type="Script" uid="uid://dv08k6ljua6fm" path="res://addons/dialogic/Resources/dialogic_style.gd" id="11_a8b4x"]
+
+[sub_resource type="Resource" id="Resource_ue0v8"]
+script = ExtResource("2_qvrsc")
+scene = ExtResource("1_xixyp")
+
+[resource]
+script = ExtResource("11_a8b4x")
+name = "ActivityUI"
+layer_info = {
+"": SubResource("Resource_ue0v8")
+}
+metadata/_latest_layer = ""

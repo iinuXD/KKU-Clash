@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://65b2vjqq2db3"
-path="res://.godot/imported/places3.png-a8fd93343a7f153c134e2eda9cc7b8d5.ctex"
+uid="uid://y27rpbglpbqq"
+path="res://.godot/imported/places4.png-d5bf75e83018d033c2132cad8f292ce4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://asset/places3.png"
-dest_files=["res://.godot/imported/places3.png-a8fd93343a7f153c134e2eda9cc7b8d5.ctex"]
+source_file="res://asset/place/places4.png"
+dest_files=["res://.godot/imported/places4.png-d5bf75e83018d033c2132cad8f292ce4.ctex"]
 
 [params]
 

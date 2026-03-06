@@ -18,14 +18,25 @@ config/run/main_scene="res://locations/mapscreen.tscn"
 
 [autoload]
 
-Dialogic="*uid://ds2q0uclmolvu"
 Global="*uid://b6qyp4iayeb1x"
+Dialogic="*uid://ds2q0uclmolvu"
 
 [dialogic]
 
-directories/dch_directory={}
-directories/dtl_directory={}
-layout/style_directory={}
+directories/dch_directory={
+"character": "res://dialog/character.dch"
+}
+directories/dtl_directory={
+"timeline": "res://timeline.dtl"
+}
+layout/style_directory={
+"": "res://ui/Activity_style.tres",
+"Activity_style": "res://ui/Activity_style.tres",
+"CustomDialog": "res://ui/CustomDialog.tres"
+}
+layout/style_list=["res://ui/ActivityUI.tres"]
+layout/default_style="res://ui/ActivityUI.tres"
+glossary/default_case_sensitive=true
 
 [display]
 
@@ -55,4 +66,5 @@ dialogic_default_action={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
