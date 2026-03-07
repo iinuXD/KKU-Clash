@@ -115,20 +115,24 @@ func setup_pathfinding():
 		id += 1
 		
 	# 2. Connect the roads! 
-	connect_points("Dorm", "Intersec1")
-	connect_points("Intersec1", "Hospital")
-	connect_points("Hospital", "Corner1")
-	connect_points("Corner1", "Corner2")
-	connect_points("Corner2", "Sport")
-	connect_points("Sport", "Library")
-	connect_points("Library", "Corner3")
-	connect_points("Corner3", "StudyHall")
-	connect_points("StudyHall", "Corner4")
-	connect_points("Corner4", "FoodCourt")
-	connect_points("FoodCourt", "Shop")
-	connect_points("Shop", "Corner5")
-	connect_points("Corner5", "FunPlace")
-	connect_points("FunPlace", "Intersec1")
+	connect_points("Dorm", "Intersection1")
+	connect_points("Intersection1", "Shop")
+	connect_points("Shop", "FoodCourt")
+	connect_points("FoodCourt", "Corner1")
+	connect_points("Corner1", "Intersection2")
+	connect_points("Intersection2", "StudyHall")
+	connect_points("StudyHall", "Intersection3")
+	connect_points("Intersection3","Library")
+	connect_points("Library","Intersection1")
+	connect_points("Intersection2", "Hospital")
+	connect_points("Hospital", "Corner2")
+	connect_points("Corner2", "Intersection4")
+	connect_points("Intersection4", "Intersection3")
+	connect_points("Intersection4", "Corner3")
+	connect_points("Corner3", "Sport")
+	connect_points("Sport", "FunPlace")
+	connect_points("FunPlace", "Corner4")
+	connect_points("Corner4", "Dorm")
 
 func connect_points(point_name_a: String, point_name_b: String):
 	if waypoint_ids.has(point_name_a) and waypoint_ids.has(point_name_b):
