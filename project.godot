@@ -30,9 +30,8 @@ directories/dtl_directory={
 "timeline": "res://timeline.dtl"
 }
 layout/style_directory={
-"": "res://ui/Activity_style.tres",
-"Activity_style": "res://ui/Activity_style.tres",
-"CustomDialog": "res://ui/CustomDialog.tres"
+"": "res://ui/ActivityUI.tres",
+"ActivityUI": "res://ui/ActivityUI.tres"
 }
 layout/style_list=["res://ui/ActivityUI.tres"]
 layout/default_style="res://ui/ActivityUI.tres"
