@@ -24,6 +24,10 @@ var sick_sleep_count: int = 0
 var has_medicine: bool = false
 var lost_item_active: bool = false
 
+# Card Event modifiers
+var exam_bonus_pct: int = 0
+var next_round_time_penalty_pct: int = 0
+
 # Helper function to keep stats between 0 and 100 (except money/study)
 func update_stat(stat_name: String, amount: int):
 	match stat_name:
