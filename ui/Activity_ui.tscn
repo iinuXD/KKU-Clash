@@ -1,0 +1,278 @@
+[gd_scene format=3 uid="uid://chu3822krmfp6"]
+
+[ext_resource type="Script" uid="uid://cxe6q043rbak8" path="res://ui/activity_ui.gd" id="1_actui"]
+[ext_resource type="Texture2D" uid="uid://v70fkcjut5f8" path="res://asset/Character/charDemo.png" id="2_s16em"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_outer"]
+bg_color = Color(0.906, 0.824, 0.643, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.137, 0.098, 0.059, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_section"]
+bg_color = Color(0.965, 0.941, 0.871, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.137, 0.098, 0.059, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.776, 0.651, 0.412, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 5
+border_color = Color(0.137, 0.098, 0.059, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.647, 0.525, 0.325, 1)
+border_width_left = 2
+border_width_top = 5
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.137, 0.098, 0.059, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.855, 0.718, 0.455, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 5
+border_color = Color(0.137, 0.098, 0.059, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_name"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.718, 0.545, 0.282, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.137, 0.098, 0.059, 1)
+
+[node name="Control" type="Control" unique_id=1211065734]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_actui")
+
+[node name="DimOverlay" type="ColorRect" parent="." unique_id=877957783]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="ActivityWindow" type="Panel" parent="." unique_id=2094381877]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.08
+anchor_right = 0.9
+anchor_bottom = 0.92
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_outer")
+
+[node name="MainVBox" type="VBoxContainer" parent="ActivityWindow" unique_id=228539054]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 1014.0
+offset_bottom = 594.0
+theme_override_constants/separation = 8
+
+[node name="TopHBox" type="HBoxContainer" parent="ActivityWindow/MainVBox" unique_id=975087826]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.5
+theme_override_constants/separation = 8
+
+[node name="PortraitPanel" type="Panel" parent="ActivityWindow/MainVBox/TopHBox" unique_id=634719611]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="NPCPortrait" type="TextureRect" parent="ActivityWindow/MainVBox/TopHBox/PortraitPanel" unique_id=1260664710]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 51.0
+offset_top = 126.399994
+offset_right = 285.0
+offset_bottom = 429.4
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_s16em")
+expand_mode = 1
+
+[node name="ActivitiesPanel" type="Panel" parent="ActivityWindow/MainVBox/TopHBox" unique_id=489014044]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="ActivitiesMargin" type="MarginContainer" parent="ActivityWindow/MainVBox/TopHBox/ActivitiesPanel" unique_id=2012505722]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="ActivitiesGrid" type="GridContainer" parent="ActivityWindow/MainVBox/TopHBox/ActivitiesPanel/ActivitiesMargin" unique_id=1577320408]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 2
+
+[node name="Activity1Btn" type="Button" parent="ActivityWindow/MainVBox/TopHBox/ActivitiesPanel/ActivitiesMargin/ActivitiesGrid" unique_id=494862605]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
+text = "Activity 1"
+
+[node name="Activity2Btn" type="Button" parent="ActivityWindow/MainVBox/TopHBox/ActivitiesPanel/ActivitiesMargin/ActivitiesGrid" unique_id=1477487878]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
+text = "Activity 2"
+
+[node name="Activity3Btn" type="Button" parent="ActivityWindow/MainVBox/TopHBox/ActivitiesPanel/ActivitiesMargin/ActivitiesGrid" unique_id=130441655]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
+text = "Activity 3"
+
+[node name="Activity4Btn" type="Button" parent="ActivityWindow/MainVBox/TopHBox/ActivitiesPanel/ActivitiesMargin/ActivitiesGrid" unique_id=1250494951]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
+text = "Activity 4"
+
+[node name="BottomHBox" type="HBoxContainer" parent="ActivityWindow/MainVBox" unique_id=2079706785]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="NamePanel" type="Panel" parent="ActivityWindow/MainVBox/BottomHBox" unique_id=110451929]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_name")
+
+[node name="NPCNameLabel" type="Label" parent="ActivityWindow/MainVBox/BottomHBox/NamePanel" unique_id=1748289151]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.965, 0.941, 0.871, 1)
+theme_override_font_sizes/font_size = 18
+text = "NPC Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DialogPanel" type="Panel" parent="ActivityWindow/MainVBox/BottomHBox" unique_id=1912711743]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="DialogMargin" type="MarginContainer" parent="ActivityWindow/MainVBox/BottomHBox/DialogPanel" unique_id=634832759]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="DialogLabel" type="Label" parent="ActivityWindow/MainVBox/BottomHBox/DialogPanel/DialogMargin" unique_id=1093171904]
+unique_name_in_owner = true
+modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "What would you like to do today?"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="ActivityWindow/MainVBox" unique_id=1580488042]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10

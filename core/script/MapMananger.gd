@@ -3,23 +3,226 @@ extends Node2D
 @onready var path = $Path2D
 @onready var path_follow = $Path2D/PathFollow2D
 @onready var game_manager = $".." # Reference to MainGame
+@onready var activity_ui = $"../ActivityUI"
 
 var astar = AStar2D.new()
 var waypoint_ids = {} # This will help us remember which point is which
 
 var current_location_pos: Vector2
+var current_location_name: String = "Dorm"
 var is_moving = false
+var current_activities: Array[Dictionary] = []
+
+# ---------------------------------------------------------------
+# ACTIVITY DATA
+# Each activity: id, name, time, energy, hunger, happy, study, money, special
+# ---------------------------------------------------------------
+func _get_location_data(location_name: String) -> Dictionary:
+	match location_name:
+		"Dorm":
+			return {
+				"dialog": "Home sweet home. What would you like to do?",
+				"activities": [
+					{"id":"sleep",        "name":"Sleep (3h)",          "time":3, "energy":40,  "hunger":-10, "happy":5,   "study":0, "money":0,    "special":"sleep"},
+					{"id":"nap",          "name":"Quick Nap (1h)",       "time":1, "energy":15,  "hunger":-5,  "happy":0,   "study":0, "money":0,    "special":""},
+					{"id":"study_home",   "name":"Study at Home (2h)",   "time":2, "energy":-10, "hunger":-10, "happy":-5,  "study":2, "money":0,    "special":""},
+					{"id":"take_medicine","name":"Take Medicine (1h)",   "time":1, "energy":5,   "hunger":0,   "happy":0,   "study":0, "money":0,    "special":"take_medicine"},
+				]
+			}
+		"Food Court":
+			return {
+				"dialog": "Something smells amazing! What'll you have?",
+				"activities": [
+					{"id":"full_meal",   "name":"Full Meal (1h) -$200",     "time":1, "energy":10,  "hunger":50, "happy":5,  "study":0, "money":-200, "special":""},
+					{"id":"quick_snack", "name":"Quick Snack (1h) -$100",   "time":1, "energy":5,   "hunger":25, "happy":0,  "study":0, "money":-100, "special":""},
+					{"id":"coffee",      "name":"Coffee (1h) -$50",         "time":1, "energy":20,  "hunger":-5, "happy":5,  "study":0, "money":-50,  "special":""},
+					{"id":"treat",       "name":"Treat Yourself! (1h) -$300","time":1, "energy":10, "hunger":30, "happy":20, "study":0, "money":-300, "special":""},
+				]
+			}
+		"Study Hall":
+			return {
+				"dialog": "Time to hit the books! How hard will you study?",
+				"activities": [
+					{"id":"study_hard",   "name":"Study Hard (3h)",    "time":3, "energy":-20, "hunger":-15, "happy":-10, "study":4, "money":0, "special":""},
+					{"id":"casual_study", "name":"Casual Study (2h)",  "time":2, "energy":-10, "hunger":-10, "happy":-5,  "study":2, "money":0, "special":""},
+					{"id":"group_study",  "name":"Group Study (2h)",   "time":2, "energy":-5,  "hunger":-5,  "happy":10,  "study":2, "money":0, "special":""},
+					{"id":"leave",        "name":"Leave",               "time":0, "energy":0,   "hunger":0,   "happy":0,   "study":0, "money":0, "special":"leave"},
+				]
+			}
+		"Library":
+			return {
+				"dialog": "Shh! Welcome to the library.",
+				"activities": [
+					{"id":"quiet_study", "name":"Quiet Study (2h)",    "time":2, "energy":-15, "hunger":-10, "happy":0,   "study":3, "money":0, "special":""},
+					{"id":"read_fun",    "name":"Read for Fun (1h)",    "time":1, "energy":-5,  "hunger":0,   "happy":10,  "study":1, "money":0, "special":""},
+					{"id":"research",    "name":"Deep Research (3h)",   "time":3, "energy":-25, "hunger":-20, "happy":-10, "study":5, "money":0, "special":""},
+					{"id":"leave",       "name":"Leave",                "time":0, "energy":0,   "hunger":0,   "happy":0,   "study":0, "money":0, "special":"leave"},
+				]
+			}
+		"Hospital":
+			return {
+				"dialog": "Welcome to the hospital. How can we help?",
+				"activities": [
+					{"id":"buy_medicine",   "name":"Buy Medicine -$300",    "time":1, "energy":0,  "hunger":0,   "happy":0, "study":0, "money":-300, "special":"buy_medicine"},
+					{"id":"checkup",        "name":"Get Checkup -$200",     "time":1, "energy":0,  "hunger":0,   "happy":0, "study":0, "money":-200, "special":"checkup"},
+					{"id":"hospital_rest",  "name":"Rest & Recover (2h)",   "time":2, "energy":30, "hunger":-10, "happy":0, "study":0, "money":0,    "special":"hospital_rest"},
+					{"id":"buy_bandage",    "name":"Buy Bandage -$100",     "time":1, "energy":0,  "hunger":0,   "happy":0, "study":0, "money":-100, "special":"buy_bandage"},
+				]
+			}
+		"Shop":
+			return {
+				"dialog": "Welcome! What are you shopping for?",
+				"activities": [
+					{"id":"buy_groceries", "name":"Buy Groceries -$200",   "time":1, "energy":0,  "hunger":20, "happy":5,  "study":0, "money":-200, "special":""},
+					{"id":"energy_drink",  "name":"Energy Drink -$100",    "time":1, "energy":30, "hunger":-5, "happy":0,  "study":0, "money":-100, "special":""},
+					{"id":"shop_medicine", "name":"Buy Medicine -$300",    "time":1, "energy":0,  "hunger":0,  "happy":0,  "study":0, "money":-300, "special":"buy_medicine"},
+					{"id":"leave",         "name":"Leave",                  "time":0, "energy":0,  "hunger":0,  "happy":0,  "study":0, "money":0,    "special":"leave"},
+				]
+			}
+		"Sport":
+			return {
+				"dialog": "Ready to break a sweat?",
+				"activities": [
+					{"id":"jog",           "name":"Morning Jog (2h)",     "time":2, "energy":-20, "hunger":-15, "happy":20, "study":0, "money":0, "special":""},
+					{"id":"play_sport",    "name":"Play Sport (2h)",      "time":2, "energy":-25, "hunger":-20, "happy":25, "study":0, "money":0, "special":""},
+					{"id":"light_workout", "name":"Light Workout (1h)",   "time":1, "energy":-10, "hunger":-10, "happy":15, "study":0, "money":0, "special":""},
+					{"id":"leave",         "name":"Leave",                 "time":0, "energy":0,   "hunger":0,   "happy":0,  "study":0, "money":0, "special":"leave"},
+				]
+			}
+		"Fun Place":
+			return {
+				"dialog": "This is the place to be! What's your vibe?",
+				"activities": [
+					{"id":"play_games",  "name":"Play Games (2h) -$200",  "time":2, "energy":-10, "hunger":-5, "happy":25, "study":0, "money":-200, "special":""},
+					{"id":"watch_movie", "name":"Watch Movie (2h) -$200", "time":2, "energy":-5,  "hunger":-5, "happy":30, "study":0, "money":-200, "special":""},
+					{"id":"karaoke",     "name":"Karaoke (2h) -$300",     "time":2, "energy":-15, "hunger":-5, "happy":35, "study":0, "money":-300, "special":""},
+					{"id":"hangout",     "name":"Hang Out (1h)",           "time":1, "energy":-5,  "hunger":-5, "happy":10, "study":0, "money":0,    "special":""},
+				]
+			}
+	return {}
+
+# ---------------------------------------------------------------
+# ACTIVITY UI LOGIC
+# ---------------------------------------------------------------
+func show_activity_ui(location_name: String) -> void:
+	var data = _get_location_data(location_name)
+	if data.is_empty():
+		return
+	var raw_activities: Array = data["activities"]
+	current_activities.clear()
+	for a in raw_activities:
+		current_activities.append(a)
+	var activity_list: Array[Dictionary] = []
+	for act in current_activities:
+		activity_list.append({"id": act["id"], "name": act["name"]})
+	activity_ui.setup(location_name, null, data["dialog"], activity_list)
+	activity_ui.visible = true
+
+func _on_activity_selected(activity_id: String) -> void:
+	activity_ui.visible = false
+	for act in current_activities:
+		if act["id"] == activity_id:
+			_perform_activity(act)
+			return
+
+func _perform_activity(activity: Dictionary) -> void:
+	var special: String = activity.get("special", "")
+
+	# Leave just closes the UI
+	if special == "leave":
+		return
+
+	# Check if player can afford the activity
+	var money_change: int = activity.get("money", 0)
+	if money_change < 0 and Global.money < -money_change:
+		print("Not enough money for: ", activity["name"])
+		activity_ui.visible = true  # Re-show so player can pick another
+		return
+
+	# Spend time (triggers mid-round events and possible round end)
+	var time_cost: int = activity.get("time", 0)
+	if time_cost > 0:
+		game_manager.spend_time(time_cost)
+
+	# Apply stat changes
+	Global.update_stat("energy",      activity.get("energy", 0))
+	Global.update_stat("happy",       activity.get("happy",  0))
+	Global.update_stat("hunger",      activity.get("hunger", 0))
+	Global.update_stat("money",       money_change)
+	Global.update_stat("study_score", activity.get("study",  0))
+
+	# Handle special effects
+	match special:
+		"sleep":
+			if Global.is_sick:
+				Global.sick_sleep_count += 1
+				if Global.sick_sleep_count >= 3:
+					Global.is_sick = false
+					print("Slept it off — you've recovered from sickness!")
+				else:
+					print("Still sick... sleep more to recover (%d/3)." % Global.sick_sleep_count)
+		"take_medicine":
+			if Global.is_sick and Global.has_medicine:
+				Global.is_sick = false
+				Global.has_medicine = false
+				print("Medicine taken! You feel much better.")
+			elif Global.is_sick:
+				print("You're sick but have no medicine. Buy some at the Hospital or Shop.")
+			else:
+				print("You're not sick right now.")
+		"buy_medicine":
+			Global.has_medicine = true
+			print("Medicine purchased! Use it at the Dorm.")
+		"checkup":
+			if Global.is_sick:
+				Global.is_sick = false
+				print("The doctor treated your sickness. You're cured!")
+			else:
+				print("You're healthy! The doctor gives you a clean bill of health.")
+		"hospital_rest":
+			if Global.is_injured:
+				Global.is_injured = false
+				Global.travel_time_cost = max(Global.travel_time_cost - 1, 2)
+				print("Rest healed your injury!")
+			else:
+				print("Rest and recovery complete. Feeling refreshed!")
+		"buy_bandage":
+			if Global.is_injured:
+				Global.is_injured = false
+				Global.travel_time_cost = max(Global.travel_time_cost - 1, 2)
+				print("Bandage applied — injury healed!")
+			else:
+				print("You're not injured, but you now have a bandage just in case.")
+
+	print("Completed: ", activity["name"])
 
 func _ready():
 	# Set starting position to the Dorm
 	current_location_pos = $Locations/Dorm.global_position
-	
-	# Optional: Snap the player instantly to the dorm at start
+
+	# Snap the player instantly to the dorm at start
 	path.curve = Curve2D.new()
 	path.curve.add_point(current_location_pos)
-	#path_follow.progress_ratio = 0.0
 	setup_pathfinding()
-	
+
+	# Connect activity UI signal and hide it initially
+	activity_ui.visible = false
+	activity_ui.activity_selected.connect(_on_activity_selected)
+
+func snap_to_dorm() -> void:
+	# Cancel any in-progress movement
+	is_moving = false
+	activity_ui.visible = false
+
+	var dorm_pos = $Locations/Dorm.global_position
+	current_location_pos = dorm_pos
+	current_location_name = "Dorm"
+
+	# Rebuild the path curve to just the dorm point so PathFollow2D lands there
+	path.curve = Curve2D.new()
+	path.curve.add_point(path.to_local(dorm_pos))
+	path_follow.progress_ratio = 0.0
+
 
 # --- SIGNALS ---
 # Added underscores to _viewport and _shape_idx to clear the warnings
@@ -58,18 +261,16 @@ func is_left_click(event: InputEvent) -> bool:
 func attempt_travel(target_pos: Vector2, location_name: String):
 	if is_moving:
 		return # Prevent clicking while already traveling
-		
+
 	if current_location_pos == target_pos:
 		print("You are already at the ", location_name)
-		return
-		
-	if Global.time_remaining < Global.travel_time_cost:
-		print("Not enough time to travel!")
+		show_activity_ui(location_name)
 		return
 
 	print("Traveling to ", location_name)
 	travel_to_location(current_location_pos, target_pos, location_name)
 	current_location_pos = target_pos # Update for next time
+	current_location_name = location_name
 
 func travel_to_location(start_pos: Vector2, target_pos: Vector2, location_name: String):
 	is_moving = true
@@ -106,6 +307,7 @@ func travel_to_location(start_pos: Vector2, target_pos: Vector2, location_name: 
 	await tween.finished
 	is_moving = false
 	print("Arrived at ", location_name, "!")
+	show_activity_ui(location_name)
 	
 func setup_pathfinding():
 	var id = 0

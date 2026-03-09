@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bnq86anou8efi" path="res://locations/Library.tscn" id="9_4rwal"]
 [ext_resource type="TileSet" uid="uid://b8r7riauipl5j" path="res://asset/tile/TileSets.tres" id="10_6bh00"]
 [ext_resource type="PackedScene" uid="uid://ltnqqa5km2ei" path="res://locations/FunPlace.tscn" id="11_6bh00"]
+[ext_resource type="PackedScene" uid="uid://chu3822krmfp6" path="res://ui/Activity_ui.tscn" id="14_t2p3f"]
 
 [sub_resource type="Curve2D" id="Curve2D_8bh3d"]
 _data = {
@@ -131,6 +132,16 @@ position = Vector2(673, 625)
 position = Vector2(984, 447)
 
 [node name="PlayerUI" parent="." unique_id=1594373216 instance=ExtResource("2_u1cyh")]
+
+[node name="ActivityUI" parent="." unique_id=1211065734 instance=ExtResource("14_t2p3f")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = -1.0
+offset_right = 1277.0
+offset_bottom = 727.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [connection signal="input_event" from="Map/Locations/Dorm" to="Map" method="_on_dorm_input_event"]
 [connection signal="input_event" from="Map/Locations/FoodCourt" to="Map" method="_on_food_court_input_event"]
