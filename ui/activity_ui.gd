@@ -3,6 +3,7 @@ extends Control
 signal activity_selected(activity_id: String)
 
 @onready var npc_portrait: TextureRect = %NPCPortrait
+@onready var leave_button: Button = %LeaveButton
 
 @onready var npc_name_label: Label = %NPCNameLabel
 @onready var dialog_label: Label = %DialogLabel
@@ -19,6 +20,7 @@ var activities: Array[Dictionary] = []
 func _ready() -> void:
 	for i in activity_buttons.size():
 		activity_buttons[i].pressed.connect(_on_activity_pressed.bind(i))
+	leave_button.pressed.connect(func(): visible = false)
 
 
 ## Call this to populate the panel before showing it.
