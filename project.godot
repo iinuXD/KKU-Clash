@@ -30,12 +30,13 @@ directories/dtl_directory={
 "timeline": "res://timeline.dtl"
 }
 layout/style_directory={
-"": "res://ui/ActivityUI.tres",
-"ActivityUI": "res://ui/ActivityUI.tres"
+"": "res://ui/ActivityStyle.tres",
+"ActivityStyle": "res://ui/ActivityStyle.tres"
 }
-layout/style_list=["res://ui/ActivityUI.tres"]
-layout/default_style="res://ui/ActivityUI.tres"
+layout/style_list=["res://ui/ActivityStyle.tres"]
+layout/default_style="res://ui/ActivityStyle.tres"
 glossary/default_case_sensitive=true
+variables={}
 
 [display]
 

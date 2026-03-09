@@ -25,7 +25,10 @@ func start_new_round():
 
 func end_round():
 	print("Time's up! Returning to Dorm.")
-	# Here you would call your MapManager to teleport player to Dorm
+	# Snap the player back to Dorm via MapManager
+	var map_manager = get_node_or_null("Map")
+	if map_manager:
+		map_manager.snap_to_dorm()
 	
 	Global.current_round += 1
 	if Global.current_round > Global.max_rounds:
