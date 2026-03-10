@@ -21,6 +21,7 @@ extends Node
 # ---------------------------------------------------------------
 
 signal card_event_requested(event_data: Dictionary)
+signal time_depleted()
 
 # ---- WEIGHT POOLS ----
 const WEIGHT_NORMAL = 10
@@ -61,11 +62,32 @@ func check_mid_round_cards() -> bool:
 func queue_mid_round_cards() -> void:
 	_mid_round_pending = _draw_cards(2, _get_pool_excluding([]))
 
+## Called by GameMananger at the start of a round → draws 1 environment/start-of-round event
+func draw_start_round_card() -> void:
+	var pool = _get_pool_for_trigger("start_round")
+	if pool.is_empty():
+		pool = _get_pool_excluding([])  # fallback to general pool
+	var drawn = _draw_cards(1, pool)
+	for ev in drawn:
+		card_event_requested.emit(ev)
+
 ## If a queued card is awaiting display, pop and emit it
 func pop_queued_card() -> bool:
 	if _mid_round_pending.size() == 0:
 		return false
 	var ev = _mid_round_pending.pop_front()
+	card_event_requested.emit(ev)
+	return true
+
+## Fires one random event matching the trigger context (e.g. "travel", "eat", "start_round").
+## Returns true if an event was emitted.
+func check_contextual_event(trigger: String, chance_pct: int = 100) -> bool:
+	if randi() % 100 >= chance_pct:
+		return false
+	var pool = _get_pool_for_trigger(trigger)
+	if pool.is_empty():
+		return false
+	var ev = _weighted_pick(pool)
 	card_event_requested.emit(ev)
 	return true
 
@@ -100,6 +122,8 @@ func apply_effects(effects: Dictionary) -> void:
 				Global.is_injured = effects[key]
 			"exam_bonus":
 				Global.exam_bonus_pct += effects[key]
+	if Global.time_remaining <= 0:
+		time_depleted.emit()
 
 # ---------------------------------------------------------------
 # INTERNAL HELPERS
@@ -120,7 +144,15 @@ func _draw_cards(count: int, pool: Array[Dictionary]) -> Array[Dictionary]:
 func _get_pool_excluding(excluded_categories: Array) -> Array[Dictionary]:
 	var pool: Array[Dictionary] = []
 	for ev in _all_events:
-		if not (ev["category"] in excluded_categories):
+		# Exclude trigger-specific events so they only fire in their context
+		if not (ev["category"] in excluded_categories) and ev.get("trigger", "any") == "any":
+			pool.append(ev)
+	return pool
+
+func _get_pool_for_trigger(trigger: String) -> Array[Dictionary]:
+	var pool: Array[Dictionary] = []
+	for ev in _all_events:
+		if ev.get("trigger", "any") == trigger:
 			pool.append(ev)
 	return pool
 
@@ -182,16 +214,6 @@ func _build_event_pool() -> void:
 			{"label": "ทำเลย!",  "effects": {"study": 15, "energy": -15}},
 			{"label": "ปล่อยผ่าน", "effects": {"study": -20}},
 		]
-	})
-
-	_all_events.append({
-		"id": "study_wake_up_late",
-		"title": "ตื่นสาย!",
-		"desc": "นาฬิกาไม่ดัง... เวลาเรียนวันนี้หายไปเลย",
-		"category": "study",
-		"weight": WEIGHT_NORMAL,
-		"type": "instant",
-		"effects": {"time_pct": 20}
 	})
 
 	_all_events.append({
@@ -297,17 +319,8 @@ func _build_event_pool() -> void:
 		"category": "health",
 		"weight": WEIGHT_NORMAL,
 		"type": "instant",
+		"trigger": "eat",
 		"effects": {"hunger": -30, "energy": -20}
-	})
-
-	_all_events.append({
-		"id": "health_sleep_late",
-		"title": "นอนดึกหลายวัน",
-		"desc": "สะสมการอดนอนมานาน ร่างกายเริ่มประท้วง",
-		"category": "health",
-		"weight": WEIGHT_NORMAL,
-		"type": "instant",
-		"effects": {"energy": -20}
 	})
 
 	_all_events.append({
@@ -337,6 +350,7 @@ func _build_event_pool() -> void:
 		"category": "health",
 		"weight": WEIGHT_NORMAL,
 		"type": "instant",
+		"trigger": "travel",
 		"effects": {"time_pct": 15}
 	})
 
@@ -409,6 +423,7 @@ func _build_event_pool() -> void:
 		"category": "environment",
 		"weight": WEIGHT_NORMAL,
 		"type": "instant",
+		"trigger": "start_round",
 		"effects": {"energy": -10}
 	})
 
@@ -419,6 +434,7 @@ func _build_event_pool() -> void:
 		"category": "environment",
 		"weight": WEIGHT_NORMAL,
 		"type": "instant",
+		"trigger": "start_round",
 		"effects": {"energy": -5, "happy": -5}
 	})
 
@@ -429,6 +445,7 @@ func _build_event_pool() -> void:
 		"category": "environment",
 		"weight": WEIGHT_NORMAL,
 		"type": "instant",
+		"trigger": "start_round",
 		"effects": {"energy": -10, "hunger": -5}
 	})
 
@@ -439,6 +456,7 @@ func _build_event_pool() -> void:
 		"category": "environment",
 		"weight": WEIGHT_NORMAL,
 		"type": "instant",
+		"trigger": "eat",
 		"effects": {"money": -50, "time": -1}
 	})
 
@@ -449,20 +467,11 @@ func _build_event_pool() -> void:
 		"category": "environment",
 		"weight": WEIGHT_NORMAL,
 		"type": "choice",
+		"trigger": "travel",
 		"choices": [
 			{"label": "รอ",            "effects": {"time": -2}},
 			{"label": "เรียกแท็กซี่", "effects": {"money": -30}},
 		]
-	})
-
-	_all_events.append({
-		"id": "env_lost_in_campus",
-		"title": "หลงทางใน ม.!",
-		"desc": "ตึกใหม่ ป้ายไม่ชัด หลงอยู่นานมาก",
-		"category": "environment",
-		"weight": WEIGHT_NORMAL,
-		"type": "instant",
-		"effects": {"time_pct": 15}
 	})
 
 	# ──────────────────────────────────────────
@@ -573,3 +582,41 @@ func _build_event_pool() -> void:
 		"type": "instant",
 		"effects": {"time_pct": 40}
 	})
+
+	# ──────────────────────────────────────────
+	# UNUSED — pending trigger assignment
+	# These fire at wrong times without a trigger; add "trigger" key when ready.
+	# ──────────────────────────────────────────
+
+	#_all_events.append({
+	#	"id": "study_wake_up_late",
+	#	"title": "ตื่นสาย!",
+	#	"desc": "นาฬิกาไม่ดัง... เวลาเรียนวันนี้หายไปเลย",
+	#	"category": "study",
+	#	"weight": WEIGHT_NORMAL,
+	#	"type": "instant",
+	#	"trigger": "start_round",  # TODO: uncomment trigger when ready
+	#	"effects": {"time_pct": 20}
+	#})
+
+	#_all_events.append({
+	#	"id": "health_sleep_late",
+	#	"title": "นอนดึกหลายวัน",
+	#	"desc": "สะสมการอดนอนมานาน ร่างกายเริ่มประท้วง",
+	#	"category": "health",
+	#	"weight": WEIGHT_NORMAL,
+	#	"type": "instant",
+	#	"trigger": "start_round",  # TODO: uncomment trigger when ready
+	#	"effects": {"energy": -20}
+	#})
+
+	#_all_events.append({
+	#	"id": "env_lost_in_campus",
+	#	"title": "หลงทางใน ม.!",
+	#	"desc": "ตึกใหม่ ป้ายไม่ชัด หลงอยู่นานมาก",
+	#	"category": "environment",
+	#	"weight": WEIGHT_NORMAL,
+	#	"type": "instant",
+	#	"trigger": "travel",  # TODO: uncomment trigger when ready
+	#	"effects": {"time_pct": 15}
+	#})

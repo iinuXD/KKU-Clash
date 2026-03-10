@@ -1,5 +1,7 @@
 extends Node2D
 
+signal returned_to_dorm()
+
 @onready var path = $Path2D
 @onready var path_follow = $Path2D/PathFollow2D
 @onready var game_manager = $".." # Reference to MainGame
@@ -12,6 +14,7 @@ var current_location_pos: Vector2
 var current_location_name: String = "Dorm"
 var is_moving = false
 var current_activities: Array[Dictionary] = []
+var _current_tween: Tween = null
 
 # ---------------------------------------------------------------
 # ACTIVITY DATA
@@ -139,12 +142,7 @@ func _perform_activity(activity: Dictionary) -> void:
 		activity_ui.visible = true  # Re-show so player can pick another
 		return
 
-	# Spend time (triggers mid-round events and possible round end)
-	var time_cost: int = activity.get("time", 0)
-	if time_cost > 0:
-		game_manager.spend_time(time_cost)
-
-	# Apply stat changes
+	# Apply stat changes FIRST so effects are counted even if time runs out mid-activity
 	Global.update_stat("energy",      activity.get("energy", 0))
 	Global.update_stat("happy",       activity.get("happy",  0))
 	Global.update_stat("hunger",      activity.get("hunger", 0))
@@ -196,6 +194,17 @@ func _perform_activity(activity: Dictionary) -> void:
 
 	print("Completed: ", activity["name"])
 
+	# Spend time last — if time runs out this triggers end_round → snap_to_dorm → new round,
+	# but all activity effects have already been applied above.
+	var time_cost: int = activity.get("time", 0)
+	if time_cost > 0:
+		game_manager.spend_time(time_cost)
+
+	# Fire a contextual eat event after food activities (35% chance, only if round still active)
+	var food_ids = ["full_meal", "quick_snack", "coffee", "treat", "buy_groceries"]
+	if activity.get("id", "") in food_ids and Global.time_remaining > 0:
+		game_manager.fire_context_event("eat", 35)
+
 func _ready():
 	# Set starting position to the Dorm
 	current_location_pos = $Locations/Dorm.global_position
@@ -210,7 +219,10 @@ func _ready():
 	activity_ui.activity_selected.connect(_on_activity_selected)
 
 func snap_to_dorm() -> void:
-	# Cancel any in-progress movement
+	# Cancel any in-progress movement and stop the tween so it can't override progress_ratio
+	if _current_tween:
+		_current_tween.kill()
+		_current_tween = null
 	is_moving = false
 	activity_ui.visible = false
 
@@ -222,6 +234,41 @@ func snap_to_dorm() -> void:
 	path.curve = Curve2D.new()
 	path.curve.add_point(path.to_local(dorm_pos))
 	path_follow.progress_ratio = 0.0
+
+## Animates the player back to Dorm using pathfinding; emits returned_to_dorm when done.
+func travel_to_dorm() -> void:
+	activity_ui.visible = false
+	if current_location_name == "Dorm":
+		returned_to_dorm.emit()
+		return
+
+	# Kill any existing tween
+	if _current_tween:
+		_current_tween.kill()
+		_current_tween = null
+	is_moving = true
+
+	var dorm_pos = $Locations/Dorm.global_position
+	var start_id = astar.get_closest_point(current_location_pos)
+	var end_id   = astar.get_closest_point(dorm_pos)
+	var path_route = astar.get_point_path(start_id, end_id)
+
+	var curve = Curve2D.new()
+	for point in path_route:
+		curve.add_point(path.to_local(point))
+	path.curve = curve
+
+	path_follow.progress_ratio = 0.0
+	_current_tween = create_tween()
+	var travel_time = path_route.size() * 0.3
+	_current_tween.tween_property(path_follow, "progress_ratio", 1.0, travel_time).set_trans(Tween.TRANS_LINEAR)
+
+	await _current_tween.finished
+	_current_tween = null
+	is_moving = false
+	current_location_pos = dorm_pos
+	current_location_name = "Dorm"
+	returned_to_dorm.emit()
 
 
 # --- SIGNALS ---
@@ -274,6 +321,7 @@ func attempt_travel(target_pos: Vector2, location_name: String):
 
 func travel_to_location(start_pos: Vector2, target_pos: Vector2, location_name: String):
 	is_moving = true
+	var round_at_start: int = Global.current_round
 	
 	# Deduct costs
 	game_manager.spend_time(Global.travel_time_cost)
@@ -299,15 +347,20 @@ func travel_to_location(start_pos: Vector2, target_pos: Vector2, location_name: 
 	
 	# Animate the player along the new curving path
 	path_follow.progress_ratio = 0.0
-	var tween = create_tween()
+	_current_tween = create_tween()
 	# Optional: calculate tween time based on how long the road is!
 	var travel_time = path_route.size() * 0.3 # 0.3 seconds per dot
-	tween.tween_property(path_follow, "progress_ratio", 1.0, travel_time).set_trans(Tween.TRANS_LINEAR)
+	_current_tween.tween_property(path_follow, "progress_ratio", 1.0, travel_time).set_trans(Tween.TRANS_LINEAR)
 	
-	await tween.finished
+	await _current_tween.finished
 	is_moving = false
-	print("Arrived at ", location_name, "!")
-	show_activity_ui(location_name)
+	if Global.current_round == round_at_start:
+		# Fire a travel event (25% chance); show activity UI only after card is dismissed
+		game_manager.fire_context_event_then("travel", 25, func():
+			if Global.current_round == round_at_start:
+				print("Arrived at ", location_name, "!")
+				show_activity_ui(location_name)
+		)
 	
 func setup_pathfinding():
 	var id = 0

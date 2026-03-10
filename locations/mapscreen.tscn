@@ -14,7 +14,7 @@
 [ext_resource type="TileSet" uid="uid://b8r7riauipl5j" path="res://asset/tile/TileSets.tres" id="10_6bh00"]
 [ext_resource type="PackedScene" uid="uid://ltnqqa5km2ei" path="res://locations/FunPlace.tscn" id="11_6bh00"]
 [ext_resource type="PackedScene" uid="uid://chu3822krmfp6" path="res://ui/Activity_ui.tscn" id="14_t2p3f"]
-[ext_resource type="Script" path="res://core/script/CardEventManager.gd" id="16_cardem"]
+[ext_resource type="Script" uid="uid://cwlo1jvdnkkag" path="res://core/script/CardEventManager.gd" id="16_cardem"]
 [ext_resource type="PackedScene" uid="uid://c0p1eht5qdweo" path="res://ui/EventScene.tscn" id="16_juv51"]
 
 [sub_resource type="Curve2D" id="Curve2D_8bh3d"]
@@ -139,6 +139,7 @@ position = Vector2(984, 447)
 [node name="PlayerUI" parent="." unique_id=1594373216 instance=ExtResource("2_u1cyh")]
 
 [node name="ActivityUI" parent="." unique_id=1211065734 instance=ExtResource("14_t2p3f")]
+visible = false
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -149,6 +150,7 @@ grow_horizontal = 1
 grow_vertical = 1
 
 [node name="EventUI" parent="." unique_id=668092023 instance=ExtResource("16_juv51")]
+visible = false
 offset_left = 656.0
 offset_top = 375.0
 offset_right = 656.0

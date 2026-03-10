@@ -1,26 +1,26 @@
 extends Node2D
 
-# Reference to the CardEventManager node (child of this node or sibling)
 @onready var card_event_manager = $CardEventManager
+var _card_event_ui: Node = null
+var _round_active: bool = false
 
 func _ready():
-	# Wire the card event UI to the manager
-	var card_ui = get_node_or_null("Cardevent")
-	if card_ui and card_event_manager:
-		card_ui.set_card_event_manager(card_event_manager)
+	_card_event_ui = get_node_or_null("EventUI")
+	if _card_event_ui and card_event_manager:
+		_card_event_ui.set_card_event_manager(card_event_manager)
+	if card_event_manager:
+		card_event_manager.time_depleted.connect(end_round)
 	start_new_round()
 
 func spend_time(amount: int):
 	Global.time_remaining -= amount
-	# Mid-round probabilistic card (25% chance per spend_time call)
 	if card_event_manager:
 		card_event_manager.check_mid_round_cards()
-	check_mid_round_events()
-	
 	if Global.time_remaining <= 0:
 		end_round()
 
 func start_new_round():
+	_round_active = true
 	Global.time_remaining = Global.max_time
 
 	# Apply any time penalty carried over from the previous round
@@ -37,70 +37,57 @@ func start_new_round():
 		Global.money += 2000
 		print("Round 3! Received 2000 money from family.")
 		
-	trigger_start_round_event()
-
-	# Queue 2 mid-round card events for this round
+	# Queue 2 mid-round card events and show 1 start-of-round card
 	if card_event_manager:
 		card_event_manager.queue_mid_round_cards()
+		card_event_manager.draw_start_round_card()
 
 	print("Round ", Global.current_round, " started!")
 
 func end_round():
+	if not _round_active:
+		return
+	_round_active = false
 	print("Time's up! Returning to Dorm.")
-	# Snap the player back to Dorm via MapManager
 	var map_manager = get_node_or_null("Map")
 	if map_manager:
-		map_manager.snap_to_dorm()
+		map_manager.returned_to_dorm.connect(_on_returned_to_dorm, CONNECT_ONE_SHOT)
+		map_manager.travel_to_dorm()
+	else:
+		_on_returned_to_dorm()
 
-	# Show 2 end-of-round card events
+func _on_returned_to_dorm() -> void:
+	# Show 2 end-of-round cards, then advance the round after they are resolved
 	if card_event_manager:
 		card_event_manager.draw_end_of_round_cards()
-	
 	Global.current_round += 1
 	if Global.current_round > Global.max_rounds:
-		end_game()
+		_wait_then_call(end_game)
 	else:
-		start_new_round()
+		_wait_then_call(start_new_round)
 
-func trigger_start_round_event():
-	var event_roll = randi() % 5
-	match event_roll:
-		0:
-			print("Event: Woke up late!")
-			Global.time_remaining -= 4
-		1:
-			print("Event: Got Sick!")
-			Global.is_sick = true
-			Global.sick_sleep_count = 0
-			Global.has_medicine = false
-		2:
-			print("Event: Sudden Storm!")
-			Global.travel_time_cost += 2 # Costs more time to travel
-		3:
-			print("Event: Money from family!")
-			Global.money += 500
-		4:
-			print("Event: Super Hot Day!")
-			Global.travel_energy_cost += 10 # Traveling drains energy
+# Calls callback immediately if no card is showing, otherwise waits for it to resolve
+func _wait_then_call(callback: Callable) -> void:
+	if _card_event_ui and _card_event_ui.visible:
+		_card_event_ui.event_resolved.connect(callback, CONNECT_ONE_SHOT)
+	else:
+		callback.call()
 
-func check_mid_round_events():
-	# 10% chance for a random event when time passes
-	if randi() % 100 < 10: 
-		var event_roll = randi() % 4
-		match event_roll:
-			0:
-				print("Mid-Event: Got injured!")
-				Global.is_injured = true
-				Global.travel_time_cost += 1
-			1:
-				print("Mid-Event: Found lost item!")
-				Global.lost_item_active = true
-			2:
-				print("Mid-Event: Got robbed!")
-				Global.money -= 300
-			3:
-				print("Mid-Event: Got diarrhea!")
-				Global.travel_time_cost += 2
+# Fires a contextual event; if one fires, defers callback until the card is resolved
+func fire_context_event_then(trigger: String, chance_pct: int, callback: Callable) -> void:
+	var fired = false
+	if card_event_manager:
+		fired = card_event_manager.check_contextual_event(trigger, chance_pct)
+	if fired:
+		_wait_then_call(callback)
+	else:
+		callback.call()
+
+# Fires a contextual event with no follow-up callback
+func fire_context_event(trigger: String, chance_pct: int) -> void:
+	if card_event_manager:
+		card_event_manager.check_contextual_event(trigger, chance_pct)
+
 
 func end_game():
 	print("--- GAME OVER ---")

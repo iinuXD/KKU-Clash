@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c0p1eht5qdweo"]
 
-[ext_resource type="Script" path="res://core/script/card_event_ui.gd" id="1_ooyhy"]
+[ext_resource type="Script" uid="uid://dcttdeislksba" path="res://core/script/card_event_ui.gd" id="1_ooyhy"]
 [ext_resource type="Texture2D" uid="uid://c6hjnxii4h6g4" path="res://asset/card/card.png" id="2_erff8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ylvjf"]
