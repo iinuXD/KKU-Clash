@@ -1,10 +1,20 @@
 extends Node2D
 
+# Reference to the CardEventManager node (child of this node or sibling)
+@onready var card_event_manager = $CardEventManager
+
 func _ready():
+	# Wire the card event UI to the manager
+	var card_ui = get_node_or_null("Cardevent")
+	if card_ui and card_event_manager:
+		card_ui.set_card_event_manager(card_event_manager)
 	start_new_round()
 
 func spend_time(amount: int):
 	Global.time_remaining -= amount
+	# Mid-round probabilistic card (25% chance per spend_time call)
+	if card_event_manager:
+		card_event_manager.check_mid_round_cards()
 	check_mid_round_events()
 	
 	if Global.time_remaining <= 0:
@@ -12,6 +22,13 @@ func spend_time(amount: int):
 
 func start_new_round():
 	Global.time_remaining = Global.max_time
+
+	# Apply any time penalty carried over from the previous round
+	if Global.next_round_time_penalty_pct > 0:
+		var penalty = int(Global.max_time * Global.next_round_time_penalty_pct / 100.0)
+		Global.time_remaining -= penalty
+		Global.next_round_time_penalty_pct = 0
+
 	Global.travel_time_cost = 2 # Reset travel cost
 	Global.travel_energy_cost = 0 # Reset energy cost
 	
@@ -21,6 +38,11 @@ func start_new_round():
 		print("Round 3! Received 2000 money from family.")
 		
 	trigger_start_round_event()
+
+	# Queue 2 mid-round card events for this round
+	if card_event_manager:
+		card_event_manager.queue_mid_round_cards()
+
 	print("Round ", Global.current_round, " started!")
 
 func end_round():
@@ -29,6 +51,10 @@ func end_round():
 	var map_manager = get_node_or_null("Map")
 	if map_manager:
 		map_manager.snap_to_dorm()
+
+	# Show 2 end-of-round card events
+	if card_event_manager:
+		card_event_manager.draw_end_of_round_cards()
 	
 	Global.current_round += 1
 	if Global.current_round > Global.max_rounds:
@@ -83,5 +109,8 @@ func end_game():
 	else:
 		print("Main Quest Failed: You partied too much!")
 		
-	var final_score = (0.5 * Global.study_score) + (0.1 * Global.happy) + (0.2 * Global.energy) + (0.2 * Global.hunger)
-	print("Final Score: ", final_score)
+	# Apply exam bonus (from card events)
+	var exam_multiplier = 1.0 + (Global.exam_bonus_pct / 100.0)
+	var boosted_study = int(Global.study_score * exam_multiplier)
+	var final_score = (0.5 * boosted_study) + (0.1 * Global.happy) + (0.2 * Global.energy) + (0.2 * Global.hunger)
+	print("Final Score: ", final_score, " (exam bonus: ", Global.exam_bonus_pct, "%)")
