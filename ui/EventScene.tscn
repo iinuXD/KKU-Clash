@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://c0p1eht5qdweo"]
+
+[ext_resource type="Script" path="res://core/script/card_event_ui.gd" id="1_ooyhy"]
+[ext_resource type="Texture2D" uid="uid://c6hjnxii4h6g4" path="res://asset/card/card.png" id="2_erff8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ylvjf"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+bg_color = Color(0.775618, 0.5511212, 0.21066445, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.36134848, 0.15854454, 0, 1)
+anti_aliasing = false
+
+[node name="Control" type="Control" unique_id=668092023]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ooyhy")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2015374569]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.012617188, 0.012617188, 0.012617188, 0.22352941)
+
+[node name="Panel" type="TextureRect" parent="." unique_id=817371927]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -224.5
+offset_top = -354.0
+offset_right = 224.5
+offset_bottom = 330.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+texture = ExtResource("2_erff8")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1545066213]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = 164.0
+offset_right = -28.5
+offset_bottom = -105.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1954426877]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.012617188, 0.012617188, 0.012617188, 1)
+theme_override_font_sizes/font_size = 28
+text = "titletest"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DescLabel" type="Label" parent="Panel/VBoxContainer" unique_id=888093700]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.012617188, 0.012617188, 0.012617188, 1)
+theme_override_font_sizes/font_size = 20
+text = "description"
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="OKButton" type="Button" parent="Panel/VBoxContainer" unique_id=555453909]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_ylvjf")
+text = "  รับทราบ  "
+
+[node name="ChoiceAButton" type="Button" parent="Panel/VBoxContainer" unique_id=1568540813]
+visible = false
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_ylvjf")
+text = "Choice A"
+
+[node name="ChoiceBButton" type="Button" parent="Panel/VBoxContainer" unique_id=1269473988]
+visible = false
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_ylvjf")
+text = "Choice B"
+
+[node name="ChoiceCButton" type="Button" parent="Panel/VBoxContainer" unique_id=299324474]
+visible = false
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_ylvjf")
+text = "Choice C"

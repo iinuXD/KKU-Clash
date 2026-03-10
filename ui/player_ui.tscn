@@ -13,13 +13,15 @@ script = ExtResource("1_cfom6")
 
 [node name="Status" type="Panel" parent="." unique_id=1624817388]
 layout_mode = 0
-offset_right = 327.0
-offset_bottom = 166.0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 339.0
+offset_bottom = 182.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Status" unique_id=1074540170]
 layout_mode = 0
-offset_right = 320.0
-offset_bottom = 277.0
+offset_right = 331.0
+offset_bottom = 175.0
 
 [node name="HungerBox" type="HBoxContainer" parent="Status/VBoxContainer" unique_id=1296756440]
 layout_mode = 2
@@ -28,7 +30,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.38
-text = "Hunger"
+text = " Hunger"
 
 [node name="HungerProgressBar" type="ProgressBar" parent="Status/VBoxContainer/HungerBox" unique_id=1112731412]
 modulate = Color(1, 0.5411765, 0.29411766, 1)
@@ -44,7 +46,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.39
-text = "Happy"
+text = " Happy"
 
 [node name="HappyProgressBar" type="ProgressBar" parent="Status/VBoxContainer/HappyBox" unique_id=1658936441]
 modulate = Color(0.32424015, 0.73581535, 0, 1)
@@ -60,7 +62,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.39
-text = "Study"
+text = " Study"
 
 [node name="StudyProgressBar" type="ProgressBar" parent="Status/VBoxContainer/StudyBox" unique_id=1737020562]
 modulate = Color(0.17184411, 0.53013366, 0.96857667, 1)
@@ -76,7 +78,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.39
-text = "Energy"
+text = " Energy"
 
 [node name="EnergyProgressBar" type="ProgressBar" parent="Status/VBoxContainer/EnergyBox" unique_id=518404721]
 modulate = Color(1, 1, 0, 1)
@@ -92,7 +94,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.38
-text = "Money :"
+text = " Money :"
 
 [node name="MoneyAmount" type="Label" parent="Status/VBoxContainer/Money" unique_id=683638794]
 layout_mode = 2
