@@ -141,7 +141,7 @@ text = "Main Quest"
 
 [node name="main" type="Label" parent="FoldableContainer/VBoxContainer/miancontainer" unique_id=1134534302]
 layout_mode = 2
-text = "Join Class                  0/10"
+text = "[Main Quest] Join Class: 0 / 10"
 
 [node name="Label" type="Label" parent="FoldableContainer/VBoxContainer" unique_id=463307917]
 layout_mode = 2

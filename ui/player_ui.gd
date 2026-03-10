@@ -27,6 +27,6 @@ func _process(delta: float) -> void:
 	timer_bar.value = Global.time_remaining
 	
 	# Quest labels
-	main_quest.text = "Join Class: %d / 10" % Global.class_join_count
+	main_quest.text = "[Main Quest]Join Class: %d / 10" % Global.class_join_count
 	sub_quest_injured.visible = Global.is_injured
 	sub_quest_sick.visible = Global.is_sick
