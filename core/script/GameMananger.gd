@@ -1,10 +1,13 @@
 extends Node2D
 
 @onready var card_event_manager = $CardEventManager
+@onready var _end_game_ui: Control = $EndgameUI
 var _card_event_ui: Node = null
 var _round_active: bool = false
 
 func _ready():
+	if _end_game_ui:
+		_end_game_ui.visible = false
 	_card_event_ui = get_node_or_null("EventUI")
 	if _card_event_ui and card_event_manager:
 		_card_event_ui.set_card_event_manager(card_event_manager)
@@ -90,8 +93,6 @@ func fire_activity_event(location: String) -> void:
 		card_event_manager.check_activity_event(location)
 
 
-const _END_GAME_SCENE = preload("res://ui/EndGame_ui.tscn")
-
 func end_game():
 	print("--- GAME OVER ---")
 	# Apply exam bonus (from card events)
@@ -101,6 +102,5 @@ func end_game():
 	print("Final Score: ", final_score, " (exam bonus: ", Global.exam_bonus_pct, "%)")
 
 	get_tree().paused = true
-	var end_ui = _END_GAME_SCENE.instantiate()
-	add_child(end_ui)
-	end_ui.setup(final_score, Global.exam_bonus_pct)
+	_end_game_ui.visible = true
+	_end_game_ui.setup(final_score, Global.exam_bonus_pct)

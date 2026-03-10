@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bp3pr270g6pl5"]
 
-[ext_resource type="Script" path="res://ui/endgame_ui.gd" id="1_eg"]
+[ext_resource type="Script" uid="uid://bj44f3de33qov" path="res://ui/endgame_ui.gd" id="1_eg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 bg_color = Color(0.906, 0.824, 0.643, 1)
@@ -53,7 +53,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 script = ExtResource("1_eg")
 
 [node name="DimOverlay" type="ColorRect" parent="." unique_id=100000001]
@@ -85,23 +84,28 @@ offset_left = 30.0
 offset_top = 30.0
 offset_right = -30.0
 offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 16
 
 [node name="TitleLabel" type="Label" parent="EndGameWindow/MainVBox" unique_id=100000004]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
 text = "GAME OVER"
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 40
 
 [node name="HSeparator" type="HSeparator" parent="EndGameWindow/MainVBox" unique_id=100000005]
 layout_mode = 2
 
 [node name="MainQuestLabel" type="Label" parent="EndGameWindow/MainVBox" unique_id=100000006]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "[Main Quest] Attend 10 Classes: ..."
 horizontal_alignment = 1
 autowrap_mode = 2
-theme_override_font_sizes/font_size = 20
 
 [node name="HSeparator2" type="HSeparator" parent="EndGameWindow/MainVBox" unique_id=100000007]
 layout_mode = 2
@@ -112,27 +116,27 @@ theme_override_constants/separation = 10
 
 [node name="FinalScoreLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000009]
 layout_mode = 2
+theme_override_font_sizes/font_size = 28
 text = "Final Score: ..."
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 28
 
 [node name="StudyLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000010]
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "Study Score: ..."
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 18
 
 [node name="MoneyLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000011]
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "Money: ..."
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 18
 
 [node name="ClassesLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000012]
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "Classes Attended: ..."
 horizontal_alignment = 1
-theme_override_font_sizes/font_size = 18
 
 [node name="Spacer" type="Control" parent="EndGameWindow/MainVBox" unique_id=100000013]
 layout_mode = 2
@@ -141,7 +145,7 @@ size_flags_vertical = 3
 [node name="RestartButton" type="Button" parent="EndGameWindow/MainVBox" unique_id=100000014]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Play Again"
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
-theme_override_font_sizes/font_size = 22
+text = "Play Again"
