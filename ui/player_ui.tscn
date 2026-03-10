@@ -16,12 +16,12 @@ layout_mode = 0
 offset_left = 7.0
 offset_top = 7.0
 offset_right = 339.0
-offset_bottom = 182.0
+offset_bottom = 166.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Status" unique_id=1074540170]
 layout_mode = 0
 offset_right = 331.0
-offset_bottom = 175.0
+offset_bottom = 157.0
 
 [node name="HungerBox" type="HBoxContainer" parent="Status/VBoxContainer" unique_id=1296756440]
 layout_mode = 2
@@ -119,4 +119,44 @@ layout_mode = 2
 max_value = 24.0
 
 [node name="RoundLabel" type="Label" parent="VBoxContainer" unique_id=382630144]
+layout_mode = 2
+
+[node name="FoldableContainer" type="FoldableContainer" parent="." unique_id=665916339]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 168.0
+offset_right = 245.0
+offset_bottom = 265.0
+title = "Quest"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FoldableContainer" unique_id=44381128]
+layout_mode = 2
+
+[node name="miancontainer" type="VBoxContainer" parent="FoldableContainer/VBoxContainer" unique_id=451325614]
+layout_mode = 2
+
+[node name="MainQuest" type="Label" parent="FoldableContainer/VBoxContainer/miancontainer" unique_id=152252075]
+layout_mode = 2
+text = "Main Quest"
+
+[node name="main" type="Label" parent="FoldableContainer/VBoxContainer/miancontainer" unique_id=1134534302]
+layout_mode = 2
+text = "Join Class                  0/10"
+
+[node name="Label" type="Label" parent="FoldableContainer/VBoxContainer" unique_id=463307917]
+layout_mode = 2
+text = "-------------------------------------------"
+
+[node name="subcontainer" type="VBoxContainer" parent="FoldableContainer/VBoxContainer" unique_id=1988912569]
+layout_mode = 2
+
+[node name="SubQuest" type="Label" parent="FoldableContainer/VBoxContainer/subcontainer" unique_id=72065605]
+layout_mode = 2
+text = "Sub Quest"
+
+[node name="subInjured" type="Label" parent="FoldableContainer/VBoxContainer/subcontainer" unique_id=600566433]
+layout_mode = 2
+text = "Go to hospital you are injured"
+
+[node name="subSick" type="Label" parent="FoldableContainer/VBoxContainer/subcontainer" unique_id=1224708510]
 layout_mode = 2

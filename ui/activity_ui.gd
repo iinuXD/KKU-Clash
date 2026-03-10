@@ -24,7 +24,7 @@ func _ready() -> void:
 
 
 ## Call this to populate the panel before showing it.
-## activity_list entries: { "id": String, "name": String }
+## activity_list entries: full activity Dictionary from MapMananger
 func setup(npc_name: String, portrait: Texture2D, dialog: String, activity_list: Array[Dictionary]) -> void:
 	npc_name_label.text = npc_name
 	
@@ -36,8 +36,37 @@ func setup(npc_name: String, portrait: Texture2D, dialog: String, activity_list:
 		if i < activities.size():
 			activity_buttons[i].text = activities[i].get("name", "Activity %d" % (i + 1))
 			activity_buttons[i].visible = true
+			activity_buttons[i].disabled = not _check_requirements(activities[i])
 		else:
 			activity_buttons[i].visible = false
+
+
+## Returns false if the player does not meet the activity's requirements.
+func _check_requirements(activity: Dictionary) -> bool:
+	# Auto-check money from the activity's cost field
+	var money_cost: int = activity.get("money", 0)
+	if money_cost < 0 and Global.money < -money_cost:
+		return false
+	# Check explicit requires dict
+	var requires: Dictionary = activity.get("requires", {})
+	for req in requires:
+		match req:
+			"energy":
+				if Global.energy < requires[req]:
+					return false
+			"hunger":
+				if Global.hunger < requires[req]:
+					return false
+			"happy":
+				if Global.happy < requires[req]:
+					return false
+			"not_injured":
+				if Global.is_injured:
+					return false
+			"not_sick":
+				if Global.is_sick:
+					return false
+	return true
 
 
 func _on_activity_pressed(index: int) -> void:

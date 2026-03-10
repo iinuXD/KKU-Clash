@@ -23,10 +23,18 @@ var is_sick: bool = false
 var sick_sleep_count: int = 0
 var has_medicine: bool = false
 var lost_item_active: bool = false
+var class_join_count: int = 0  # Main quest: join class 10 times
 
 # Card Event modifiers
 var exam_bonus_pct: int = 0
 var next_round_time_penalty_pct: int = 0
+
+# Weather state — reset to "normal" each round
+# "normal" | "hot" (more energy per travel) | "heavy_rain" (more time per travel)
+var weather: String = "normal"
+
+# Set by canteen_full "eat outside" choice to skip the Food Court activity UI once
+var skip_next_activity_ui: bool = false
 
 # Helper function to keep stats between 0 and 100 (except money/study)
 func update_stat(stat_name: String, amount: int):

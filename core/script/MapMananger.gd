@@ -28,7 +28,7 @@ func _get_location_data(location_name: String) -> Dictionary:
 				"activities": [
 					{"id":"sleep",        "name":"Sleep (3h)",          "time":3, "energy":40,  "hunger":-10, "happy":5,   "study":0, "money":0,    "special":"sleep"},
 					{"id":"nap",          "name":"Quick Nap (1h)",       "time":1, "energy":15,  "hunger":-5,  "happy":0,   "study":0, "money":0,    "special":""},
-					{"id":"study_home",   "name":"Study at Home (2h)",   "time":2, "energy":-10, "hunger":-10, "happy":-5,  "study":2, "money":0,    "special":""},
+					{"id":"study_home",   "name":"Study at Home (2h)",   "time":2, "energy":-10, "hunger":-10, "happy":-5,  "study":2, "money":0,    "special":"", "requires":{"energy":15}},
 					{"id":"take_medicine","name":"Take Medicine (1h)",   "time":1, "energy":5,   "hunger":0,   "happy":0,   "study":0, "money":0,    "special":"take_medicine"},
 				]
 			}
@@ -46,19 +46,19 @@ func _get_location_data(location_name: String) -> Dictionary:
 			return {
 				"dialog": "Time to hit the books! How hard will you study?",
 				"activities": [
-					{"id":"study_hard",   "name":"Study Hard (3h)",    "time":3, "energy":-20, "hunger":-15, "happy":-10, "study":4, "money":0, "special":""},
-					{"id":"casual_study", "name":"Casual Study (2h)",  "time":2, "energy":-10, "hunger":-10, "happy":-5,  "study":2, "money":0, "special":""},
-					{"id":"group_study",  "name":"Group Study (2h)",   "time":2, "energy":-5,  "hunger":-5,  "happy":10,  "study":2, "money":0, "special":""},
-					{"id":"leave",        "name":"Leave",               "time":0, "energy":0,   "hunger":0,   "happy":0,   "study":0, "money":0, "special":"leave"},
+					{"id":"study_hard",   "name":"Study Hard (3h)",    "time":3, "energy":-20, "hunger":-15, "happy":-10, "study":4, "money":0, "special":"",           "requires":{"energy":25}},
+					{"id":"casual_study", "name":"Casual Study (2h)",  "time":2, "energy":-10, "hunger":-10, "happy":-5,  "study":2, "money":0, "special":"",           "requires":{"energy":15}},
+					{"id":"group_study",  "name":"Group Study (2h)",   "time":2, "energy":-5,  "hunger":-5,  "happy":10,  "study":2, "money":0, "special":"",           "requires":{"energy":15}},
+					{"id":"join_class",   "name":"Join Class (2h)",    "time":2, "energy":-15, "hunger":-10, "happy":5,   "study":2, "money":0, "special":"join_class", "requires":{"energy":20}},
 				]
 			}
 		"Library":
 			return {
 				"dialog": "Shh! Welcome to the library.",
 				"activities": [
-					{"id":"quiet_study", "name":"Quiet Study (2h)",    "time":2, "energy":-15, "hunger":-10, "happy":0,   "study":3, "money":0, "special":""},
+					{"id":"quiet_study", "name":"Quiet Study (2h)",    "time":2, "energy":-15, "hunger":-10, "happy":0,   "study":3, "money":0, "special":"", "requires":{"energy":15}},
 					{"id":"read_fun",    "name":"Read for Fun (1h)",    "time":1, "energy":-5,  "hunger":0,   "happy":10,  "study":1, "money":0, "special":""},
-					{"id":"research",    "name":"Deep Research (3h)",   "time":3, "energy":-25, "hunger":-20, "happy":-10, "study":5, "money":0, "special":""},
+					{"id":"research",    "name":"Deep Research (3h)",   "time":3, "energy":-25, "hunger":-20, "happy":-10, "study":5, "money":0, "special":"", "requires":{"energy":25}},
 					{"id":"leave",       "name":"Leave",                "time":0, "energy":0,   "hunger":0,   "happy":0,   "study":0, "money":0, "special":"leave"},
 				]
 			}
@@ -86,9 +86,9 @@ func _get_location_data(location_name: String) -> Dictionary:
 			return {
 				"dialog": "Ready to break a sweat?",
 				"activities": [
-					{"id":"jog",           "name":"Morning Jog (2h)",     "time":2, "energy":-20, "hunger":-15, "happy":20, "study":0, "money":0, "special":""},
-					{"id":"play_sport",    "name":"Play Sport (2h)",      "time":2, "energy":-25, "hunger":-20, "happy":25, "study":0, "money":0, "special":""},
-					{"id":"light_workout", "name":"Light Workout (1h)",   "time":1, "energy":-10, "hunger":-10, "happy":15, "study":0, "money":0, "special":""},
+					{"id":"jog",           "name":"Morning Jog (2h)",     "time":2, "energy":-20, "hunger":-15, "happy":20, "study":0, "money":0, "special":"", "requires":{"energy":20, "not_injured":true}},
+					{"id":"play_sport",    "name":"Play Sport (2h)",      "time":2, "energy":-25, "hunger":-20, "happy":25, "study":0, "money":0, "special":"", "requires":{"energy":30, "not_injured":true}},
+					{"id":"light_workout", "name":"Light Workout (1h)",   "time":1, "energy":-10, "hunger":-10, "happy":15, "study":0, "money":0, "special":"", "requires":{"energy":15, "not_injured":true}},
 					{"id":"leave",         "name":"Leave",                 "time":0, "energy":0,   "hunger":0,   "happy":0,  "study":0, "money":0, "special":"leave"},
 				]
 			}
@@ -108,6 +108,9 @@ func _get_location_data(location_name: String) -> Dictionary:
 # ACTIVITY UI LOGIC
 # ---------------------------------------------------------------
 func show_activity_ui(location_name: String) -> void:
+	if Global.skip_next_activity_ui:
+		Global.skip_next_activity_ui = false
+		return
 	var data = _get_location_data(location_name)
 	if data.is_empty():
 		return
@@ -115,10 +118,7 @@ func show_activity_ui(location_name: String) -> void:
 	current_activities.clear()
 	for a in raw_activities:
 		current_activities.append(a)
-	var activity_list: Array[Dictionary] = []
-	for act in current_activities:
-		activity_list.append({"id": act["id"], "name": act["name"]})
-	activity_ui.setup(location_name, null, data["dialog"], activity_list)
+	activity_ui.setup(location_name, null, data["dialog"], current_activities)
 	activity_ui.visible = true
 
 func _on_activity_selected(activity_id: String) -> void:
@@ -127,6 +127,11 @@ func _on_activity_selected(activity_id: String) -> void:
 		if act["id"] == activity_id:
 			_perform_activity(act)
 			return
+
+func _sick_scale(value: int) -> int:
+	if Global.is_sick and value > 0:
+		return maxi(int(value * 0.6), 1)
+	return value
 
 func _perform_activity(activity: Dictionary) -> void:
 	var special: String = activity.get("special", "")
@@ -143,11 +148,11 @@ func _perform_activity(activity: Dictionary) -> void:
 		return
 
 	# Apply stat changes FIRST so effects are counted even if time runs out mid-activity
-	Global.update_stat("energy",      activity.get("energy", 0))
-	Global.update_stat("happy",       activity.get("happy",  0))
-	Global.update_stat("hunger",      activity.get("hunger", 0))
+	Global.update_stat("energy",      _sick_scale(activity.get("energy", 0)))
+	Global.update_stat("happy",       _sick_scale(activity.get("happy",  0)))
+	Global.update_stat("hunger",      _sick_scale(activity.get("hunger", 0)))
 	Global.update_stat("money",       money_change)
-	Global.update_stat("study_score", activity.get("study",  0))
+	Global.update_stat("study_score", _sick_scale(activity.get("study",  0)))
 
 	# Handle special effects
 	match special:
@@ -180,17 +185,18 @@ func _perform_activity(activity: Dictionary) -> void:
 		"hospital_rest":
 			if Global.is_injured:
 				Global.is_injured = false
-				Global.travel_time_cost = max(Global.travel_time_cost - 1, 2)
 				print("Rest healed your injury!")
 			else:
 				print("Rest and recovery complete. Feeling refreshed!")
 		"buy_bandage":
 			if Global.is_injured:
 				Global.is_injured = false
-				Global.travel_time_cost = max(Global.travel_time_cost - 1, 2)
 				print("Bandage applied — injury healed!")
 			else:
 				print("You're not injured, but you now have a bandage just in case.")
+		"join_class":
+			Global.class_join_count += 1
+			print("Attended class! (%d/10)" % Global.class_join_count)
 
 	print("Completed: ", activity["name"])
 
@@ -200,10 +206,9 @@ func _perform_activity(activity: Dictionary) -> void:
 	if time_cost > 0:
 		game_manager.spend_time(time_cost)
 
-	# Fire a contextual eat event after food activities (35% chance, only if round still active)
-	var food_ids = ["full_meal", "quick_snack", "coffee", "treat", "buy_groceries"]
-	if activity.get("id", "") in food_ids and Global.time_remaining > 0:
-		game_manager.fire_context_event("eat", 35)
+	# Fire an activity event after completing any activity
+	if Global.time_remaining > 0:
+		game_manager.fire_activity_event(current_location_name)
 
 func _ready():
 	# Set starting position to the Dorm
@@ -347,14 +352,28 @@ func travel_to_location(start_pos: Vector2, target_pos: Vector2, location_name: 
 		road_distance += path_route[i - 1].distance_to(path_route[i])
 	# Each 200 px ≈ 1 in-game hour; clamp to 1–4 hours.
 	var base_time_cost: int = clampi(int(road_distance / 200.0), 1, 4)
-	# Apply any active penalty (injury, event effect, etc.) on top.
-	var time_cost: int = base_time_cost + (Global.travel_time_cost - 2)
-	time_cost = clampi(time_cost, 1, 4)
-	print("Travel distance: %.0f px → %d hour(s)" % [road_distance, time_cost])
+	# Weather and status time/energy modifiers
+	var time_modifier: int = 0
+	var energy_penalty: int = 0
+	match Global.weather:
+		"heavy_rain": time_modifier += 1
+		"hot":
+			time_modifier += 1
+			energy_penalty += 10
+	if Global.is_sick:
+		time_modifier += 1
+		energy_penalty += 10
+	if Global.is_injured:
+		time_modifier += 1
+	var time_cost: int = clampi(base_time_cost + time_modifier, 1, 5)
+	print("Travel %.0fpx → %dh (weather:%s sick:%s injured:%s)" % [
+		road_distance, time_cost, Global.weather, Global.is_sick, Global.is_injured])
 
 	# Deduct costs
 	game_manager.spend_time(time_cost)
 	Global.update_stat("energy", -Global.travel_energy_cost)
+	if energy_penalty > 0:
+		Global.update_stat("energy", -energy_penalty)
 
 	# Animate the player along the new curving path
 	path_follow.progress_ratio = 0.0
@@ -365,8 +384,7 @@ func travel_to_location(start_pos: Vector2, target_pos: Vector2, location_name: 
 	await _current_tween.finished
 	is_moving = false
 	if Global.current_round == round_at_start:
-		# Fire a travel event (25% chance); show activity UI only after card is dismissed
-		game_manager.fire_context_event_then("travel", 25, func():
+		game_manager.fire_travel_event_then(location_name, func():
 			if Global.current_round == round_at_start:
 				print("Arrived at ", location_name, "!")
 				show_activity_ui(location_name)

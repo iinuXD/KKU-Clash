@@ -14,8 +14,6 @@ func _ready():
 
 func spend_time(amount: int):
 	Global.time_remaining -= amount
-	if card_event_manager:
-		card_event_manager.check_mid_round_cards()
 	if Global.time_remaining <= 0:
 		end_round()
 
@@ -37,10 +35,13 @@ func start_new_round():
 		Global.money += 2000
 		print("Round 3! Received 2000 money from family.")
 		
-	# Queue 2 mid-round card events and show 1 start-of-round card
+	# Reset per-round state
+	Global.weather = "normal"
+	Global.skip_next_activity_ui = false
+
+	# Draw 1-2 start-of-round event cards
 	if card_event_manager:
-		card_event_manager.queue_mid_round_cards()
-		card_event_manager.draw_start_round_card()
+		card_event_manager.draw_start_round_events()
 
 	print("Round ", Global.current_round, " started!")
 
@@ -73,20 +74,20 @@ func _wait_then_call(callback: Callable) -> void:
 	else:
 		callback.call()
 
-# Fires a contextual event; if one fires, defers callback until the card is resolved
-func fire_context_event_then(trigger: String, chance_pct: int, callback: Callable) -> void:
+# Fires a travel event for the given location; defers callback until card dismissed if one fires
+func fire_travel_event_then(location: String, callback: Callable) -> void:
 	var fired = false
 	if card_event_manager:
-		fired = card_event_manager.check_contextual_event(trigger, chance_pct)
+		fired = card_event_manager.check_travel_event(location)
 	if fired:
 		_wait_then_call(callback)
 	else:
 		callback.call()
 
-# Fires a contextual event with no follow-up callback
-func fire_context_event(trigger: String, chance_pct: int) -> void:
+# Fires an activity event for the given location (no follow-up callback needed)
+func fire_activity_event(location: String) -> void:
 	if card_event_manager:
-		card_event_manager.check_contextual_event(trigger, chance_pct)
+		card_event_manager.check_activity_event(location)
 
 
 func end_game():

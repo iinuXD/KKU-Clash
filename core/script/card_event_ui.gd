@@ -107,8 +107,8 @@ func _build_effect_hint(btn: Button, effects: Dictionary) -> void:
 		"exam_bonus":"🎓+", "set_sick": "", "set_injured": ""
 	}
 	for key in effects:
-		if key in ["set_sick", "set_injured"]:
-			continue  # don't show boolean flags
+		if key in ["set_sick", "set_injured", "set_weather", "skip_activity_ui"]:
+			continue  # don't show boolean/string flags
 		var icon = icons.get(key, key)
 		var val  = effects[key]
 		if val > 0:
