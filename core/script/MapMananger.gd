@@ -323,33 +323,43 @@ func travel_to_location(start_pos: Vector2, target_pos: Vector2, location_name: 
 	is_moving = true
 	var round_at_start: int = Global.current_round
 	
-	# Deduct costs
-	game_manager.spend_time(Global.travel_time_cost)
-	Global.update_stat("energy", -Global.travel_energy_cost)
-	
-	# --- NEW ASTAR ROUTING ---
-	
+	# --- ASTAR ROUTING (must happen before spend_time so we know the distance) ---
+
 	# Ask AStar which ID is closest to our Start and End positions
 	var start_id = astar.get_closest_point(start_pos)
 	var end_id = astar.get_closest_point(target_pos)
-	
+
 	# Get the array of Vector2 points that form the road path
 	var path_route = astar.get_point_path(start_id, end_id)
-	
+
 	# Build the curve using the points AStar gave us
 	var curve = Curve2D.new()
 	for point in path_route:
 		curve.add_point(path.to_local(point))
-		
 	path.curve = curve
-	
+
 	# -------------------------
-	
+
+	# Calculate in-game time cost from actual road distance (pixels).
+	# Sum up each segment length so crossing many short hops is still counted correctly.
+	var road_distance: float = 0.0
+	for i in range(1, path_route.size()):
+		road_distance += path_route[i - 1].distance_to(path_route[i])
+	# Each 200 px ≈ 1 in-game hour; clamp to 1–4 hours.
+	var base_time_cost: int = clampi(int(road_distance / 200.0), 1, 4)
+	# Apply any active penalty (injury, event effect, etc.) on top.
+	var time_cost: int = base_time_cost + (Global.travel_time_cost - 2)
+	time_cost = clampi(time_cost, 1, 4)
+	print("Travel distance: %.0f px → %d hour(s)" % [road_distance, time_cost])
+
+	# Deduct costs
+	game_manager.spend_time(time_cost)
+	Global.update_stat("energy", -Global.travel_energy_cost)
+
 	# Animate the player along the new curving path
 	path_follow.progress_ratio = 0.0
 	_current_tween = create_tween()
-	# Optional: calculate tween time based on how long the road is!
-	var travel_time = path_route.size() * 0.3 # 0.3 seconds per dot
+	var travel_time = path_route.size() * 0.3  # 0.3 seconds per waypoint dot
 	_current_tween.tween_property(path_follow, "progress_ratio", 1.0, travel_time).set_trans(Tween.TRANS_LINEAR)
 	
 	await _current_tween.finished

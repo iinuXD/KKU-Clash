@@ -111,7 +111,7 @@ offset_bottom = 94.0
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=1257933917]
 layout_mode = 2
-text = "Timer"
+text = "Time"
 horizontal_alignment = 1
 
 [node name="TimeProgessBar" type="ProgressBar" parent="VBoxContainer" unique_id=182320296]
