@@ -90,15 +90,17 @@ func fire_activity_event(location: String) -> void:
 		card_event_manager.check_activity_event(location)
 
 
+const _END_GAME_SCENE = preload("res://ui/EndGame_ui.tscn")
+
 func end_game():
 	print("--- GAME OVER ---")
-	if Global.study_score >= 12:
-		print("Main Quest Complete: You studied enough!")
-	else:
-		print("Main Quest Failed: You partied too much!")
-		
 	# Apply exam bonus (from card events)
 	var exam_multiplier = 1.0 + (Global.exam_bonus_pct / 100.0)
 	var boosted_study = int(Global.study_score * exam_multiplier)
 	var final_score = (0.5 * boosted_study) + (0.1 * Global.happy) + (0.2 * Global.energy) + (0.2 * Global.hunger)
 	print("Final Score: ", final_score, " (exam bonus: ", Global.exam_bonus_pct, "%)")
+
+	get_tree().paused = true
+	var end_ui = _END_GAME_SCENE.instantiate()
+	add_child(end_ui)
+	end_ui.setup(final_score, Global.exam_bonus_pct)
