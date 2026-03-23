@@ -49,7 +49,6 @@ tile_set = ExtResource("10_6bh00")
 script = ExtResource("6_7t0kv")
 
 [node name="Path2D" type="Path2D" parent="Map" unique_id=1669176678]
-visible = false
 position = Vector2(23.157303, 5.957611)
 scale = Vector2(0.9927213, 1.000251)
 curve = SubResource("Curve2D_8bh3d")
@@ -59,7 +58,6 @@ position = Vector2(407.81104, 201.99168)
 rotates = false
 
 [node name="Sprite2D" type="Sprite2D" parent="Map/Path2D/PathFollow2D" unique_id=357204771]
-visible = false
 position = Vector2(2.0146637, -4.9987564)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("5_kclla")
@@ -93,7 +91,6 @@ position = Vector2(781, 154)
 position = Vector2(118, 370)
 
 [node name="Waypoints" type="Node2D" parent="Map" unique_id=604733981]
-visible = false
 
 [node name="Dorm" type="Marker2D" parent="Map/Waypoints" unique_id=1273777107]
 position = Vector2(428, 207)
