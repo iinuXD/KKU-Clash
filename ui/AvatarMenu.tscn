@@ -9,9 +9,14 @@
 [ext_resource type="Texture2D" uid="uid://d070y3lkwu80y" path="res://asset/menu/leftbtn.png" id="7_hjurv"]
 [ext_resource type="Texture2D" uid="uid://b34p6vw38e65c" path="res://asset/menu/leftpress.png" id="8_v5ykh"]
 [ext_resource type="Texture2D" uid="uid://bkb58xo6cv5tv" path="res://asset/menu/lefthover.png" id="9_q483f"]
+[ext_resource type="Texture2D" uid="uid://bfkfsxi22owfw" path="res://asset/Character/Bodies/32x32/Body_01 69.png" id="10_30drc"]
 [ext_resource type="Texture2D" uid="uid://8tdoyrdh37i8" path="res://asset/menu/rightbtn.png" id="10_b0jb2"]
+[ext_resource type="Texture2D" uid="uid://b4c02xpo8qchm" path="res://asset/Character/Eyes/32x32/Eyes_06.png" id="11_krctc"]
 [ext_resource type="Texture2D" uid="uid://ca0llafjl12d5" path="res://asset/menu/rightpress.png" id="11_ob7h6"]
+[ext_resource type="Texture2D" uid="uid://u6iv2vnf4aqc" path="res://asset/Character/Outfits/32x32/Outfit_01_01.png" id="12_2mgsg"]
 [ext_resource type="Texture2D" uid="uid://b3c4q6ov8gq53" path="res://asset/menu/righthover.png" id="12_30drc"]
+[ext_resource type="Texture2D" uid="uid://bi2n55pmv7l4d" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="13_2hjny"]
+[ext_resource type="Texture2D" uid="uid://bu2dm5qksxe6n" path="res://asset/Character/Accessories/32x32/Accessory_01_Ladybug_01.png" id="14_s1too"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qplyf"]
 texture = ExtResource("1_n0vux")
@@ -38,6 +43,8 @@ texture = ExtResource("8_v5ykh")
 texture = ExtResource("9_q483f")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yddip"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lyekw"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w7t7a"]
 texture = ExtResource("10_b0jb2")
@@ -203,6 +210,47 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_yddip")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_lyekw")
+
+[node name="BodySprite" type="Sprite2D" parent="HBoxContainer2/Panel" unique_id=2071617477]
+position = Vector2(175, 140)
+scale = Vector2(6, 6)
+texture = ExtResource("10_30drc")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="EyeSprite" type="Sprite2D" parent="HBoxContainer2/Panel" unique_id=1952807117]
+position = Vector2(175, 140)
+scale = Vector2(6, 6)
+texture = ExtResource("11_krctc")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="OutfitSprite" type="Sprite2D" parent="HBoxContainer2/Panel" unique_id=1408191314]
+position = Vector2(175, 140)
+scale = Vector2(6, 6)
+texture = ExtResource("12_2mgsg")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="HairSprite" type="Sprite2D" parent="HBoxContainer2/Panel" unique_id=1088733283]
+position = Vector2(175, 140)
+scale = Vector2(6, 6)
+texture = ExtResource("13_2hjny")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="AccessoryAprite" type="Sprite2D" parent="HBoxContainer2/Panel" unique_id=1428619945]
+position = Vector2(175, 140)
+scale = Vector2(6, 6)
+texture = ExtResource("14_s1too")
+hframes = 56
+vframes = 20
+frame = 3
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer2" unique_id=920228358]
 layout_mode = 2
@@ -250,3 +298,13 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_txojl")
 
 [connection signal="pressed" from="HBoxContainer/okayBtn" to="." method="_on_okay_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/backbtn" to="." method="_on_backbtn_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer/prevhair" to="." method="_on_prevhair_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer/prevface" to="." method="_on_prevface_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer/prevskin" to="." method="_on_prevskin_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer/prevaccessory" to="." method="_on_prevaccessory_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer/prevattire" to="." method="_on_prevattire_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer2/nexthair" to="." method="_on_nexthair_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer2/nextface" to="." method="_on_nextface_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer2/nextskin" to="." method="_on_nextskin_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer2/nextaccessory" to="." method="_on_nextaccessory_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer2/nextattire" to="." method="_on_nextattire_pressed"]
