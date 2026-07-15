@@ -6,6 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://cue4i2n4yk5gj" path="res://asset/menu/btn.png" id="3_6gsvj"]
 [ext_resource type="Texture2D" uid="uid://c45lkmfsob54p" path="res://asset/menu/press.png" id="4_e34lb"]
 [ext_resource type="Texture2D" uid="uid://cv64rjw42fj2x" path="res://asset/menu/hover.png" id="5_0f05v"]
+[ext_resource type="Texture2D" uid="uid://d070y3lkwu80y" path="res://asset/menu/leftbtn.png" id="7_hjurv"]
+[ext_resource type="Texture2D" uid="uid://b34p6vw38e65c" path="res://asset/menu/leftpress.png" id="8_v5ykh"]
+[ext_resource type="Texture2D" uid="uid://bkb58xo6cv5tv" path="res://asset/menu/lefthover.png" id="9_q483f"]
+[ext_resource type="Texture2D" uid="uid://8tdoyrdh37i8" path="res://asset/menu/rightbtn.png" id="10_b0jb2"]
+[ext_resource type="Texture2D" uid="uid://ca0llafjl12d5" path="res://asset/menu/rightpress.png" id="11_ob7h6"]
+[ext_resource type="Texture2D" uid="uid://b3c4q6ov8gq53" path="res://asset/menu/righthover.png" id="12_30drc"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qplyf"]
 texture = ExtResource("1_n0vux")
@@ -21,6 +27,28 @@ texture = ExtResource("4_e34lb")
 texture = ExtResource("5_0f05v")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q483f"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vkqoe"]
+texture = ExtResource("7_hjurv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_co6qv"]
+texture = ExtResource("8_v5ykh")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gjxql"]
+texture = ExtResource("9_q483f")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yddip"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w7t7a"]
+texture = ExtResource("10_b0jb2")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cxmk6"]
+texture = ExtResource("11_ob7h6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aop6e"]
+texture = ExtResource("12_30drc")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_txojl"]
 
 [node name="AvatarMenu" type="Control" unique_id=686883273]
 layout_mode = 3
@@ -70,7 +98,7 @@ theme_override_font_sizes/font_size = 75
 text = "Player 1"
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="HBoxContainer" parent="." unique_id=2079611724]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=2079611724]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -84,7 +112,7 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="okayBtn" type="Button" parent="VBoxContainer" unique_id=1557736378]
+[node name="okayBtn" type="Button" parent="HBoxContainer" unique_id=1557736378]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -98,7 +126,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_v5ykh")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_q483f")
 text = "Okay"
 
-[node name="backbtn" type="Button" parent="VBoxContainer" unique_id=1961909413]
+[node name="backbtn" type="Button" parent="HBoxContainer" unique_id=1961909413]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -113,5 +141,112 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_q483f")
 text = "go back
 "
 
-[connection signal="pressed" from="VBoxContainer/okayBtn" to="." method="_on_okay_btn_pressed"]
-[connection signal="pressed" from="VBoxContainer/backbtn" to="." method="_on_backbtn_pressed"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1313714497]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.5
+offset_top = -112.0
+offset_right = 360.5
+offset_bottom = 244.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer2" unique_id=1882091217]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="prevhair" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=1270258029]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_vkqoe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_co6qv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gjxql")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yddip")
+
+[node name="prevface" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=1392835427]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_vkqoe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_co6qv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gjxql")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yddip")
+
+[node name="prevskin" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=1178155594]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_vkqoe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_co6qv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gjxql")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yddip")
+
+[node name="prevaccessory" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=1079608956]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_vkqoe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_co6qv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gjxql")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yddip")
+
+[node name="prevattire" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=547853516]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_vkqoe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_co6qv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gjxql")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yddip")
+
+[node name="Panel" type="Panel" parent="HBoxContainer2" unique_id=617489500]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer2" unique_id=920228358]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="nexthair" type="Button" parent="HBoxContainer2/VBoxContainer2" unique_id=1672295005]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7t7a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cxmk6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aop6e")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_txojl")
+
+[node name="nextface" type="Button" parent="HBoxContainer2/VBoxContainer2" unique_id=1526716630]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7t7a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cxmk6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aop6e")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_txojl")
+
+[node name="nextskin" type="Button" parent="HBoxContainer2/VBoxContainer2" unique_id=2099782401]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7t7a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cxmk6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aop6e")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_txojl")
+
+[node name="nextaccessory" type="Button" parent="HBoxContainer2/VBoxContainer2" unique_id=1365060891]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7t7a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cxmk6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aop6e")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_txojl")
+
+[node name="nextattire" type="Button" parent="HBoxContainer2/VBoxContainer2" unique_id=556478489]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7t7a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cxmk6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aop6e")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_txojl")
+
+[connection signal="pressed" from="HBoxContainer/okayBtn" to="." method="_on_okay_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/backbtn" to="." method="_on_backbtn_pressed"]
