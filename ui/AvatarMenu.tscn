@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://cgdv1m2y24kcf"]
+
+[ext_resource type="Script" uid="uid://bgb68o14u7wjk" path="res://ui/avatar_menu.gd" id="1_kce1m"]
+[ext_resource type="Texture2D" uid="uid://cp2ygg6ywvbof" path="res://asset/menu/background.png" id="1_n0vux"]
+[ext_resource type="FontFile" uid="uid://bmynaecpqaolm" path="res://font/GrapeSoda.ttf" id="2_kce1m"]
+[ext_resource type="Texture2D" uid="uid://cue4i2n4yk5gj" path="res://asset/menu/btn.png" id="3_6gsvj"]
+[ext_resource type="Texture2D" uid="uid://c45lkmfsob54p" path="res://asset/menu/press.png" id="4_e34lb"]
+[ext_resource type="Texture2D" uid="uid://cv64rjw42fj2x" path="res://asset/menu/hover.png" id="5_0f05v"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qplyf"]
+texture = ExtResource("1_n0vux")
+modulate_color = Color(1, 1, 1, 0.36862746)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x03sj"]
+texture = ExtResource("3_6gsvj")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hjurv"]
+texture = ExtResource("4_e34lb")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v5ykh"]
+texture = ExtResource("5_0f05v")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q483f"]
+
+[node name="AvatarMenu" type="Control" unique_id=686883273]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kce1m")
+
+[node name="Panel" type="Panel" parent="." unique_id=1872051195]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_qplyf")
+
+[node name="Label" type="Label" parent="." unique_id=211994187]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -403.5
+offset_top = 69.0
+offset_right = 403.5
+offset_bottom = 179.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_kce1m")
+theme_override_font_sizes/font_size = 100
+text = "Create your Avatar"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=1435783860]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -403.5
+offset_top = 162.0
+offset_right = 403.5
+offset_bottom = 249.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_kce1m")
+theme_override_font_sizes/font_size = 75
+text = "Player 1"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="HBoxContainer" parent="." unique_id=2079611724]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -267.25
+offset_top = -98.0
+offset_right = 267.25
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="startBtn" type="Button" parent="VBoxContainer" unique_id=1557736378]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_fonts/font = ExtResource("2_kce1m")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxTexture_x03sj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_hjurv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_v5ykh")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_q483f")
+text = "Okay"
+
+[node name="backbtn" type="Button" parent="VBoxContainer" unique_id=1961909413]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_fonts/font = ExtResource("2_kce1m")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxTexture_x03sj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_hjurv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_v5ykh")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_q483f")
+text = "go back
+"
+
+[connection signal="pressed" from="VBoxContainer/startBtn" to="." method="_on_start_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/backbtn" to="." method="_on_backbtn_pressed"]

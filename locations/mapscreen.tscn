@@ -25,6 +25,7 @@ _data = {
 point_count = 1
 
 [node name="MainGame" type="Node2D" unique_id=1108432382]
+visible = false
 position = Vector2(-4, 0)
 script = ExtResource("1_8bh3d")
 

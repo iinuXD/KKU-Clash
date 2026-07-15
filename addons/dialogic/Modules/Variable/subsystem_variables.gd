@@ -183,7 +183,7 @@ func _get(property):
 			return VariableFolder.new(var_storage[property], property, self)
 		else:
 			return DialogicUtil.logical_convert(var_storage[property])
-
+	return null
 
 func folders() -> Array:
 	var result := []
@@ -244,7 +244,7 @@ class VariableFolder:
 				return VariableFolder.new(data[property], path+"."+property, outside)
 			else:
 				return DialogicUtil.logical_convert(data[property])
-
+		return null
 
 	func _set(property:StringName, value:Variant) -> bool:
 		property = str(property)
