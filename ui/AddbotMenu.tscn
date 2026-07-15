@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bxlufmw6a5bx2"]
 
 [ext_resource type="Texture2D" uid="uid://cp2ygg6ywvbof" path="res://asset/menu/background.png" id="1_1w7b2"]
+[ext_resource type="Script" uid="uid://dl3forsc384wa" path="res://ui/addbot_menu.gd" id="1_a1qec"]
 [ext_resource type="FontFile" uid="uid://bmynaecpqaolm" path="res://font/GrapeSoda.ttf" id="2_a1qec"]
 [ext_resource type="Texture2D" uid="uid://cue4i2n4yk5gj" path="res://asset/menu/btn.png" id="3_ehahd"]
 [ext_resource type="Texture2D" uid="uid://c45lkmfsob54p" path="res://asset/menu/press.png" id="4_sgv0c"]
@@ -28,6 +29,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_a1qec")
 
 [node name="Panel" type="Panel" parent="." unique_id=329959772]
 layout_mode = 1
@@ -144,3 +146,9 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_7l4lc")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_cngru")
 text = "go back
 "
+
+[connection signal="pressed" from="VBoxContainer/noAddBtn" to="." method="_on_no_add_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/addOne" to="." method="_on_add_one_pressed"]
+[connection signal="pressed" from="VBoxContainer/addTwo" to="." method="_on_add_two_pressed"]
+[connection signal="pressed" from="VBoxContainer/addThree" to="." method="_on_add_three_pressed"]
+[connection signal="pressed" from="backbtn" to="." method="_on_backbtn_pressed"]

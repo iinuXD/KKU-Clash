@@ -1,0 +1,344 @@
+[gd_scene format=3 uid="uid://bh1l2xmowkcoi"]
+
+[ext_resource type="Texture2D" uid="uid://cp2ygg6ywvbof" path="res://asset/menu/background.png" id="1_0tesp"]
+[ext_resource type="Script" uid="uid://dht23brdpcgyd" path="res://ui/show_avatar.gd" id="1_5o7jl"]
+[ext_resource type="Texture2D" uid="uid://bfkfsxi22owfw" path="res://asset/Character/Bodies/32x32/Body_01 69.png" id="2_5o7jl"]
+[ext_resource type="Texture2D" uid="uid://b4c02xpo8qchm" path="res://asset/Character/Eyes/32x32/Eyes_06.png" id="3_vovyu"]
+[ext_resource type="Texture2D" uid="uid://u6iv2vnf4aqc" path="res://asset/Character/Outfits/32x32/Outfit_01_01.png" id="4_c68so"]
+[ext_resource type="Texture2D" uid="uid://bi2n55pmv7l4d" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="5_w3tk2"]
+[ext_resource type="Texture2D" uid="uid://bu2dm5qksxe6n" path="res://asset/Character/Accessories/32x32/Accessory_01_Ladybug_01.png" id="6_0rb2n"]
+[ext_resource type="FontFile" uid="uid://bmynaecpqaolm" path="res://font/GrapeSoda.ttf" id="7_xidgh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3dvgv"]
+texture = ExtResource("1_0tesp")
+modulate_color = Color(1, 1, 1, 0.36862746)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2fjpu"]
+
+[node name="ShowAvatar" type="Control" unique_id=1237557529]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5o7jl")
+
+[node name="Panel" type="Panel" parent="." unique_id=1645865854]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_3dvgv")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1969525722]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -586.375
+offset_top = -252.0
+offset_right = 586.375
+offset_bottom = 184.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerSlot1" type="VBoxContainer" parent="HBoxContainer" unique_id=243323074]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="HBoxContainer/PlayerSlot1" unique_id=243523060]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_2fjpu")
+
+[node name="CenterPoint" type="Control" parent="HBoxContainer/PlayerSlot1/Panel" unique_id=34294346]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BodySprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot1/Panel/CenterPoint" unique_id=1117871343]
+scale = Vector2(5, 5)
+texture = ExtResource("2_5o7jl")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="EyeSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot1/Panel/CenterPoint" unique_id=317346029]
+scale = Vector2(5, 5)
+texture = ExtResource("3_vovyu")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="OutfitSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot1/Panel/CenterPoint" unique_id=216638930]
+scale = Vector2(5, 5)
+texture = ExtResource("4_c68so")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="HairSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot1/Panel/CenterPoint" unique_id=1425737980]
+scale = Vector2(5, 5)
+texture = ExtResource("5_w3tk2")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="AccessorySprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot1/Panel/CenterPoint" unique_id=872938076]
+scale = Vector2(5, 5)
+texture = ExtResource("6_0rb2n")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot1" unique_id=794291048]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("7_xidgh")
+theme_override_font_sizes/font_size = 60
+text = "Player 1"
+horizontal_alignment = 1
+
+[node name="PlayerSlot2" type="VBoxContainer" parent="HBoxContainer" unique_id=1268609652]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="HBoxContainer/PlayerSlot2" unique_id=1417708781]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_2fjpu")
+
+[node name="CenterPoint" type="Control" parent="HBoxContainer/PlayerSlot2/Panel" unique_id=533764300]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BodySprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot2/Panel/CenterPoint" unique_id=2107139461]
+scale = Vector2(5, 5)
+texture = ExtResource("2_5o7jl")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="EyeSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot2/Panel/CenterPoint" unique_id=1240135370]
+scale = Vector2(5, 5)
+texture = ExtResource("3_vovyu")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="OutfitSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot2/Panel/CenterPoint" unique_id=1088844480]
+scale = Vector2(5, 5)
+texture = ExtResource("4_c68so")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="HairSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot2/Panel/CenterPoint" unique_id=970221927]
+scale = Vector2(5, 5)
+texture = ExtResource("5_w3tk2")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="AccessorySprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot2/Panel/CenterPoint" unique_id=1911266799]
+scale = Vector2(5, 5)
+texture = ExtResource("6_0rb2n")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot2" unique_id=353974237]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("7_xidgh")
+theme_override_font_sizes/font_size = 60
+text = "Player 2"
+horizontal_alignment = 1
+
+[node name="PlayerSlot3" type="VBoxContainer" parent="HBoxContainer" unique_id=850531515]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="HBoxContainer/PlayerSlot3" unique_id=1221182506]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_2fjpu")
+
+[node name="CenterPoint" type="Control" parent="HBoxContainer/PlayerSlot3/Panel" unique_id=89411637]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BodySprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot3/Panel/CenterPoint" unique_id=1355403541]
+scale = Vector2(5, 5)
+texture = ExtResource("2_5o7jl")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="EyeSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot3/Panel/CenterPoint" unique_id=1368064953]
+scale = Vector2(5, 5)
+texture = ExtResource("3_vovyu")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="OutfitSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot3/Panel/CenterPoint" unique_id=637483186]
+scale = Vector2(5, 5)
+texture = ExtResource("4_c68so")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="HairSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot3/Panel/CenterPoint" unique_id=205194990]
+scale = Vector2(5, 5)
+texture = ExtResource("5_w3tk2")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="AccessorySprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot3/Panel/CenterPoint" unique_id=281962751]
+scale = Vector2(5, 5)
+texture = ExtResource("6_0rb2n")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot3" unique_id=1562027190]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("7_xidgh")
+theme_override_font_sizes/font_size = 60
+text = "Player 3"
+horizontal_alignment = 1
+
+[node name="PlayerSlot4" type="VBoxContainer" parent="HBoxContainer" unique_id=217468476]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="HBoxContainer/PlayerSlot4" unique_id=161824956]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_2fjpu")
+
+[node name="CenterPoint" type="Control" parent="HBoxContainer/PlayerSlot4/Panel" unique_id=276475006]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BodySprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot4/Panel/CenterPoint" unique_id=737885258]
+scale = Vector2(5, 5)
+texture = ExtResource("2_5o7jl")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="EyeSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot4/Panel/CenterPoint" unique_id=1795701777]
+scale = Vector2(5, 5)
+texture = ExtResource("3_vovyu")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="OutfitSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot4/Panel/CenterPoint" unique_id=990870319]
+scale = Vector2(5, 5)
+texture = ExtResource("4_c68so")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="HairSprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot4/Panel/CenterPoint" unique_id=1540847388]
+scale = Vector2(5, 5)
+texture = ExtResource("5_w3tk2")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="AccessorySprite" type="Sprite2D" parent="HBoxContainer/PlayerSlot4/Panel/CenterPoint" unique_id=1000317790]
+scale = Vector2(5, 5)
+texture = ExtResource("6_0rb2n")
+hframes = 56
+vframes = 20
+frame = 3
+
+[node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot4" unique_id=1649063820]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("7_xidgh")
+theme_override_font_sizes/font_size = 60
+text = "Player 4"
+horizontal_alignment = 1
+
+[node name="LoadingLabel" type="Label" parent="." unique_id=276786700]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -98.0
+offset_top = -165.0
+offset_right = 98.0
+offset_bottom = -101.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("7_xidgh")
+theme_override_font_sizes/font_size = 64
+text = "loading."
+
+[node name="LoadingTimer" type="Timer" parent="." unique_id=190095505]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="LoadingTimer" to="." method="_on_loading_timer_timeout"]

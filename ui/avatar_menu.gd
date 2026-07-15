@@ -21,11 +21,11 @@ var current_accessory: int = 0
 var current_outfit: int = 0
 
 # อ้างอิง Node Sprite2D
-@onready var skin_sprite: Sprite2D = $HBoxContainer2/Panel/BodySprite
-@onready var face_sprite: Sprite2D = $HBoxContainer2/Panel/EyeSprite
-@onready var outfit_sprite: Sprite2D = $HBoxContainer2/Panel/OutfitSprite
-@onready var hair_sprite: Sprite2D = $HBoxContainer2/Panel/HairSprite
-@onready var accessory_sprite: Sprite2D = $HBoxContainer2/Panel/AccessoryAprite
+@onready var skin_sprite: Sprite2D = $HBoxContainer2/Panel/CenterPoint/BodySprite
+@onready var face_sprite: Sprite2D = $HBoxContainer2/Panel/CenterPoint/EyeSprite
+@onready var outfit_sprite: Sprite2D = $HBoxContainer2/Panel/CenterPoint/OutfitSprite
+@onready var hair_sprite: Sprite2D = $HBoxContainer2/Panel/CenterPoint/HairSprite
+@onready var accessory_sprite: Sprite2D = $HBoxContainer2/Panel/CenterPoint/AccessorySprite
 
 #อ้างอิงไปยัง Label ที่ใช้แสดงข้อความ
 @onready var player_label: Label = $Label_current_player
@@ -65,7 +65,7 @@ func _on_backbtn_pressed() -> void:
 		update_ui()
 		load_current_player_data()
 	else:
-		get_tree().change_scene_to_file("res://ui/MainMenu.tscn")
+		get_tree().change_scene_to_file("res://ui/PlayerMenu.tscn")
 	
 # ฟังก์ชันการทำงานของปุ่ม Okay
 func _on_okay_btn_pressed() -> void:
@@ -77,7 +77,10 @@ func _on_okay_btn_pressed() -> void:
 		update_ui()
 		load_current_player_data()
 	else:
-		get_tree().change_scene_to_file("res://ui/AddbotMenu.tscn")
+		if total_players == 4:
+			get_tree().change_scene_to_file("res://ui/ShowAvatar.tscn")
+		else:
+			get_tree().change_scene_to_file("res://ui/AddbotMenu.tscn")
 
 func update_avatar_preview() -> void:
 	# เช็คก่อนว่าในโฟลเดอร์มีไฟล์ไหม
@@ -209,7 +212,7 @@ func save_current_player_data() -> void:
 		"hair_path": hairs[current_hair] if hairs.size() > 0 else "",
 		"face_oath": faces[current_face] if faces.size() > 0 else "",
 		"skin_path": skins[current_skin] if skins.size() > 0 else "",
-		"accessories_path": accessories[current_accessory] if accessories.size() > 0 else "",
+		"accessory_path": accessories[current_accessory] if accessories.size() > 0 else "",
 		"outfit_path": outfits[current_outfit] if outfits.size() > 0 else ""
 	}
 	

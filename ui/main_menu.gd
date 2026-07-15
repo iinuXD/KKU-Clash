@@ -20,4 +20,4 @@ func _on_options_btn_button_up() -> void:
 
 
 func _on_exit_btn_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().quit()
