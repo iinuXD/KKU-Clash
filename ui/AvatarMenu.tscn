@@ -55,7 +55,7 @@ theme_override_font_sizes/font_size = 100
 text = "Create your Avatar"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="." unique_id=1435783860]
+[node name="Label_current_player" type="Label" parent="." unique_id=1435783860]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -84,7 +84,7 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="startBtn" type="Button" parent="VBoxContainer" unique_id=1557736378]
+[node name="okayBtn" type="Button" parent="VBoxContainer" unique_id=1557736378]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -113,5 +113,5 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_q483f")
 text = "go back
 "
 
-[connection signal="pressed" from="VBoxContainer/startBtn" to="." method="_on_start_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/okayBtn" to="." method="_on_okay_btn_pressed"]
 [connection signal="pressed" from="VBoxContainer/backbtn" to="." method="_on_backbtn_pressed"]
