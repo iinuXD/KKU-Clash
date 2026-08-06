@@ -7,11 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://u6iv2vnf4aqc" path="res://asset/Character/Outfits/32x32/Outfit_01_01.png" id="4_c68so"]
 [ext_resource type="Texture2D" uid="uid://bi2n55pmv7l4d" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="5_w3tk2"]
 [ext_resource type="Texture2D" uid="uid://bu2dm5qksxe6n" path="res://asset/Character/Accessories/32x32/Accessory_01_Ladybug_01.png" id="6_0rb2n"]
-[ext_resource type="FontFile" uid="uid://bmynaecpqaolm" path="res://font/GrapeSoda.ttf" id="7_xidgh"]
+[ext_resource type="FontFile" uid="uid://dnpvp0ej773ky" path="res://font/04B_30__.TTF" id="8_5o7jl"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3dvgv"]
 texture = ExtResource("1_0tesp")
-modulate_color = Color(1, 1, 1, 0.36862746)
+modulate_color = Color(1, 1, 1, 0.78431374)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2fjpu"]
 
@@ -41,9 +41,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -586.375
-offset_top = -252.0
+offset_top = -54.0
 offset_right = 586.375
-offset_bottom = 184.0
+offset_bottom = 382.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -111,9 +111,9 @@ frame = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("7_xidgh")
-theme_override_font_sizes/font_size = 60
-text = "Player 1"
+theme_override_fonts/font = ExtResource("8_5o7jl")
+theme_override_font_sizes/font_size = 35
+text = "player 4"
 horizontal_alignment = 1
 
 [node name="PlayerSlot2" type="VBoxContainer" parent="HBoxContainer" unique_id=1268609652]
@@ -179,9 +179,9 @@ frame = 3
 [node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot2" unique_id=353974237]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("7_xidgh")
-theme_override_font_sizes/font_size = 60
-text = "Player 2"
+theme_override_fonts/font = ExtResource("8_5o7jl")
+theme_override_font_sizes/font_size = 35
+text = "player 4"
 horizontal_alignment = 1
 
 [node name="PlayerSlot3" type="VBoxContainer" parent="HBoxContainer" unique_id=850531515]
@@ -247,9 +247,9 @@ frame = 3
 [node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot3" unique_id=1562027190]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("7_xidgh")
-theme_override_font_sizes/font_size = 60
-text = "Player 3"
+theme_override_fonts/font = ExtResource("8_5o7jl")
+theme_override_font_sizes/font_size = 35
+text = "player 4"
 horizontal_alignment = 1
 
 [node name="PlayerSlot4" type="VBoxContainer" parent="HBoxContainer" unique_id=217468476]
@@ -315,9 +315,9 @@ frame = 3
 [node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot4" unique_id=1649063820]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource("7_xidgh")
-theme_override_font_sizes/font_size = 60
-text = "Player 4"
+theme_override_fonts/font = ExtResource("8_5o7jl")
+theme_override_font_sizes/font_size = 35
+text = "player 4"
 horizontal_alignment = 1
 
 [node name="LoadingLabel" type="Label" parent="." unique_id=276786700]
@@ -328,12 +328,12 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -98.0
-offset_top = -165.0
+offset_top = -611.0
 offset_right = 98.0
-offset_bottom = -101.0
+offset_bottom = -547.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_fonts/font = ExtResource("7_xidgh")
+theme_override_fonts/font = ExtResource("8_5o7jl")
 theme_override_font_sizes/font_size = 64
 text = "loading."
 

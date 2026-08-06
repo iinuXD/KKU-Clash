@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://cke6ju6jgx7rh" path="res://ui/main_menu.gd" id="1_qo3sn"]
 [ext_resource type="Texture2D" uid="uid://cp2ygg6ywvbof" path="res://asset/menu/background.png" id="1_x262b"]
-[ext_resource type="FontFile" uid="uid://bmynaecpqaolm" path="res://font/GrapeSoda.ttf" id="2_nmrkx"]
+[ext_resource type="FontFile" uid="uid://dnpvp0ej773ky" path="res://font/04B_30__.TTF" id="3_g5fyd"]
 [ext_resource type="Texture2D" uid="uid://cue4i2n4yk5gj" path="res://asset/menu/btn.png" id="3_qo3sn"]
 [ext_resource type="Texture2D" uid="uid://c45lkmfsob54p" path="res://asset/menu/press.png" id="4_g5fyd"]
 [ext_resource type="Texture2D" uid="uid://cv64rjw42fj2x" path="res://asset/menu/hover.png" id="5_uwsby"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vkqoe"]
 texture = ExtResource("1_x262b")
-modulate_color = Color(1, 1, 1, 0.36862746)
+modulate_color = Color(1, 1, 1, 0.78431374)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qo3sn"]
 texture = ExtResource("3_qo3sn")
@@ -60,39 +60,39 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
-theme_override_fonts/font = ExtResource("2_nmrkx")
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("3_g5fyd")
+theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
 theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
-text = "Start Game"
+text = "START GAME"
 
 [node name="optionsBtn" type="Button" parent="VBoxContainer" unique_id=2024472305]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
-theme_override_fonts/font = ExtResource("2_nmrkx")
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("3_g5fyd")
+theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
 theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
-text = "Options"
+text = "OPTIONS"
 
 [node name="exitBtn" type="Button" parent="VBoxContainer" unique_id=812520096]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
-theme_override_fonts/font = ExtResource("2_nmrkx")
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("3_g5fyd")
+theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
 theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
-text = "Exit
+text = "EXIT
 "
 
 [node name="Label" type="Label" parent="." unique_id=1497352883]
@@ -105,9 +105,9 @@ offset_top = 116.0
 offset_right = 354.5
 offset_bottom = 296.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_nmrkx")
-theme_override_font_sizes/font_size = 180
-text = "KKU Clash"
+theme_override_fonts/font = ExtResource("3_g5fyd")
+theme_override_font_sizes/font_size = 100
+text = "KKU CLASH"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/startgameBtn" to="." method="_on_startgame_btn_pressed"]

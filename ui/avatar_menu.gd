@@ -77,10 +77,7 @@ func _on_okay_btn_pressed() -> void:
 		update_ui()
 		load_current_player_data()
 	else:
-		if total_players == 4:
-			get_tree().change_scene_to_file("res://ui/ShowAvatar.tscn")
-		else:
-			get_tree().change_scene_to_file("res://ui/AddbotMenu.tscn")
+		get_tree().change_scene_to_file("res://ui/ShowAvatar.tscn")
 
 func update_avatar_preview() -> void:
 	# เช็คก่อนว่าในโฟลเดอร์มีไฟล์ไหม
@@ -110,7 +107,7 @@ func load_asset_from_Folder(path: String) -> Array:
 					file_paths.append(path + "/" + clean_name)
 			file_name = dir.get_next()
 	else:
-		print("หาโฟบเดอร์ไม่เจอ: ",path)
+		print("หาโฟลเดอร์ไม่เจอ: ",path)
 	return file_paths
 	
 

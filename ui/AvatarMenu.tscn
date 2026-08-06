@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bgb68o14u7wjk" path="res://ui/avatar_menu.gd" id="1_kce1m"]
 [ext_resource type="Texture2D" uid="uid://cp2ygg6ywvbof" path="res://asset/menu/background.png" id="1_n0vux"]
-[ext_resource type="FontFile" uid="uid://bmynaecpqaolm" path="res://font/GrapeSoda.ttf" id="2_kce1m"]
 [ext_resource type="Texture2D" uid="uid://cue4i2n4yk5gj" path="res://asset/menu/btn.png" id="3_6gsvj"]
+[ext_resource type="FontFile" uid="uid://dnpvp0ej773ky" path="res://font/04B_30__.TTF" id="3_30drc"]
 [ext_resource type="Texture2D" uid="uid://c45lkmfsob54p" path="res://asset/menu/press.png" id="4_e34lb"]
 [ext_resource type="Texture2D" uid="uid://cv64rjw42fj2x" path="res://asset/menu/hover.png" id="5_0f05v"]
 [ext_resource type="Texture2D" uid="uid://d070y3lkwu80y" path="res://asset/menu/leftbtn.png" id="7_hjurv"]
@@ -20,7 +20,7 @@
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qplyf"]
 texture = ExtResource("1_n0vux")
-modulate_color = Color(1, 1, 1, 0.36862746)
+modulate_color = Color(1, 1, 1, 0.78431374)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x03sj"]
 texture = ExtResource("3_6gsvj")
@@ -85,9 +85,9 @@ offset_top = 69.0
 offset_right = 403.5
 offset_bottom = 179.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_kce1m")
-theme_override_font_sizes/font_size = 100
-text = "Create your Avatar"
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 80
+text = "create your avatar"
 horizontal_alignment = 1
 
 [node name="Label_current_player" type="Label" parent="." unique_id=1435783860]
@@ -100,9 +100,9 @@ offset_top = 162.0
 offset_right = 403.5
 offset_bottom = 249.0
 grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_kce1m")
-theme_override_font_sizes/font_size = 75
-text = "Player 1"
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 50
+text = "player 1"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=2079611724]
@@ -125,13 +125,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
-theme_override_fonts/font = ExtResource("2_kce1m")
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxTexture_x03sj")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_hjurv")
 theme_override_styles/hover = SubResource("StyleBoxTexture_v5ykh")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_q483f")
-text = "Okay"
+text = "okay
+"
 
 [node name="backbtn" type="Button" parent="HBoxContainer" unique_id=1961909413]
 layout_mode = 2
@@ -139,8 +140,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
-theme_override_fonts/font = ExtResource("2_kce1m")
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 35
 theme_override_styles/normal = SubResource("StyleBoxTexture_x03sj")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_hjurv")
 theme_override_styles/hover = SubResource("StyleBoxTexture_v5ykh")
@@ -310,50 +311,50 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 105.0
-offset_top = -107.0
-offset_right = 305.0
-offset_bottom = 232.0
+offset_left = -2.0
+offset_top = -103.0
+offset_right = 369.0
+offset_bottom = 236.0
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=703209469]
 layout_mode = 2
 size_flags_vertical = 6
-theme_override_fonts/font = ExtResource("2_kce1m")
-theme_override_font_sizes/font_size = 50
-text = "Hair"
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
+text = "hair"
 horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="VBoxContainer" unique_id=1727985489]
 layout_mode = 2
 size_flags_vertical = 6
-theme_override_fonts/font = ExtResource("2_kce1m")
-theme_override_font_sizes/font_size = 50
-text = "Face"
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
+text = "face"
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="VBoxContainer" unique_id=967464347]
 layout_mode = 2
 size_flags_vertical = 6
-theme_override_fonts/font = ExtResource("2_kce1m")
-theme_override_font_sizes/font_size = 50
-text = "Skin"
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
+text = "skin"
 horizontal_alignment = 1
 
 [node name="Label4" type="Label" parent="VBoxContainer" unique_id=356792092]
 layout_mode = 2
 size_flags_vertical = 6
-theme_override_fonts/font = ExtResource("2_kce1m")
-theme_override_font_sizes/font_size = 50
-text = "Accessory"
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
+text = "accessory"
 horizontal_alignment = 1
 
 [node name="Label5" type="Label" parent="VBoxContainer" unique_id=2074858871]
 layout_mode = 2
 size_flags_vertical = 6
-theme_override_fonts/font = ExtResource("2_kce1m")
-theme_override_font_sizes/font_size = 50
-text = "Outfit"
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
+text = "outfit"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="HBoxContainer/okayBtn" to="." method="_on_okay_btn_pressed"]
