@@ -46,6 +46,140 @@ texture = ExtResource("9_q483f")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lyekw"]
 
+[sub_resource type="Animation" id="Animation_30drc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodySprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(18, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EyeSprite:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(18, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OutfitSprite:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(18, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HairSprite:frame_coords")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(18, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AccessorySprite:frame_coords")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(18, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_krctc"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodySprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(18, 2), Vector2i(19, 2), Vector2i(20, 2), Vector2i(21, 2), Vector2i(22, 2), Vector2i(23, 2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EyeSprite:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(18, 2), Vector2i(19, 2), Vector2i(20, 2), Vector2i(21, 2), Vector2i(22, 2), Vector2i(23, 2)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OutfitSprite:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(18, 2), Vector2i(19, 2), Vector2i(20, 2), Vector2i(21, 2), Vector2i(22, 2), Vector2i(23, 2)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HairSprite:frame_coords")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(18, 2), Vector2i(19, 2), Vector2i(20, 2), Vector2i(21, 2), Vector2i(22, 2), Vector2i(23, 2)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AccessorySprite:frame_coords")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(18, 2), Vector2i(19, 2), Vector2i(20, 2), Vector2i(21, 2), Vector2i(22, 2), Vector2i(23, 2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2mgsg"]
+_data = {
+&"RESET": SubResource("Animation_30drc"),
+&"idle": SubResource("Animation_krctc")
+}
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w7t7a"]
 texture = ExtResource("10_b0jb2")
 
@@ -151,17 +285,17 @@ text = "go back
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1313714497]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -360.5
-offset_top = -112.0
-offset_right = 360.5
-offset_bottom = 244.0
+anchor_bottom = 1.0
+offset_left = -295.25
+offset_top = -481.0
+offset_right = 295.25
+offset_bottom = -110.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer2" unique_id=1882091217]
 layout_mode = 2
@@ -232,35 +366,40 @@ scale = Vector2(6, 6)
 texture = ExtResource("10_30drc")
 hframes = 56
 vframes = 20
-frame = 3
+frame = 74
 
 [node name="EyeSprite" type="Sprite2D" parent="HBoxContainer2/Panel/CenterPoint" unique_id=1952807117]
 scale = Vector2(6, 6)
 texture = ExtResource("11_krctc")
 hframes = 56
 vframes = 20
-frame = 3
+frame = 74
 
 [node name="OutfitSprite" type="Sprite2D" parent="HBoxContainer2/Panel/CenterPoint" unique_id=1408191314]
 scale = Vector2(6, 6)
 texture = ExtResource("12_2mgsg")
 hframes = 56
 vframes = 20
-frame = 3
+frame = 74
 
 [node name="HairSprite" type="Sprite2D" parent="HBoxContainer2/Panel/CenterPoint" unique_id=1088733283]
 scale = Vector2(6, 6)
 texture = ExtResource("13_2hjny")
 hframes = 56
 vframes = 20
-frame = 3
+frame = 74
 
 [node name="AccessorySprite" type="Sprite2D" parent="HBoxContainer2/Panel/CenterPoint" unique_id=1428619945]
 scale = Vector2(6, 6)
 texture = ExtResource("14_s1too")
 hframes = 56
 vframes = 20
-frame = 3
+frame = 74
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HBoxContainer2/Panel/CenterPoint" unique_id=32740207]
+libraries/ = SubResource("AnimationLibrary_2mgsg")
+autoplay = &"idle"
+speed_scale = 0.5
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer2" unique_id=920228358]
 layout_mode = 2
@@ -311,10 +450,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = -2.0
-offset_top = -103.0
-offset_right = 369.0
-offset_bottom = 236.0
+offset_left = 7.0
+offset_top = -126.0
+offset_right = 378.0
+offset_bottom = 247.0
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=703209469]
@@ -323,7 +462,7 @@ size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_30drc")
 theme_override_font_sizes/font_size = 40
 text = "hair"
-horizontal_alignment = 1
+horizontal_alignment = 2
 
 [node name="Label2" type="Label" parent="VBoxContainer" unique_id=1727985489]
 layout_mode = 2
@@ -331,7 +470,7 @@ size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_30drc")
 theme_override_font_sizes/font_size = 40
 text = "face"
-horizontal_alignment = 1
+horizontal_alignment = 2
 
 [node name="Label3" type="Label" parent="VBoxContainer" unique_id=967464347]
 layout_mode = 2
@@ -339,7 +478,7 @@ size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_30drc")
 theme_override_font_sizes/font_size = 40
 text = "skin"
-horizontal_alignment = 1
+horizontal_alignment = 2
 
 [node name="Label4" type="Label" parent="VBoxContainer" unique_id=356792092]
 layout_mode = 2
@@ -347,7 +486,7 @@ size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_30drc")
 theme_override_font_sizes/font_size = 40
 text = "accessory"
-horizontal_alignment = 1
+horizontal_alignment = 2
 
 [node name="Label5" type="Label" parent="VBoxContainer" unique_id=2074858871]
 layout_mode = 2
@@ -355,7 +494,7 @@ size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_30drc")
 theme_override_font_sizes/font_size = 40
 text = "outfit"
-horizontal_alignment = 1
+horizontal_alignment = 2
 
 [connection signal="pressed" from="HBoxContainer/okayBtn" to="." method="_on_okay_btn_pressed"]
 [connection signal="pressed" from="HBoxContainer/backbtn" to="." method="_on_backbtn_pressed"]
