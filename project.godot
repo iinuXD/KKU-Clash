@@ -12,14 +12,13 @@ config_version=5
 
 config/name="Project"
 run/main_scene="uid://oa1qyrd15ta0"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 config/run/main_scene="res://locations/mapscreen.tscn"
 
 [autoload]
 
 Global="*uid://b6qyp4iayeb1x"
-Dialogic="*uid://ds2q0uclmolvu"
 
 [dialogic]
 
@@ -43,10 +42,6 @@ variables={}
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/godot_state_charts/plugin.cfg")
 
 [input]
 
