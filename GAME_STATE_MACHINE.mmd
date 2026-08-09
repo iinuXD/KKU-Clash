@@ -1,0 +1,42 @@
+%%{init: {'flowchart': {'curve': 'linear'}, 'theme': 'default'}}%%
+graph TD
+    Start["🎮 START"] --> R1["📋 ROUND SETUP<br/>Draw 1-2 Cards"]
+    R1 --> Map["🗺️ MAP EXPLORATION<br/>At Dorm"]
+    
+    Map --> Travel["🚶 TRAVEL<br/>Cost: Time & Energy"]
+    Travel --> TE{✓ 40% Event?}
+    
+    TE -->|Yes| TE_E["🎴 Event Card"]
+    TE_E --> TERes["Player Choose"]
+    TERes --> Activity["🎪 ACTIVITY UI"]
+    TE -->|No| Activity
+    
+    Activity --> Perf["⚙️ DO ACTIVITY<br/>Apply Stats"]
+    Perf --> AE{✓ 30% Event?}
+    
+    AE -->|Yes| AE_E["🎴 Event Card"]
+    AE_E --> AERes["Player Choose"]
+    AERes --> TimeC{Time ≤ 0?}
+    AE -->|No| TimeC
+    
+    TimeC -->|No| Map
+    TimeC -->|Yes| RTD["🏠 RETURN HOME<br/>Travel to Dorm"]
+    
+    RTD --> End_E["🎴 Draw 2<br/>End Cards"]
+    End_E --> RoundC{Round<br/>≤ 5?}
+    
+    RoundC -->|Yes| R1
+    RoundC -->|No| GameEnd["🏆 GAME OVER<br/>Calculate Score"]
+    GameEnd --> Stop["✓ END"]
+    
+    style Start fill:#90EE90,stroke:#333,stroke-width:2px,font-weight:bold
+    style R1 fill:#87CEEB,stroke:#333,stroke-width:2px
+    style Map fill:#FFD700,stroke:#333,stroke-width:2px
+    style Travel fill:#FFA07A,stroke:#333,stroke-width:2px
+    style Activity fill:#FFA07A,stroke:#333,stroke-width:2px
+    style Perf fill:#FFA07A,stroke:#333,stroke-width:2px
+    style TE_E fill:#DDA0DD,stroke:#333,stroke-width:2px
+    style AE_E fill:#DDA0DD,stroke:#333,stroke-width:2px
+    style RTD fill:#FFB6C1,stroke:#333,stroke-width:2px
+    style GameEnd fill:#FF6347,stroke:#333,stroke-width:2px,font-weight:bold
+    style Stop fill:#90EE90,stroke:#333,stroke-width:2px,font-weight:bold

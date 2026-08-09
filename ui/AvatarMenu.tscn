@@ -1,0 +1,510 @@
+[gd_scene format=3 uid="uid://cgdv1m2y24kcf"]
+
+[ext_resource type="Script" uid="uid://bgb68o14u7wjk" path="res://ui/avatar_menu.gd" id="1_kce1m"]
+[ext_resource type="Texture2D" uid="uid://cp2ygg6ywvbof" path="res://asset/menu/background.png" id="1_n0vux"]
+[ext_resource type="Texture2D" uid="uid://cue4i2n4yk5gj" path="res://asset/menu/btn.png" id="3_6gsvj"]
+[ext_resource type="FontFile" uid="uid://dnpvp0ej773ky" path="res://font/04B_30__.TTF" id="3_30drc"]
+[ext_resource type="Texture2D" uid="uid://c45lkmfsob54p" path="res://asset/menu/press.png" id="4_e34lb"]
+[ext_resource type="Texture2D" uid="uid://cv64rjw42fj2x" path="res://asset/menu/hover.png" id="5_0f05v"]
+[ext_resource type="Texture2D" uid="uid://d070y3lkwu80y" path="res://asset/menu/leftbtn.png" id="7_hjurv"]
+[ext_resource type="Texture2D" uid="uid://b34p6vw38e65c" path="res://asset/menu/leftpress.png" id="8_v5ykh"]
+[ext_resource type="Texture2D" uid="uid://bkb58xo6cv5tv" path="res://asset/menu/lefthover.png" id="9_q483f"]
+[ext_resource type="Texture2D" uid="uid://bfkfsxi22owfw" path="res://asset/Character/Bodies/32x32/Body_01 69.png" id="10_30drc"]
+[ext_resource type="Texture2D" uid="uid://8tdoyrdh37i8" path="res://asset/menu/rightbtn.png" id="10_b0jb2"]
+[ext_resource type="Texture2D" uid="uid://b4c02xpo8qchm" path="res://asset/Character/Eyes/32x32/Eyes_06.png" id="11_krctc"]
+[ext_resource type="Texture2D" uid="uid://ca0llafjl12d5" path="res://asset/menu/rightpress.png" id="11_ob7h6"]
+[ext_resource type="Texture2D" uid="uid://u6iv2vnf4aqc" path="res://asset/Character/Outfits/32x32/Outfit_01_01.png" id="12_2mgsg"]
+[ext_resource type="Texture2D" uid="uid://b3c4q6ov8gq53" path="res://asset/menu/righthover.png" id="12_30drc"]
+[ext_resource type="Texture2D" uid="uid://bi2n55pmv7l4d" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="13_2hjny"]
+[ext_resource type="Texture2D" uid="uid://bu2dm5qksxe6n" path="res://asset/Character/Accessories/32x32/Accessory_01_Ladybug_01.png" id="14_s1too"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qplyf"]
+texture = ExtResource("1_n0vux")
+modulate_color = Color(1, 1, 1, 0.78431374)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x03sj"]
+texture = ExtResource("3_6gsvj")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hjurv"]
+texture = ExtResource("4_e34lb")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v5ykh"]
+texture = ExtResource("5_0f05v")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q483f"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vkqoe"]
+texture = ExtResource("7_hjurv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_co6qv"]
+texture = ExtResource("8_v5ykh")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gjxql"]
+texture = ExtResource("9_q483f")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yddip"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lyekw"]
+
+[sub_resource type="Animation" id="Animation_30drc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodySprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(18, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EyeSprite:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(18, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OutfitSprite:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(18, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HairSprite:frame_coords")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(18, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AccessorySprite:frame_coords")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(18, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_krctc"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodySprite:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(18, 2), Vector2i(19, 2), Vector2i(20, 2), Vector2i(21, 2), Vector2i(22, 2), Vector2i(23, 2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EyeSprite:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(18, 2), Vector2i(19, 2), Vector2i(20, 2), Vector2i(21, 2), Vector2i(22, 2), Vector2i(23, 2)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OutfitSprite:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(18, 2), Vector2i(19, 2), Vector2i(20, 2), Vector2i(21, 2), Vector2i(22, 2), Vector2i(23, 2)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HairSprite:frame_coords")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(18, 2), Vector2i(19, 2), Vector2i(20, 2), Vector2i(21, 2), Vector2i(22, 2), Vector2i(23, 2)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AccessorySprite:frame_coords")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.49999997),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(18, 2), Vector2i(19, 2), Vector2i(20, 2), Vector2i(21, 2), Vector2i(22, 2), Vector2i(23, 2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2mgsg"]
+_data = {
+&"RESET": SubResource("Animation_30drc"),
+&"idle": SubResource("Animation_krctc")
+}
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w7t7a"]
+texture = ExtResource("10_b0jb2")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cxmk6"]
+texture = ExtResource("11_ob7h6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aop6e"]
+texture = ExtResource("12_30drc")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_txojl"]
+
+[node name="AvatarMenu" type="Control" unique_id=686883273]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kce1m")
+
+[node name="Panel" type="Panel" parent="." unique_id=1872051195]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_qplyf")
+
+[node name="Label" type="Label" parent="." unique_id=211994187]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -403.5
+offset_top = 69.0
+offset_right = 403.5
+offset_bottom = 179.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 80
+text = "create your avatar"
+horizontal_alignment = 1
+
+[node name="Label_current_player" type="Label" parent="." unique_id=1435783860]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -403.5
+offset_top = 162.0
+offset_right = 403.5
+offset_bottom = 249.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 50
+text = "player 1"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=2079611724]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -267.25
+offset_top = -98.0
+offset_right = 267.25
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="okayBtn" type="Button" parent="HBoxContainer" unique_id=1557736378]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("StyleBoxTexture_x03sj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_hjurv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_v5ykh")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_q483f")
+text = "okay
+"
+
+[node name="backbtn" type="Button" parent="HBoxContainer" unique_id=1961909413]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxTexture_x03sj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_hjurv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_v5ykh")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_q483f")
+text = "go back
+"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1313714497]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -295.25
+offset_top = -481.0
+offset_right = 295.25
+offset_bottom = -110.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer2" unique_id=1882091217]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="prevhair" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=1270258029]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_vkqoe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_co6qv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gjxql")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yddip")
+
+[node name="prevface" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=1392835427]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_vkqoe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_co6qv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gjxql")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yddip")
+
+[node name="prevskin" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=1178155594]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_vkqoe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_co6qv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gjxql")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yddip")
+
+[node name="prevaccessory" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=1079608956]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_vkqoe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_co6qv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gjxql")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yddip")
+
+[node name="prevattire" type="Button" parent="HBoxContainer2/VBoxContainer" unique_id=547853516]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_vkqoe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_co6qv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_gjxql")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yddip")
+
+[node name="Panel" type="Panel" parent="HBoxContainer2" unique_id=617489500]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_lyekw")
+
+[node name="CenterPoint" type="Control" parent="HBoxContainer2/Panel" unique_id=1860257467]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -19.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="BodySprite" type="Sprite2D" parent="HBoxContainer2/Panel/CenterPoint" unique_id=2071617477]
+scale = Vector2(6, 6)
+texture = ExtResource("10_30drc")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="EyeSprite" type="Sprite2D" parent="HBoxContainer2/Panel/CenterPoint" unique_id=1952807117]
+scale = Vector2(6, 6)
+texture = ExtResource("11_krctc")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="OutfitSprite" type="Sprite2D" parent="HBoxContainer2/Panel/CenterPoint" unique_id=1408191314]
+scale = Vector2(6, 6)
+texture = ExtResource("12_2mgsg")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="HairSprite" type="Sprite2D" parent="HBoxContainer2/Panel/CenterPoint" unique_id=1088733283]
+scale = Vector2(6, 6)
+texture = ExtResource("13_2hjny")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="AccessorySprite" type="Sprite2D" parent="HBoxContainer2/Panel/CenterPoint" unique_id=1428619945]
+scale = Vector2(6, 6)
+texture = ExtResource("14_s1too")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HBoxContainer2/Panel/CenterPoint" unique_id=32740207]
+libraries/ = SubResource("AnimationLibrary_2mgsg")
+autoplay = &"idle"
+speed_scale = 0.5
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer2" unique_id=920228358]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="nexthair" type="Button" parent="HBoxContainer2/VBoxContainer2" unique_id=1672295005]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7t7a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cxmk6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aop6e")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_txojl")
+
+[node name="nextface" type="Button" parent="HBoxContainer2/VBoxContainer2" unique_id=1526716630]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7t7a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cxmk6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aop6e")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_txojl")
+
+[node name="nextskin" type="Button" parent="HBoxContainer2/VBoxContainer2" unique_id=2099782401]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7t7a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cxmk6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aop6e")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_txojl")
+
+[node name="nextaccessory" type="Button" parent="HBoxContainer2/VBoxContainer2" unique_id=1365060891]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7t7a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cxmk6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aop6e")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_txojl")
+
+[node name="nextattire" type="Button" parent="HBoxContainer2/VBoxContainer2" unique_id=556478489]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7t7a")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_cxmk6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aop6e")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_txojl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=376742076]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 7.0
+offset_top = -126.0
+offset_right = 378.0
+offset_bottom = 247.0
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=703209469]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
+text = "hair"
+horizontal_alignment = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=1727985489]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
+text = "face"
+horizontal_alignment = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer" unique_id=967464347]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
+text = "skin"
+horizontal_alignment = 2
+
+[node name="Label4" type="Label" parent="VBoxContainer" unique_id=356792092]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
+text = "accessory"
+horizontal_alignment = 2
+
+[node name="Label5" type="Label" parent="VBoxContainer" unique_id=2074858871]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_30drc")
+theme_override_font_sizes/font_size = 40
+text = "outfit"
+horizontal_alignment = 2
+
+[connection signal="pressed" from="HBoxContainer/okayBtn" to="." method="_on_okay_btn_pressed"]
+[connection signal="pressed" from="HBoxContainer/backbtn" to="." method="_on_backbtn_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer/prevhair" to="." method="_on_prevhair_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer/prevface" to="." method="_on_prevface_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer/prevskin" to="." method="_on_prevskin_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer/prevaccessory" to="." method="_on_prevaccessory_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer/prevattire" to="." method="_on_prevattire_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer2/nexthair" to="." method="_on_nexthair_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer2/nextface" to="." method="_on_nextface_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer2/nextskin" to="." method="_on_nextskin_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer2/nextaccessory" to="." method="_on_nextaccessory_pressed"]
+[connection signal="pressed" from="HBoxContainer2/VBoxContainer2/nextattire" to="." method="_on_nextattire_pressed"]

@@ -44,3 +44,19 @@ func update_stat(stat_name: String, amount: int):
 		"hunger": hunger = clampi(hunger + amount, 0, 100)
 		"money": money += amount
 		"study_score": study_score += amount
+		
+# Select Player
+# player count
+var player_count: int = 1
+
+# Array สำหรับเก็บข้อมูล ของแต่ละคน
+var player_data: Array = []
+
+# ฟังก์ชันสำหรับรีเซ็ตและเตรียมข้อมูลผู้เล่น
+func setup_players(count: int) -> void:
+	player_count = count
+	player_data.clear()
+	
+	for i in range(player_count):
+		player_data.append({})
+	print(player_count)
