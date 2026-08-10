@@ -1,0 +1,745 @@
+[gd_scene format=3 uid="uid://ccjivjc3gdk15"]
+
+[ext_resource type="FontFile" uid="uid://dnpvp0ej773ky" path="res://font/04B_30__.TTF" id="1_cp5gh"]
+[ext_resource type="Texture2D" uid="uid://bfkfsxi22owfw" path="res://asset/Character/Bodies/32x32/Body_01 69.png" id="2_xphsj"]
+[ext_resource type="Texture2D" uid="uid://b4c02xpo8qchm" path="res://asset/Character/Eyes/32x32/Eyes_06.png" id="3_vbcjr"]
+[ext_resource type="Texture2D" uid="uid://u6iv2vnf4aqc" path="res://asset/Character/Outfits/32x32/Outfit_01_01.png" id="4_swgpy"]
+[ext_resource type="Texture2D" uid="uid://bi2n55pmv7l4d" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="5_cnpml"]
+[ext_resource type="Texture2D" uid="uid://bu2dm5qksxe6n" path="res://asset/Character/Accessories/32x32/Accessory_01_Ladybug_01.png" id="6_2yco6"]
+[ext_resource type="Texture2D" uid="uid://c5eun70ju0mkf" path="res://asset/playerpanel/statborder.png" id="7_cp5gh"]
+[ext_resource type="Texture2D" uid="uid://mb2f7tcmiewc" path="res://asset/playerpanel/happiness/happiness100.png" id="8_jhvf8"]
+[ext_resource type="Texture2D" uid="uid://bn114tjx72mld" path="res://asset/playerpanel/hunger/hunger100.png" id="9_8whag"]
+[ext_resource type="Texture2D" uid="uid://b723j1exr8fsh" path="res://asset/playerpanel/stamina/stamina100.png" id="10_2coxq"]
+[ext_resource type="Texture2D" uid="uid://lsivggn3djik" path="res://asset/playerpanel/study/study100.png" id="11_gq6hs"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1jkkd"]
+load_path = "res://.godot/imported/border.png-0d9e31474903412fb539ba586885232d.ctex"
+
+[node name="PlayerPanel" type="Control" unique_id=871320382]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="WeekReportLabel" type="Label" parent="." unique_id=1376262335]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -115.0
+offset_top = 10.0
+offset_right = 115.0
+offset_bottom = 41.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_cp5gh")
+theme_override_font_sizes/font_size = 24
+text = "week 1/20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="player1stat" type="VBoxContainer" parent="." unique_id=714202830]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="player1stat" unique_id=578056184]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="PortraitBackground1" type="TextureRect" parent="player1stat/HBoxContainer" unique_id=1853150082]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture = SubResource("CompressedTexture2D_1jkkd")
+
+[node name="CenterPoint" type="Control" parent="player1stat/HBoxContainer/PortraitBackground1" unique_id=1065917382]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_right = 40.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.4, 0.4)
+
+[node name="BodySprite" type="Sprite2D" parent="player1stat/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1738948266]
+scale = Vector2(5, 5)
+texture = ExtResource("2_xphsj")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="EyeSprite" type="Sprite2D" parent="player1stat/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=667377475]
+scale = Vector2(5, 5)
+texture = ExtResource("3_vbcjr")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="OutfitSprite" type="Sprite2D" parent="player1stat/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1136407300]
+scale = Vector2(5, 5)
+texture = ExtResource("4_swgpy")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="HairSprite" type="Sprite2D" parent="player1stat/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1915307011]
+scale = Vector2(5, 5)
+texture = ExtResource("5_cnpml")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="AccessorySprite" type="Sprite2D" parent="player1stat/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=692085979]
+scale = Vector2(5, 5)
+texture = ExtResource("6_2yco6")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="GridContainer" type="GridContainer" parent="player1stat/HBoxContainer" unique_id=478150274]
+custom_minimum_size = Vector2(100, 100)
+propagate_maximum_size = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+columns = 2
+
+[node name="HappinessBorder" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer" unique_id=1770142400]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="happinessstat" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer/HappinessBorder" unique_id=80089208]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_jhvf8")
+
+[node name="HungerBorder" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer" unique_id=164924322]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="hungerstat" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer/HungerBorder" unique_id=444974837]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_8whag")
+
+[node name="StaminaBorder" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer" unique_id=467643133]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="staminastat" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer/StaminaBorder" unique_id=2099048254]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_2coxq")
+
+[node name="StudyBorder" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer" unique_id=2027898079]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="studystat" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer/StudyBorder" unique_id=1223523686]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_gq6hs")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="player1stat" unique_id=16559089]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="player1stat/HBoxContainer2" unique_id=1032146428]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_fonts/font = ExtResource("1_cp5gh")
+text = "P1"
+
+[node name="money" type="Label" parent="player1stat/HBoxContainer2" unique_id=1628640202]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_fonts/font = ExtResource("1_cp5gh")
+text = "2000 BATH"
+horizontal_alignment = 1
+
+[node name="player1stat2" type="VBoxContainer" parent="." unique_id=1247565346]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 0
+offset_left = 1050.0
+offset_right = 1280.0
+offset_bottom = 160.0
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="player1stat2" unique_id=1416764759]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="GridContainer" type="GridContainer" parent="player1stat2/HBoxContainer" unique_id=770939606]
+custom_minimum_size = Vector2(100, 100)
+propagate_maximum_size = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+columns = 2
+
+[node name="HappinessBorder" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer" unique_id=1970116079]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="happinessstat" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer/HappinessBorder" unique_id=1355486246]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_jhvf8")
+
+[node name="HungerBorder" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer" unique_id=1341076795]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="hungerstat" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer/HungerBorder" unique_id=310194983]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_8whag")
+
+[node name="StaminaBorder" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer" unique_id=41493974]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="staminastat" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer/StaminaBorder" unique_id=715741715]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_2coxq")
+
+[node name="StudyBorder" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer" unique_id=1249222907]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="studystat" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer/StudyBorder" unique_id=768482877]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_gq6hs")
+
+[node name="PortraitBackground1" type="TextureRect" parent="player1stat2/HBoxContainer" unique_id=612269629]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture = SubResource("CompressedTexture2D_1jkkd")
+
+[node name="CenterPoint" type="Control" parent="player1stat2/HBoxContainer/PortraitBackground1" unique_id=356294799]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_right = 40.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.4, 0.4)
+
+[node name="BodySprite" type="Sprite2D" parent="player1stat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1636412981]
+scale = Vector2(5, 5)
+texture = ExtResource("2_xphsj")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="EyeSprite" type="Sprite2D" parent="player1stat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=758038189]
+scale = Vector2(5, 5)
+texture = ExtResource("3_vbcjr")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="OutfitSprite" type="Sprite2D" parent="player1stat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=96719658]
+scale = Vector2(5, 5)
+texture = ExtResource("4_swgpy")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="HairSprite" type="Sprite2D" parent="player1stat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=996290273]
+scale = Vector2(5, 5)
+texture = ExtResource("5_cnpml")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="AccessorySprite" type="Sprite2D" parent="player1stat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=20259616]
+scale = Vector2(5, 5)
+texture = ExtResource("6_2yco6")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="player1stat2" unique_id=1837009979]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="player1stat2/HBoxContainer2" unique_id=1989843065]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_fonts/font = ExtResource("1_cp5gh")
+text = "P2"
+
+[node name="money" type="Label" parent="player1stat2/HBoxContainer2" unique_id=714257345]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_fonts/font = ExtResource("1_cp5gh")
+text = "2000 BATH"
+horizontal_alignment = 1
+
+[node name="player1stat3" type="VBoxContainer" parent="." unique_id=1709209176]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 0
+offset_top = 550.0
+offset_right = 230.0
+offset_bottom = 710.0
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="player1stat3" unique_id=1845088931]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="PortraitBackground1" type="TextureRect" parent="player1stat3/HBoxContainer" unique_id=1451153706]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture = SubResource("CompressedTexture2D_1jkkd")
+
+[node name="CenterPoint" type="Control" parent="player1stat3/HBoxContainer/PortraitBackground1" unique_id=1132648042]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_right = 40.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.4, 0.4)
+
+[node name="BodySprite" type="Sprite2D" parent="player1stat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=241923300]
+scale = Vector2(5, 5)
+texture = ExtResource("2_xphsj")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="EyeSprite" type="Sprite2D" parent="player1stat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1095065219]
+scale = Vector2(5, 5)
+texture = ExtResource("3_vbcjr")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="OutfitSprite" type="Sprite2D" parent="player1stat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1513960848]
+scale = Vector2(5, 5)
+texture = ExtResource("4_swgpy")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="HairSprite" type="Sprite2D" parent="player1stat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1981465443]
+scale = Vector2(5, 5)
+texture = ExtResource("5_cnpml")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="AccessorySprite" type="Sprite2D" parent="player1stat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1439994195]
+scale = Vector2(5, 5)
+texture = ExtResource("6_2yco6")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="GridContainer" type="GridContainer" parent="player1stat3/HBoxContainer" unique_id=1466958446]
+custom_minimum_size = Vector2(100, 100)
+propagate_maximum_size = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+columns = 2
+
+[node name="HappinessBorder" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer" unique_id=1707998481]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="happinessstat" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer/HappinessBorder" unique_id=1391544207]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_jhvf8")
+
+[node name="HungerBorder" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer" unique_id=904666035]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="hungerstat" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer/HungerBorder" unique_id=457262423]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_8whag")
+
+[node name="StaminaBorder" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer" unique_id=1485901740]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="staminastat" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer/StaminaBorder" unique_id=1243104034]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_2coxq")
+
+[node name="StudyBorder" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer" unique_id=1301317588]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="studystat" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer/StudyBorder" unique_id=297653408]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_gq6hs")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="player1stat3" unique_id=1531637254]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="player1stat3/HBoxContainer2" unique_id=1190125442]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_fonts/font = ExtResource("1_cp5gh")
+text = "P3"
+
+[node name="money" type="Label" parent="player1stat3/HBoxContainer2" unique_id=730688297]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_fonts/font = ExtResource("1_cp5gh")
+text = "2000 BATH"
+horizontal_alignment = 1
+
+[node name="player1stat4" type="VBoxContainer" parent="." unique_id=2002550570]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 0
+offset_left = 1050.0
+offset_top = 550.0
+offset_right = 1280.0
+offset_bottom = 710.0
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="player1stat4" unique_id=878602520]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="GridContainer" type="GridContainer" parent="player1stat4/HBoxContainer" unique_id=1217009829]
+custom_minimum_size = Vector2(100, 100)
+propagate_maximum_size = false
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+columns = 2
+
+[node name="HappinessBorder" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer" unique_id=2045155272]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="happinessstat" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer/HappinessBorder" unique_id=674937638]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_jhvf8")
+
+[node name="HungerBorder" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer" unique_id=1225757695]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="hungerstat" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer/HungerBorder" unique_id=2142672128]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_8whag")
+
+[node name="StaminaBorder" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer" unique_id=1475323050]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="staminastat" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer/StaminaBorder" unique_id=1778655706]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_2coxq")
+
+[node name="StudyBorder" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer" unique_id=2076246526]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("7_cp5gh")
+
+[node name="studystat" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer/StudyBorder" unique_id=1256175394]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_gq6hs")
+
+[node name="PortraitBackground1" type="TextureRect" parent="player1stat4/HBoxContainer" unique_id=527760939]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+texture = SubResource("CompressedTexture2D_1jkkd")
+
+[node name="CenterPoint" type="Control" parent="player1stat4/HBoxContainer/PortraitBackground1" unique_id=234594914]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_right = 40.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.4, 0.4)
+
+[node name="BodySprite" type="Sprite2D" parent="player1stat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1550176270]
+scale = Vector2(5, 5)
+texture = ExtResource("2_xphsj")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="EyeSprite" type="Sprite2D" parent="player1stat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=321874823]
+scale = Vector2(5, 5)
+texture = ExtResource("3_vbcjr")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="OutfitSprite" type="Sprite2D" parent="player1stat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=551023641]
+scale = Vector2(5, 5)
+texture = ExtResource("4_swgpy")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="HairSprite" type="Sprite2D" parent="player1stat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=588260019]
+scale = Vector2(5, 5)
+texture = ExtResource("5_cnpml")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="AccessorySprite" type="Sprite2D" parent="player1stat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1270811372]
+scale = Vector2(5, 5)
+texture = ExtResource("6_2yco6")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="player1stat4" unique_id=2145106932]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="player1stat4/HBoxContainer2" unique_id=1244659752]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_fonts/font = ExtResource("1_cp5gh")
+text = "P4"
+
+[node name="money" type="Label" parent="player1stat4/HBoxContainer2" unique_id=1598814537]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_fonts/font = ExtResource("1_cp5gh")
+text = "2000 BATH"
+horizontal_alignment = 1
