@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dq8bgncojgwpq"]
+
+[ext_resource type="Texture2D" uid="uid://ca77yu5uvybuw" path="res://asset/place/Hospital.png" id="1_pn3uf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oshej"]
+size = Vector2(77, 97)
+
+[node name="Area2D" type="Area2D" unique_id=2057062151]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=11267842]
+position = Vector2(0, -30)
+shape = SubResource("RectangleShape2D_oshej")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=81602999]
+position = Vector2(1.8060944, -30.720245)
+scale = Vector2(0.9847716, 0.9847718)
+texture = ExtResource("1_pn3uf")
+region_rect = Rect2(155.32341, 316.03284, 212.19276, 159.4585)
