@@ -401,7 +401,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "วิชาบังคับ"
+text = "English1"
 
 [node name="Btn_Elective" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=446088976]
 custom_minimum_size = Vector2(130, 48)
@@ -414,7 +414,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "วิชาเลือก"
+text = "Math"
 
 [node name="Btn_Activity" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1634652401]
 custom_minimum_size = Vector2(130, 48)
@@ -427,7 +427,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "กิจกรรม"
+text = "Introduction"
 
 [node name="Btn_Seminar" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1915251640]
 custom_minimum_size = Vector2(130, 48)
@@ -440,7 +440,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "สัมมนา"
+text = "Seminar"
 
 [node name="Btn_Project" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=2028492083]
 custom_minimum_size = Vector2(130, 48)
@@ -453,7 +453,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "โครงงาน"
+text = "Project"
 
 [node name="Btn_Intern" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1147913389]
 custom_minimum_size = Vector2(130, 48)
@@ -466,7 +466,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "ฝึกงาน"
+text = "GE"
 
 [node name="Btn_Camp" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=990847113]
 custom_minimum_size = Vector2(130, 48)
@@ -479,7 +479,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "ค่าย"
+text = "Computer"
 
 [node name="Btn_Tutor" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1076622304]
 custom_minimum_size = Vector2(130, 48)
@@ -492,7 +492,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "ติว"
+text = "Art"
 
 [node name="Spacer" type="Control" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar" unique_id=299437567]
 layout_mode = 2
