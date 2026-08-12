@@ -6,11 +6,17 @@ extends Control
 @onready var return_button = $MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/ReturnButton
 @onready var player_label = $MainPanel/MarginContainer/HBoxContainer/LeftMenu/Label
 
-# ตัวแปรควบคุมระบบเทิร์น
 var current_player_index: int = 0
-var total_players: int = 2 # จำนวนผู้เล่น (ถ้าผูกกับ Global ให้ใช้ Global.player_data.size())
+var total_players: int = 0 
 
 func _ready():
+	# ดึงจำนวนผู้เล่นจริงจาก Global
+	total_players = Global.player_data.size()
+	
+	# ป้องกันบั๊กกรณีเทสต์แล้วยังไม่มีข้อมูลใน Global
+	if total_players == 0: 
+		total_players = 1 
+
 	# 1. ตั้งค่า Drag (ดึง) ให้ปุ่มรายวิชา
 	for child in subject_inventory.get_children():
 		if child is Button:
@@ -251,11 +257,16 @@ func _on_confirm_button_pressed() -> void:
 		current_player_index += 1
 		_setup_turn() 
 	else:
-		print("ผู้เล่นทุกคนจัดตารางเรียนเสร็จสิ้น! โหลดเข้าสู่เกม...")
-		# get_tree().change_scene_to_file("res://scene/main_game.tscn")
+		print("ผู้เล่นทุกคนจัดตารางเรียนเสร็จสิ้น! โหลดเข้าสู่ NewMap...")
+		get_tree().change_scene_to_file("res://locations/NewMap.tscn")
 
 func _on_return_button_pressed() -> void:
 	if current_player_index > 0:
+		# 1. บันทึกตารางที่จัดค้างไว้ของคนปัจจุบันลง Global ก่อน
+		print("บันทึกตารางชั่วคราวของ P", current_player_index + 1)
+		_save_schedule_to_global()
+		
+		# 2. ถอยกลับไปโหลดข้อมูลผู้เล่นคนก่อนหน้า
 		current_player_index -= 1
 		_setup_turn() 
 

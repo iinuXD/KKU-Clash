@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://ccjivjc3gdk15"]
 
 [ext_resource type="FontFile" uid="uid://dnpvp0ej773ky" path="res://font/04B_30__.TTF" id="1_cp5gh"]
+[ext_resource type="Script" uid="uid://dg717k2wd8gr5" path="res://ui/player_panel.gd" id="1_xphsj"]
 [ext_resource type="Texture2D" uid="uid://bfkfsxi22owfw" path="res://asset/Character/Bodies/32x32/Body_01 69.png" id="2_xphsj"]
+[ext_resource type="Texture2D" uid="uid://bjtqwcg73gnhi" path="res://asset/playerpanel/border2.png" id="3_swgpy"]
 [ext_resource type="Texture2D" uid="uid://b4c02xpo8qchm" path="res://asset/Character/Eyes/32x32/Eyes_06.png" id="3_vbcjr"]
 [ext_resource type="Texture2D" uid="uid://u6iv2vnf4aqc" path="res://asset/Character/Outfits/32x32/Outfit_01_01.png" id="4_swgpy"]
 [ext_resource type="Texture2D" uid="uid://bi2n55pmv7l4d" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="5_cnpml"]
@@ -22,7 +24,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-metadata/_edit_lock_ = true
+mouse_filter = 2
+script = ExtResource("1_xphsj")
 
 [node name="WeekReportLabel" type="Label" parent="." unique_id=1376262335]
 layout_mode = 1
@@ -40,24 +43,39 @@ text = "week 1/20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="player1stat" type="VBoxContainer" parent="." unique_id=714202830]
-custom_minimum_size = Vector2(0, 160)
+[node name="ActionPoint" type="Label" parent="." unique_id=864681860]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 46.0
+offset_right = 20.0
+offset_bottom = 69.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_cp5gh")
+text = "AP 0 / 5"
+
+[node name="playerstat1" type="VBoxContainer" parent="." unique_id=714202830]
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 200.0
+offset_bottom = 130.0
 theme_override_constants/separation = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="player1stat" unique_id=578056184]
+[node name="HBoxContainer" type="HBoxContainer" parent="playerstat1" unique_id=578056184]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="PortraitBackground1" type="TextureRect" parent="player1stat/HBoxContainer" unique_id=1853150082]
-custom_minimum_size = Vector2(120, 0)
+[node name="PortraitBackground1" type="TextureRect" parent="playerstat1/HBoxContainer" unique_id=1853150082]
+custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
-texture = SubResource("CompressedTexture2D_1jkkd")
+texture = ExtResource("3_swgpy")
 
-[node name="CenterPoint" type="Control" parent="player1stat/HBoxContainer/PortraitBackground1" unique_id=1065917382]
+[node name="CenterPoint" type="Control" parent="playerstat1/HBoxContainer/PortraitBackground1" unique_id=1065917382]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -69,263 +87,271 @@ offset_right = 40.0
 offset_bottom = 28.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.3, 0.3)
 
-[node name="BodySprite" type="Sprite2D" parent="player1stat/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1738948266]
+[node name="BodySprite" type="Sprite2D" parent="playerstat1/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1738948266]
 scale = Vector2(5, 5)
 texture = ExtResource("2_xphsj")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="EyeSprite" type="Sprite2D" parent="player1stat/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=667377475]
+[node name="EyeSprite" type="Sprite2D" parent="playerstat1/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=667377475]
 scale = Vector2(5, 5)
 texture = ExtResource("3_vbcjr")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="OutfitSprite" type="Sprite2D" parent="player1stat/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1136407300]
+[node name="OutfitSprite" type="Sprite2D" parent="playerstat1/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1136407300]
 scale = Vector2(5, 5)
 texture = ExtResource("4_swgpy")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="HairSprite" type="Sprite2D" parent="player1stat/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1915307011]
+[node name="HairSprite" type="Sprite2D" parent="playerstat1/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1915307011]
 scale = Vector2(5, 5)
 texture = ExtResource("5_cnpml")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="AccessorySprite" type="Sprite2D" parent="player1stat/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=692085979]
+[node name="AccessorySprite" type="Sprite2D" parent="playerstat1/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=692085979]
 scale = Vector2(5, 5)
 texture = ExtResource("6_2yco6")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="GridContainer" type="GridContainer" parent="player1stat/HBoxContainer" unique_id=478150274]
-custom_minimum_size = Vector2(100, 100)
+[node name="GridContainer" type="GridContainer" parent="playerstat1/HBoxContainer" unique_id=478150274]
+custom_minimum_size = Vector2(80, 80)
 propagate_maximum_size = false
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 columns = 2
 
-[node name="HappinessBorder" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer" unique_id=1770142400]
+[node name="HappinessBorder" type="TextureRect" parent="playerstat1/HBoxContainer/GridContainer" unique_id=1770142400]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="happinessstat" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer/HappinessBorder" unique_id=80089208]
+[node name="happinessstat" type="TextureRect" parent="playerstat1/HBoxContainer/GridContainer/HappinessBorder" unique_id=80089208]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("8_jhvf8")
 
-[node name="HungerBorder" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer" unique_id=164924322]
+[node name="HungerBorder" type="TextureRect" parent="playerstat1/HBoxContainer/GridContainer" unique_id=164924322]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="hungerstat" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer/HungerBorder" unique_id=444974837]
+[node name="hungerstat" type="TextureRect" parent="playerstat1/HBoxContainer/GridContainer/HungerBorder" unique_id=444974837]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_8whag")
 
-[node name="StaminaBorder" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer" unique_id=467643133]
+[node name="StaminaBorder" type="TextureRect" parent="playerstat1/HBoxContainer/GridContainer" unique_id=467643133]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="staminastat" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer/StaminaBorder" unique_id=2099048254]
+[node name="staminastat" type="TextureRect" parent="playerstat1/HBoxContainer/GridContainer/StaminaBorder" unique_id=2099048254]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("10_2coxq")
 
-[node name="StudyBorder" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer" unique_id=2027898079]
+[node name="StudyBorder" type="TextureRect" parent="playerstat1/HBoxContainer/GridContainer" unique_id=2027898079]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="studystat" type="TextureRect" parent="player1stat/HBoxContainer/GridContainer/StudyBorder" unique_id=1223523686]
+[node name="studystat" type="TextureRect" parent="playerstat1/HBoxContainer/GridContainer/StudyBorder" unique_id=1223523686]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("11_gq6hs")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="player1stat" unique_id=16559089]
+[node name="HBoxContainer2" type="HBoxContainer" parent="playerstat1" unique_id=16559089]
 layout_mode = 2
-theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="player1stat/HBoxContainer2" unique_id=1032146428]
+[node name="Label" type="Label" parent="playerstat1/HBoxContainer2" unique_id=1032146428]
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "P1"
 
-[node name="money" type="Label" parent="player1stat/HBoxContainer2" unique_id=1628640202]
+[node name="money" type="Label" parent="playerstat1/HBoxContainer2" unique_id=1628640202]
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "2000 BATH"
 horizontal_alignment = 1
 
-[node name="player1stat2" type="VBoxContainer" parent="." unique_id=1247565346]
-custom_minimum_size = Vector2(0, 160)
+[node name="playerstat2" type="VBoxContainer" parent="." unique_id=1048642051]
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 0
-offset_left = 1050.0
-offset_right = 1280.0
-offset_bottom = 160.0
+offset_left = 1080.0
+offset_top = 10.0
+offset_right = 1270.0
+offset_bottom = 130.0
 theme_override_constants/separation = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="player1stat2" unique_id=1416764759]
+[node name="HBoxContainer" type="HBoxContainer" parent="playerstat2" unique_id=1938622607]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="GridContainer" type="GridContainer" parent="player1stat2/HBoxContainer" unique_id=770939606]
-custom_minimum_size = Vector2(100, 100)
+[node name="GridContainer" type="GridContainer" parent="playerstat2/HBoxContainer" unique_id=391306437]
+custom_minimum_size = Vector2(80, 80)
 propagate_maximum_size = false
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 columns = 2
 
-[node name="HappinessBorder" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer" unique_id=1970116079]
+[node name="HappinessBorder" type="TextureRect" parent="playerstat2/HBoxContainer/GridContainer" unique_id=326272875]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="happinessstat" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer/HappinessBorder" unique_id=1355486246]
+[node name="happinessstat" type="TextureRect" parent="playerstat2/HBoxContainer/GridContainer/HappinessBorder" unique_id=506501424]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("8_jhvf8")
 
-[node name="HungerBorder" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer" unique_id=1341076795]
+[node name="HungerBorder" type="TextureRect" parent="playerstat2/HBoxContainer/GridContainer" unique_id=1776559628]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="hungerstat" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer/HungerBorder" unique_id=310194983]
+[node name="hungerstat" type="TextureRect" parent="playerstat2/HBoxContainer/GridContainer/HungerBorder" unique_id=2143944474]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_8whag")
 
-[node name="StaminaBorder" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer" unique_id=41493974]
+[node name="StaminaBorder" type="TextureRect" parent="playerstat2/HBoxContainer/GridContainer" unique_id=1437231262]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="staminastat" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer/StaminaBorder" unique_id=715741715]
+[node name="staminastat" type="TextureRect" parent="playerstat2/HBoxContainer/GridContainer/StaminaBorder" unique_id=1728252936]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("10_2coxq")
 
-[node name="StudyBorder" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer" unique_id=1249222907]
+[node name="StudyBorder" type="TextureRect" parent="playerstat2/HBoxContainer/GridContainer" unique_id=1990359983]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="studystat" type="TextureRect" parent="player1stat2/HBoxContainer/GridContainer/StudyBorder" unique_id=768482877]
+[node name="studystat" type="TextureRect" parent="playerstat2/HBoxContainer/GridContainer/StudyBorder" unique_id=123252058]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("11_gq6hs")
 
-[node name="PortraitBackground1" type="TextureRect" parent="player1stat2/HBoxContainer" unique_id=612269629]
-custom_minimum_size = Vector2(120, 0)
+[node name="PortraitBackground1" type="TextureRect" parent="playerstat2/HBoxContainer" unique_id=124603275]
+custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 texture = SubResource("CompressedTexture2D_1jkkd")
 
-[node name="CenterPoint" type="Control" parent="player1stat2/HBoxContainer/PortraitBackground1" unique_id=356294799]
+[node name="CenterPoint" type="Control" parent="playerstat2/HBoxContainer/PortraitBackground1" unique_id=568524215]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -337,79 +363,79 @@ offset_right = 40.0
 offset_bottom = 28.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.3, 0.3)
 
-[node name="BodySprite" type="Sprite2D" parent="player1stat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1636412981]
+[node name="BodySprite" type="Sprite2D" parent="playerstat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=343543999]
 scale = Vector2(5, 5)
 texture = ExtResource("2_xphsj")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="EyeSprite" type="Sprite2D" parent="player1stat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=758038189]
+[node name="EyeSprite" type="Sprite2D" parent="playerstat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=401246818]
 scale = Vector2(5, 5)
 texture = ExtResource("3_vbcjr")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="OutfitSprite" type="Sprite2D" parent="player1stat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=96719658]
+[node name="OutfitSprite" type="Sprite2D" parent="playerstat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=2090653582]
 scale = Vector2(5, 5)
 texture = ExtResource("4_swgpy")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="HairSprite" type="Sprite2D" parent="player1stat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=996290273]
+[node name="HairSprite" type="Sprite2D" parent="playerstat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1023684608]
 scale = Vector2(5, 5)
 texture = ExtResource("5_cnpml")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="AccessorySprite" type="Sprite2D" parent="player1stat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=20259616]
+[node name="AccessorySprite" type="Sprite2D" parent="playerstat2/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=574388145]
 scale = Vector2(5, 5)
 texture = ExtResource("6_2yco6")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="player1stat2" unique_id=1837009979]
+[node name="HBoxContainer2" type="HBoxContainer" parent="playerstat2" unique_id=57658855]
 layout_mode = 2
-theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="player1stat2/HBoxContainer2" unique_id=1989843065]
+[node name="Label" type="Label" parent="playerstat2/HBoxContainer2" unique_id=1163897250]
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "P2"
 
-[node name="money" type="Label" parent="player1stat2/HBoxContainer2" unique_id=714257345]
+[node name="money" type="Label" parent="playerstat2/HBoxContainer2" unique_id=105630738]
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "2000 BATH"
 horizontal_alignment = 1
 
-[node name="player1stat3" type="VBoxContainer" parent="." unique_id=1709209176]
-custom_minimum_size = Vector2(0, 160)
+[node name="playerstat3" type="VBoxContainer" parent="." unique_id=135013778]
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 0
-offset_top = 550.0
-offset_right = 230.0
+offset_left = 10.0
+offset_top = 590.0
+offset_right = 200.0
 offset_bottom = 710.0
 theme_override_constants/separation = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="player1stat3" unique_id=1845088931]
+[node name="HBoxContainer" type="HBoxContainer" parent="playerstat3" unique_id=92396018]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="PortraitBackground1" type="TextureRect" parent="player1stat3/HBoxContainer" unique_id=1451153706]
-custom_minimum_size = Vector2(120, 0)
+[node name="PortraitBackground1" type="TextureRect" parent="playerstat3/HBoxContainer" unique_id=181450294]
+custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 texture = SubResource("CompressedTexture2D_1jkkd")
 
-[node name="CenterPoint" type="Control" parent="player1stat3/HBoxContainer/PortraitBackground1" unique_id=1132648042]
+[node name="CenterPoint" type="Control" parent="playerstat3/HBoxContainer/PortraitBackground1" unique_id=776992094]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -421,264 +447,271 @@ offset_right = 40.0
 offset_bottom = 28.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.3, 0.3)
 
-[node name="BodySprite" type="Sprite2D" parent="player1stat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=241923300]
+[node name="BodySprite" type="Sprite2D" parent="playerstat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1895861756]
 scale = Vector2(5, 5)
 texture = ExtResource("2_xphsj")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="EyeSprite" type="Sprite2D" parent="player1stat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1095065219]
+[node name="EyeSprite" type="Sprite2D" parent="playerstat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1729236199]
 scale = Vector2(5, 5)
 texture = ExtResource("3_vbcjr")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="OutfitSprite" type="Sprite2D" parent="player1stat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1513960848]
+[node name="OutfitSprite" type="Sprite2D" parent="playerstat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1473827074]
 scale = Vector2(5, 5)
 texture = ExtResource("4_swgpy")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="HairSprite" type="Sprite2D" parent="player1stat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1981465443]
+[node name="HairSprite" type="Sprite2D" parent="playerstat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=548628601]
 scale = Vector2(5, 5)
 texture = ExtResource("5_cnpml")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="AccessorySprite" type="Sprite2D" parent="player1stat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1439994195]
+[node name="AccessorySprite" type="Sprite2D" parent="playerstat3/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1380923565]
 scale = Vector2(5, 5)
 texture = ExtResource("6_2yco6")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="GridContainer" type="GridContainer" parent="player1stat3/HBoxContainer" unique_id=1466958446]
-custom_minimum_size = Vector2(100, 100)
+[node name="GridContainer" type="GridContainer" parent="playerstat3/HBoxContainer" unique_id=1586290487]
+custom_minimum_size = Vector2(80, 80)
 propagate_maximum_size = false
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 columns = 2
 
-[node name="HappinessBorder" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer" unique_id=1707998481]
+[node name="HappinessBorder" type="TextureRect" parent="playerstat3/HBoxContainer/GridContainer" unique_id=171562911]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="happinessstat" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer/HappinessBorder" unique_id=1391544207]
+[node name="happinessstat" type="TextureRect" parent="playerstat3/HBoxContainer/GridContainer/HappinessBorder" unique_id=705388235]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("8_jhvf8")
 
-[node name="HungerBorder" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer" unique_id=904666035]
+[node name="HungerBorder" type="TextureRect" parent="playerstat3/HBoxContainer/GridContainer" unique_id=1123716844]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="hungerstat" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer/HungerBorder" unique_id=457262423]
+[node name="hungerstat" type="TextureRect" parent="playerstat3/HBoxContainer/GridContainer/HungerBorder" unique_id=48470552]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_8whag")
 
-[node name="StaminaBorder" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer" unique_id=1485901740]
+[node name="StaminaBorder" type="TextureRect" parent="playerstat3/HBoxContainer/GridContainer" unique_id=1363461287]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="staminastat" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer/StaminaBorder" unique_id=1243104034]
+[node name="staminastat" type="TextureRect" parent="playerstat3/HBoxContainer/GridContainer/StaminaBorder" unique_id=249741337]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("10_2coxq")
 
-[node name="StudyBorder" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer" unique_id=1301317588]
+[node name="StudyBorder" type="TextureRect" parent="playerstat3/HBoxContainer/GridContainer" unique_id=1610145954]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="studystat" type="TextureRect" parent="player1stat3/HBoxContainer/GridContainer/StudyBorder" unique_id=297653408]
+[node name="studystat" type="TextureRect" parent="playerstat3/HBoxContainer/GridContainer/StudyBorder" unique_id=1428938765]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("11_gq6hs")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="player1stat3" unique_id=1531637254]
+[node name="HBoxContainer2" type="HBoxContainer" parent="playerstat3" unique_id=1907200891]
 layout_mode = 2
-theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="player1stat3/HBoxContainer2" unique_id=1190125442]
+[node name="Label" type="Label" parent="playerstat3/HBoxContainer2" unique_id=675266996]
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "P3"
 
-[node name="money" type="Label" parent="player1stat3/HBoxContainer2" unique_id=730688297]
+[node name="money" type="Label" parent="playerstat3/HBoxContainer2" unique_id=1630148485]
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "2000 BATH"
 horizontal_alignment = 1
 
-[node name="player1stat4" type="VBoxContainer" parent="." unique_id=2002550570]
-custom_minimum_size = Vector2(0, 160)
+[node name="playerstat4" type="VBoxContainer" parent="." unique_id=528883389]
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 0
-offset_left = 1050.0
-offset_top = 550.0
-offset_right = 1280.0
+offset_left = 1080.0
+offset_top = 590.0
+offset_right = 1270.0
 offset_bottom = 710.0
 theme_override_constants/separation = 15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="player1stat4" unique_id=878602520]
+[node name="HBoxContainer" type="HBoxContainer" parent="playerstat4" unique_id=1743147504]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="GridContainer" type="GridContainer" parent="player1stat4/HBoxContainer" unique_id=1217009829]
-custom_minimum_size = Vector2(100, 100)
+[node name="GridContainer" type="GridContainer" parent="playerstat4/HBoxContainer" unique_id=189806243]
+custom_minimum_size = Vector2(80, 80)
 propagate_maximum_size = false
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 columns = 2
 
-[node name="HappinessBorder" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer" unique_id=2045155272]
+[node name="HappinessBorder" type="TextureRect" parent="playerstat4/HBoxContainer/GridContainer" unique_id=1048948759]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="happinessstat" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer/HappinessBorder" unique_id=674937638]
+[node name="happinessstat" type="TextureRect" parent="playerstat4/HBoxContainer/GridContainer/HappinessBorder" unique_id=842961492]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("8_jhvf8")
 
-[node name="HungerBorder" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer" unique_id=1225757695]
+[node name="HungerBorder" type="TextureRect" parent="playerstat4/HBoxContainer/GridContainer" unique_id=1460992043]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="hungerstat" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer/HungerBorder" unique_id=2142672128]
+[node name="hungerstat" type="TextureRect" parent="playerstat4/HBoxContainer/GridContainer/HungerBorder" unique_id=623476863]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("9_8whag")
 
-[node name="StaminaBorder" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer" unique_id=1475323050]
+[node name="StaminaBorder" type="TextureRect" parent="playerstat4/HBoxContainer/GridContainer" unique_id=519550895]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="staminastat" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer/StaminaBorder" unique_id=1778655706]
+[node name="staminastat" type="TextureRect" parent="playerstat4/HBoxContainer/GridContainer/StaminaBorder" unique_id=903666414]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("10_2coxq")
 
-[node name="StudyBorder" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer" unique_id=2076246526]
+[node name="StudyBorder" type="TextureRect" parent="playerstat4/HBoxContainer/GridContainer" unique_id=350727362]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("7_cp5gh")
 
-[node name="studystat" type="TextureRect" parent="player1stat4/HBoxContainer/GridContainer/StudyBorder" unique_id=1256175394]
+[node name="studystat" type="TextureRect" parent="playerstat4/HBoxContainer/GridContainer/StudyBorder" unique_id=80130547]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("11_gq6hs")
 
-[node name="PortraitBackground1" type="TextureRect" parent="player1stat4/HBoxContainer" unique_id=527760939]
-custom_minimum_size = Vector2(120, 0)
+[node name="PortraitBackground1" type="TextureRect" parent="playerstat4/HBoxContainer" unique_id=825798730]
+custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 texture = SubResource("CompressedTexture2D_1jkkd")
 
-[node name="CenterPoint" type="Control" parent="player1stat4/HBoxContainer/PortraitBackground1" unique_id=234594914]
+[node name="CenterPoint" type="Control" parent="playerstat4/HBoxContainer/PortraitBackground1" unique_id=1560659043]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -690,54 +723,53 @@ offset_right = 40.0
 offset_bottom = 28.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.3, 0.3)
 
-[node name="BodySprite" type="Sprite2D" parent="player1stat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1550176270]
+[node name="BodySprite" type="Sprite2D" parent="playerstat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=2042056270]
 scale = Vector2(5, 5)
 texture = ExtResource("2_xphsj")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="EyeSprite" type="Sprite2D" parent="player1stat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=321874823]
+[node name="EyeSprite" type="Sprite2D" parent="playerstat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=209252903]
 scale = Vector2(5, 5)
 texture = ExtResource("3_vbcjr")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="OutfitSprite" type="Sprite2D" parent="player1stat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=551023641]
+[node name="OutfitSprite" type="Sprite2D" parent="playerstat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=756157374]
 scale = Vector2(5, 5)
 texture = ExtResource("4_swgpy")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="HairSprite" type="Sprite2D" parent="player1stat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=588260019]
+[node name="HairSprite" type="Sprite2D" parent="playerstat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=2060330185]
 scale = Vector2(5, 5)
 texture = ExtResource("5_cnpml")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="AccessorySprite" type="Sprite2D" parent="player1stat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1270811372]
+[node name="AccessorySprite" type="Sprite2D" parent="playerstat4/HBoxContainer/PortraitBackground1/CenterPoint" unique_id=1067861760]
 scale = Vector2(5, 5)
 texture = ExtResource("6_2yco6")
 hframes = 56
 vframes = 20
 frame = 74
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="player1stat4" unique_id=2145106932]
+[node name="HBoxContainer2" type="HBoxContainer" parent="playerstat4" unique_id=818492249]
 layout_mode = 2
-theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="player1stat4/HBoxContainer2" unique_id=1244659752]
+[node name="Label" type="Label" parent="playerstat4/HBoxContainer2" unique_id=1240511692]
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "P4"
 
-[node name="money" type="Label" parent="player1stat4/HBoxContainer2" unique_id=1598814537]
+[node name="money" type="Label" parent="playerstat4/HBoxContainer2" unique_id=1320022625]
 layout_mode = 2
 size_flags_horizontal = 6
 theme_override_fonts/font = ExtResource("1_cp5gh")
