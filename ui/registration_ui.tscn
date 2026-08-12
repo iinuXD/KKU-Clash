@@ -106,6 +106,14 @@ custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 theme_override_constants/separation = 15
 
+[node name="Label" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/LeftMenu" unique_id=905561467]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "PLAYER1"
+
+[node name="HSeparator" type="HSeparator" parent="MainPanel/MarginContainer/HBoxContainer/LeftMenu" unique_id=2097388154]
+layout_mode = 2
+
 [node name="TitleLabel" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/LeftMenu" unique_id=221482569]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -497,6 +505,20 @@ text = "Art"
 [node name="Spacer" type="Control" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar" unique_id=299437567]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="ReturnButton" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar" unique_id=241932405]
+custom_minimum_size = Vector2(120, 48)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button")
+theme_override_styles/focus = SubResource("StyleBoxFlat_button")
+text = "ย้อนกลับ"
 
 [node name="ConfirmButton" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar" unique_id=1611501462]
 custom_minimum_size = Vector2(120, 48)
