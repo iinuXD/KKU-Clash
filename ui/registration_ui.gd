@@ -67,7 +67,7 @@ func _save_schedule_to_global() -> void:
 						subject_counts[subject] = 1
 						
 	# ตรวจสอบและสร้าง Dictionary ใน Global (ถ้ายังไม่มี)
-	# หมายเหตุ: จำเป็นต้องมีตัวแปร player_data ใน Global.gd ก่อนนะครับ
+	# หมายเหตุ: จำเป็นต้องมีตัวแปร player_data ใน Global.gd ก่อน
 	if not Global.player_data[current_player_index].has("timetable"):
 		Global.player_data[current_player_index]["timetable"] = {}
 		
@@ -236,7 +236,7 @@ func _on_confirm_button_pressed() -> void:
 		print("กรุณาลงทะเบียนให้มี 4 วิชาพอดี! (ตอนนี้มี " + str(unique_subjects.size()) + " วิชา)")
 		return
 		
-	# เช็คเงื่อนไขที่ 2: ทุกวัน (R1-R5) ต้องลงครบ 2 คาบเป๊ะๆ
+	# เช็คเงื่อนไขที่ 2: ทุกวัน (R1-R5) ต้องลงครบ 2 คาบ
 	var is_days_complete = true
 	var incomplete_days = []
 	var day_names = {"R1": "จันทร์", "R2": "อังคาร", "R3": "พุธ", "R4": "พฤหัสฯ", "R5": "ศุกร์"}

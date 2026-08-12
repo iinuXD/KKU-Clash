@@ -15,9 +15,18 @@ var player_nodes: Array[Control] = []
 var current_player_index: int = 0     
 var current_player_walks: int = 0     
 var max_walks_per_turn: int = 5       
-var is_walking: bool = false          
+var is_walking: bool = false
+
+var current_round: int = 1
+var max_rounds: int = 20       
 
 func _ready() -> void:
+	
+	_setup_mock_data()
+	
+	if player_panel:
+		player_panel.setup_players_ui()
+		
 	setup_astar()
 	
 	var players = Global.player_data.size() if Global.player_data.size() > 0 else 1
@@ -41,6 +50,28 @@ func _ready() -> void:
 			
 	setup_current_turn()
 	
+func _setup_mock_data() -> void:
+	print("--- โหลดข้อมูล Mock Data ---")
+	
+	# ถ้าอาร์เรย์ว่างเปล่า (เกิดจากรันเทสต์ฉากนี้ตรงๆ) ให้จำลองผู้เล่นขึ้นมา 2 คน
+	if Global.player_data.size() == 0:
+		Global.player_data = [{}, {}]
+		print("จำลองผู้เล่นขึ้นมาใหม่ 2 คน เพราะ Global ว่างเปล่า")
+	
+	for i in range(Global.player_data.size()):
+		# เซ็ตเงิน 5555 บาท
+		if not Global.player_data[i].has("money"):
+			Global.player_data[i]["money"] = 5555
+			
+		# เซ็ตสเตตัส 50 ทุกอัน
+		if not Global.player_data[i].has("stats"):
+			Global.player_data[i]["stats"] = {
+				"happiness": 50,
+				"hunger": 50,
+				"stamina": 50,
+				"study": 50
+			}
+	
 func setup_current_turn() -> void:
 	# 1. รีเซ็ตจำนวนก้าว
 	current_player_walks = 0
@@ -59,6 +90,7 @@ func setup_current_turn() -> void:
 	if player_panel:
 		player_panel.update_turn_ui(current_player_index)
 		player_panel.update_ap_ui(current_player_walks, max_walks_per_turn)
+		player_panel.update_round_ui(current_round, max_rounds)
 
 	# 4. เลื่อนกล้อง (Pan) ไปหาตัวละครคนปัจจุบันอัตโนมัติ
 	var tween = create_tween()
@@ -70,7 +102,13 @@ func pass_turn() -> void:
 	
 	if current_player_index >= player_nodes.size():
 		current_player_index = 0
-		print("--- จบรอบของทุกคน! เริ่มรอบใหม่ ---")
+		current_round += 1
+		print("--- จบรอบของทุกคน! เริ่มรอบที่ ", current_round, " ---")
+		
+		if current_round > max_rounds:
+			print("จบเกม!!!")
+			# get_tree().change_scene_to_file("res://scene/EndGame.tscn")
+			return
 		
 	print("--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ ", current_player_index + 1, " ---")
 	setup_current_turn()
