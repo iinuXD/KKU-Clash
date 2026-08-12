@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://diioic08fbe4o"]
 
-[ext_resource type="Texture2D" uid="uid://dj5u4fbfnillf" path="res://asset/tile/kkuMap.png" id="1_jxw6k"]
+[ext_resource type="Texture2D" uid="uid://cc5wx05kri3kw" path="res://asset/tile/kkuMap.png" id="1_jxw6k"]
 [ext_resource type="Script" uid="uid://buljk6e3iftx6" path="res://core/script/camera.gd" id="2_bt112"]
 [ext_resource type="PackedScene" uid="uid://wjdhhhti80j2" path="res://locations/Place/home.tscn" id="3_1h42x"]
 [ext_resource type="PackedScene" uid="uid://cyay72jy2i48w" path="res://locations/Place/library.tscn" id="3_2xcfn"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://clbyntv3xs4cx" path="res://locations/Place/shop.tscn" id="3_mhtu8"]
 [ext_resource type="PackedScene" uid="uid://doy0ijcc75ryh" path="res://locations/Place/learn.tscn" id="3_nv14v"]
 [ext_resource type="PackedScene" uid="uid://dex4p3bg43usj" path="res://locations/Place/fun.tscn" id="3_nwy2u"]
+[ext_resource type="PackedScene" uid="uid://bodnaybt0hfca" path="res://locations/Place/park.tscn" id="3_u7v77"]
 [ext_resource type="PackedScene" uid="uid://dq8bgncojgwpq" path="res://locations/Place/hospital.tscn" id="4_l4dg8"]
 [ext_resource type="PackedScene" uid="uid://xk0g0paoa0oj" path="res://locations/Place/sport.tscn" id="10_l4dg8"]
 
@@ -28,6 +29,33 @@ max_zoom = 5.0
 
 [node name="waypiont" type="Node2D" parent="." unique_id=717491467]
 position = Vector2(0, 37)
+
+[node name="Fun" type="Marker2D" parent="waypiont" unique_id=1089689220]
+position = Vector2(500.67172, 473.61414)
+
+[node name="Park" type="Marker2D" parent="waypiont" unique_id=656510570]
+position = Vector2(77.25189, 518.68054)
+
+[node name="End4" type="Marker2D" parent="waypiont" unique_id=2025995514]
+position = Vector2(179.65634, 521.84644)
+
+[node name="School" type="Marker2D" parent="waypiont" unique_id=1915809165]
+position = Vector2(503.79437, 272.1817)
+
+[node name="End3" type="Marker2D" parent="waypiont" unique_id=932809542]
+position = Vector2(504.3349, 295.42416)
+
+[node name="Food" type="Marker2D" parent="waypiont" unique_id=1606754702]
+position = Vector2(544.7429, 66.8986)
+
+[node name="End2" type="Marker2D" parent="waypiont" unique_id=1349669071]
+position = Vector2(545.1354, 87.43519)
+
+[node name="Library" type="Marker2D" parent="waypiont" unique_id=1248610112]
+position = Vector2(433, 88)
+
+[node name="Shop" type="Marker2D" parent="waypiont" unique_id=1342953687]
+position = Vector2(356, 58)
 
 [node name="Cross1" type="Marker2D" parent="waypiont" unique_id=816291803]
 position = Vector2(356, 88)
@@ -62,22 +90,34 @@ position = Vector2(643, 473)
 [node name="Cross8" type="Marker2D" parent="waypiont" unique_id=553719548]
 position = Vector2(388, 473)
 
+[node name="Dorm" type="Marker2D" parent="waypiont" unique_id=221243405]
+position = Vector2(111, 68)
+
+[node name="Sport" type="Marker2D" parent="waypiont" unique_id=593969511]
+position = Vector2(251, 87)
+
+[node name="End" type="Marker2D" parent="waypiont" unique_id=748069438]
+position = Vector2(111, 88)
+
 [node name="location" type="Node2D" parent="." unique_id=1864991258]
 
-[node name="Learn" parent="location" unique_id=2057062151 instance=ExtResource("3_nv14v")]
+[node name="Park" parent="location" unique_id=2057062151 instance=ExtResource("3_u7v77")]
+position = Vector2(80, 612)
+
+[node name="Learn" parent="location" unique_id=339713687 instance=ExtResource("3_nv14v")]
 position = Vector2(508, 307)
 
 [node name="Hospital" parent="location" unique_id=272111360 instance=ExtResource("4_l4dg8")]
 position = Vector2(701, 459)
 
 [node name="Fun" parent="location" unique_id=1081284264 instance=ExtResource("3_nwy2u")]
-position = Vector2(511, 568)
+position = Vector2(506, 567)
 
 [node name="Library" parent="location" unique_id=1319426826 instance=ExtResource("3_2xcfn")]
 position = Vector2(426, 196)
 
 [node name="Food" parent="location" unique_id=2051768942 instance=ExtResource("3_mbacs")]
-position = Vector2(527, 94)
+position = Vector2(529, 94)
 
 [node name="Shop" parent="location" unique_id=2119747728 instance=ExtResource("3_mhtu8")]
 position = Vector2(335, 99)
