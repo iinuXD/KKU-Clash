@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://c2o2y25y7xo28"]
 
 [ext_resource type="Shader" uid="uid://bxkj28nm5xelu" path="res://locations/Place/food.gdshader" id="1_eeru1"]
+[ext_resource type="Script" uid="uid://dumisltw60lso" path="res://core/script/highlights.gd" id="1_mr7qh"]
 [ext_resource type="Texture2D" uid="uid://bp77at5l8fmre" path="res://asset/place/Food.png" id="1_w4ger"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oshej"]
-size = Vector2(116, 66)
+size = Vector2(126, 81)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_312yg"]
 shader = ExtResource("1_eeru1")
@@ -12,9 +13,11 @@ shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 1.0
 
 [node name="Area2D" type="Area2D" unique_id=2057062151]
+position = Vector2(71, 81)
+script = ExtResource("1_mr7qh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=11267842]
-position = Vector2(2, -25)
+position = Vector2(2, -27.5)
 shape = SubResource("RectangleShape2D_oshej")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=81602999]
