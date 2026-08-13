@@ -1,0 +1,535 @@
+[gd_scene format=3 uid="uid://bu0qugc3qqtt3"]
+
+[ext_resource type="Script" uid="uid://cpxb5mrkwx6m0" path="res://ui/registration_ui.gd" id="1_rjm33"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_main"]
+bg_color = Color(0.96, 0.97, 0.98, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cell"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.2, 0.2, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+content_margin_left = 30.0
+content_margin_top = 12.0
+content_margin_right = 30.0
+content_margin_bottom = 12.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[node name="RegistrationUI" type="Control" unique_id=624197379]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rjm33")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1295726484]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.85, 0.88, 0.91, 1)
+
+[node name="MainPanel" type="Panel" parent="." unique_id=1033029038]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_main")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainPanel" unique_id=178434567]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/MarginContainer" unique_id=1164564786]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="LeftMenu" type="VBoxContainer" parent="MainPanel/MarginContainer/HBoxContainer" unique_id=654413039]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/LeftMenu" unique_id=905561467]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "PLAYER1"
+
+[node name="HSeparator" type="HSeparator" parent="MainPanel/MarginContainer/HBoxContainer/LeftMenu" unique_id=2097388154]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/LeftMenu" unique_id=221482569]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "ตารางเรียน"
+
+[node name="CheckLabel" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/LeftMenu" unique_id=320491683]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 16
+text = "ตรวจสอบรายวิชา"
+
+[node name="VSeparator" type="VSeparator" parent="MainPanel/MarginContainer/HBoxContainer" unique_id=347691306]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="RightContent" type="VBoxContainer" parent="MainPanel/MarginContainer/HBoxContainer" unique_id=505243383]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="TimeHeader" type="HBoxContainer" parent="MainPanel/MarginContainer/HBoxContainer/RightContent" unique_id=1929775500]
+layout_mode = 2
+
+[node name="DayHeaderSpacer" type="Control" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimeHeader" unique_id=416172731]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+
+[node name="Label1" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimeHeader" unique_id=1493857606]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "8:00 - 10:00"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimeHeader" unique_id=1311967390]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "10:00 - 12:00"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimeHeader" unique_id=1338614117]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimeHeader" unique_id=9895843]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "13:00 - 15:00"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimeHeader" unique_id=1985889814]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "15:00 - 17:00"
+horizontal_alignment = 1
+
+[node name="TimetableGrid" type="GridContainer" parent="MainPanel/MarginContainer/HBoxContainer/RightContent" unique_id=558795121]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+columns = 6
+
+[node name="Day_Mon" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1573084438]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "จันทร์"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell_R1C1" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1278610765]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R1C2" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=285916396]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R1C3" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=981448070]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R1C4" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1392060366]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R1C5" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1454620486]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Day_Tue" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1839959480]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "อังคาร"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell_R2C1" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=833859538]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R2C2" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1302809962]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R2C3" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=174454935]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R2C4" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=732660999]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R2C5" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1233254210]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Day_Wed" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1266923898]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "พุธ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell_R3C1" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1045223929]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R3C2" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=2107553290]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R3C3" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1091014149]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R3C4" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1061151944]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R3C5" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1352403590]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Day_Thu" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=874537203]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "พฤหัสบดี"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell_R4C1" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=575282408]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R4C2" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=323921437]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R4C3" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=729835220]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R4C4" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1664619022]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R4C5" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=588804932]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Day_Fri" type="Label" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=30920188]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "ศุกร์"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell_R5C1" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1797301878]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R5C2" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1849366020]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R5C3" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1732345950]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R5C4" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=529893528]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Cell_R5C5" type="Panel" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/TimetableGrid" unique_id=1458177116]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_cell")
+
+[node name="Spacer_GridBottom" type="Control" parent="MainPanel/MarginContainer/HBoxContainer/RightContent" unique_id=1454940448]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="BottomBar" type="HBoxContainer" parent="MainPanel/MarginContainer/HBoxContainer/RightContent" unique_id=258312501]
+layout_mode = 2
+
+[node name="SubjectInventory" type="GridContainer" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar" unique_id=1297249539]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 4
+
+[node name="Btn_Core" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1485133056]
+custom_minimum_size = Vector2(130, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_card")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
+theme_override_styles/hover = SubResource("StyleBoxFlat_card")
+theme_override_styles/focus = SubResource("StyleBoxFlat_card")
+text = "English1"
+
+[node name="Btn_Elective" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=446088976]
+custom_minimum_size = Vector2(130, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_card")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
+theme_override_styles/hover = SubResource("StyleBoxFlat_card")
+theme_override_styles/focus = SubResource("StyleBoxFlat_card")
+text = "Math"
+
+[node name="Btn_Activity" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1634652401]
+custom_minimum_size = Vector2(130, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_card")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
+theme_override_styles/hover = SubResource("StyleBoxFlat_card")
+theme_override_styles/focus = SubResource("StyleBoxFlat_card")
+text = "Introduction"
+
+[node name="Btn_Seminar" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1915251640]
+custom_minimum_size = Vector2(130, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_card")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
+theme_override_styles/hover = SubResource("StyleBoxFlat_card")
+theme_override_styles/focus = SubResource("StyleBoxFlat_card")
+text = "Seminar"
+
+[node name="Btn_Project" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=2028492083]
+custom_minimum_size = Vector2(130, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_card")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
+theme_override_styles/hover = SubResource("StyleBoxFlat_card")
+theme_override_styles/focus = SubResource("StyleBoxFlat_card")
+text = "Project"
+
+[node name="Btn_Intern" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1147913389]
+custom_minimum_size = Vector2(130, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_card")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
+theme_override_styles/hover = SubResource("StyleBoxFlat_card")
+theme_override_styles/focus = SubResource("StyleBoxFlat_card")
+text = "GE"
+
+[node name="Btn_Camp" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=990847113]
+custom_minimum_size = Vector2(130, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_card")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
+theme_override_styles/hover = SubResource("StyleBoxFlat_card")
+theme_override_styles/focus = SubResource("StyleBoxFlat_card")
+text = "Computer"
+
+[node name="Btn_Tutor" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1076622304]
+custom_minimum_size = Vector2(130, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_card")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
+theme_override_styles/hover = SubResource("StyleBoxFlat_card")
+theme_override_styles/focus = SubResource("StyleBoxFlat_card")
+text = "Art"
+
+[node name="Spacer" type="Control" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar" unique_id=299437567]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ReturnButton" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar" unique_id=241932405]
+custom_minimum_size = Vector2(120, 48)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button")
+theme_override_styles/focus = SubResource("StyleBoxFlat_button")
+text = "ย้อนกลับ"
+
+[node name="ConfirmButton" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar" unique_id=1611501462]
+custom_minimum_size = Vector2(120, 48)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button")
+theme_override_styles/focus = SubResource("StyleBoxFlat_button")
+text = "ยืนยัน"
