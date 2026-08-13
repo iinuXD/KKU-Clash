@@ -43,7 +43,8 @@ const CUSTOM_LINKS := [
 	["Cross8", "Cross4"],
 	["Cross8", "Fun"],
 	["Cross7", "Fun"],
-	["Cross3", "Cross2"]
+	["Cross3", "Cross2"],
+	["End4", "Park"]
 ]  
 
 func _ready() -> void:

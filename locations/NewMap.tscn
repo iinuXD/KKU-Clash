@@ -444,7 +444,7 @@ position = Vector2(500.67172, 473.61414)
 position = Vector2(77.25189, 518.68054)
 
 [node name="End4" type="Marker2D" parent="waypiont" unique_id=2025995514]
-position = Vector2(179, 534)
+position = Vector2(178, 520)
 
 [node name="Learn" type="Marker2D" parent="waypiont" unique_id=1915809165]
 position = Vector2(506, 295)
