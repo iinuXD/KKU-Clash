@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://xk0g0paoa0oj" path="res://locations/Place/sport.tscn" id="10_l4dg8"]
 [ext_resource type="PackedScene" uid="uid://ccjivjc3gdk15" path="res://ui/player_panel.tscn" id="13_os617"]
 [ext_resource type="Texture2D" uid="uid://bfkfsxi22owfw" path="res://asset/Character/Bodies/32x32/Body_01 69.png" id="14_y0c4k"]
+[ext_resource type="PackedScene" uid="uid://vrjm31lokv6s" path="res://ui/activity_popup.tscn" id="15_hysm1"]
 [ext_resource type="Texture2D" uid="uid://b4c02xpo8qchm" path="res://asset/Character/Eyes/32x32/Eyes_06.png" id="15_v1lx3"]
 [ext_resource type="Texture2D" uid="uid://u6iv2vnf4aqc" path="res://asset/Character/Outfits/32x32/Outfit_01_01.png" id="16_hysm1"]
 [ext_resource type="Texture2D" uid="uid://bi2n55pmv7l4d" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="17_j6g76"]
@@ -534,9 +535,10 @@ tile_map_data = PackedByteArray("AAAxADYAAgADAAEAAAAxADUAAgADAAEAAAAxADQAAgADAAE
 tile_set = ExtResource("3_7rooa")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1263572156]
-visible = false
 
 [node name="PlayerPanel" parent="UILayer" unique_id=871320382 instance=ExtResource("13_os617")]
+
+[node name="ActivityPopup" parent="UILayer" unique_id=1879262156 instance=ExtResource("15_hysm1")]
 
 [node name="Player" type="VBoxContainer" parent="." unique_id=1980044058]
 visible = false

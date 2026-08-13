@@ -19,11 +19,9 @@ func _ready() -> void:
 	# สร้างป้าย Label ขึ้นมาด้วยโค้ด พร้อมตกแต่งกรอบสีดำโปร่งแสง
 	hover_label = Label.new()
 	var style = StyleBoxFlat.new()
-<<<<<<< HEAD
+
 	style.bg_color = Color(0.1, 0.1, 0.1, 0.85)
-=======
-	style.bg_color = Color(0.1, 0.1, 0.1, 0.85) # สีดำโปร่งแสง
->>>>>>> merged
+
 	style.corner_radius_top_left = 6
 	style.corner_radius_top_right = 6
 	style.corner_radius_bottom_left = 6

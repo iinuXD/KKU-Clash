@@ -249,6 +249,14 @@ func walk_to_place(target_place: Node2D) -> void:
 	is_walking = false
 	print(">>> 4. เดินถึงที่หมายแล้ว!")
 	
+	var popup = $UILayer/ActivityPopup
+	if popup:
+		popup.open_popup(target_place.name, current_player_index)
+		
+		# สั่งให้โค้ด "หยุดรอ" จนกว่าผู้เล่นจะกดปุ่มใดปุ่มหนึ่งใน Popup
+		var chosen_action = await popup.activity_chosen 
+		print("ผู้เล่นคนที่ ", current_player_index + 1, " เลือกทำกิจกรรม: ", chosen_action)
+	
 	# โค้ดส่วนจัดการ AP หลังเดินจบตา
 	current_player_walks += 1
 	if player_panel:

@@ -27,7 +27,7 @@ func _ready() -> void:
 		setup_avatar(slots[i], i)
 		
 	await get_tree().create_timer(2.0).timeout
-	get_tree().change_scene_to_file("res://locations/NewMap.tscn")
+	get_tree().change_scene_to_file("res://ui/registration_ui.tscn")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
