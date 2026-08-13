@@ -453,10 +453,10 @@ position = Vector2(496.79437, 295.1817)
 position = Vector2(504.3349, 295.42416)
 
 [node name="Food" type="Marker2D" parent="waypiont" unique_id=1606754702]
-position = Vector2(518.7429, 87.8986)
+position = Vector2(529.7429, 87.8986)
 
 [node name="End2" type="Marker2D" parent="waypiont" unique_id=1349669071]
-position = Vector2(545.1354, 87.43519)
+position = Vector2(522.1354, 87.43519)
 
 [node name="Library" type="Marker2D" parent="waypiont" unique_id=1248610112]
 position = Vector2(356, 140)
