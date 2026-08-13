@@ -1,17 +1,27 @@
 [gd_scene format=3 uid="uid://xk0g0paoa0oj"]
 
+[ext_resource type="Script" uid="uid://dumisltw60lso" path="res://core/script/highlights.gd" id="1_2r3cs"]
 [ext_resource type="Texture2D" uid="uid://cl0aik0cf3qxs" path="res://asset/place/sports.png" id="1_047nh"]
+[ext_resource type="Shader" uid="uid://bxkj28nm5xelu" path="res://locations/Place/food.gdshader" id="1_x4ncl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oshej"]
 size = Vector2(97, 91)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aqwij"]
+shader = ExtResource("1_x4ncl")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 1.0
+
 [node name="Area2D" type="Area2D" unique_id=2057062151]
+position = Vector2(60, 88)
+script = ExtResource("1_2r3cs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=11267842]
 position = Vector2(4.5, -26.5)
 shape = SubResource("RectangleShape2D_oshej")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=81602999]
+material = SubResource("ShaderMaterial_aqwij")
 position = Vector2(4.0423555, -30.957254)
 scale = Vector2(1.0009292, 1.0009291)
 texture = ExtResource("1_047nh")

@@ -1,17 +1,27 @@
 [gd_scene format=3 uid="uid://cyay72jy2i48w"]
 
 [ext_resource type="Texture2D" uid="uid://b5wr84u1gbk78" path="res://asset/place/library.png" id="1_48mol"]
+[ext_resource type="Shader" uid="uid://bxkj28nm5xelu" path="res://locations/Place/food.gdshader" id="1_ovwtc"]
+[ext_resource type="Script" uid="uid://dumisltw60lso" path="res://core/script/highlights.gd" id="1_upjqo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oshej"]
-size = Vector2(106, 68)
+size = Vector2(106, 81)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_50b0e"]
+shader = ExtResource("1_ovwtc")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 1.10400005244
 
 [node name="Area2D" type="Area2D" unique_id=2057062151]
+position = Vector2(59, 72)
+script = ExtResource("1_upjqo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=11267842]
-position = Vector2(2, -28)
+position = Vector2(2, -26.5)
 shape = SubResource("RectangleShape2D_oshej")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=81602999]
+material = SubResource("ShaderMaterial_50b0e")
 position = Vector2(2, -29.000002)
 scale = Vector2(0.9583802, 0.9583802)
 texture = ExtResource("1_48mol")
