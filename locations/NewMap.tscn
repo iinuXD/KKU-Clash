@@ -500,8 +500,6 @@ position = Vector2(248, 88)
 [node name="Hospital" type="Marker2D" parent="waypiont" unique_id=541237133]
 position = Vector2(681, 392)
 
-[node name="Hospital" type="Marker2D" parent="waypiont" unique_id=541237133]
-position = Vector2(694, 473)
 
 [node name="location" type="Node2D" parent="." unique_id=1864991258]
 
