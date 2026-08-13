@@ -18,7 +18,33 @@ var max_walks_per_turn: int = 5
 var is_walking: bool = false
 
 var current_round: int = 1
-var max_rounds: int = 20       
+var max_rounds: int = 20     
+
+const CUSTOM_LINKS := [
+	["Dorm", "Round1"],
+	["Round1", "Sport"],
+	["Sport", "Shop"],
+	["Shop", "Cross1"],
+	["Cross1", "Library"],
+	["Library", "Cross5"],
+	["Cross1", "Food"],
+	["Food", "Round2"],
+	["Round2", "Cross2"],
+	["Cross2", "Learn"],
+	["Learn", "Cross5"],
+	["Cross5", "Cross6"],
+	["Cross6", "Round1"],
+	["Cross6", "Round3"],
+	["Round3", "End4"],
+	["Round3", "Cross4"],
+	["Cross3", "Cross4"],
+	["Cross3", "Hospital"],
+	["Cross3", "Cross7"],
+	["Cross8", "Cross4"],
+	["Cross8", "Fun"],
+	["Cross7", "Fun"],
+	["Cross3", "Cross2"]
+]  
 
 func _ready() -> void:
 	
@@ -119,6 +145,7 @@ func pass_turn() -> void:
 func setup_astar() -> void:
 	astar = AStar2D.new()
 	all_markers.clear()
+	var marker_id_by_name: Dictionary = {}
 	
 	# ดึงหมุดทั้งหมดจากโหนด waypiont
 	if waypoints_node:
@@ -127,33 +154,28 @@ func setup_astar() -> void:
 			
 	for i in range(all_markers.size()):
 		astar.add_point(i, all_markers[i].global_position)
-		
-	var margin = 15.0
-	for i in range(all_markers.size()):
-		var p1 = all_markers[i].global_position
-		
-		var closest_up = -1; var dist_up = 999999.0
-		var closest_down = -1; var dist_down = 999999.0
-		var closest_left = -1; var dist_left = 999999.0
-		var closest_right = -1; var dist_right = 999999.0
-		
-		for j in range(all_markers.size()):
-			if i == j: continue
-			var p2 = all_markers[j].global_position
-			var dist = p1.distance_to(p2)
-			
-			if abs(p1.y - p2.y) < margin:
-				if p2.x < p1.x and dist < dist_left: dist_left = dist; closest_left = j
-				elif p2.x > p1.x and dist < dist_right: dist_right = dist; closest_right = j
-					
-			if abs(p1.x - p2.x) < margin:
-				if p2.y < p1.y and dist < dist_up: dist_up = dist; closest_up = j
-				elif p2.y > p1.y and dist < dist_down: dist_down = dist; closest_down = j
-					
-		if closest_up != -1: astar.connect_points(i, closest_up)
-		if closest_down != -1: astar.connect_points(i, closest_down)
-		if closest_left != -1: astar.connect_points(i, closest_left)
-		if closest_right != -1: astar.connect_points(i, closest_right)
+		marker_id_by_name[all_markers[i].name] = i
+
+	for link in CUSTOM_LINKS:
+		if link.size() < 2:
+			push_warning("Invalid CUSTOM_LINKS entry: " + str(link))
+			continue
+
+		var from_name := str(link[0])
+		var to_name := str(link[1])
+
+		if not marker_id_by_name.has(from_name):
+			push_warning("CUSTOM_LINKS missing waypoint marker: " + from_name)
+			continue
+		if not marker_id_by_name.has(to_name):
+			push_warning("CUSTOM_LINKS missing waypoint marker: " + to_name)
+			continue
+
+		var from_id: int = marker_id_by_name[from_name]
+		var to_id: int = marker_id_by_name[to_name]
+
+		if not astar.are_points_connected(from_id, to_id):
+			astar.connect_points(from_id, to_id, true)
 
 
 func _on_place_clicked(viewport: Node, event: InputEvent, shape_idx: int, clicked_place: Node2D) -> void:

@@ -444,25 +444,19 @@ position = Vector2(500.67172, 473.61414)
 position = Vector2(77.25189, 518.68054)
 
 [node name="End4" type="Marker2D" parent="waypiont" unique_id=2025995514]
-position = Vector2(179.65634, 521.84644)
+position = Vector2(179, 534)
 
 [node name="Learn" type="Marker2D" parent="waypiont" unique_id=1915809165]
-position = Vector2(496.79437, 295.1817)
-
-[node name="End3" type="Marker2D" parent="waypiont" unique_id=932809542]
-position = Vector2(504.3349, 295.42416)
+position = Vector2(506, 295)
 
 [node name="Food" type="Marker2D" parent="waypiont" unique_id=1606754702]
-position = Vector2(518.7429, 87.8986)
-
-[node name="End2" type="Marker2D" parent="waypiont" unique_id=1349669071]
-position = Vector2(545.1354, 87.43519)
+position = Vector2(546, 86)
 
 [node name="Library" type="Marker2D" parent="waypiont" unique_id=1248610112]
 position = Vector2(356, 140)
 
 [node name="Shop" type="Marker2D" parent="waypiont" unique_id=1342953687]
-position = Vector2(328, 88)
+position = Vector2(335, 88)
 
 [node name="Cross1" type="Marker2D" parent="waypiont" unique_id=816291803]
 position = Vector2(356, 88)
@@ -486,7 +480,7 @@ position = Vector2(643, 89)
 position = Vector2(179, 392)
 
 [node name="Cross5" type="Marker2D" parent="waypiont" unique_id=453919640]
-position = Vector2(357, 296)
+position = Vector2(356, 296)
 
 [node name="Cross6" type="Marker2D" parent="waypiont" unique_id=848686966]
 position = Vector2(180, 296)
@@ -501,13 +495,10 @@ position = Vector2(388, 473)
 position = Vector2(118, 88)
 
 [node name="Sport" type="Marker2D" parent="waypiont" unique_id=593969511]
-position = Vector2(180, 163)
-
-[node name="End" type="Marker2D" parent="waypiont" unique_id=748069438]
-position = Vector2(111, 88)
+position = Vector2(248, 88)
 
 [node name="Hospital" type="Marker2D" parent="waypiont" unique_id=541237133]
-position = Vector2(694, 473)
+position = Vector2(681, 392)
 
 [node name="location" type="Node2D" parent="." unique_id=1864991258]
 
@@ -543,10 +534,12 @@ tile_map_data = PackedByteArray("AAAxADYAAgADAAEAAAAxADUAAgADAAEAAAAxADQAAgADAAE
 tile_set = ExtResource("3_7rooa")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1263572156]
+visible = false
 
 [node name="PlayerPanel" parent="UILayer" unique_id=871320382 instance=ExtResource("13_os617")]
 
 [node name="Player" type="VBoxContainer" parent="." unique_id=1980044058]
+visible = false
 offset_left = 276.0
 offset_top = -54.0
 offset_right = 276.0
