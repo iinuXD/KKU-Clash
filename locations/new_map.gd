@@ -294,7 +294,11 @@ func walk_to_place(target_place: Node2D) -> void:
 	
 	var popup = $UILayer/ActivityPopup
 	if popup:
-		popup.open_popup(target_place.name, current_player_index)
+		# ดึงข้อมูลสเตตัสเฉพาะของตึกที่ยืนอยู่ (ถ้าไม่มีให้คืนค่าว่าง)
+		var place_effects = activity_effects.get(target_place.name, {})
+		
+		# ส่ง place_effects เข้าไปในวงเล็บด้วย
+		popup.open_popup(target_place.name, current_player_index, place_effects)
 		
 		# สั่งให้โค้ด "หยุดรอ" จนกว่าผู้เล่นจะกดปุ่มใดปุ่มหนึ่งใน Popup
 		var chosen_action = await popup.activity_chosen 
