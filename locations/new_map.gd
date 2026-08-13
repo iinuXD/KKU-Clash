@@ -45,7 +45,53 @@ const CUSTOM_LINKS := [
 	["Cross7", "Fun"],
 	["Cross3", "Cross2"],
 	["End4", "Park"]
-]  
+] 
+
+var activity_effects = {
+	"Dorm": {
+		"นอนพัก": {"stamina": 30},
+		"เล่นเกม": {"happiness": 20, "stamina": -5},
+		"อ่านหนังสือ": {"study": 10, "stamina": -10, "happiness": -5},
+		"จ่ายค่าห้อง": {"money": -800, "happiness": 10}
+	},
+	"Food": {
+		"กินข้าวจานธรรมดา": {"money": -40, "hunger": 25},
+		"กินข้าวจานพิเศษ": {"money": -50, "hunger": 35, "happiness": 5},
+		"กินของทานเล่น": {"money": -20, "hunger": 10, "happiness": 15},
+		"ทำ Parttime": {"money": 120, "stamina": -15, "hunger": -10}
+	},
+	"Library": {
+		"อ่านหนังสือ": {"study": 15, "stamina": -10, "hunger": -5},
+		"ค้นคว้า": {"study": 20, "stamina": -15, "hunger": -10},
+		"ยืมหนังสือ": {"money": -20, "study": 5},
+		"ทำ Parttime": {"money": 100, "stamina": -10}
+	},
+	"Shop": {
+		"ซื้ออาหารตุน 2 สัปดาห์": {"money": -300, "hunger": 40, "happiness": 10},
+		"ซื้ออาหารตุน 3 สัปดาห์": {"money": -450, "hunger": 70, "happiness": 20},
+		"ทำ Parttime": {"money": 130, "stamina": -15, "happiness": -5}
+	},
+	"Hospital": {
+		"เข้ารับการรักษา": {"money": -500, "stamina": 50, "happiness": 20},
+		"ซื้อยา": {"money": -150, "stamina": 25},
+		"ตรวจสุขภาพ": {"money": -250, "stamina": 15, "happiness": 15}
+	},
+	"Park": {
+		"เดินเล่น": {"happiness": 20, "stamina": -5},
+		"ซื้อของกิน": {"money": -40, "hunger": 15, "happiness": 15},
+		"ขายของ": {"money": 150, "stamina": -20, "hunger": -10}
+	},
+	"Sport": {
+		"วิ่ง": {"happiness": 15, "stamina": -15},
+		"เล่นกีฬา": {"happiness": 25, "stamina": -25},
+		"ทำกิจกรรม": {"happiness": 15, "study": 5, "stamina": -20}
+	},
+	"Fun": {
+		"ดูหนัง": {"money": -120, "happiness": 30},
+		"ปาร์ตี้": {"money": -300, "happiness": 50, "stamina": -20, "study": -10},
+		"ทำ Parttime": {"money": 200, "stamina": -25, "hunger": -15}
+	}
+} 
 
 func _ready() -> void:
 	
@@ -88,15 +134,15 @@ func _setup_mock_data() -> void:
 	for i in range(Global.player_data.size()):
 		# เซ็ตเงิน 5555 บาท
 		if not Global.player_data[i].has("money"):
-			Global.player_data[i]["money"] = 5555
+			Global.player_data[i]["money"] = 1000
 			
 		# เซ็ตสเตตัส 50 ทุกอัน
 		if not Global.player_data[i].has("stats"):
 			Global.player_data[i]["stats"] = {
 				"happiness": 50,
-				"hunger": 50,
-				"stamina": 50,
-				"study": 50
+				"hunger": 70,
+				"stamina": 70,
+				"study": 0
 			}
 	
 func setup_current_turn() -> void:
@@ -187,7 +233,6 @@ func _on_place_clicked(viewport: Node, event: InputEvent, shape_idx: int, clicke
 
 # เปลี่ยนตรง target_place: Control เป็นเป้าหมายแบบ Node2D ครับ
 func walk_to_place(target_place: Node2D) -> void:
-	# ค้นหา Marker2D ในสถานที่ที่ถูกคลิก หรือดึงจาก waypiont โดยเทียบชื่อ
 	var target_marker = target_place.get_node_or_null("Marker2D")
 	if target_marker == null:
 		var path_name = NodePath(str(target_place.name))
@@ -208,8 +253,6 @@ func walk_to_place(target_place: Node2D) -> void:
 	if path.is_empty(): 
 		print(">>> 3. สร้างเส้นทางไม่ได้ (A* ไปไม่ถึง) หมุดอาจจะเยื้องกันเกินไป!")
 		return
-	else:
-		print(">>> 3. สร้างเส้นทางสำเร็จ! จำนวนจุด: ", path.size())
 		
 	var walk_speed = 300.0 
 	var tween = create_tween()
@@ -256,14 +299,34 @@ func walk_to_place(target_place: Node2D) -> void:
 		# สั่งให้โค้ด "หยุดรอ" จนกว่าผู้เล่นจะกดปุ่มใดปุ่มหนึ่งใน Popup
 		var chosen_action = await popup.activity_chosen 
 		print("ผู้เล่นคนที่ ", current_player_index + 1, " เลือกทำกิจกรรม: ", chosen_action)
-	
-	# โค้ดส่วนจัดการ AP หลังเดินจบตา
-	current_player_walks += 1
-	if player_panel:
-		player_panel.update_ap_ui(current_player_walks, max_walks_per_turn)
-	
-	if current_player_walks >= max_walks_per_turn:
-		pass_turn()
+		
+		# ถ้าผู้เล่นไม่ได้กดปิดหน้าต่าง (ทำกิจกรรมจริง)
+		if chosen_action != "ยกเลิก (ไม่ทำกิจกรรม)":
+			# คำนวณบวกลบสเตตัส พร้อมรับค่าว่า "สลบหรือไม่" 
+			var is_fainted = apply_activity_effects(chosen_action, target_place.name)
+			
+			if is_fainted:
+				# บทลงโทษ 1: โดนริบ AP ทั้งหมดที่มีในเทิร์นนั้น
+				current_player_walks = max_walks_per_turn
+				# บทลงโทษ 2: วาร์ปตัวละครกลับหอพักทันที
+				active_player.global_position = dorm_marker.global_position
+				
+				# ให้กล้องสไลด์ตามกลับไปที่หอพักด้วย จะได้ไม่หลง
+				var cam_tween = create_tween()
+				cam_tween.tween_property(camera, "global_position", active_player.global_position, 0.4).set_trans(Tween.TRANS_SINE)
+			else:
+				# ถ้าไม่สลบ หัก AP 1 แต้มปกติ
+				current_player_walks += 1
+		else:
+			# ถ้ากดยกเลิก (CloseButton) ก็หัก 1 AP เหมือนกัน เพราะเสียเวลาเดินมาแล้ว
+			current_player_walks += 1
+			
+		# อัปเดต UI และตรวจสอบการเปลี่ยนเทิร์น (เขียนไว้รอบเดียวพอ)
+		if player_panel:
+			player_panel.update_ap_ui(current_player_walks, max_walks_per_turn)
+		
+		if current_player_walks >= max_walks_per_turn:
+			pass_turn()
 
 func play_animation(player_node: Control, anim_name: String) -> void:
 	var anim_player = player_node.get_node_or_null("Panel/CenterPoint/AnimationPlayer")
@@ -286,3 +349,40 @@ func setup_player(player_index: int, player_character: Control) -> void:
 	if settings.has("outfit_path") and settings["outfit_path"] != "": outfit_sprite.texture = load(settings["outfit_path"])
 	if settings.has("hair_path") and settings["hair_path"] != "": hair_sprite.texture = load(settings["hair_path"])
 	if settings.has("accessory_path") and settings["accessory_path"] != "": accessory_sprite.texture = load(settings["accessory_path"])
+
+func apply_activity_effects(action_name: String, place_name: String) -> bool:
+	var p_data = Global.player_data[current_player_index]
+	var effects = {}
+	var is_fainted = false # ตัวแปรดักจับว่าสลบไหม
+	
+	if place_name == "Learn" and action_name.begins_with("เรียน "):
+		effects = {"study": 20, "stamina": -15, "hunger": -10, "happiness": -10}
+		
+	# ดึงค่าจากตารางกิจกรรม โดยอิงตามตึกที่ยืนอยู่
+	elif activity_effects.has(place_name) and activity_effects[place_name].has(action_name):
+		effects = activity_effects[place_name][action_name]
+		
+	# คำนวณการเปลี่ยนแปลง
+	print("--- ประมวลผลกิจกรรม: ", action_name, " ที่ ", place_name, " ---")
+	for key in effects:
+		var change_val = effects[key]
+		
+		if key == "money":
+			p_data["money"] = max(0, p_data.get("money", 0) + change_val)
+		else:
+			var current_stat = p_data["stats"].get(key, 0)
+			var new_stat = clamp(current_stat + change_val, 0, 100)
+			p_data["stats"][key] = new_stat
+			
+			# --- ตรวจจับสถานะ 0 (ความหิว หรือ พลังงาน) ---
+			if (key == "hunger" or key == "stamina") and new_stat <= 0:
+				is_fainted = true
+				print("!!! แจ้งเตือน: ผู้เล่นสลบเพราะ ", key, " เหลือ 0 !!!")
+				
+				# บทลงโทษ: โดนบังคับให้รอบหน้าฟื้นมาแค่ขีดแดง (20)
+				p_data["stats"][key] = 20
+			
+	if player_panel:
+		player_panel.setup_players_ui()
+		
+	return is_fainted
