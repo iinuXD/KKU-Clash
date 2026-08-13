@@ -14,6 +14,14 @@
 [ext_resource type="Texture2D" uid="uid://b723j1exr8fsh" path="res://asset/playerpanel/stamina/stamina100.png" id="10_2coxq"]
 [ext_resource type="Texture2D" uid="uid://lsivggn3djik" path="res://asset/playerpanel/study/study100.png" id="11_gq6hs"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_gt7yw"]
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_028fm"]
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1jkkd"]
 load_path = "res://.godot/imported/border.png-0d9e31474903412fb539ba586885232d.ctex"
 
@@ -40,6 +48,7 @@ grow_horizontal = 2
 theme_override_fonts/font = ExtResource("1_cp5gh")
 theme_override_font_sizes/font_size = 24
 text = "week 1/20"
+label_settings = SubResource("LabelSettings_gt7yw")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -55,6 +64,7 @@ offset_bottom = 69.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "AP 0 / 5"
+label_settings = SubResource("LabelSettings_028fm")
 
 [node name="playerstat1" type="VBoxContainer" parent="." unique_id=714202830]
 custom_minimum_size = Vector2(0, 120)
