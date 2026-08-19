@@ -775,3 +775,31 @@ size_flags_horizontal = 6
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "2000 BATH"
 horizontal_alignment = 1
+
+[node name="MissionPanel" type="Panel" parent="." unique_id=2028965127]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 180.0
+offset_right = 210.0
+offset_bottom = 380.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MissionPanel" unique_id=982939770]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MissionTitle" type="Label" parent="MissionPanel/VBoxContainer" unique_id=801961571]
+layout_mode = 2
+text = "ภารกิจปัจจุบัน"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MissionPanel/VBoxContainer" unique_id=262146444]
+layout_mode = 2
+
+[node name="MissionDetails" type="RichTextLabel" parent="MissionPanel/VBoxContainer" unique_id=1567462515]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true

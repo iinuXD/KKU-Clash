@@ -6,12 +6,10 @@ signal activity_chosen(activity_name)
 @onready var btn_container = $BgFrame/VBoxContainer
 @onready var close_btn = $BgFrame/CloseButton 
 
-# ตัวแปรสำหรับป้ายโชว์สเตตัสที่เมาส์
 var hover_label: Label
 
 var activity_data = {
 	"Dorm": {"title": "หอพัก", "options": ["นอนพัก", "เล่นเกม", "อ่านหนังสือ", "จ่ายค่าห้อง"]},
-	"Learn": {"title": "คณะ", "options": ["", "", "", ""]},
 	"Food": {"title": "โรงอาหาร", "options": ["กินข้าวจานธรรมดา", "กินข้าวจานพิเศษ", "กินของทานเล่น", "ทำ Parttime"]},
 	"Library": {"title": "ห้องสมุด", "options": ["อ่านหนังสือ", "ค้นคว้า", "ยืมหนังสือ", "ทำ Parttime"]},
 	"Shop": {"title": "ร้านค้า", "options": ["ซื้ออาหารตุน 2 สัปดาห์", "ซื้ออาหารตุน 3 สัปดาห์", "ทำ Parttime"]},
@@ -23,8 +21,53 @@ var activity_data = {
 
 func _ready() -> void:
 	hide() 
+	_setup_hover_label()
 	
-	# สร้างป้าย Label ขึ้นมาตกแต่งพร้อมกรอบดำโปร่งแสง
+	# เชื่อมต่อสัญญาณปุ่มทั้งหมด
+	for btn in btn_container.get_children():
+		if btn is Button:
+			btn.pressed.connect(_on_button_pressed.bind(btn))
+			btn.mouse_entered.connect(_on_btn_hover.bind(btn))
+			btn.mouse_exited.connect(_on_btn_exit)
+			
+	if close_btn:
+		close_btn.pressed.connect(_on_close_pressed)
+
+func _process(delta: float) -> void:
+	if hover_label and hover_label.visible:
+		hover_label.global_position = get_global_mouse_position() + Vector2(15, 15)
+
+# ==========================================
+# ระบบจัดเตรียมหน้าต่าง Popup
+# ==========================================
+func open_popup(place_name: String, player_index: int, place_effects: Dictionary = {}) -> void:
+	# ดึงข้อมูลชื่อตึกและปุ่ม หากตึกนั้นไม่มีใน data ให้ดึง title จากชื่อ Node แทน
+	var data = activity_data.get(place_name, {"title": "คณะ", "options": []})
+	title_label.text = data["title"]
+	
+	# กรณีเป็นตึก Learn ให้ดึงชื่อปุ่มวิชามาจาก place_effects ที่ new_map โยนมาให้เลย
+	var current_options = place_effects.keys() if place_name == "Learn" else data["options"]
+	var btns = btn_container.get_children()
+	
+	for i in range(btns.size()):
+		if btns[i] is Button:
+			if i < current_options.size():
+				var action_name = current_options[i]
+				btns[i].text = action_name
+				btns[i].show()
+				
+				# จัดการ Tooltip โชว์สเตตัส
+				var hover_str = _generate_hover_text(place_effects[action_name]) if place_effects.has(action_name) else "ไม่มีผลกระทบต่อสเตตัส"
+				btns[i].set_meta("hover_text", hover_str)
+			else:
+				btns[i].hide() 
+				
+	show()
+
+# ==========================================
+# ระบบป้าย Tooltip (Hover)
+# ==========================================
+func _setup_hover_label() -> void:
 	hover_label = Label.new()
 	var style = StyleBoxFlat.new()
 	style.bg_color = Color(0.1, 0.1, 0.1, 0.85)
@@ -42,69 +85,7 @@ func _ready() -> void:
 	hover_label.z_index = 100 
 	hover_label.hide() 
 	add_child(hover_label)
-	
-	# เชื่อมต่อปุ่ม และเพิ่ม Event ตรวจจับเมาส์
-	var btns = btn_container.get_children()
-	for btn in btns:
-		if btn is Button:
-			btn.pressed.connect(_on_button_pressed.bind(btn))
-			btn.mouse_entered.connect(_on_btn_hover.bind(btn))
-			btn.mouse_exited.connect(_on_btn_exit)
-			
-	if close_btn:
-		close_btn.pressed.connect(_on_close_pressed)
 
-func _process(delta: float) -> void:
-	# ขยับป้ายให้ลอยตามปลายเมาส์ตลอดเวลา
-	if hover_label and hover_label.visible:
-		hover_label.global_position = get_global_mouse_position() + Vector2(15, 15)
-
-# สังเกตว่ามีการรับค่า place_effects (ตารางกิจกรรม) เข้ามาด้วย
-func open_popup(place_name: String, player_index: int, place_effects: Dictionary = {}) -> void:
-	var data = activity_data.get(place_name, {"title": place_name, "options": ["ปิดหน้าต่าง"]})
-	var current_title = data["title"]
-	var current_options = data["options"].duplicate()
-	
-	if place_name == "Learn":
-		if Global.player_data.size() > player_index:
-			var p_data = Global.player_data[player_index]
-			if p_data.has("timetable") and p_data["timetable"].has("counts"):
-				var registered_subjects = p_data["timetable"]["counts"].keys()
-				current_options.clear()
-				for sub_name in registered_subjects:
-					current_options.append("เรียน " + str(sub_name))
-					if current_options.size() == 4:
-						break
-			else:
-				current_options = ["ยังไม่ได้ลงทะเบียน", "-", "-", "-"]
-				
-	title_label.text = current_title
-	
-	var btns = btn_container.get_children()
-	for i in range(btns.size()):
-		if btns[i] is Button:
-			if i < current_options.size():
-				var action_name = current_options[i]
-				btns[i].text = action_name
-				btns[i].show()
-				
-				# --- เตรียมข้อความแจ้งสเตตัสสำหรับปุ่มนี้ ---
-				var hover_str = ""
-				if place_name == "Learn" and action_name.begins_with("เรียน "):
-					hover_str = _generate_hover_text({"study": 20, "stamina": -15, "hunger": -10, "happiness": -10})
-				elif place_effects.has(action_name):
-					hover_str = _generate_hover_text(place_effects[action_name])
-				else:
-					hover_str = "ไม่มีผลกระทบต่อสเตตัส"
-					
-				# ฝังข้อความสเตตัสไว้ในปุ่ม
-				btns[i].set_meta("hover_text", hover_str)
-			else:
-				btns[i].hide() 
-			
-	show() 
-
-# ฟังก์ชันแปลง Dictionary ตัวเลข ให้กลายเป็นข้อความภาษาไทยพร้อมเครื่องหมาย +/-
 func _generate_hover_text(effects: Dictionary) -> String:
 	var text = ""
 	var th_names = {
@@ -120,20 +101,21 @@ func _generate_hover_text(effects: Dictionary) -> String:
 		var sign_str = "+" if val > 0 else ""
 		text += th_names.get(key, key) + " " + sign_str + str(val) + "\n"
 		
-	return text.strip_edges() # ตัดช่องว่างบรรทัดสุดท้ายออก
+	return text.strip_edges()
 
-# เมื่อเอาเมาส์ชี้ปุ่ม
+# ==========================================
+# Event ปฏิสัมพันธ์กับผู้เล่น
+# ==========================================
 func _on_btn_hover(btn: Button) -> void:
 	if btn.has_meta("hover_text"):
 		hover_label.text = btn.get_meta("hover_text")
 		hover_label.show()
 
-# เมื่อเอาเมาส์ออกจากปุ่ม
 func _on_btn_exit() -> void:
 	hover_label.hide()
 
 func _on_button_pressed(btn: Button) -> void:
-	hover_label.hide() # ซ่อนป้ายทันทีเมื่อกด
+	hover_label.hide()
 	hide() 
 	activity_chosen.emit(btn.text) 
 
