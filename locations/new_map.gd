@@ -14,11 +14,11 @@ var all_markers: Array[Marker2D] = []
 var player_nodes: Array[Control] = [] 
 var current_player_index: int = 0     
 var current_player_walks: int = 0     
-var max_walks_per_turn: int = 5       
+var max_walks_per_turn: int = 8       
 var is_walking: bool = false
 
 var current_round: int = 1
-var max_rounds: int = 20     
+var max_rounds: int = 11     
 
 const CUSTOM_LINKS := [
 	["Dorm", "Round1"],
@@ -321,9 +321,6 @@ func walk_to_place(target_place: Node2D) -> void:
 			else:
 				# ถ้าไม่สลบ หัก AP 1 แต้มปกติ
 				current_player_walks += 1
-		else:
-			# ถ้ากดยกเลิก (CloseButton) ก็หัก 1 AP เหมือนกัน เพราะเสียเวลาเดินมาแล้ว
-			current_player_walks += 1
 			
 		# อัปเดต UI และตรวจสอบการเปลี่ยนเทิร์น (เขียนไว้รอบเดียวพอ)
 		if player_panel:

@@ -396,9 +396,9 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/h_separation = 12
 theme_override_constants/v_separation = 12
-columns = 4
+columns = 3
 
-[node name="Btn_Core" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1485133056]
+[node name="Btn_Thai" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1485133056]
 custom_minimum_size = Vector2(130, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -409,9 +409,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "English1"
+text = "ภาษาไทย"
 
-[node name="Btn_Elective" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=446088976]
+[node name="Btn_Math" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=446088976]
 custom_minimum_size = Vector2(130, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -422,9 +422,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "Math"
+text = "คณิตศาสตร์"
 
-[node name="Btn_Activity" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1634652401]
+[node name="Btn_Eng" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1634652401]
 custom_minimum_size = Vector2(130, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -435,9 +435,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "Introduction"
+text = "ภาษาอังกฤษ"
 
-[node name="Btn_Seminar" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1915251640]
+[node name="Btn_Phy" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1147913389]
 custom_minimum_size = Vector2(130, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -448,9 +448,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "Seminar"
+text = "ฟิสิกส์"
 
-[node name="Btn_Project" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=2028492083]
+[node name="Btn_Chem" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=990847113]
 custom_minimum_size = Vector2(130, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -461,9 +461,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "Project"
+text = "เคมี"
 
-[node name="Btn_Intern" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1147913389]
+[node name="Btn_Bio" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1076622304]
 custom_minimum_size = Vector2(130, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -474,33 +474,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_card")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
 theme_override_styles/hover = SubResource("StyleBoxFlat_card")
 theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "GE"
-
-[node name="Btn_Camp" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=990847113]
-custom_minimum_size = Vector2(130, 48)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 17
-theme_override_styles/normal = SubResource("StyleBoxFlat_card")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
-theme_override_styles/hover = SubResource("StyleBoxFlat_card")
-theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "Computer"
-
-[node name="Btn_Tutor" type="Button" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar/SubjectInventory" unique_id=1076622304]
-custom_minimum_size = Vector2(130, 48)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 17
-theme_override_styles/normal = SubResource("StyleBoxFlat_card")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_card")
-theme_override_styles/hover = SubResource("StyleBoxFlat_card")
-theme_override_styles/focus = SubResource("StyleBoxFlat_card")
-text = "Art"
+text = "ชีววิทยา"
 
 [node name="Spacer" type="Control" parent="MainPanel/MarginContainer/HBoxContainer/RightContent/BottomBar" unique_id=299437567]
 layout_mode = 2
