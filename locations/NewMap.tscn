@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://b4c02xpo8qchm" path="res://asset/Character/Eyes/32x32/Eyes_06.png" id="15_v1lx3"]
 [ext_resource type="Texture2D" uid="uid://u6iv2vnf4aqc" path="res://asset/Character/Outfits/32x32/Outfit_01_01.png" id="16_hysm1"]
 [ext_resource type="PackedScene" uid="uid://dltijbsc5apin" path="res://ui/learning_popup.tscn" id="16_j6g76"]
+[ext_resource type="PackedScene" uid="uid://buhwi8ggnu868" path="res://ui/scenario_popup.tscn" id="17_haua6"]
 [ext_resource type="Texture2D" uid="uid://bi2n55pmv7l4d" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="17_j6g76"]
 [ext_resource type="Texture2D" uid="uid://bu2dm5qksxe6n" path="res://asset/Character/Accessories/32x32/Accessory_01_Ladybug_01.png" id="18_haua6"]
 
@@ -542,6 +543,8 @@ tile_set = ExtResource("3_7rooa")
 [node name="ActivityPopup" parent="UILayer" unique_id=1879262156 instance=ExtResource("15_hysm1")]
 
 [node name="learning_popup" parent="UILayer" unique_id=1389026711 instance=ExtResource("16_j6g76")]
+
+[node name="ScenarioPopup" parent="UILayer" unique_id=843135863 instance=ExtResource("17_haua6")]
 
 [node name="Player" type="VBoxContainer" parent="." unique_id=1980044058]
 visible = false

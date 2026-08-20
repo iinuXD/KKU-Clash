@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dltijbsc5apin"]
 
-[ext_resource type="Texture2D" uid="uid://cvskiklvo1sf8" path="res://asset/activities/dorm.png" id="1_iq8fl"]
 [ext_resource type="Script" uid="uid://p2grsjr2fklv" path="res://ui/learning_popup.gd" id="1_yxqbv"]
+[ext_resource type="Texture2D" uid="uid://by6018ijq3qcc" path="res://asset/activities/learn.png" id="2_yxqbv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_haua6"]
 bg_color = Color(0.9490196, 0.8745098, 0.8352941, 1)
@@ -38,7 +38,7 @@ offset_right = 500.0
 offset_bottom = 350.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_iq8fl")
+texture = ExtResource("2_yxqbv")
 expand_mode = 1
 stretch_mode = 5
 
@@ -58,10 +58,10 @@ vertical_alignment = 1
 [node name="TimeLabel" type="Label" parent="BgPanel" unique_id=1324223599]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 700.0
-offset_top = 75.0
-offset_right = 920.0
-offset_bottom = 120.0
+offset_left = 622.0
+offset_top = 67.0
+offset_right = 842.0
+offset_bottom = 112.0
 theme_override_colors/font_color = Color(0.25, 0.25, 0.25, 1)
 theme_override_font_sizes/font_size = 24
 text = "20 วินาที"

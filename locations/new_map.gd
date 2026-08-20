@@ -10,6 +10,7 @@ extends Node2D
 
 # >>> 1. อ้างอิงหน้าต่างควิซ (ให้แน่ใจว่าลากมาวางใน UILayer แล้ว) <<<
 @onready var learning_popup = $UILayer/learning_popup 
+@onready var scenario_popup = $UILayer/ScenarioPopup
 
 var astar: AStar2D
 var all_markers: Array[Marker2D] = []
@@ -238,6 +239,15 @@ func walk_to_place(target_place: Node2D) -> void:
 	await tween.finished
 	is_walking = false
 	
+	var trigger_chance = 0.20
+	if randf() <= trigger_chance and scenario_popup:
+		var has_event = scenario_popup.try_start_scenario(target_place.name)
+		if has_event:
+			# รอจนกว่าผู้เล่นจะเลือกทางเลือกเสร็จ
+			var effects = await scenario_popup.scenario_resolved
+			_apply_scenario_effects(effects)
+			
+	# จบเหตุการณ์แล้ว ค่อยเปิดหน้าต่างกิจกรรมตามปกติ
 	_handle_activity_popup(target_place)
 
 # ==========================================
@@ -414,3 +424,15 @@ func setup_player(player_index: int, player_character: Control) -> void:
 	if s.get("outfit_path", "") != "": cp.get_node("OutfitSprite").texture = load(s["outfit_path"])
 	if s.get("hair_path", "") != "": cp.get_node("HairSprite").texture = load(s["hair_path"])
 	if s.get("accessory_path", "") != "": cp.get_node("AccessorySprite").texture = load(s["accessory_path"])
+	
+func _apply_scenario_effects(effects: Dictionary) -> void:
+	var p_data = Global.player_data[current_player_index]
+	var stats = p_data["stats"]
+	
+	for key in effects:
+		if key == "money":
+			p_data["money"] = max(0, p_data.get("money", 0) + effects[key])
+		else:
+			stats[key] = clamp(stats.get(key, 0) + effects[key], 0, 100)
+			
+	if player_panel: player_panel.setup_players_ui()

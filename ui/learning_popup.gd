@@ -28,31 +28,10 @@ var correct_answers: int = 0
 # --- ชุดตัวแปรใหม่สำหรับโจทย์ที่คิดเอง ---
 var current_quiz_set: Array = [] 
 var current_correct_answer: String = ""
-
-# ฐานข้อมูลโจทย์ แยกตามรายวิชา
-var question_database = {
-	"ภาษาไทย": [
-		{"q": "ข้อใดเขียนสะกดคำได้ถูกต้อง?", "choices": ["สังเกตุ", "อนุญาติ", "โอกาส", "อุปการะคุณ"], "answer": "โอกาส"},
-		{"q": "คำว่า 'กิน' เป็นคำชนิดใด?", "choices": ["คำนาม", "คำสรรพนาม", "คำกริยา", "คำวิเศษณ์"], "answer": "คำกริยา"},
-		{"q": "ใครคือผู้แต่งวรรณคดีเรื่อง พระอภัยมณี?", "choices": ["สุนทรภู่", "รัชกาลที่ 2", "รัชกาลที่ 6", "เจ้าฟ้ากุ้ง"], "answer": "สุนทรภู่"},
-		{"q": "ข้อใดคือคำไวพจน์ที่มีความหมายว่า 'ช้าง'?", "choices": ["พาชี", "กุญชร", "วิหค", "มัจฉา"], "answer": "กุญชร"},
-		{"q": "สำนวน 'สีซอให้ควายฟัง' มีความหมายว่าอย่างไร?", "choices": ["สอนคนโง่ไม่ได้ผล", "ทำเรื่องไร้สาระ", "อวดรู้กับผู้เชี่ยวชาญ", "ทำดีได้ดี"], "answer": "สอนคนโง่ไม่ได้ผล"}
-	],
-	"คณิตศาสตร์": [
-		{"q": "ค่าของ 5! (5 แฟกทอเรียล) คือเท่าใด?", "choices": ["20", "60", "120", "720"], "answer": "120"},
-		{"q": "มุมภายในของรูปสามเหลี่ยมรวมกันได้กี่องศา?", "choices": ["90", "180", "270", "360"], "answer": "180"},
-		{"q": "ถ้า 2x + 5 = 15 ค่าของ x คือเท่าใด?", "choices": ["3", "5", "10", "20"], "answer": "5"},
-		{"q": "ข้อใดคือจำนวนเฉพาะทั้งหมด?", "choices": ["2, 3, 5, 9", "2, 3, 5, 7", "1, 3, 5, 7", "2, 4, 6, 8"], "answer": "2, 3, 5, 7"},
-		{"q": "8 ยกกำลัง 2 มีค่าเท่ากับเท่าใด?", "choices": ["16", "32", "64", "128"], "answer": "64"}
-	],
-	"Default": [
-		{"q": "วิชานี้ยังไม่มีโจทย์ (ทดสอบ)", "choices": ["A", "B", "C", "D"], "answer": "A"},
-		{"q": "วิชานี้ยังไม่มีโจทย์ (ทดสอบ)", "choices": ["1", "2", "3", "4"], "answer": "1"},
-		{"q": "วิชานี้ยังไม่มีโจทย์ (ทดสอบ)", "choices": ["ก", "ข", "ค", "ง"], "answer": "ก"}
-	]
-}
+var question_database: Dictionary = {}
 
 func _ready() -> void:
+	_load_database_from_json()
 	hide()
 	summary_panel.hide()
 	feedback_label.hide()
@@ -194,3 +173,22 @@ func _on_ok_pressed() -> void:
 	hide()
 	var study_gained = correct_answers * 20
 	quiz_finished.emit(study_gained) # ส่งค่าความรู้กลับไปให้ new_map.gd
+
+func _load_database_from_json() -> void:
+	var file_path = "res://data/questions.json"
+	
+	if FileAccess.file_exists(file_path):
+		var file = FileAccess.open(file_path, FileAccess.READ)
+		var json_string = file.get_as_text()
+		
+		# แปลงข้อความ JSON ให้กลายเป็น Dictionary
+		var json = JSON.new()
+		var error = json.parse(json_string)
+		
+		if error == OK:
+			question_database = json.data
+			print("✅ โหลดข้อมูลโจทย์สำเร็จ! พบทั้งหมด ", question_database.keys().size(), " วิชา")
+		else:
+			print("❌ เกิดข้อผิดพลาดในการแปลง JSON ที่บรรทัด: ", json.get_error_line(), " ข้อความ: ", json.get_error_message())
+	else:
+		print("❌ หาไฟล์ JSON ไม่เจอ กรุณาตรวจสอบเส้นทางไฟล์: ", file_path)
