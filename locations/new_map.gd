@@ -14,11 +14,11 @@ var all_markers: Array[Marker2D] = []
 var player_nodes: Array[Control] = [] 
 var current_player_index: int = 0     
 var current_player_walks: int = 0     
-var max_walks_per_turn: int = 5       
+var max_walks_per_turn: int = 8       
 var is_walking: bool = false
 
 var current_round: int = 1
-var max_rounds: int = 20     
+var max_rounds: int = 11     
 
 const CUSTOM_LINKS := [
 	["Dorm", "Round1"],
