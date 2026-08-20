@@ -3,10 +3,14 @@ extends Node2D
 @onready var original_player: Control = $Player
 @onready var locations_node: Node2D = $location
 @onready var waypoints_node: Node2D = $waypiont
-@onready var dorm_marker: Marker2D = $waypiont/Dorm # จุดเกิดที่หอพัก
+@onready var dorm_marker: Marker2D = $waypiont/Dorm 
 
 @onready var camera: Camera2D = $Camera
 @onready var player_panel = $UILayer/PlayerPanel
+
+# >>> 1. อ้างอิงหน้าต่างควิซ (ให้แน่ใจว่าลากมาวางใน UILayer แล้ว) <<<
+@onready var learning_popup = $UILayer/learning_popup 
+@onready var scenario_popup = $UILayer/ScenarioPopup
 
 var astar: AStar2D
 var all_markers: Array[Marker2D] = []
@@ -20,31 +24,16 @@ var is_walking: bool = false
 var current_round: int = 1
 var max_rounds: int = 11     
 
+# เพิ่มตัวแปรสำหรับจอดำตอนสลบ
+var fade_rect: ColorRect
+
 const CUSTOM_LINKS := [
-	["Dorm", "Round1"],
-	["Round1", "Sport"],
-	["Sport", "Shop"],
-	["Shop", "Cross1"],
-	["Cross1", "Library"],
-	["Library", "Cross5"],
-	["Cross1", "Food"],
-	["Food", "Round2"],
-	["Round2", "Cross2"],
-	["Cross2", "Learn"],
-	["Learn", "Cross5"],
-	["Cross5", "Cross6"],
-	["Cross6", "Round1"],
-	["Cross6", "Round3"],
-	["Round3", "End4"],
-	["Round3", "Cross4"],
-	["Cross3", "Cross4"],
-	["Cross3", "Hospital"],
-	["Cross3", "Cross7"],
-	["Cross8", "Cross4"],
-	["Cross8", "Fun"],
-	["Cross7", "Fun"],
-	["Cross3", "Cross2"],
-	["End4", "Park"]
+	["Dorm", "Round1"], ["Round1", "Sport"], ["Sport", "Shop"], ["Shop", "Cross1"],
+	["Cross1", "Library"], ["Library", "Cross5"], ["Cross1", "Food"], ["Food", "Round2"],
+	["Round2", "Cross2"], ["Cross2", "Learn"], ["Learn", "Cross5"], ["Cross5", "Cross6"],
+	["Cross6", "Round1"], ["Cross6", "Round3"], ["Round3", "End4"], ["Round3", "Cross4"],
+	["Cross3", "Cross4"], ["Cross3", "Hospital"], ["Cross3", "Cross7"], ["Cross8", "Cross4"],
+	["Cross8", "Fun"], ["Cross7", "Fun"], ["Cross3", "Cross2"], ["End4", "Park"]
 ] 
 
 var activity_effects = {
@@ -93,82 +82,74 @@ var activity_effects = {
 	}
 } 
 
+# ==========================================
+# ส่วนเริ่มต้นเกม
+# ==========================================
 func _ready() -> void:
-	
 	_setup_mock_data()
+	_setup_fade() # เรียกใช้ระบบจอดำตอนสลบ
 	
 	if player_panel:
 		player_panel.setup_players_ui()
 		
 	setup_astar()
 	
-	var players = Global.player_data.size() if Global.player_data.size() > 0 else 1
+	var players = max(1, Global.player_data.size())
 	for i in range(players):
-		var p_node: Control
-		if i == 0:
-			p_node = original_player
-		else:
-			p_node = original_player.duplicate()
-			add_child(p_node)
+		var p_node: Control = original_player if i == 0 else original_player.duplicate()
+		if i != 0: add_child(p_node)
 		
 		setup_player(i, p_node)
 		player_nodes.append(p_node)
 		play_animation(p_node, "idle")
 		
-	# --- แก้ไขการเชื่อมต่อสถานที่ (Area2D) ตรงนี้ ---
 	for place in locations_node.get_children():
 		if place is Area2D:
-			# Area2D จะใช้สัญญาณที่ชื่อ input_event แทน gui_input
 			place.input_event.connect(_on_place_clicked.bind(place))
 			
 	setup_current_turn()
+
+func _setup_fade() -> void:
+	fade_rect = ColorRect.new()
+	fade_rect.color = Color(0, 0, 0, 0) 
+	fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT) 
+	fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE 
+	fade_rect.z_index = 100 
+	if has_node("UILayer"): $UILayer.add_child(fade_rect)
+	else: add_child(fade_rect)
 	
 func _setup_mock_data() -> void:
-	print("--- โหลดข้อมูล Mock Data ---")
-	
-	# ถ้าอาร์เรย์ว่างเปล่า (เกิดจากรันเทสต์ฉากนี้ตรงๆ) ให้จำลองผู้เล่นขึ้นมา 2 คน
 	if Global.player_data.size() == 0:
 		Global.player_data = [{}, {}]
-		print("จำลองผู้เล่นขึ้นมาใหม่ 2 คน เพราะ Global ว่างเปล่า")
 	
 	for i in range(Global.player_data.size()):
-		# เซ็ตเงิน 5555 บาท
-		if not Global.player_data[i].has("money"):
-			Global.player_data[i]["money"] = 1000
-			
-		# เซ็ตสเตตัส 50 ทุกอัน
+		if not Global.player_data[i].has("money"): Global.player_data[i]["money"] = 1000
 		if not Global.player_data[i].has("stats"):
-			Global.player_data[i]["stats"] = {
-				"happiness": 50,
-				"hunger": 70,
-				"stamina": 70,
-				"study": 0
-			}
-	
+			Global.player_data[i]["stats"] = {"happiness": 50, "hunger": 70, "stamina": 70, "study": 0}
+
+# ==========================================
+# ระบบเทิร์น (Turn Management)
+# ==========================================
 func setup_current_turn() -> void:
-	# 1. รีเซ็ตจำนวนก้าว
 	current_player_walks = 0
-	
 	var active_player = player_nodes[current_player_index]
 	
-	# 2. จัดการตัวละครบนแผนที่ (ซ่อนคนอื่น, แสดงคนปัจจุบัน, วาร์ปไปจุดเกิดหอพัก)
 	for i in range(player_nodes.size()):
 		if i == current_player_index:
 			player_nodes[i].show()
 			player_nodes[i].global_position = dorm_marker.global_position
 		else:
-			player_nodes[i].hide()	
+			player_nodes[i].hide()  
 
-	# 3. ส่งสัญญาณไปบอก PlayerPanel ให้สลับกรอบรูปและรีเซ็ตเลข AP
 	if player_panel:
 		player_panel.update_turn_ui(current_player_index)
 		player_panel.update_ap_ui(current_player_walks, max_walks_per_turn)
 		player_panel.update_round_ui(current_round, max_rounds)
 
-	# 4. เลื่อนกล้อง (Pan) ไปหาตัวละครคนปัจจุบันอัตโนมัติ
 	var tween = create_tween()
-	# เลื่อนไปแบบสมูทๆ ใช้เวลา 0.6 วินาที
 	tween.tween_property(camera, "global_position", active_player.global_position, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
+	render_mission_text(current_player_index, current_round)
 
 func pass_turn() -> void:
 	current_player_index += 1
@@ -180,21 +161,21 @@ func pass_turn() -> void:
 		
 		if current_round > max_rounds:
 			print("จบเกม!!!")
-			# get_tree().change_scene_to_file("res://scene/EndGame.tscn")
 			return
-		
+			
+		_reset_daily_missions(current_round)
+
 	print("--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ ", current_player_index + 1, " ---")
 	setup_current_turn()
 
 # ==========================================
-# ระบบ A* และการเดิน
+# ระบบ A* (การเดิน)
 # ==========================================
 func setup_astar() -> void:
 	astar = AStar2D.new()
 	all_markers.clear()
 	var marker_id_by_name: Dictionary = {}
 	
-	# ดึงหมุดทั้งหมดจากโหนด waypiont
 	if waypoints_node:
 		for w in waypoints_node.get_children():
 			if w is Marker2D: all_markers.append(w)
@@ -204,61 +185,33 @@ func setup_astar() -> void:
 		marker_id_by_name[all_markers[i].name] = i
 
 	for link in CUSTOM_LINKS:
-		if link.size() < 2:
-			push_warning("Invalid CUSTOM_LINKS entry: " + str(link))
-			continue
-
-		var from_name := str(link[0])
-		var to_name := str(link[1])
-
-		if not marker_id_by_name.has(from_name):
-			push_warning("CUSTOM_LINKS missing waypoint marker: " + from_name)
-			continue
-		if not marker_id_by_name.has(to_name):
-			push_warning("CUSTOM_LINKS missing waypoint marker: " + to_name)
-			continue
-
-		var from_id: int = marker_id_by_name[from_name]
-		var to_id: int = marker_id_by_name[to_name]
-
-		if not astar.are_points_connected(from_id, to_id):
+		if link.size() < 2: continue
+		var from_id = marker_id_by_name.get(str(link[0]), -1)
+		var to_id = marker_id_by_name.get(str(link[1]), -1)
+		
+		if from_id != -1 and to_id != -1 and not astar.are_points_connected(from_id, to_id):
 			astar.connect_points(from_id, to_id, true)
-
 
 func _on_place_clicked(viewport: Node, event: InputEvent, shape_idx: int, clicked_place: Node2D) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		print(">>> 1. ตรวจจับการคลิกได้ที่สถานที่: ", clicked_place.name)
 		if not is_walking:
 			walk_to_place(clicked_place)
 
-# เปลี่ยนตรง target_place: Control เป็นเป้าหมายแบบ Node2D ครับ
 func walk_to_place(target_place: Node2D) -> void:
 	var target_marker = target_place.get_node_or_null("Marker2D")
 	if target_marker == null:
-		var path_name = NodePath(str(target_place.name))
-		target_marker = waypoints_node.get_node_or_null(path_name)
+		target_marker = waypoints_node.get_node_or_null(NodePath(str(target_place.name)))
 		
-	if target_marker == null: 
-		print(">>> 2. หา Marker ไม่เจอ! ยกเลิกการเดิน")
-		return
+	if target_marker == null: return
 	
 	var active_player = player_nodes[current_player_index]
-	var start_pos = active_player.global_position
-	var target_pos = target_marker.global_position
-	
-	var start_id = astar.get_closest_point(start_pos)
-	var target_id = astar.get_closest_point(target_pos)
-	var path = astar.get_point_path(start_id, target_id)
-	
-	if path.is_empty(): 
-		print(">>> 3. สร้างเส้นทางไม่ได้ (A* ไปไม่ถึง) หมุดอาจจะเยื้องกันเกินไป!")
-		return
+	var path = astar.get_point_path(astar.get_closest_point(active_player.global_position), astar.get_closest_point(target_marker.global_position))
+	if path.is_empty(): return
 		
+	is_walking = true 
 	var walk_speed = 300.0 
 	var tween = create_tween()
-	var current = start_pos
-	
-	is_walking = true 
+	var current = active_player.global_position
 	
 	for pt in path:
 		var diff_x = pt.x - current.x
@@ -268,105 +221,137 @@ func walk_to_place(target_place: Node2D) -> void:
 		
 		if dist_x > dist_y:
 			if dist_x > 0: 
-				var anim = "walk_right" if diff_x > 0 else "walk_left"
-				tween.tween_callback(play_animation.bind(active_player, anim))
+				tween.tween_callback(play_animation.bind(active_player, "walk_right" if diff_x > 0 else "walk_left"))
 				tween.tween_property(active_player, "global_position:x", pt.x, dist_x / walk_speed)
 			if dist_y > 0: 
-				var anim = "walk_down" if diff_y > 0 else "walk_up"
-				tween.tween_callback(play_animation.bind(active_player, anim))
+				tween.tween_callback(play_animation.bind(active_player, "walk_down" if diff_y > 0 else "walk_up"))
 				tween.tween_property(active_player, "global_position:y", pt.y, dist_y / walk_speed)
 		else:
 			if dist_y > 0: 
-				var anim = "walk_down" if diff_y > 0 else "walk_up"
-				tween.tween_callback(play_animation.bind(active_player, anim))
+				tween.tween_callback(play_animation.bind(active_player, "walk_down" if diff_y > 0 else "walk_up"))
 				tween.tween_property(active_player, "global_position:y", pt.y, dist_y / walk_speed)
 			if dist_x > 0: 
-				var anim = "walk_right" if diff_x > 0 else "walk_left"
-				tween.tween_callback(play_animation.bind(active_player, anim))
+				tween.tween_callback(play_animation.bind(active_player, "walk_right" if diff_x > 0 else "walk_left"))
 				tween.tween_property(active_player, "global_position:x", pt.x, dist_x / walk_speed)
-			
 		current = pt
 
 	tween.tween_callback(play_animation.bind(active_player, "idle"))
 	await tween.finished
 	is_walking = false
-	print(">>> 4. เดินถึงที่หมายแล้ว!")
 	
+	var trigger_chance = 0.20
+	if randf() <= trigger_chance and scenario_popup:
+		var has_event = scenario_popup.try_start_scenario(target_place.name)
+		if has_event:
+			# รอจนกว่าผู้เล่นจะเลือกทางเลือกเสร็จ
+			var effects = await scenario_popup.scenario_resolved
+			_apply_scenario_effects(effects)
+			
+	# จบเหตุการณ์แล้ว ค่อยเปิดหน้าต่างกิจกรรมตามปกติ
+	_handle_activity_popup(target_place)
+
+# ==========================================
+# ระบบกิจกรรม และ Popup (แยกระหว่างเรียนกับกิจกรรมปกติ)
+# ==========================================
+func _handle_activity_popup(target_place: Node2D) -> void:
 	var popup = $UILayer/ActivityPopup
-	if popup:
-		popup.open_popup(target_place.name, current_player_index)
+	if not popup: return
 		
-		# สั่งให้โค้ด "หยุดรอ" จนกว่าผู้เล่นจะกดปุ่มใดปุ่มหนึ่งใน Popup
-		var chosen_action = await popup.activity_chosen 
-		print("ผู้เล่นคนที่ ", current_player_index + 1, " เลือกทำกิจกรรม: ", chosen_action)
+	var place_effects = activity_effects.get(target_place.name, {}).duplicate()
+	
+	# โชว์รายวิชาบนตึก Learn
+	if target_place.name == "Learn":
+		var t_data = Global.player_data[current_player_index].get("timetable", {})
+		if t_data.has("counts"):
+			var registered_subjects = t_data["counts"].keys()
+			for sub_name in registered_subjects:
+				var action_name = "เรียน " + str(sub_name)
+				# Hover ของวิชาเรียน จะไม่แสดงค่าความรู้แล้ว เพราะความรู้ได้จากควิซ
+				place_effects[action_name] = {"stamina": -15, "hunger": -10, "happiness": -10}
+	
+	popup.open_popup(target_place.name, current_player_index, place_effects)
+	var chosen_action = await popup.activity_chosen 
+	
+	if chosen_action != "ยกเลิก (ไม่ทำกิจกรรม)":
+		var is_fainted = false
 		
-		# ถ้าผู้เล่นไม่ได้กดปิดหน้าต่าง (ทำกิจกรรมจริง)
-		if chosen_action != "ยกเลิก (ไม่ทำกิจกรรม)":
-			# คำนวณบวกลบสเตตัส พร้อมรับค่าว่า "สลบหรือไม่" 
-			var is_fainted = apply_activity_effects(chosen_action, target_place.name)
+		# >>> ตรวจสอบว่ากิจกรรมที่กด คือ "เรียน" หรือ "กิจกรรมปกติ" <<<
+		if chosen_action.begins_with("เรียน ") and learning_popup:
+			var subject_name = chosen_action.replace("เรียน ", "")
 			
-			if is_fainted:
-				# บทลงโทษ 1: โดนริบ AP ทั้งหมดที่มีในเทิร์นนั้น
-				current_player_walks = max_walks_per_turn
-				# บทลงโทษ 2: วาร์ปตัวละครกลับหอพักทันที
-				active_player.global_position = dorm_marker.global_position
-				
-				# ให้กล้องสไลด์ตามกลับไปที่หอพักด้วย จะได้ไม่หลง
-				var cam_tween = create_tween()
-				cam_tween.tween_property(camera, "global_position", active_player.global_position, 0.4).set_trans(Tween.TRANS_SINE)
-			else:
-				# ถ้าไม่สลบ หัก AP 1 แต้มปกติ
-				current_player_walks += 1
+			# เปิดหน้าควิซ รอผลคะแนน และคำนวณสเตตัส
+			learning_popup.start_quiz(subject_name)
+			var study_gained = await learning_popup.quiz_finished
+			is_fainted = _apply_learning_effects(study_gained)
+			_mark_mission_completed(chosen_action)
+			
 		else:
-			# ถ้ากดยกเลิก (CloseButton) ก็หัก 1 AP เหมือนกัน เพราะเสียเวลาเดินมาแล้ว
-			current_player_walks += 1
-			
-		# อัปเดต UI และตรวจสอบการเปลี่ยนเทิร์น (เขียนไว้รอบเดียวพอ)
-		if player_panel:
-			player_panel.update_ap_ui(current_player_walks, max_walks_per_turn)
+			# หากเป็นกิจกรรมปกติ (หอพัก, โรงอาหาร ฯลฯ) ให้ทำงานตามปกติ
+			is_fainted = apply_activity_effects(chosen_action, target_place.name)
 		
-		if current_player_walks >= max_walks_per_turn:
-			pass_turn()
-
-func play_animation(player_node: Control, anim_name: String) -> void:
-	var anim_player = player_node.get_node_or_null("Panel/CenterPoint/AnimationPlayer")
-	if anim_player:
-		anim_player.play(anim_name)
-
-func setup_player(player_index: int, player_character: Control) -> void:
-	var my_data = Global.player_data[player_index] if Global.player_data.size() > player_index else {}
-	if not my_data.has("avatar_settings"): return
+		# --- จัดการการสลบ (จอจะมืดแล้วเด้งไปหอพัก) ---
+		if is_fainted:
+			current_player_walks = max_walks_per_turn
+			var active_player = player_nodes[current_player_index]
+			
+			if fade_rect:
+				fade_rect.mouse_filter = Control.MOUSE_FILTER_STOP
+				var fade_in = create_tween()
+				fade_in.tween_property(fade_rect, "color:a", 1.0, 0.5)
+				await fade_in.finished
+				
+				active_player.global_position = dorm_marker.global_position
+				camera.global_position = dorm_marker.global_position
+				
+				await get_tree().create_timer(1.0).timeout 
+				
+				var fade_out = create_tween()
+				fade_out.tween_property(fade_rect, "color:a", 0.0, 0.5)
+				await fade_out.finished
+				fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			else:
+				active_player.global_position = dorm_marker.global_position
+				camera.global_position = dorm_marker.global_position
+			
+		else:
+			current_player_walks += 1
+		
+	# อัปเดต UI และเช็คเปลี่ยนเทิร์น
+	if player_panel:
+		player_panel.update_ap_ui(current_player_walks, max_walks_per_turn)
 	
-	var settings = my_data["avatar_settings"]
-	var body_sprite = player_character.get_node("Panel/CenterPoint/BodySprite")
-	var face_sprite = player_character.get_node("Panel/CenterPoint/EyeSprite")
-	var outfit_sprite = player_character.get_node("Panel/CenterPoint/OutfitSprite")
-	var hair_sprite = player_character.get_node("Panel/CenterPoint/HairSprite")
-	var accessory_sprite = player_character.get_node("Panel/CenterPoint/AccessorySprite")
+	if current_player_walks >= max_walks_per_turn:
+		pass_turn()
+		
+func _apply_learning_effects(study_gained: int) -> bool:
+	var p_data = Global.player_data[current_player_index]
+	var is_fainted = false 
+	var stats = p_data["stats"]
 	
-	if settings.has("skin_path") and settings["skin_path"] != "": body_sprite.texture = load(settings["skin_path"])
-	if settings.has("face_path") and settings["face_path"] != "": face_sprite.texture = load(settings["face_path"])
-	if settings.has("outfit_path") and settings["outfit_path"] != "": outfit_sprite.texture = load(settings["outfit_path"])
-	if settings.has("hair_path") and settings["hair_path"] != "": hair_sprite.texture = load(settings["hair_path"])
-	if settings.has("accessory_path") and settings["accessory_path"] != "": accessory_sprite.texture = load(settings["accessory_path"])
+	stats["study"] = clamp(stats.get("study", 0) + study_gained, 0, 100)
+	stats["stamina"] = clamp(stats.get("stamina", 0) - 15, 0, 100)
+	stats["hunger"] = clamp(stats.get("hunger", 0) - 10, 0, 100)
+	stats["happiness"] = clamp(stats.get("happiness", 0) - 10, 0, 100)
+	
+	if stats["stamina"] <= 0 or stats["hunger"] <= 0:
+		is_fainted = true
+		stats["stamina"] = max(20, stats["stamina"]) 
+		stats["hunger"] = max(20, stats["hunger"])
+		
+	if player_panel: player_panel.setup_players_ui()
+	return is_fainted
 
 func apply_activity_effects(action_name: String, place_name: String) -> bool:
 	var p_data = Global.player_data[current_player_index]
 	var effects = {}
-	var is_fainted = false # ตัวแปรดักจับว่าสลบไหม
+	var is_fainted = false 
 	
-	if place_name == "Learn" and action_name.begins_with("เรียน "):
-		effects = {"study": 20, "stamina": -15, "hunger": -10, "happiness": -10}
-		
-	# ดึงค่าจากตารางกิจกรรม โดยอิงตามตึกที่ยืนอยู่
-	elif activity_effects.has(place_name) and activity_effects[place_name].has(action_name):
+	# ดึงข้อมูลผลกระทบของกิจกรรมปกติ (ไม่มีการเช็คตึก Learn ตรงนี้แล้ว)
+	if activity_effects.has(place_name) and activity_effects[place_name].has(action_name):
 		effects = activity_effects[place_name][action_name]
 		
-	# คำนวณการเปลี่ยนแปลง
-	print("--- ประมวลผลกิจกรรม: ", action_name, " ที่ ", place_name, " ---")
 	for key in effects:
 		var change_val = effects[key]
-		
 		if key == "money":
 			p_data["money"] = max(0, p_data.get("money", 0) + change_val)
 		else:
@@ -374,15 +359,80 @@ func apply_activity_effects(action_name: String, place_name: String) -> bool:
 			var new_stat = clamp(current_stat + change_val, 0, 100)
 			p_data["stats"][key] = new_stat
 			
-			# --- ตรวจจับสถานะ 0 (ความหิว หรือ พลังงาน) ---
 			if (key == "hunger" or key == "stamina") and new_stat <= 0:
 				is_fainted = true
-				print("!!! แจ้งเตือน: ผู้เล่นสลบเพราะ ", key, " เหลือ 0 !!!")
-				
-				# บทลงโทษ: โดนบังคับให้รอบหน้าฟื้นมาแค่ขีดแดง (20)
 				p_data["stats"][key] = 20
 			
-	if player_panel:
-		player_panel.setup_players_ui()
-		
+	if player_panel: player_panel.setup_players_ui()
 	return is_fainted
+
+# ==========================================
+# ระบบภารกิจ (Missions)
+# ==========================================
+func render_mission_text(player_index: int, round_num: int) -> void:
+	if not Global.player_data[player_index].has("timetable"): return
+		
+	var day_key = "R" + str(((round_num - 1) % 5) + 1) 
+	var missions = Global.player_data[player_index]["timetable"].get("daily_subjects", {}).get(day_key, [])
+	var display_text = ""
+	
+	for m in missions:
+		if m["is_completed"]:
+			display_text += "[color=green]☑[/color] [s]เรียน " + m["subject"] + "[/s]\n"
+		else:
+			display_text += "☐ เรียน " + m["subject"] + "\n"
+			
+	if player_panel and player_panel.has_method("update_mission"):
+		player_panel.update_mission(display_text)
+
+func _mark_mission_completed(action_name: String) -> void:
+	var subject_name = action_name.replace("เรียน ", "")
+	var day_key = "R" + str(((current_round - 1) % 5) + 1)
+	var missions = Global.player_data[current_player_index]["timetable"].get("daily_subjects", {}).get(day_key, [])
+	
+	for m in missions:
+		if m["subject"] == subject_name and not m["is_completed"]:
+			m["is_completed"] = true
+			break 
+			
+	render_mission_text(current_player_index, current_round)
+
+func _reset_daily_missions(new_round: int) -> void:
+	var day_key = "R" + str(((new_round - 1) % 5) + 1)
+	for p_data in Global.player_data:
+		if p_data.has("timetable") and p_data["timetable"].has("daily_subjects"):
+			var missions = p_data["timetable"]["daily_subjects"].get(day_key, [])
+			for m in missions:
+				m["is_completed"] = false
+
+# ==========================================
+# การตั้งค่าตัวละครเบื้องต้น
+# ==========================================
+func play_animation(player_node: Control, anim_name: String) -> void:
+	var anim_player = player_node.get_node_or_null("Panel/CenterPoint/AnimationPlayer")
+	if anim_player: anim_player.play(anim_name)
+
+func setup_player(player_index: int, player_character: Control) -> void:
+	var my_data = Global.player_data[player_index] if Global.player_data.size() > player_index else {}
+	if not my_data.has("avatar_settings"): return
+	
+	var s = my_data["avatar_settings"]
+	var cp = player_character.get_node("Panel/CenterPoint")
+	
+	if s.get("skin_path", "") != "": cp.get_node("BodySprite").texture = load(s["skin_path"])
+	if s.get("face_path", "") != "": cp.get_node("EyeSprite").texture = load(s["face_path"])
+	if s.get("outfit_path", "") != "": cp.get_node("OutfitSprite").texture = load(s["outfit_path"])
+	if s.get("hair_path", "") != "": cp.get_node("HairSprite").texture = load(s["hair_path"])
+	if s.get("accessory_path", "") != "": cp.get_node("AccessorySprite").texture = load(s["accessory_path"])
+	
+func _apply_scenario_effects(effects: Dictionary) -> void:
+	var p_data = Global.player_data[current_player_index]
+	var stats = p_data["stats"]
+	
+	for key in effects:
+		if key == "money":
+			p_data["money"] = max(0, p_data.get("money", 0) + effects[key])
+		else:
+			stats[key] = clamp(stats.get(key, 0) + effects[key], 0, 100)
+			
+	if player_panel: player_panel.setup_players_ui()

@@ -1,0 +1,210 @@
+[gd_scene format=3 uid="uid://dltijbsc5apin"]
+
+[ext_resource type="Script" uid="uid://p2grsjr2fklv" path="res://ui/learning_popup.gd" id="1_yxqbv"]
+[ext_resource type="Texture2D" uid="uid://by6018ijq3qcc" path="res://asset/activities/learn.png" id="2_yxqbv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_haua6"]
+bg_color = Color(0.9490196, 0.8745098, 0.8352941, 1)
+
+[node name="learning_popup" type="Control" unique_id=1389026711]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yxqbv")
+
+[node name="DimBg" type="ColorRect" parent="." unique_id=511461422]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0, 0, 0, 0.45)
+
+[node name="BgPanel" type="TextureRect" parent="." unique_id=914733395]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -350.0
+offset_right = 500.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_yxqbv")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SubjectLabel" type="Label" parent="BgPanel" unique_id=1364180609]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 200.0
+offset_top = 55.0
+offset_right = 800.0
+offset_bottom = 120.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "วิชา"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="BgPanel" unique_id=1324223599]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 622.0
+offset_top = 67.0
+offset_right = 842.0
+offset_bottom = 112.0
+theme_override_colors/font_color = Color(0.25, 0.25, 0.25, 1)
+theme_override_font_sizes/font_size = 24
+text = "20 วินาที"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="QuestionLabel" type="Label" parent="BgPanel" unique_id=1887915903]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(760, 150)
+layout_mode = 0
+offset_left = 120.0
+offset_top = 158.0
+offset_right = 880.0
+offset_bottom = 308.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "500 + 500"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="FeedbackLabel" type="Label" parent="BgPanel" unique_id=342017188]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 200.0
+offset_top = 280.0
+offset_right = 800.0
+offset_bottom = 420.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "ถูกต้อง"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuestionNumberLabel" type="Label" parent="BgPanel" unique_id=800065019]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 121.0
+offset_top = 75.0
+offset_right = 167.0
+offset_bottom = 117.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "1/3"
+
+[node name="GridContainer" type="GridContainer" parent="BgPanel" unique_id=1661661137]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -287.5
+offset_top = -301.0
+offset_right = 287.5
+offset_bottom = -81.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="Btn1" type="Button" parent="BgPanel/GridContainer" unique_id=2056852853]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(275, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "คำตอบ 1"
+
+[node name="Btn2" type="Button" parent="BgPanel/GridContainer" unique_id=889629074]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(275, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "คำตอบ 2"
+
+[node name="Btn3" type="Button" parent="BgPanel/GridContainer" unique_id=2028811264]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(275, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "คำตอบ 3"
+
+[node name="Btn4" type="Button" parent="BgPanel/GridContainer" unique_id=2093805643]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(275, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "คำตอบ 4"
+
+[node name="SummaryPanel" type="Panel" parent="BgPanel" unique_id=1918863590]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -180.0
+offset_right = 250.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_haua6")
+
+[node name="TitleLabel" type="Label" parent="BgPanel/SummaryPanel" unique_id=238282450]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 35.0
+offset_right = 460.0
+offset_bottom = 90.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 42
+text = "ผลลัพธ์"
+horizontal_alignment = 1
+
+[node name="ResultLabel" type="Label" parent="BgPanel/SummaryPanel" unique_id=163404651]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 40.0
+offset_top = 110.0
+offset_right = 460.0
+offset_bottom = 190.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "คุณทำได้ 4 / 5 ข้อ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OkButton" type="Button" parent="BgPanel/SummaryPanel" unique_id=1845602665]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 150.0
+offset_top = 245.0
+offset_right = 350.0
+offset_bottom = 320.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
+text = "ตกลง"

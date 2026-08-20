@@ -9,6 +9,10 @@ extends Control
 @onready var ap_label = $ActionPoint 
 @onready var week_label = $WeekReportLabel 
 
+# --- เพิ่มตัวแปรอ้างอิงหน้าต่างภารกิจ ---
+@onready var mission_panel = $MissionPanel
+@onready var mission_details = $MissionPanel/VBoxContainer/MissionDetails
+
 var border_normal = preload("res://asset/playerpanel/border.png")
 var border_active = preload("res://asset/playerpanel/border2.png")
 
@@ -114,12 +118,11 @@ func _update_stats_ui(stat_panel: Node, player_index: int) -> void:
 			texture_rect.texture = load(tex_path)
 			
 		# --- ระบบฝังข้อมูลสำหรับป้าย Hover ---
-		texture_rect.set_meta("stat_val", val) # ฝังตัวเลขจริงไว้ในรูป
-		texture_rect.set_meta("stat_name", stat_name) # ฝังชื่อสถานะไว้ในรูป
+		texture_rect.set_meta("stat_val", val) 
+		texture_rect.set_meta("stat_name", stat_name) 
 		
-		texture_rect.mouse_filter = Control.MOUSE_FILTER_PASS # เปิดให้รูปรับเมาส์ได้
+		texture_rect.mouse_filter = Control.MOUSE_FILTER_PASS 
 		
-		# เชื่อมต่อสัญญาณเมาส์เข้า-ออก (ทำครั้งเดียว)
 		if not texture_rect.mouse_entered.is_connected(_on_icon_mouse_entered):
 			texture_rect.mouse_entered.connect(_on_icon_mouse_entered.bind(texture_rect))
 			texture_rect.mouse_exited.connect(_on_icon_mouse_exited)
@@ -128,11 +131,9 @@ func _update_stats_ui(stat_panel: Node, player_index: int) -> void:
 # ระบบเอาเมาส์ชี้เพื่อโชว์ตัวเลข (Hover)
 # ==========================================
 func _on_icon_mouse_entered(rect: TextureRect) -> void:
-	# ดึงข้อมูลที่เราฝังไว้ตอนเซ็ตอัปออกมา
 	var val = rect.get_meta("stat_val", 0)
 	var s_name = rect.get_meta("stat_name", "")
 	
-	# พจนานุกรมแปลภาษา เพื่อความสวยงามตอนโชว์
 	var th_names = {
 		"happiness": "ความสุข", 
 		"hunger": "ความอิ่ม", 
@@ -141,10 +142,18 @@ func _on_icon_mouse_entered(rect: TextureRect) -> void:
 	}
 	var display_name = th_names.get(s_name, s_name)
 	
-	# ตั้งค่าข้อความ และแสดงป้ายขึ้นมา
 	hover_label.text = "  " + display_name + " : " + str(val) + "%  "
 	hover_label.show()
 
 func _on_icon_mouse_exited() -> void:
-	# พอเมาส์ออกจากรูป ก็ซ่อนป้ายไป
 	hover_label.hide()
+
+# ==========================================
+# ระบบอัปเดตหน้าต่างภารกิจ
+# ==========================================
+func update_mission(mission_text: String) -> void:
+	if mission_details:
+		mission_details.text = mission_text
+		# โชว์หน้าต่างทันทีถ้าถูกซ่อนอยู่
+		if mission_panel and not mission_panel.visible:
+			mission_panel.show()

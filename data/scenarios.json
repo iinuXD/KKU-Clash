@@ -1,0 +1,146 @@
+{
+	"Dorm": [
+		{
+			"description": "รูมเมทเปิดเพลงเสียงดัง ทำให้คุณนอนไม่หลับ",
+			"choices": [
+				{"text": "ทนนอนต่อไป", "effects": {"stamina": -15, "happiness": -10}},
+				{"text": "คุยข้อตกลงกันกับรูมเมทใหม่", "effects": {"happiness": 15}}
+			]
+		},
+		{
+			"description": "คุณลืมกุญแจห้องไว้ในห้อง",
+			"choices": [
+				{"text": "ติดต่อผู้ดูแลหอเพื่อขอกุญแจสำรอง", "effects": {"money": -50, "happiness": -5}},
+				{"text": "รอรูมเมทกลับมาเปิดห้องให้", "effects": {"stamina": -10, "happiness": -10}}
+			]
+		}
+	],
+	"Learn": [
+		{
+			"description": "คุณลืมเอาอุปกรณ์การจดมาเรียน",
+			"choices": [
+				{"text": "ขอกระดาษจากคนข้างๆ", "effects": {"happiness": 10}},
+				{"text": "กลับไปเอาที่ห้อง", "effects": {"stamina": -15, "happiness": -5}},
+				{"text": "เรียนแบบใช้ความจำ", "effects": {"study": -5, "stamina": -10}}
+			]
+		},
+		{
+			"description": "คุณมาเรียนสาย",
+			"choices": [
+				{"text": "เข้าไปเรียนปกติ", "effects": {"happiness": -5, "study": 10}},
+				{"text": "ไม่เข้าเรียน เพราะเช็คชื่อทันอยู่แล้ว", "effects": {"study": -15, "happiness": 15}}
+			]
+		}
+	],
+	"Library": [
+		{
+			"description": "ลืมของแล้วกลับไปดูแต่ไม่เจอ",
+			"choices": [
+				{"text": "สอบถามที่จุดประชาสัมพันธ์", "effects": {"happiness": 10}},
+				{"text": "ปล่อยไว้อย่างนั้น", "effects": {"money": -100, "happiness": -20}}
+			]
+		},
+		{
+			"description": "เพิ่งรู้ตัวว่าส่งเสียงดังจนโดนเตือน",
+			"choices": [
+				{"text": "ขอโทษ และเบาเสียงลง", "effects": {"happiness": 5}},
+				{"text": "รีบออกมาจากตรงนั้นทันที", "effects": {"happiness": -10}},
+				{"text": "ไม่สนใจ", "effects": {"happiness": -20, "study": -5}}
+			]
+		}
+	],
+	"Food": [
+		{
+			"description": "ไม่มีโต๊ะว่างเลยในโรงอาหาร",
+			"choices": [
+				{"text": "ซื้อใส่กล่องไปกินที่อื่น", "effects": {"happiness": -5}},
+				{"text": "ยืนรอให้คนอื่นลุกออกจากโต๊ะ", "effects": {"stamina": -10}},
+				{"text": "ไปขอนั่งกับโต๊ะที่มีที่นั่งว่าง", "effects": {"happiness": 15}}
+			]
+		},
+		{
+			"description": "ไม่มีที่จอดรถ",
+			"choices": [
+				{"text": "วนกลับไปจอดที่อื่น", "effects": {"stamina": -10}},
+				{"text": "จอดซ้อนคัน", "effects": {"happiness": -15}},
+				{"text": "จอดรอสักพัก เผื่อมีคนเอารถออก", "effects": {"stamina": -5}}
+			]
+		}
+	],
+	"Shop": [
+		{
+			"description": "ลืมจ่ายตัง แต่ออกมาจากร้านแล้ว",
+			"choices": [
+				{"text": "ไม่สนใจ กลับห้องทันที", "effects": {"happiness": -25}},
+				{"text": "กลับเข้าไปจ่ายตัง", "effects": {"happiness": 20}}
+			]
+		},
+		{
+			"description": "หยิบของมาแล้วแต่ลืมกระเป๋าตัง",
+			"choices": [
+				{"text": "ขอโทษ ฝากของไว้แล้วกลับไปเอาตัง", "effects": {"stamina": -15}},
+				{"text": "ขอสแกนจ่าย", "effects": {"happiness": 5}},
+				{"text": "บอกไม่ได้เอาตังมา แล้วเดินออกทันที", "effects": {"happiness": -15}}
+			]
+		}
+	],
+	"Hospital": [
+		{
+			"description": "หาจุดรับบริการที่จะไปไม่เจอ",
+			"choices": [
+				{"text": "ถอดใจกลับห้อง", "effects": {"happiness": -15}},
+				{"text": "สอบถามที่จุดประชาสัมพันธ์", "effects": {"happiness": 10}},
+				{"text": "เดินหาเองจนเจอ", "effects": {"stamina": -15, "happiness": -5}}
+			]
+		},
+		{
+			"description": "มีคิวก่อนหน้าเยอะมาก",
+			"choices": [
+				{"text": "ถอดใจกลับห้อง", "effects": {"happiness": -10}},
+				{"text": "รอต่อไป", "effects": {"stamina": -15}}
+			]
+		}
+	],
+	"Sport": [
+		{
+			"description": "มีคนมาชวนเล่นกีฬาด้วย",
+			"choices": [
+				{"text": "เข้าร่วมด้วยทันที", "effects": {"happiness": 20, "stamina": -15}},
+				{"text": "ปฏิเสธ", "effects": {"happiness": -5}}
+			]
+		},
+		{
+			"description": "มีคนเล่นอยู่ทุกสนามแล้ว ไม่มีที่ว่างเลย",
+			"choices": [
+				{"text": "ขอเข้าไปเล่นด้วย", "effects": {"happiness": 15}},
+				{"text": "รอจนสนามว่าง", "effects": {"stamina": -10}},
+				{"text": "กลับห้อง", "effects": {"happiness": -10}}
+			]
+		}
+	],
+	"Fun": [
+		{
+			"description": "สถานบันเทิงคนเต็ม",
+			"choices": [
+				{"text": "เปลี่ยนร้าน", "effects": {"money": -50, "happiness": 10}},
+				{"text": "รอคิว", "effects": {"stamina": -15}},
+				{"text": "กลับห้อง", "effects": {"happiness": -15}}
+			]
+		},
+		{
+			"description": "เจอเหตุทะเลาะวิวาท",
+			"choices": [
+				{"text": "หลีกเลี่ยงจากจุดเกิดเหตุทันที", "effects": {"happiness": 5}},
+				{"text": "แจ้งพนักงานรักษาความปลอดภัย", "effects": {"happiness": 15}},
+				{"text": "เข้าไปห้ามทันที", "effects": {"stamina": -30, "happiness": -20}}
+			]
+		},
+		{
+			"description": "ปาร์ตี้เพลินจนลืมเวลา",
+			"choices": [
+				{"text": "สนุกต่อไป", "effects": {"happiness": 25, "stamina": -20}},
+				{"text": "รีบกลับห้อง", "effects": {"happiness": 10, "stamina": -5}}
+			]
+		}
+	]
+}
