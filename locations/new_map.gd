@@ -3,10 +3,13 @@ extends Node2D
 @onready var original_player: Control = $Player
 @onready var locations_node: Node2D = $location
 @onready var waypoints_node: Node2D = $waypiont
-@onready var dorm_marker: Marker2D = $waypiont/Dorm # จุดเกิดที่หอพัก
+@onready var dorm_marker: Marker2D = $waypiont/Dorm 
 
 @onready var camera: Camera2D = $Camera
 @onready var player_panel = $UILayer/PlayerPanel
+
+# >>> 1. อ้างอิงหน้าต่างควิซ (ให้แน่ใจว่าลากมาวางใน UILayer แล้ว) <<<
+@onready var learning_popup = $UILayer/learning_popup 
 
 var astar: AStar2D
 var all_markers: Array[Marker2D] = []
@@ -19,6 +22,9 @@ var is_walking: bool = false
 
 var current_round: int = 1
 var max_rounds: int = 11     
+
+# เพิ่มตัวแปรสำหรับจอดำตอนสลบ
+var fade_rect: ColorRect
 
 const CUSTOM_LINKS := [
 	["Dorm", "Round1"], ["Round1", "Sport"], ["Sport", "Shop"], ["Shop", "Cross1"],
@@ -80,6 +86,7 @@ var activity_effects = {
 # ==========================================
 func _ready() -> void:
 	_setup_mock_data()
+	_setup_fade() # เรียกใช้ระบบจอดำตอนสลบ
 	
 	if player_panel:
 		player_panel.setup_players_ui()
@@ -100,6 +107,15 @@ func _ready() -> void:
 			place.input_event.connect(_on_place_clicked.bind(place))
 			
 	setup_current_turn()
+
+func _setup_fade() -> void:
+	fade_rect = ColorRect.new()
+	fade_rect.color = Color(0, 0, 0, 0) 
+	fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT) 
+	fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE 
+	fade_rect.z_index = 100 
+	if has_node("UILayer"): $UILayer.add_child(fade_rect)
+	else: add_child(fade_rect)
 	
 func _setup_mock_data() -> void:
 	if Global.player_data.size() == 0:
@@ -137,7 +153,6 @@ func setup_current_turn() -> void:
 func pass_turn() -> void:
 	current_player_index += 1
 	
-	# เมื่อเล่นครบทุกคน จะขึ้นรอบใหม่
 	if current_player_index >= player_nodes.size():
 		current_player_index = 0
 		current_round += 1
@@ -145,10 +160,8 @@ func pass_turn() -> void:
 		
 		if current_round > max_rounds:
 			print("จบเกม!!!")
-			# get_tree().change_scene_to_file("res://scene/EndGame.tscn")
 			return
 			
-		# --- แก้บั๊ก: รีเซ็ตภารกิจเมื่อขึ้นวันใหม่ ---
 		_reset_daily_missions(current_round)
 
 	print("--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ ", current_player_index + 1, " ---")
@@ -205,7 +218,6 @@ func walk_to_place(target_place: Node2D) -> void:
 		var dist_x = abs(diff_x)
 		var dist_y = abs(diff_y)
 		
-		# คำนวณทิศทางเพื่อเล่น Animation เดิน
 		if dist_x > dist_y:
 			if dist_x > 0: 
 				tween.tween_callback(play_animation.bind(active_player, "walk_right" if diff_x > 0 else "walk_left"))
@@ -229,7 +241,7 @@ func walk_to_place(target_place: Node2D) -> void:
 	_handle_activity_popup(target_place)
 
 # ==========================================
-# ระบบกิจกรรม และ Popup
+# ระบบกิจกรรม และ Popup (แยกระหว่างเรียนกับกิจกรรมปกติ)
 # ==========================================
 func _handle_activity_popup(target_place: Node2D) -> void:
 	var popup = $UILayer/ActivityPopup
@@ -237,39 +249,62 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 		
 	var place_effects = activity_effects.get(target_place.name, {}).duplicate()
 	
-	# เตรียมปุ่มวิชาเรียน (ถ้ามาตึก Learn)
+	# โชว์รายวิชาบนตึก Learn
 	if target_place.name == "Learn":
 		var t_data = Global.player_data[current_player_index].get("timetable", {})
-		# >>> เปลี่ยนมาดึงรายชื่อวิชาทั้งหมดที่ลงทะเบียนไว้ จาก "counts" <<<
 		if t_data.has("counts"):
 			var registered_subjects = t_data["counts"].keys()
 			for sub_name in registered_subjects:
 				var action_name = "เรียน " + str(sub_name)
-				place_effects[action_name] = {"study": 20, "stamina": -15, "hunger": -10, "happiness": -10}
+				# Hover ของวิชาเรียน จะไม่แสดงค่าความรู้แล้ว เพราะความรู้ได้จากควิซ
+				place_effects[action_name] = {"stamina": -15, "hunger": -10, "happiness": -10}
 	
-	# เปิดหน้าต่างและรอรับผลลัพธ์
 	popup.open_popup(target_place.name, current_player_index, place_effects)
 	var chosen_action = await popup.activity_chosen 
 	
 	if chosen_action != "ยกเลิก (ไม่ทำกิจกรรม)":
-		var is_fainted = apply_activity_effects(chosen_action, target_place.name)
+		var is_fainted = false
 		
-		# --- จัดการการสลบ ---
+		# >>> ตรวจสอบว่ากิจกรรมที่กด คือ "เรียน" หรือ "กิจกรรมปกติ" <<<
+		if chosen_action.begins_with("เรียน ") and learning_popup:
+			var subject_name = chosen_action.replace("เรียน ", "")
+			
+			# เปิดหน้าควิซ รอผลคะแนน และคำนวณสเตตัส
+			learning_popup.start_quiz(subject_name)
+			var study_gained = await learning_popup.quiz_finished
+			is_fainted = _apply_learning_effects(study_gained)
+			_mark_mission_completed(chosen_action)
+			
+		else:
+			# หากเป็นกิจกรรมปกติ (หอพัก, โรงอาหาร ฯลฯ) ให้ทำงานตามปกติ
+			is_fainted = apply_activity_effects(chosen_action, target_place.name)
+		
+		# --- จัดการการสลบ (จอจะมืดแล้วเด้งไปหอพัก) ---
 		if is_fainted:
 			current_player_walks = max_walks_per_turn
 			var active_player = player_nodes[current_player_index]
-			active_player.global_position = dorm_marker.global_position
 			
-			var cam_tween = create_tween()
-			cam_tween.tween_property(camera, "global_position", active_player.global_position, 0.4).set_trans(Tween.TRANS_SINE)
-			await cam_tween.finished
-			await get_tree().create_timer(1.2).timeout 
+			if fade_rect:
+				fade_rect.mouse_filter = Control.MOUSE_FILTER_STOP
+				var fade_in = create_tween()
+				fade_in.tween_property(fade_rect, "color:a", 1.0, 0.5)
+				await fade_in.finished
+				
+				active_player.global_position = dorm_marker.global_position
+				camera.global_position = dorm_marker.global_position
+				
+				await get_tree().create_timer(1.0).timeout 
+				
+				var fade_out = create_tween()
+				fade_out.tween_property(fade_rect, "color:a", 0.0, 0.5)
+				await fade_out.finished
+				fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			else:
+				active_player.global_position = dorm_marker.global_position
+				camera.global_position = dorm_marker.global_position
 			
 		else:
 			current_player_walks += 1
-			# ระบบติ๊กถูกภารกิจยังทำงานเหมือนเดิม
-			if chosen_action.begins_with("เรียน "):
-				_mark_mission_completed(chosen_action)
 		
 	# อัปเดต UI และเช็คเปลี่ยนเทิร์น
 	if player_panel:
@@ -277,15 +312,32 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 	
 	if current_player_walks >= max_walks_per_turn:
 		pass_turn()
+		
+func _apply_learning_effects(study_gained: int) -> bool:
+	var p_data = Global.player_data[current_player_index]
+	var is_fainted = false 
+	var stats = p_data["stats"]
+	
+	stats["study"] = clamp(stats.get("study", 0) + study_gained, 0, 100)
+	stats["stamina"] = clamp(stats.get("stamina", 0) - 15, 0, 100)
+	stats["hunger"] = clamp(stats.get("hunger", 0) - 10, 0, 100)
+	stats["happiness"] = clamp(stats.get("happiness", 0) - 10, 0, 100)
+	
+	if stats["stamina"] <= 0 or stats["hunger"] <= 0:
+		is_fainted = true
+		stats["stamina"] = max(20, stats["stamina"]) 
+		stats["hunger"] = max(20, stats["hunger"])
+		
+	if player_panel: player_panel.setup_players_ui()
+	return is_fainted
 
 func apply_activity_effects(action_name: String, place_name: String) -> bool:
 	var p_data = Global.player_data[current_player_index]
 	var effects = {}
 	var is_fainted = false 
 	
-	if place_name == "Learn" and action_name.begins_with("เรียน "):
-		effects = {"study": 20, "stamina": -15, "hunger": -10, "happiness": -10}
-	elif activity_effects.has(place_name) and activity_effects[place_name].has(action_name):
+	# ดึงข้อมูลผลกระทบของกิจกรรมปกติ (ไม่มีการเช็คตึก Learn ตรงนี้แล้ว)
+	if activity_effects.has(place_name) and activity_effects[place_name].has(action_name):
 		effects = activity_effects[place_name][action_name]
 		
 	for key in effects:
@@ -299,7 +351,7 @@ func apply_activity_effects(action_name: String, place_name: String) -> bool:
 			
 			if (key == "hunger" or key == "stamina") and new_stat <= 0:
 				is_fainted = true
-				p_data["stats"][key] = 20 # ฟื้นมาให้แค่ขีดแดง
+				p_data["stats"][key] = 20
 			
 	if player_panel: player_panel.setup_players_ui()
 	return is_fainted
@@ -336,7 +388,6 @@ func _mark_mission_completed(action_name: String) -> void:
 	render_mission_text(current_player_index, current_round)
 
 func _reset_daily_missions(new_round: int) -> void:
-	# คำนวณว่ารอบใหม่นี้ตรงกับวันไหน แล้วไปเซ็ตภารกิจของวันนั้นให้ทุกคนกลับมาว่างเปล่า
 	var day_key = "R" + str(((new_round - 1) % 5) + 1)
 	for p_data in Global.player_data:
 		if p_data.has("timetable") and p_data["timetable"].has("daily_subjects"):
