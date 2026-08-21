@@ -16,9 +16,9 @@ var outfits: Array = []
 # ตัวแปรจำค่า index
 var current_hair: int = 0
 var current_face: int = 0
-var current_skin: int = 0
-var current_accessory: int = 0
-var current_outfit: int = 0
+var current_skin: int = 2
+var current_accessory: int = 12
+var current_outfit: int = 10
 
 # อ้างอิง Node Sprite2D
 @onready var skin_sprite: Sprite2D = $HBoxContainer2/Panel/CenterPoint/BodySprite
@@ -110,8 +110,6 @@ func load_asset_from_Folder(path: String) -> Array:
 		print("หาโฟลเดอร์ไม่เจอ: ",path)
 	return file_paths
 	
-
-
 func _on_nexthair_pressed() -> void:
 	if hairs.size() == 0: return
 	

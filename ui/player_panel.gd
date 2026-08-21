@@ -110,15 +110,19 @@ func _update_stats_ui(stat_panel: Node, player_index: int) -> void:
 		if texture_rect == null: continue
 			
 		var val = stats_data.get(stat_name, 0)
-		var level = int(val / 10) * 10
+		
+		var max_val = 400.0 if stat_name == "study" else 200.0
+		
+		var percent = (float(val) / max_val) * 100.0
+		var level = int(percent / 10) * 10
 		level = clamp(level, 0, 100)
 		
 		var tex_path = "res://asset/playerpanel/%s/%s%d.png" % [stat_name, stat_name, level]
 		if ResourceLoader.exists(tex_path):
 			texture_rect.texture = load(tex_path)
 			
-		# --- ระบบฝังข้อมูลสำหรับป้าย Hover ---
 		texture_rect.set_meta("stat_val", val) 
+		texture_rect.set_meta("stat_max", int(max_val))
 		texture_rect.set_meta("stat_name", stat_name) 
 		
 		texture_rect.mouse_filter = Control.MOUSE_FILTER_PASS 
@@ -132,6 +136,7 @@ func _update_stats_ui(stat_panel: Node, player_index: int) -> void:
 # ==========================================
 func _on_icon_mouse_entered(rect: TextureRect) -> void:
 	var val = rect.get_meta("stat_val", 0)
+	var max_val = rect.get_meta("stat_max", 100) # ดึงค่า Max ที่ฝังไว้ออกมา
 	var s_name = rect.get_meta("stat_name", "")
 	
 	var th_names = {
@@ -142,7 +147,7 @@ func _on_icon_mouse_entered(rect: TextureRect) -> void:
 	}
 	var display_name = th_names.get(s_name, s_name)
 	
-	hover_label.text = "  " + display_name + " : " + str(val) + "%  "
+	hover_label.text = "  " + display_name + " : " + str(val) + " / " + str(max_val) + "  "
 	hover_label.show()
 
 func _on_icon_mouse_exited() -> void:

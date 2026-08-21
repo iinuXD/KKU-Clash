@@ -28,7 +28,7 @@
 			"description": "คุณมาเรียนสาย",
 			"choices": [
 				{"text": "เข้าไปเรียนปกติ", "effects": {"happiness": -5, "study": 10}},
-				{"text": "ไม่เข้าเรียน เพราะเช็คชื่อทันอยู่แล้ว", "effects": {"study": -15, "happiness": 15}}
+				{"text": "ไม่เข้าเรียน เพราะเช็คชื่อไม่ทันอยู่แล้ว", "effects": {"study": -15, "happiness": 15}}
 			]
 		}
 	],

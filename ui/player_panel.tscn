@@ -37,6 +37,8 @@ offset_top = 10.0
 offset_right = 115.0
 offset_bottom = 41.0
 grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("1_cp5gh")
 theme_override_font_sizes/font_size = 24
 text = "week 1/20"
@@ -53,6 +55,8 @@ offset_top = 46.0
 offset_right = 20.0
 offset_bottom = 69.0
 grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "AP 0 / 5"
 
@@ -226,12 +230,16 @@ layout_mode = 2
 [node name="Label" type="Label" parent="playerstat1/HBoxContainer2" unique_id=1032146428]
 layout_mode = 2
 size_flags_horizontal = 6
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "P1"
 
 [node name="money" type="Label" parent="playerstat1/HBoxContainer2" unique_id=1628640202]
 layout_mode = 2
 size_flags_horizontal = 6
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("1_cp5gh")
 text = "2000 BATH"
 horizontal_alignment = 1

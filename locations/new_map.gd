@@ -38,47 +38,41 @@ const CUSTOM_LINKS := [
 
 var activity_effects = {
 	"Dorm": {
-		"นอนพัก": {"stamina": 30},
-		"เล่นเกม": {"happiness": 20, "stamina": -5},
-		"อ่านหนังสือ": {"study": 10, "stamina": -10, "happiness": -5},
-		"จ่ายค่าห้อง": {"money": -800, "happiness": 10}
-	},
-	"Food": {
-		"กินข้าวจานธรรมดา": {"money": -40, "hunger": 25},
-		"กินข้าวจานพิเศษ": {"money": -50, "hunger": 35, "happiness": 5},
-		"กินของทานเล่น": {"money": -20, "hunger": 10, "happiness": 15},
-		"ทำ Parttime": {"money": 120, "stamina": -15, "hunger": -10}
+		"นอนพัก": {"stamina": 40},
+		"อ่านหนังสือ": {"study": 5, "stamina": -10, "happiness": -5},
+		"จบเทิร์น": {}
 	},
 	"Library": {
-		"อ่านหนังสือ": {"study": 15, "stamina": -10, "hunger": -5},
-		"ค้นคว้า": {"study": 20, "stamina": -15, "hunger": -10},
-		"ยืมหนังสือ": {"money": -20, "study": 5},
-		"ทำ Parttime": {"money": 100, "stamina": -10}
+		"อ่านหนังสือ": {"study": 8, "stamina": -10, "hunger": -5},
+		"ยืมหนังสือ": {"money": -20, "study": 3, "happiness": 5},
+		"นั่งเล่น": {"happiness": 15, "stamina": 5}
+	},
+	"Food": {
+		"กินข้าวจานธรรมดา": {"money": -40, "hunger": 30},
+		"กินข้าวจานพิเศษ": {"money": -60, "hunger": 45, "happiness": 10},
+		"กินของทานเล่น": {"money": -25, "hunger": 15, "happiness": 15},
+		"ทำ Parttime": {"money": 150, "stamina": -20, "hunger": -15}
 	},
 	"Shop": {
-		"ซื้ออาหารตุน 2 สัปดาห์": {"money": -300, "hunger": 40, "happiness": 10},
-		"ซื้ออาหารตุน 3 สัปดาห์": {"money": -450, "hunger": 70, "happiness": 20},
-		"ทำ Parttime": {"money": 130, "stamina": -15, "happiness": -5}
+		"ซื้อกาแฟ": {"money": -40, "stamina": 15, "hunger": 5},
+		"ซื้อขนม": {"money": -30, "hunger": 10, "happiness": 10},
+		"ซื้อยา": {"money": -100, "stamina": 30},
+		"ทำ Parttime": {"money": 150, "stamina": -20, "happiness": -5}
 	},
 	"Hospital": {
-		"เข้ารับการรักษา": {"money": -500, "stamina": 50, "happiness": 20},
-		"ซื้อยา": {"money": -150, "stamina": 25},
-		"ตรวจสุขภาพ": {"money": -250, "stamina": 15, "happiness": 15}
-	},
-	"Park": {
-		"เดินเล่น": {"happiness": 20, "stamina": -5},
-		"ซื้อของกิน": {"money": -40, "hunger": 15, "happiness": 15},
-		"ขายของ": {"money": 150, "stamina": -20, "hunger": -10}
+		"เข้ารับการรักษา": {"money": -500, "stamina": 100, "happiness": 20},
+		"ซื้อยา": {"money": -150, "stamina": 30},
+		"ตรวจสุขภาพ": {"money": -250, "stamina": 20, "happiness": 10}
 	},
 	"Sport": {
-		"วิ่ง": {"happiness": 15, "stamina": -15},
-		"เล่นกีฬา": {"happiness": 25, "stamina": -25},
-		"ทำกิจกรรม": {"happiness": 15, "study": 5, "stamina": -20}
+		"วิ่ง": {"happiness": 15, "stamina": -15, "hunger": -10},
+		"เล่นกีฬา": {"happiness": 25, "stamina": -25, "hunger": -15},
+		"ออกกำลังกาย": {"happiness": 10, "stamina": -10, "hunger": -5}
 	},
 	"Fun": {
-		"ดูหนัง": {"money": -120, "happiness": 30},
-		"ปาร์ตี้": {"money": -300, "happiness": 50, "stamina": -20, "study": -10},
-		"ทำ Parttime": {"money": 200, "stamina": -25, "hunger": -15}
+		"ร้องคาราโอเกะ": {"money": -150, "happiness": 40, "stamina": -10},
+		"ปาร์ตี้": {"money": -300, "happiness": 60, "stamina": -25, "study": -5},
+		"ทำ Parttime": {"money": 200, "stamina": -30, "hunger": -20}
 	}
 } 
 
@@ -328,10 +322,11 @@ func _apply_learning_effects(study_gained: int) -> bool:
 	var is_fainted = false 
 	var stats = p_data["stats"]
 	
-	stats["study"] = clamp(stats.get("study", 0) + study_gained, 0, 100)
-	stats["stamina"] = clamp(stats.get("stamina", 0) - 15, 0, 100)
-	stats["hunger"] = clamp(stats.get("hunger", 0) - 10, 0, 100)
-	stats["happiness"] = clamp(stats.get("happiness", 0) - 10, 0, 100)
+	stats["study"] = clamp(stats.get("study", 0) + study_gained, 0, 400)
+	print("ระบบทำงาน! บวกความรู้เพิ่ม: ", study_gained, " | ตอนนี้รวมเป็น: ", stats["study"])
+	stats["stamina"] = clamp(stats.get("stamina", 0) - 15, 0, 200)
+	stats["hunger"] = clamp(stats.get("hunger", 0) - 10, 0, 200)
+	stats["happiness"] = clamp(stats.get("happiness", 0) - 10, 0, 200)
 	
 	if stats["stamina"] <= 0 or stats["hunger"] <= 0:
 		is_fainted = true
@@ -346,7 +341,6 @@ func apply_activity_effects(action_name: String, place_name: String) -> bool:
 	var effects = {}
 	var is_fainted = false 
 	
-	# ดึงข้อมูลผลกระทบของกิจกรรมปกติ (ไม่มีการเช็คตึก Learn ตรงนี้แล้ว)
 	if activity_effects.has(place_name) and activity_effects[place_name].has(action_name):
 		effects = activity_effects[place_name][action_name]
 		
@@ -356,7 +350,9 @@ func apply_activity_effects(action_name: String, place_name: String) -> bool:
 			p_data["money"] = max(0, p_data.get("money", 0) + change_val)
 		else:
 			var current_stat = p_data["stats"].get(key, 0)
-			var new_stat = clamp(current_stat + change_val, 0, 100)
+			
+			var max_limit = 400 if key == "study" else 200
+			var new_stat = clamp(current_stat + change_val, 0, max_limit)
 			p_data["stats"][key] = new_stat
 			
 			if (key == "hunger" or key == "stamina") and new_stat <= 0:
@@ -433,6 +429,7 @@ func _apply_scenario_effects(effects: Dictionary) -> void:
 		if key == "money":
 			p_data["money"] = max(0, p_data.get("money", 0) + effects[key])
 		else:
-			stats[key] = clamp(stats.get(key, 0) + effects[key], 0, 100)
+			var max_limit = 400 if key == "study" else 200
+			stats[key] = clamp(stats.get(key, 0) + effects[key], 0, max_limit)
 			
 	if player_panel: player_panel.setup_players_ui()

@@ -162,7 +162,7 @@ func _end_quiz() -> void:
 	question_number_label.hide()
 	
 	# คำนวณความรู้ที่ได้รับ (สมมติข้อละ 20 หน่วย)
-	var study_gained = correct_answers * 20 
+	var study_gained = correct_answers * 10 
 	
 	var time_up_text = "หมดเวลา!\n" if time_left <= 0 else ""
 	result_label.text = "%sตอบถูก: %d / 3 ข้อ\nความรู้ที่ได้รับ: +%d" % [time_up_text, correct_answers, study_gained]
@@ -171,7 +171,7 @@ func _end_quiz() -> void:
 
 func _on_ok_pressed() -> void:
 	hide()
-	var study_gained = correct_answers * 20
+	var study_gained = correct_answers * 10
 	quiz_finished.emit(study_gained) # ส่งค่าความรู้กลับไปให้ new_map.gd
 
 func _load_database_from_json() -> void:
