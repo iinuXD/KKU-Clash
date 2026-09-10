@@ -54,11 +54,12 @@ func _process(delta: float) -> void:
 		# อัปเดตข้อความเวลา
 		time_label.text = "%02d วินาที" % int(time_left)
 		
-		# เปลี่ยนสีเวลาเป็นสีแดงเมื่อเหลือน้อยกว่า 5 วินาที
+		# เปลี่ยนสีเวลาเป็นสีแดงชอล์กเมื่อเหลือน้อยกว่า 5 วินาที
 		if time_left <= 5.0:
-			time_label.add_theme_color_override("font_color", Color(0.8, 0.1, 0.1))
+			time_label.add_theme_color_override("font_color", Color(0.9, 0.25, 0.25))
 		else:
-			time_label.add_theme_color_override("font_color", Color(0.25, 0.25, 0.25))
+			# สีปกติเป็นสีขาว ให้ตรงกับที่ตั้งใน UI
+			time_label.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0))
 
 # ==========================================
 # 1. ระบบเริ่มต้น Quiz (ดึงโจทย์ตามวิชา)
@@ -131,9 +132,11 @@ func _on_choice_pressed(btn_index: int) -> void:
 	
 	if chosen_val == current_correct_answer:
 		correct_answers += 1
-		_show_feedback("ถูกต้อง!", Color(0.1, 0.7, 0.1)) # สีเขียว
+		# สีเขียวชอล์กสไตล์กระดานดำ
+		_show_feedback("ถูกต้อง!", Color(0.5, 0.9, 0.5)) 
 	else:
-		_show_feedback("ผิด!", Color(0.8, 0.1, 0.1)) # สีแดง
+		# สีแดงชอล์กสไตล์กระดานดำ
+		_show_feedback("ผิด!", Color(0.9, 0.4, 0.4)) 
 		
 	current_question_index += 1
 	_load_custom_question() # โหลดข้อถัดไป

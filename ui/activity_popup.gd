@@ -3,26 +3,26 @@ extends Control
 signal activity_chosen(activity_name)
 
 @onready var title_label = $BgFrame/TitleLabel
-@onready var btn_container = $BgFrame/VBoxContainer
+@onready var btn_container = $BgFrame/ButtonsCenter/GridContainer   # แก้ path
 @onready var close_btn = $BgFrame/CloseButton 
 
 var hover_label: Label
 
+# เหลือแค่ title — เลิกเก็บ "options" ซ้ำซ้อนกับ activity_effects ใน map script แล้ว
 var activity_data = {
-	"Dorm": {"title": "หอพัก", "options": ["นอนพัก", "อ่านหนังสือ", "จบเทิร์น"]},
-	"Food": {"title": "โรงอาหาร", "options": ["กินข้าวจานธรรมดา", "กินข้าวจานพิเศษ", "กินของทานเล่น", "ทำ Parttime"]},
-	"Library": {"title": "หอสมุด", "options": ["อ่านหนังสือ", "ยืมหนังสือ", "นั่งเล่น"]},
-	"Shop": {"title": "ร้านค้า", "options": ["ซื้อกาแฟ", "ซื้อขนม", "ซื้อยา", "ทำ Parttime"]},
-	"Hospital": {"title": "โรงพยาบาล", "options": ["เข้ารับการรักษา", "ซื้อยา", "ตรวจสุขภาพ"]},
-	"Sport": {"title": "สนามกีฬา", "options": ["วิ่ง", "เล่นกีฬา", "ออกกำลังกาย"]},
-	"Fun": {"title": "สถานบันเทิง", "options": ["ร้องคาราโอเกะ", "ปาร์ตี้", "ทำ Parttime"]}
+	"Dorm": {"title": "หอพัก"},
+	"Food": {"title": "โรงอาหาร"},
+	"Library": {"title": "หอสมุด"},
+	"Shop": {"title": "ร้านค้า"},
+	"Hospital": {"title": "โรงพยาบาล"},
+	"Sport": {"title": "สนามกีฬา"},
+	"Fun": {"title": "สถานบันเทิง"}
 }
 
 func _ready() -> void:
 	hide() 
 	_setup_hover_label()
 	
-	# เชื่อมต่อสัญญาณปุ่มทั้งหมด
 	for btn in btn_container.get_children():
 		if btn is Button:
 			btn.pressed.connect(_on_button_pressed.bind(btn))
@@ -36,16 +36,12 @@ func _process(delta: float) -> void:
 	if hover_label and hover_label.visible:
 		hover_label.global_position = get_global_mouse_position() + Vector2(15, 15)
 
-# ==========================================
-# ระบบจัดเตรียมหน้าต่าง Popup
-# ==========================================
 func open_popup(place_name: String, player_index: int, place_effects: Dictionary = {}) -> void:
-	# ดึงข้อมูลชื่อตึกและปุ่ม หากตึกนั้นไม่มีใน data ให้ดึง title จากชื่อ Node แทน
-	var data = activity_data.get(place_name, {"title": "คณะ", "options": []})
-	title_label.text = data["title"]
+	var data = activity_data.get(place_name, {"title": "คณะ"})
+	title_label.text = data.get("title", "คณะ")
 	
-	# กรณีเป็นตึก Learn ให้ดึงชื่อปุ่มวิชามาจาก place_effects ที่ new_map โยนมาให้เลย
-	var current_options = place_effects.keys() if place_name == "Learn" else data["options"]
+	# ใช้ place_effects (จาก map script) เป็นแหล่งข้อมูลเดียวเสมอ ไม่แยกเคส "Learn" อีกต่อไป
+	var current_options = place_effects.keys()
 	var btns = btn_container.get_children()
 	
 	for i in range(btns.size()):
@@ -55,8 +51,7 @@ func open_popup(place_name: String, player_index: int, place_effects: Dictionary
 				btns[i].text = action_name
 				btns[i].show()
 				
-				# จัดการ Tooltip โชว์สเตตัส
-				var hover_str = _generate_hover_text(place_effects[action_name]) if place_effects.has(action_name) else "ไม่มีผลกระทบต่อสเตตัส"
+				var hover_str = _generate_hover_text(place_effects[action_name])
 				btns[i].set_meta("hover_text", hover_str)
 			else:
 				btns[i].hide() 
