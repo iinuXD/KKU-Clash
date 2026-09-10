@@ -11,14 +11,14 @@ var hover_label: Label
 
 # เหลือแค่ title — เลิกเก็บ "options" ซ้ำซ้อนกับ activity_effects ใน map script แล้ว
 var activity_data = {
-	"Dorm": {"title": "หอพัก", "img": "dorm.png"},
-	"Food": {"title": "โรงอาหาร", "img": "food.png"},
-	"Library": {"title": "หอสมุด", "img": "shop.png"},
-	"Shop": {"title": "ร้านค้า", "img": "shop.png"},
-	"Hospital": {"title": "โรงพยาบาล", "img": "shop.png"},
-	"Sport": {"title": "สนามกีฬา", "img": "shop.png"},
-	"Fun": {"title": "สถานบันเทิง", "img": "shop.png"},
-	"Learn": {"title": "ตึกเรียน", "img": "dorm.png"}
+	"Dorm": {"title": "หอพัก", "img": "pxdorm.png"},
+	"Food": {"title": "โรงอาหาร", "img": "pxfood.png"},
+	"Library": {"title": "หอสมุด", "img": "pxlibrary.png"},
+	"Shop": {"title": "ร้านค้า", "img": "pxshop.png"},
+	"Hospital": {"title": "โรงพยาบาล", "img": "pxhospital.png"},
+	"Sport": {"title": "สนามกีฬา", "img": "pxsport.png"},
+	"Fun": {"title": "สถานบันเทิง", "img": "pxfun.png"},
+	"Learn": {"title": "ตึกเรียน", "img": "pxlearn.png"}
 }
 
 func _ready() -> void:
@@ -39,16 +39,16 @@ func _process(delta: float) -> void:
 		hover_label.global_position = get_global_mouse_position() + Vector2(15, 15)
 
 func open_popup(place_name: String, player_index: int, place_effects: Dictionary = {}) -> void:
-	var data = activity_data.get(place_name, {"title": "สถานที่", "img": "dorm.png"})
+	var data = activity_data.get(place_name, {"title": "สถานที่", "img": "pxdorm.png"})
 	title_label.text = data.get("title", "สถานที่")
 	
-	var image_filename = data.get("img", "dorm.png")
+	var image_filename = data.get("img", "pxdorm.png")
 	var image_path = "res://asset/activities/" + image_filename
 	
 	if ResourceLoader.exists(image_path):
 		place_image.texture = load(image_path)
 	else:
-		place_image.texture = load("res://asset/activities/dorm.png")
+		place_image.texture = load("res://asset/activities/pxdorm.png")
 	
 	# ใช้ place_effects (จาก map script) เป็นแหล่งข้อมูลเดียวเสมอ ไม่แยกเคส "Learn" อีกต่อไป
 	var current_options = place_effects.keys()

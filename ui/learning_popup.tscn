@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dltijbsc5apin"]
 
 [ext_resource type="Script" uid="uid://p2grsjr2fklv" path="res://ui/learning_popup.gd" id="1_yxqbv"]
-[ext_resource type="Texture2D" uid="uid://dhld36uhbbewv" path="res://asset/activities/learn.jpg" id="2_yxqbv"]
+[ext_resource type="Texture2D" uid="uid://sme5kkxhjsna" path="res://asset/activities/pxlearn.png" id="2_yxqbv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
 content_margin_left = 16.0
