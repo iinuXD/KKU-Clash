@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bshhijrkcigiu"
-path="res://.godot/imported/canteen.jpg-0276f6cfa4ae092fba392ed0725594fa.ctex"
+uid="uid://7r8685uby6bs"
+path="res://.godot/imported/food.png-c6b2ba8058f0a021938766e7a1074d20.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://asset/activities/canteen.jpg"
-dest_files=["res://.godot/imported/canteen.jpg-0276f6cfa4ae092fba392ed0725594fa.ctex"]
+source_file="res://asset/activities/food.png"
+dest_files=["res://.godot/imported/food.png-c6b2ba8058f0a021938766e7a1074d20.ctex"]
 
 [params]
 
