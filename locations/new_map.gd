@@ -81,39 +81,11 @@ var activity_effects = {
 var activity_time_costs = {
 	"Dorm": {"นอนพัก": 8, "เล่นเกม": 2, "อ่านหนังสือ": 2, "จบเทิร์น": 0},
 	"Food": {"กินข้าวจานธรรมดา": 1, "กินข้าวจานพิเศษ": 1, "กินของทานเล่น": 1, "ทำ Parttime": 4},
-	"Library": {"อ่านหนังสือ": 2, "ค้นคว้า": 3, "ยืมหนังสือ": 1, "ทำ Parttime": 4},
-	"Shop": {"ซื้ออาหารตุน 2 สัปดาห์": 2, "ซื้ออาหารตุน 3 สัปดาห์": 2, "ทำ Parttime": 4},
+	"Library": {"อ่านหนังสือ": 2, "ยืมหนังสือ": 1, "นั่งเล่น": 1},
+	"Shop": {"ซื้อกาแฟ": 1, "ซื้อขนม": 1, "ซื้อยา": 1, "ทำ Parttime": 4},
 	"Hospital": {"เข้ารับการรักษา": 3, "ซื้อยา": 1, "ตรวจสุขภาพ": 2},
-	"Park": {"เดินเล่น": 2, "ซื้อของกิน": 1, "ขายของ": 3},
-	"Sport": {"วิ่ง": 2, "เล่นกีฬา": 3, "ทำกิจกรรม": 2},
-	"Fun": {"ดูหนัง": 3, "ปาร์ตี้": 4, "ทำ Parttime": 4}
-}
-
-func _process(delta: float) -> void:
-	if is_walking or is_forcing_sleep:
-		return
-
-	var activity_popup = $UILayer/ActivityPopup
-	if activity_popup.visible or learning_popup.visible or scenario_popup.visible:
-		return
-
-	real_time_accumulator += delta
-	var minutes_to_advance = int(real_time_accumulator / REAL_SECONDS_PER_GAME_MINUTE)
-	if minutes_to_advance <= 0:
-		return
-
-	real_time_accumulator -= minutes_to_advance * REAL_SECONDS_PER_GAME_MINUTE
-	_advance_time(minutes_to_advance)
-
-var activity_time_costs = {
-	"Dorm": {"นอนพัก": 8, "เล่นเกม": 2, "อ่านหนังสือ": 2, "จบเทิร์น": 0},
-	"Food": {"กินข้าวจานธรรมดา": 1, "กินข้าวจานพิเศษ": 1, "กินของทานเล่น": 1, "ทำ Parttime": 4},
-	"Library": {"อ่านหนังสือ": 2, "ค้นคว้า": 3, "ยืมหนังสือ": 1, "ทำ Parttime": 4},
-	"Shop": {"ซื้ออาหารตุน 2 สัปดาห์": 2, "ซื้ออาหารตุน 3 สัปดาห์": 2, "ทำ Parttime": 4},
-	"Hospital": {"เข้ารับการรักษา": 3, "ซื้อยา": 1, "ตรวจสุขภาพ": 2},
-	"Park": {"เดินเล่น": 2, "ซื้อของกิน": 1, "ขายของ": 3},
-	"Sport": {"วิ่ง": 2, "เล่นกีฬา": 3, "ทำกิจกรรม": 2},
-	"Fun": {"ดูหนัง": 3, "ปาร์ตี้": 4, "ทำ Parttime": 4}
+	"Sport": {"วิ่ง": 2, "เล่นกีฬา": 3, "ออกกำลังกาย": 2},
+	"Fun": {"ร้องคาราโอเกะ": 3, "ปาร์ตี้": 4, "ทำ Parttime": 4}
 }
 
 func _process(delta: float) -> void:
@@ -394,9 +366,6 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 			_force_sleep()
 			await forced_sleep_finished
 
-		var is_fainted = apply_activity_effects(chosen_action, target_place.name)
-		_process_post_action(is_fainted) # เรียกใช้ระบบประมวลผลหลังทำกิจกรรมเสร็จ
-
 # ------------------------------------------
 # ระบบเปิดหน้าควิซเรียนแบบตรงๆ (Direct Learning)
 # ------------------------------------------
@@ -433,46 +402,13 @@ func _handle_direct_learning() -> void:
 		var is_fainted = _apply_learning_effects(study_gained)
 		
 		_mark_mission_completed(action_name)
-		_process_post_action(is_fainted) # เรียกใช้ระบบประมวลผลหลังทำกิจกรรมเสร็จ
-
-# ------------------------------------------
-# ระบบจัดการ Action Point และ จอดำ (แยกออกมาเพื่อไม่ให้โค้ดซ้ำ)
-# ------------------------------------------
-func _process_post_action(is_fainted: bool) -> void:
-	if is_fainted:
-		current_player_walks = max_walks_per_turn
-		var active_player = player_nodes[current_player_index]
-		
-		if fade_rect:
-			fade_rect.mouse_filter = Control.MOUSE_FILTER_STOP
-			var fade_in = create_tween()
-			fade_in.tween_property(fade_rect, "color:a", 1.0, 0.5)
-			await fade_in.finished
-			
-			active_player.global_position = dorm_marker.global_position
-			camera.global_position = dorm_marker.global_position
-			
-			await get_tree().create_timer(1.0).timeout 
-			
-			var fade_out = create_tween()
-			fade_out.tween_property(fade_rect, "color:a", 0.0, 0.5)
-			await fade_out.finished
-			fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if not is_fainted:
+			_advance_time(_get_activity_time_cost(action_name, "Learn") * 60)
+			if is_forcing_sleep:
+				await forced_sleep_finished
 		else:
-			active_player.global_position = dorm_marker.global_position
-			camera.global_position = dorm_marker.global_position
-	else:
-		current_player_walks += 1
-		
-	# อัปเดต UI และเช็คเปลี่ยนเทิร์น
-	if player_panel:
-		player_panel.update_ap_ui(current_player_walks, max_walks_per_turn)
-	
-	if current_player_walks >= max_walks_per_turn:
-		pass_turn()
-
-# --- ฟังก์ชันที่เหลือเหมือนเดิม ( _apply_learning_effects, apply_activity_effects ) ---
-		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES)
+			_force_sleep()
+			await forced_sleep_finished
 
 func _get_activity_time_cost(action_name: String, place_name: String) -> int:
 	if action_name.begins_with("เรียน "):
