@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cvl0274a524tc" path="res://asset/activities/dorm.png" id="2_dorm_img"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-bg_color = Color(1, 0.968627, 0.941176, 1)
+bg_color = Color(1, 0.952941, 0.858824, 1)
 border_width_left = 6
 border_width_top = 6
 border_width_right = 6
@@ -15,8 +15,8 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 shadow_color = Color(0, 0, 0, 0.28)
-shadow_size = 4
-shadow_offset = Vector2(8, 8)
+shadow_size = 7
+shadow_offset = Vector2(9, 9)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frame_border"]
 bg_color = Color(1, 1, 1, 1)
@@ -218,69 +218,17 @@ anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -500.0
-offset_top = 150.0
+offset_top = 138.0
 offset_right = 30.0
-offset_bottom = -60.0
+offset_bottom = -38.0
 grow_horizontal = 0
 grow_vertical = 2
 
 [node name="GridContainer" type="GridContainer" parent="BgFrame/ButtonsCenter" unique_id=1145297505]
 layout_mode = 2
-theme_override_constants/h_separation = 14
-theme_override_constants/v_separation = 14
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 18
 columns = 2
-
-[node name="Activity1" type="Button" parent="BgFrame/ButtonsCenter/GridContainer" unique_id=1255298364]
-custom_minimum_size = Vector2(170, 72)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.239216, 0.101961, 0.047059, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(0.239216, 0.101961, 0.047059, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
-theme_override_styles/focus = SubResource("StyleBoxFlat_acl4y")
-text = "นอนพัก"
-
-[node name="Activity2" type="Button" parent="BgFrame/ButtonsCenter/GridContainer" unique_id=1979408463]
-custom_minimum_size = Vector2(170, 72)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.239216, 0.101961, 0.047059, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(0.239216, 0.101961, 0.047059, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
-theme_override_styles/focus = SubResource("StyleBoxFlat_acl4y")
-text = "เล่นเกม"
-
-[node name="Activity3" type="Button" parent="BgFrame/ButtonsCenter/GridContainer" unique_id=43714285]
-custom_minimum_size = Vector2(170, 72)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.239216, 0.101961, 0.047059, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(0.239216, 0.101961, 0.047059, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
-theme_override_styles/focus = SubResource("StyleBoxFlat_acl4y")
-text = "อ่านหนังสือ"
-
-[node name="Activity4" type="Button" parent="BgFrame/ButtonsCenter/GridContainer" unique_id=1105968486]
-custom_minimum_size = Vector2(170, 72)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.239216, 0.101961, 0.047059, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(0.239216, 0.101961, 0.047059, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
-theme_override_styles/focus = SubResource("StyleBoxFlat_acl4y")
-text = "จ่ายค่าห้อง"
 
 [node name="CloseButton" type="Button" parent="BgFrame" unique_id=2000000002]
 layout_mode = 1
