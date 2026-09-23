@@ -431,13 +431,13 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_boundary_side"]
-size = Vector2(33.5, 90.875)
+size = Vector2(33.5, 107.4375)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_boundary_top"]
 size = Vector2(782, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3xd07"]
-size = Vector2(71.5, 37.875)
+size = Vector2(113, 37.875)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jq8tk"]
 size = Vector2(20, 763)
@@ -468,6 +468,8 @@ size = Vector2(345, 338)
 
 [node name="Node2D" type="Node2D" unique_id=2100697291]
 script = ExtResource("1_v1lx3")
+
+[node name="NightLighting" type="CanvasModulate" parent="." unique_id=1980044067]
 
 [node name="map" type="Sprite2D" parent="." unique_id=1430874988]
 position = Vector2(388, 465)
@@ -580,6 +582,7 @@ tile_map_data = PackedByteArray("AAAxADYAAgADAAEAAAAxADUAAgADAAEAAAAxADQAAgADAAE
 tile_set = ExtResource("3_7rooa")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1263572156]
+visible = false
 
 [node name="PlayerPanel" parent="UILayer" unique_id=871320382 instance=ExtResource("13_os617")]
 
@@ -671,7 +674,7 @@ position = Vector2(671, 601)
 shape = SubResource("RectangleShape2D_boundary_side")
 
 [node name="Top" type="CollisionShape2D" parent="WalkBounds" unique_id=1980044063]
-position = Vector2(392, 83)
+position = Vector2(392, 72)
 shape = SubResource("RectangleShape2D_boundary_top")
 
 [node name="Bottom" type="CollisionShape2D" parent="WalkBounds" unique_id=1980044064]
@@ -679,11 +682,11 @@ position = Vector2(389, 914)
 shape = SubResource("RectangleShape2D_boundary_top")
 
 [node name="Left" type="CollisionShape2D" parent="WalkBounds" unique_id=1980044065]
-position = Vector2(56.25, 142.4375)
+position = Vector2(31, 134.71875)
 shape = SubResource("RectangleShape2D_boundary_side")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WalkBounds" unique_id=1569312320]
-position = Vector2(110.25, 168.9375)
+position = Vector2(89, 176)
 shape = SubResource("RectangleShape2D_3xd07")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="WalkBounds" unique_id=1622134530]

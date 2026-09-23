@@ -9,7 +9,7 @@ signal activity_chosen(activity_name)
 var hover_label: Label
 
 var activity_data = {
-	"Dorm": {"title": "หอพัก", "options": ["นอนพัก", "เล่นเกม", "อ่านหนังสือ", "จ่ายค่าห้อง"]},
+	"Dorm": {"title": "หอพัก", "options": ["นอนพัก", "เล่นเกม", "อ่านหนังสือ", "จบเทิร์น"]},
 	"Food": {"title": "โรงอาหาร", "options": ["กินข้าวจานธรรมดา", "กินข้าวจานพิเศษ", "กินของทานเล่น", "ทำ Parttime"]},
 	"Library": {"title": "ห้องสมุด", "options": ["อ่านหนังสือ", "ค้นคว้า", "ยืมหนังสือ", "ทำ Parttime"]},
 	"Shop": {"title": "ร้านค้า", "options": ["ซื้ออาหารตุน 2 สัปดาห์", "ซื้ออาหารตุน 3 สัปดาห์", "ทำ Parttime"]},

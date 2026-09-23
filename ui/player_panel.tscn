@@ -57,13 +57,13 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
+offset_left = -90.0
 offset_top = 46.0
-offset_right = 20.0
+offset_right = 90.0
 offset_bottom = 69.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("1_cp5gh")
-text = "AP 0 / 5"
+text = "TIME 6:00 AM"
 label_settings = SubResource("LabelSettings_028fm")
 
 [node name="playerstat1" type="VBoxContainer" parent="." unique_id=714202830]

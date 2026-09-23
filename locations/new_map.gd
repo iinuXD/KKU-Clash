@@ -1,5 +1,7 @@
 extends Node2D
 
+signal forced_sleep_finished
+
 @onready var original_player: CharacterBody2D = $Player
 @onready var locations_node: Node2D = $location
 @onready var waypoints_node: Node2D = $waypiont
@@ -7,6 +9,7 @@ extends Node2D
 
 @onready var camera: Camera2D = $Camera
 @onready var player_panel = $UILayer/PlayerPanel
+@onready var night_lighting: CanvasModulate = $NightLighting
 
 # >>> 1. อ้างอิงหน้าต่างควิซ (ให้แน่ใจว่าลากมาวางใน UILayer แล้ว) <<<
 @onready var learning_popup = $UILayer/learning_popup 
@@ -17,15 +20,28 @@ var all_markers: Array[Marker2D] = []
 
 var player_nodes: Array[CharacterBody2D] = [] 
 var current_player_index: int = 0     
-var current_player_walks: int = 0     
-var max_walks_per_turn: int = 8       
 var is_walking: bool = false
+var is_forcing_sleep: bool = false
 
 var current_round: int = 1
 var max_rounds: int = 11     
 
+const NORMAL_WAKE_MINUTES := 6 * 60
+const LATE_WAKE_MINUTES := 10 * 60
+const SLEEP_MINUTES := 27 * 60
+const REAL_SECONDS_PER_GAME_MINUTE := 0.1
+const NIGHT_START_MINUTES := 18 * 60
+const NIGHT_FULL_MINUTES := 24 * 60
+const NIGHT_COLOR := Color(0.48, 0.55, 0.78, 1.0)
+
+var player_minutes: Array[int] = []
+var late_wake_players: Array[bool] = []
+var current_minutes: int = NORMAL_WAKE_MINUTES
+var real_time_accumulator: float = 0.0
+
 # เพิ่มตัวแปรสำหรับจอดำตอนสลบ
 var fade_rect: ColorRect
+var turn_notice: Label
 
 const CUSTOM_LINKS := [
 	["Dorm", "Round1"], ["Round1", "Sport"], ["Sport", "Shop"], ["Shop", "Cross1"],
@@ -41,7 +57,7 @@ var activity_effects = {
 		"นอนพัก": {"stamina": 30},
 		"เล่นเกม": {"happiness": 20, "stamina": -5},
 		"อ่านหนังสือ": {"study": 10, "stamina": -10, "happiness": -15},
-		"จ่ายค่าห้อง": {"money": -800, "happiness": 10}
+		"จบเทิร์น": {}
 	},
 	"Food": {
 		"กินข้าวจานธรรมดา": {"money": -40, "hunger": 25},
@@ -82,12 +98,41 @@ var activity_effects = {
 	}
 } 
 
+var activity_time_costs = {
+	"Dorm": {"นอนพัก": 8, "เล่นเกม": 2, "อ่านหนังสือ": 2, "จบเทิร์น": 0},
+	"Food": {"กินข้าวจานธรรมดา": 1, "กินข้าวจานพิเศษ": 1, "กินของทานเล่น": 1, "ทำ Parttime": 4},
+	"Library": {"อ่านหนังสือ": 2, "ค้นคว้า": 3, "ยืมหนังสือ": 1, "ทำ Parttime": 4},
+	"Shop": {"ซื้ออาหารตุน 2 สัปดาห์": 2, "ซื้ออาหารตุน 3 สัปดาห์": 2, "ทำ Parttime": 4},
+	"Hospital": {"เข้ารับการรักษา": 3, "ซื้อยา": 1, "ตรวจสุขภาพ": 2},
+	"Park": {"เดินเล่น": 2, "ซื้อของกิน": 1, "ขายของ": 3},
+	"Sport": {"วิ่ง": 2, "เล่นกีฬา": 3, "ทำกิจกรรม": 2},
+	"Fun": {"ดูหนัง": 3, "ปาร์ตี้": 4, "ทำ Parttime": 4}
+}
+
+func _process(delta: float) -> void:
+	if is_walking or is_forcing_sleep:
+		return
+
+	var activity_popup = $UILayer/ActivityPopup
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible:
+		return
+
+	real_time_accumulator += delta
+	var minutes_to_advance = int(real_time_accumulator / REAL_SECONDS_PER_GAME_MINUTE)
+	if minutes_to_advance <= 0:
+		return
+
+	real_time_accumulator -= minutes_to_advance * REAL_SECONDS_PER_GAME_MINUTE
+	_advance_time(minutes_to_advance)
+
 # ==========================================
 # ส่วนเริ่มต้นเกม
 # ==========================================
 func _ready() -> void:
 	_setup_mock_data()
 	_setup_fade() # เรียกใช้ระบบจอดำตอนสลบ
+	_update_night_lighting()
+	_setup_turn_notice()
 	
 	if player_panel:
 		player_panel.setup_players_ui()
@@ -101,6 +146,8 @@ func _ready() -> void:
 		p_node.activity_requested.connect(_on_player_activity_requested)
 		player_nodes.append(p_node)
 		play_animation(p_node, "idle")
+		player_minutes.append(NORMAL_WAKE_MINUTES)
+		late_wake_players.append(false)
 			
 	setup_current_turn()
 
@@ -126,7 +173,8 @@ func _setup_mock_data() -> void:
 # ระบบเทิร์น (Turn Management)
 # ==========================================
 func setup_current_turn() -> void:
-	current_player_walks = 0
+	current_minutes = player_minutes[current_player_index]
+	real_time_accumulator = 0.0
 	var active_player = player_nodes[current_player_index]
 	
 	for i in range(player_nodes.size()):
@@ -140,7 +188,7 @@ func setup_current_turn() -> void:
 
 	if player_panel:
 		player_panel.update_turn_ui(current_player_index)
-		player_panel.update_ap_ui(current_player_walks, max_walks_per_turn)
+		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES)
 		player_panel.update_round_ui(current_round, max_rounds)
 
 	var tween = create_tween()
@@ -149,6 +197,7 @@ func setup_current_turn() -> void:
 	render_mission_text(current_player_index, current_round)
 
 func pass_turn() -> void:
+	var previous_player = current_player_index
 	current_player_index += 1
 	
 	if current_player_index >= player_nodes.size():
@@ -161,9 +210,95 @@ func pass_turn() -> void:
 			return
 			
 		_reset_daily_missions(current_round)
+		for i in range(player_minutes.size()):
+			player_minutes[i] = LATE_WAKE_MINUTES if late_wake_players[i] else NORMAL_WAKE_MINUTES
+			late_wake_players[i] = false
+		_show_turn_notice("รอบใหม่เริ่มแล้ว\nผู้เล่นที่ 1 ถึงตาคุณ")
+	else:
+		_show_turn_notice("ผู้เล่นที่ %d จบเทิร์น\nผู้เล่นที่ %d ถึงตาคุณ" % [previous_player + 1, current_player_index + 1])
 
 	print("--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ ", current_player_index + 1, " ---")
 	setup_current_turn()
+
+func _setup_turn_notice() -> void:
+	turn_notice = Label.new()
+	turn_notice.visible = false
+	turn_notice.z_index = 200
+	turn_notice.position = Vector2(440, 80)
+	turn_notice.size = Vector2(400, 70)
+	turn_notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	turn_notice.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	turn_notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	turn_notice.add_theme_font_size_override("font_size", 20)
+	turn_notice.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1.0))
+	turn_notice.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 1.0))
+	turn_notice.add_theme_constant_override("outline_size", 5)
+	var notice_style = StyleBoxFlat.new()
+	notice_style.bg_color = Color(0.06, 0.08, 0.14, 0.94)
+	notice_style.border_color = Color(1.0, 0.72, 0.28, 0.95)
+	notice_style.set_border_width_all(2)
+	notice_style.set_corner_radius_all(8)
+	turn_notice.add_theme_stylebox_override("normal", notice_style)
+	$UILayer.add_child(turn_notice)
+
+func _show_turn_notice(message: String) -> void:
+	if not turn_notice:
+		return
+	turn_notice.text = message
+	turn_notice.modulate = Color.WHITE
+	turn_notice.show()
+	var tween = create_tween()
+	tween.tween_interval(1.4)
+	tween.tween_property(turn_notice, "modulate:a", 0.0, 0.35)
+	tween.tween_callback(turn_notice.hide)
+
+func _advance_time(minutes: int) -> void:
+	current_minutes = min(current_minutes + minutes, SLEEP_MINUTES)
+	player_minutes[current_player_index] = current_minutes
+	_update_night_lighting()
+	if player_panel:
+		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES)
+
+	if current_minutes >= SLEEP_MINUTES:
+		_force_sleep()
+
+func _update_night_lighting() -> void:
+	if not night_lighting:
+		return
+
+	if current_minutes <= NIGHT_START_MINUTES:
+		night_lighting.color = Color.WHITE
+		return
+
+	var darkness = clampf(
+		float(current_minutes - NIGHT_START_MINUTES) / float(NIGHT_FULL_MINUTES - NIGHT_START_MINUTES),
+		0.0,
+		1.0
+	)
+	night_lighting.color = Color.WHITE.lerp(NIGHT_COLOR, darkness)
+
+func _force_sleep() -> void:
+	if is_forcing_sleep:
+		return
+
+	is_forcing_sleep = true
+	is_walking = true
+	var active_player = player_nodes[current_player_index]
+	active_player.set_movement_enabled(false)
+	var stats = Global.player_data[current_player_index]["stats"]
+	stats["stamina"] = clamp(stats.get("stamina", 0) + 30, 0, 100)
+	if player_panel:
+		player_panel.setup_players_ui()
+
+	active_player.global_position = dorm_marker.global_position
+	camera.global_position = dorm_marker.global_position
+	late_wake_players[current_player_index] = true
+	await get_tree().create_timer(0.4).timeout
+
+	is_walking = false
+	is_forcing_sleep = false
+	pass_turn()
+	forced_sleep_finished.emit()
 
 # ==========================================
 # ระบบ A* (การเดิน)
@@ -287,6 +422,10 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 	var chosen_action = await popup.activity_chosen 
 	
 	if chosen_action != "ยกเลิก (ไม่ทำกิจกรรม)":
+		if chosen_action == "จบเทิร์น":
+			pass_turn()
+			return
+
 		var is_fainted = false
 		
 		# >>> ตรวจสอบว่ากิจกรรมที่กด คือ "เรียน" หรือ "กิจกรรมปกติ" <<<
@@ -302,10 +441,15 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 		else:
 			# หากเป็นกิจกรรมปกติ (หอพัก, โรงอาหาร ฯลฯ) ให้ทำงานตามปกติ
 			is_fainted = apply_activity_effects(chosen_action, target_place.name)
+
+		var activity_minutes = _get_activity_time_cost(chosen_action, target_place.name)
+		if not is_fainted:
+			_advance_time(activity_minutes * 60)
+			if is_forcing_sleep:
+				await forced_sleep_finished
 		
 		# --- จัดการการสลบ (จอจะมืดแล้วเด้งไปหอพัก) ---
 		if is_fainted:
-			current_player_walks = max_walks_per_turn
 			var active_player = player_nodes[current_player_index]
 			
 			if fade_rect:
@@ -327,15 +471,18 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 				active_player.global_position = dorm_marker.global_position
 				camera.global_position = dorm_marker.global_position
 			
-		else:
-			current_player_walks += 1
-		
-	# อัปเดต UI และเช็คเปลี่ยนเทิร์น
+		if is_fainted:
+			player_minutes[current_player_index] = current_minutes
+			_force_sleep()
+			await forced_sleep_finished
+
 	if player_panel:
-		player_panel.update_ap_ui(current_player_walks, max_walks_per_turn)
-	
-	if current_player_walks >= max_walks_per_turn:
-		pass_turn()
+		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES)
+
+func _get_activity_time_cost(action_name: String, place_name: String) -> int:
+	if action_name.begins_with("เรียน "):
+		return 2
+	return activity_time_costs.get(place_name, {}).get(action_name, 1)
 		
 func _apply_learning_effects(study_gained: int) -> bool:
 	var p_data = Global.player_data[current_player_index]
