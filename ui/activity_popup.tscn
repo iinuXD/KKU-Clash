@@ -1,22 +1,127 @@
 [gd_scene format=3 uid="uid://vrjm31lokv6s"]
 
-[ext_resource type="Texture2D" uid="uid://cvskiklvo1sf8" path="res://asset/activities/dorm.png" id="1_0r2gu"]
 [ext_resource type="Script" uid="uid://diveuy4erc2x6" path="res://ui/activity_popup.gd" id="1_x37td"]
-[ext_resource type="Texture2D" uid="uid://vtn1vg8uqvii" path="res://asset/activities/acborder.png" id="2_11faf"]
-[ext_resource type="Texture2D" uid="uid://drs3pgdk3fc5d" path="res://asset/activities/acborderpress.png" id="3_x37td"]
-[ext_resource type="Texture2D" uid="uid://5pjjue4lmhg8" path="res://asset/activities/acborderhover.png" id="4_3h7g2"]
+[ext_resource type="Texture2D" uid="uid://cvl0274a524tc" path="res://asset/activities/dorm.png" id="2_dorm_img"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hysm1"]
-texture = ExtResource("2_11faf")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(1, 0.952941, 0.858824, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.28)
+shadow_size = 7
+shadow_offset = Vector2(9, 9)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_haua6"]
-texture = ExtResource("3_x37td")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frame_border"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5bk4g"]
-texture = ExtResource("4_3h7g2")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.776471, 0.415686, 0.290196, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.18)
+shadow_size = 2
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+content_margin_left = 4.0
+content_margin_top = 7.0
+content_margin_right = 4.0
+content_margin_bottom = 1.0
+bg_color = Color(0.588235, 0.290196, 0.188235, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.839216, 0.494118, 0.364706, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.18)
+shadow_size = 2
+shadow_offset = Vector2(3, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_acl4y"]
 bg_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_close_normal"]
+bg_color = Color(0.8, 0.352941, 0.227451, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_close_pressed"]
+content_margin_top = 3.0
+content_margin_bottom = 0.0
+bg_color = Color(0.639216, 0.25098, 0.14902, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_close_hover"]
+bg_color = Color(0.878431, 0.423529, 0.290196, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 3
+shadow_offset = Vector2(3, 3)
 
 [node name="ActivityPopup" type="Control" unique_id=1879262156]
 layout_mode = 3
@@ -35,9 +140,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
-color = Color(0, 0, 0, 0.39215687)
+color = Color(0, 0, 0, 0.45)
 
-[node name="BgFrame" type="TextureRect" parent="." unique_id=1780557716]
+[node name="BgFrame" type="Panel" parent="." unique_id=1780557716]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -45,131 +150,101 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -500.0
-offset_top = -350.0
-offset_right = 500.0
-offset_bottom = 350.0
+offset_top = -300.0
+offset_right = 450.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_0r2gu")
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="ImageFrame" type="Panel" parent="BgFrame" unique_id=2000000011]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 498.0
+offset_bottom = -32.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_frame_border")
+
+[node name="LeftImage" type="TextureRect" parent="BgFrame" unique_id=2000000012]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 490.0
+offset_bottom = -40.0
+grow_vertical = 2
+texture = ExtResource("2_dorm_img")
 expand_mode = 1
-stretch_mode = 5
+stretch_mode = 6
 
 [node name="TitleLabel" type="Label" parent="BgFrame" unique_id=1377785030]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -300.0
-offset_top = 45.0
-offset_right = 300.0
-offset_bottom = 115.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 520.0
+offset_top = 34.0
+offset_right = -50.0
+offset_bottom = 92.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_colors/font_color = Color(0.545098, 0.227451, 0.113725, 1)
+theme_override_font_sizes/font_size = 42
 text = "หอพัก"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SubtitleLabel" type="Label" parent="BgFrame" unique_id=2000000001]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -300.0
-offset_top = 115.0
-offset_right = 300.0
-offset_bottom = 155.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 520.0
+offset_top = 92.0
+offset_right = -50.0
+offset_bottom = 128.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0.25, 0.25, 0.25, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.509804, 0.4, 0.345098, 1)
+theme_override_font_sizes/font_size = 20
 text = "เลือกกิจกรรมที่ต้องการทำ"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="BgFrame" unique_id=1145297505]
+[node name="ButtonsCenter" type="CenterContainer" parent="BgFrame" unique_id=2000000020]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -350.0
-offset_top = -125.0
-offset_right = 350.0
-offset_bottom = 285.0
-grow_horizontal = 2
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -500.0
+offset_top = 138.0
+offset_right = 30.0
+offset_bottom = -38.0
+grow_horizontal = 0
 grow_vertical = 2
-theme_override_constants/separation = 18
-alignment = 1
 
-[node name="Activity1" type="Button" parent="BgFrame/VBoxContainer" unique_id=1255298364]
-custom_minimum_size = Vector2(700, 85)
+[node name="GridContainer" type="GridContainer" parent="BgFrame/ButtonsCenter" unique_id=1145297505]
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxTexture_hysm1")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_haua6")
-theme_override_styles/hover = SubResource("StyleBoxTexture_5bk4g")
-theme_override_styles/focus = SubResource("StyleBoxFlat_acl4y")
-text = "นอนพัก"
-
-[node name="Activity2" type="Button" parent="BgFrame/VBoxContainer" unique_id=1979408463]
-custom_minimum_size = Vector2(700, 85)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxTexture_hysm1")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_haua6")
-theme_override_styles/hover = SubResource("StyleBoxTexture_5bk4g")
-theme_override_styles/focus = SubResource("StyleBoxFlat_acl4y")
-text = "เล่นเกม"
-
-[node name="Activity3" type="Button" parent="BgFrame/VBoxContainer" unique_id=43714285]
-custom_minimum_size = Vector2(700, 85)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxTexture_hysm1")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_haua6")
-theme_override_styles/hover = SubResource("StyleBoxTexture_5bk4g")
-theme_override_styles/focus = SubResource("StyleBoxFlat_acl4y")
-text = "อ่านหนังสือ"
-
-[node name="Activity4" type="Button" parent="BgFrame/VBoxContainer" unique_id=1105968486]
-custom_minimum_size = Vector2(700, 85)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxTexture_hysm1")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_haua6")
-theme_override_styles/hover = SubResource("StyleBoxTexture_5bk4g")
-theme_override_styles/focus = SubResource("StyleBoxFlat_acl4y")
-text = "จ่ายค่าห้อง"
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 18
+columns = 2
 
 [node name="CloseButton" type="Button" parent="BgFrame" unique_id=2000000002]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -110.0
-offset_top = 46.0
-offset_right = -50.0
-offset_bottom = 96.0
+offset_left = -82.0
+offset_top = 26.0
+offset_right = -30.0
+offset_bottom = 78.0
 grow_horizontal = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0.3, 0.3, 0.3, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_close_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_close_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_close_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_acl4y")
 text = "X"

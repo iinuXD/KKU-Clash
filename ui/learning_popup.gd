@@ -54,11 +54,12 @@ func _process(delta: float) -> void:
 		# อัปเดตข้อความเวลา
 		time_label.text = "%02d วินาที" % int(time_left)
 		
-		# เปลี่ยนสีเวลาเป็นสีแดงเมื่อเหลือน้อยกว่า 5 วินาที
+		# เปลี่ยนสีเวลาเป็นสีแดงชอล์กเมื่อเหลือน้อยกว่า 5 วินาที
 		if time_left <= 5.0:
-			time_label.add_theme_color_override("font_color", Color(0.8, 0.1, 0.1))
+			time_label.add_theme_color_override("font_color", Color(0.9, 0.25, 0.25))
 		else:
-			time_label.add_theme_color_override("font_color", Color(0.25, 0.25, 0.25))
+			# สีปกติเป็นสีขาว ให้ตรงกับที่ตั้งใน UI
+			time_label.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0))
 
 # ==========================================
 # 1. ระบบเริ่มต้น Quiz (ดึงโจทย์ตามวิชา)
@@ -131,9 +132,11 @@ func _on_choice_pressed(btn_index: int) -> void:
 	
 	if chosen_val == current_correct_answer:
 		correct_answers += 1
-		_show_feedback("ถูกต้อง!", Color(0.1, 0.7, 0.1)) # สีเขียว
+		# สีเขียวชอล์กสไตล์กระดานดำ
+		_show_feedback("ถูกต้อง!", Color(0.5, 0.9, 0.5)) 
 	else:
-		_show_feedback("ผิด!", Color(0.8, 0.1, 0.1)) # สีแดง
+		# สีแดงชอล์กสไตล์กระดานดำ
+		_show_feedback("ผิด!", Color(0.9, 0.4, 0.4)) 
 		
 	current_question_index += 1
 	_load_custom_question() # โหลดข้อถัดไป
@@ -162,7 +165,7 @@ func _end_quiz() -> void:
 	question_number_label.hide()
 	
 	# คำนวณความรู้ที่ได้รับ (สมมติข้อละ 20 หน่วย)
-	var study_gained = correct_answers * 20 
+	var study_gained = correct_answers * 10 
 	
 	var time_up_text = "หมดเวลา!\n" if time_left <= 0 else ""
 	result_label.text = "%sตอบถูก: %d / 3 ข้อ\nความรู้ที่ได้รับ: +%d" % [time_up_text, correct_answers, study_gained]
@@ -171,7 +174,7 @@ func _end_quiz() -> void:
 
 func _on_ok_pressed() -> void:
 	hide()
-	var study_gained = correct_answers * 20
+	var study_gained = correct_answers * 10
 	quiz_finished.emit(study_gained) # ส่งค่าความรู้กลับไปให้ new_map.gd
 
 func _load_database_from_json() -> void:

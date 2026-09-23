@@ -16,9 +16,9 @@ var outfits: Array = []
 # ตัวแปรจำค่า index
 var current_hair: int = 0
 var current_face: int = 0
-var current_skin: int = 0
-var current_accessory: int = 0
-var current_outfit: int = 0
+var current_skin: int = 2
+var current_accessory: int = 12
+var current_outfit: int = 10
 
 # อ้างอิง Node Sprite2D
 @onready var skin_sprite: Sprite2D = $HBoxContainer2/Panel/CenterPoint/BodySprite
@@ -77,7 +77,7 @@ func _on_okay_btn_pressed() -> void:
 		update_ui()
 		load_current_player_data()
 	else:
-		get_tree().change_scene_to_file("res://ui/ShowAvatar.tscn")
+		get_tree().change_scene_to_file("res://ui/showAvatar.tscn")
 
 func update_avatar_preview() -> void:
 	# เช็คก่อนว่าในโฟลเดอร์มีไฟล์ไหม
@@ -101,17 +101,21 @@ func load_asset_from_Folder(path: String) -> Array:
 		var file_name = dir.get_next()
 		while file_name != "":
 			if !dir.current_is_dir():
-				# ดักจับเฉพาะไฟล์ภาพ
-				if file_name.ends_with(".png") or file_name.ends_with(".png.remap"):
-					var clean_name = file_name.replace(".remap","")
+				# ดักจับไฟล์ .png และไฟล์ .png.import (สำหรับตอน Export)
+				if file_name.ends_with(".png") or file_name.ends_with(".png.import"):
+					# ตัดคำว่า .import ออก เพื่อให้เวลาเอาไปใช้คำสั่ง load() มันยังเป็นชื่อ .png ปกติ
+					var clean_name = file_name.replace(".import", "")
+					
+					# กันเหนียว: เผื่อมีคำว่า .remap โผล่มา
+					clean_name = clean_name.replace(".remap", "") 
+					
 					file_paths.append(path + "/" + clean_name)
 			file_name = dir.get_next()
 	else:
-		print("หาโฟลเดอร์ไม่เจอ: ",path)
+		print("หาโฟลเดอร์ไม่เจอ: ", path)
+		
 	return file_paths
 	
-
-
 func _on_nexthair_pressed() -> void:
 	if hairs.size() == 0: return
 	
@@ -207,7 +211,7 @@ func save_current_player_data() -> void:
 		"outfit": current_outfit,
 		
 		"hair_path": hairs[current_hair] if hairs.size() > 0 else "",
-		"face_oath": faces[current_face] if faces.size() > 0 else "",
+		"face_path": faces[current_face] if faces.size() > 0 else "",
 		"skin_path": skins[current_skin] if skins.size() > 0 else "",
 		"accessory_path": accessories[current_accessory] if accessories.size() > 0 else "",
 		"outfit_path": outfits[current_outfit] if outfits.size() > 0 else ""

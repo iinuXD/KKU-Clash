@@ -39,11 +39,11 @@ var skip_next_activity_ui: bool = false
 # Helper function to keep stats between 0 and 100 (except money/study)
 func update_stat(stat_name: String, amount: int):
 	match stat_name:
-		"happy": happy = clampi(happy + amount, 0, 100)
-		"energy": energy = clampi(energy + amount, 0, 100)
-		"hunger": hunger = clampi(hunger + amount, 0, 100)
+		"happy": happy = clampi(happy + amount, 0, 200)
+		"energy": energy = clampi(energy + amount, 0, 200)
+		"hunger": hunger = clampi(hunger + amount, 0, 200)
 		"money": money += amount
-		"study_score": study_score += amount
+		"study_score": study_score = clampi(study_score + amount, 0, 400)
 		
 # Select Player
 # player count

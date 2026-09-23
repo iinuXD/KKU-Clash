@@ -9,14 +9,14 @@
 [ext_resource type="Texture2D" uid="uid://d070y3lkwu80y" path="res://asset/menu/leftbtn.png" id="7_hjurv"]
 [ext_resource type="Texture2D" uid="uid://b34p6vw38e65c" path="res://asset/menu/leftpress.png" id="8_v5ykh"]
 [ext_resource type="Texture2D" uid="uid://bkb58xo6cv5tv" path="res://asset/menu/lefthover.png" id="9_q483f"]
-[ext_resource type="Texture2D" uid="uid://bfkfsxi22owfw" path="res://asset/Character/Bodies/32x32/Body_01 69.png" id="10_30drc"]
+[ext_resource type="Texture2D" uid="uid://dl8dhre8uh8s0" path="res://asset/Character/Bodies/32x32/Body_02.png" id="10_30drc"]
 [ext_resource type="Texture2D" uid="uid://8tdoyrdh37i8" path="res://asset/menu/rightbtn.png" id="10_b0jb2"]
 [ext_resource type="Texture2D" uid="uid://b4c02xpo8qchm" path="res://asset/Character/Eyes/32x32/Eyes_06.png" id="11_krctc"]
 [ext_resource type="Texture2D" uid="uid://ca0llafjl12d5" path="res://asset/menu/rightpress.png" id="11_ob7h6"]
-[ext_resource type="Texture2D" uid="uid://u6iv2vnf4aqc" path="res://asset/Character/Outfits/32x32/Outfit_01_01.png" id="12_2mgsg"]
 [ext_resource type="Texture2D" uid="uid://b3c4q6ov8gq53" path="res://asset/menu/righthover.png" id="12_30drc"]
+[ext_resource type="Texture2D" uid="uid://catob4bdjddrt" path="res://asset/Character/Outfits/32x32/Outfit_02_01.png" id="12_krctc"]
 [ext_resource type="Texture2D" uid="uid://bi2n55pmv7l4d" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="13_2hjny"]
-[ext_resource type="Texture2D" uid="uid://bu2dm5qksxe6n" path="res://asset/Character/Accessories/32x32/Accessory_01_Ladybug_01.png" id="14_s1too"]
+[ext_resource type="Texture2D" uid="uid://2dyt0464t3m2" path="res://asset/Character/Accessories/32x32/Accessory_03_Backpack_10.png" id="14_2mgsg"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qplyf"]
 texture = ExtResource("1_n0vux")
@@ -377,7 +377,7 @@ frame = 74
 
 [node name="OutfitSprite" type="Sprite2D" parent="HBoxContainer2/Panel/CenterPoint" unique_id=1408191314]
 scale = Vector2(6, 6)
-texture = ExtResource("12_2mgsg")
+texture = ExtResource("12_krctc")
 hframes = 56
 vframes = 20
 frame = 74
@@ -391,7 +391,7 @@ frame = 74
 
 [node name="AccessorySprite" type="Sprite2D" parent="HBoxContainer2/Panel/CenterPoint" unique_id=1428619945]
 scale = Vector2(6, 6)
-texture = ExtResource("14_s1too")
+texture = ExtResource("14_2mgsg")
 hframes = 56
 vframes = 20
 frame = 74

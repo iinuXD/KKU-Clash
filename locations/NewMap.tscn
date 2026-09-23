@@ -477,6 +477,7 @@ texture = ExtResource("1_jxw6k")
 
 [node name="Camera" type="Camera2D" parent="." unique_id=877276289 node_paths=PackedStringArray("map")]
 position = Vector2(394, 385)
+zoom = Vector2(1.2, 1.2)
 script = ExtResource("2_bt112")
 map = NodePath("../map")
 min_zoom = 1.0

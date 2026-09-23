@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvskiklvo1sf8"
-path="res://.godot/imported/dorm.png-465cfdd647d9a201e22a18ded7fdeabf.ctex"
+uid="uid://lb46kc43oic3"
+path="res://.godot/imported/read.png-1d9f5611654bd90178f9607141d71fa7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://asset/activities/dorm.png"
-dest_files=["res://.godot/imported/dorm.png-465cfdd647d9a201e22a18ded7fdeabf.ctex"]
+source_file="res://asset/activity_icons/library/read.png"
+dest_files=["res://.godot/imported/read.png-1d9f5611654bd90178f9607141d71fa7.ctex"]
 
 [params]
 
