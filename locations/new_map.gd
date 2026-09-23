@@ -3,8 +3,6 @@ extends Node2D
 signal forced_sleep_finished
 
 @onready var original_player: CharacterBody2D = $Player
-@onready var locations_node: Node2D = $location
-@onready var waypoints_node: Node2D = $waypiont
 @onready var dorm_marker: Marker2D = $waypiont/Dorm 
 
 @onready var camera: Camera2D = $Camera
@@ -14,9 +12,6 @@ signal forced_sleep_finished
 # >>> 1. อ้างอิงหน้าต่างควิซ (ให้แน่ใจว่าลากมาวางใน UILayer แล้ว) <<<
 @onready var learning_popup = $UILayer/learning_popup 
 @onready var scenario_popup = $UILayer/ScenarioPopup
-
-var astar: AStar2D
-var all_markers: Array[Marker2D] = []
 
 var player_nodes: Array[CharacterBody2D] = [] 
 var current_player_index: int = 0     
@@ -42,15 +37,6 @@ var real_time_accumulator: float = 0.0
 # เพิ่มตัวแปรสำหรับจอดำตอนสลบ
 var fade_rect: ColorRect
 var turn_notice: Label
-
-const CUSTOM_LINKS := [
-	["Dorm", "Round1"], ["Round1", "Sport"], ["Sport", "Shop"], ["Shop", "Cross1"],
-	["Cross1", "Library"], ["Library", "Cross5"], ["Cross1", "Food"], ["Food", "Round2"],
-	["Round2", "Cross2"], ["Cross2", "Learn"], ["Learn", "Cross5"], ["Cross5", "Cross6"],
-	["Cross6", "Round1"], ["Cross6", "Round3"], ["Round3", "End4"], ["Round3", "Cross4"],
-	["Cross3", "Cross4"], ["Cross3", "Hospital"], ["Cross3", "Cross7"], ["Cross8", "Cross4"],
-	["Cross8", "Fun"], ["Cross7", "Fun"], ["Cross3", "Cross2"], ["End4", "Park"]
-] 
 
 var activity_effects = {
 	"Dorm": {
@@ -300,35 +286,6 @@ func _force_sleep() -> void:
 	pass_turn()
 	forced_sleep_finished.emit()
 
-# ==========================================
-# ระบบ A* (การเดิน)
-# ==========================================
-func setup_astar() -> void:
-	astar = AStar2D.new()
-	all_markers.clear()
-	var marker_id_by_name: Dictionary = {}
-	
-	if waypoints_node:
-		for w in waypoints_node.get_children():
-			if w is Marker2D: all_markers.append(w)
-			
-	for i in range(all_markers.size()):
-		astar.add_point(i, all_markers[i].global_position)
-		marker_id_by_name[all_markers[i].name] = i
-
-	for link in CUSTOM_LINKS:
-		if link.size() < 2: continue
-		var from_id = marker_id_by_name.get(str(link[0]), -1)
-		var to_id = marker_id_by_name.get(str(link[1]), -1)
-		
-		if from_id != -1 and to_id != -1 and not astar.are_points_connected(from_id, to_id):
-			astar.connect_points(from_id, to_id, true)
-
-func _on_place_clicked(viewport: Node, event: InputEvent, shape_idx: int, clicked_place: Node2D) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if not is_walking:
-			walk_to_place(clicked_place)
-
 func _on_player_activity_requested(target_place: Node2D) -> void:
 	if is_walking or target_place == null:
 		return
@@ -345,59 +302,6 @@ func _on_player_activity_requested(target_place: Node2D) -> void:
 	await _handle_activity_popup(target_place)
 	player_nodes[current_player_index].set_movement_enabled(true)
 	is_walking = false
-
-func walk_to_place(target_place: Node2D) -> void:
-	var target_marker = target_place.get_node_or_null("Marker2D")
-	if target_marker == null:
-		target_marker = waypoints_node.get_node_or_null(NodePath(str(target_place.name)))
-		
-	if target_marker == null: return
-	
-	var active_player = player_nodes[current_player_index]
-	var path = astar.get_point_path(astar.get_closest_point(active_player.global_position), astar.get_closest_point(target_marker.global_position))
-	if path.is_empty(): return
-		
-	is_walking = true 
-	var walk_speed = 300.0 
-	var tween = create_tween()
-	var current = active_player.global_position
-	
-	for pt in path:
-		var diff_x = pt.x - current.x
-		var diff_y = pt.y - current.y
-		var dist_x = abs(diff_x)
-		var dist_y = abs(diff_y)
-		
-		if dist_x > dist_y:
-			if dist_x > 0: 
-				tween.tween_callback(play_animation.bind(active_player, "walk_right" if diff_x > 0 else "walk_left"))
-				tween.tween_property(active_player, "global_position:x", pt.x, dist_x / walk_speed)
-			if dist_y > 0: 
-				tween.tween_callback(play_animation.bind(active_player, "walk_down" if diff_y > 0 else "walk_up"))
-				tween.tween_property(active_player, "global_position:y", pt.y, dist_y / walk_speed)
-		else:
-			if dist_y > 0: 
-				tween.tween_callback(play_animation.bind(active_player, "walk_down" if diff_y > 0 else "walk_up"))
-				tween.tween_property(active_player, "global_position:y", pt.y, dist_y / walk_speed)
-			if dist_x > 0: 
-				tween.tween_callback(play_animation.bind(active_player, "walk_right" if diff_x > 0 else "walk_left"))
-				tween.tween_property(active_player, "global_position:x", pt.x, dist_x / walk_speed)
-		current = pt
-
-	tween.tween_callback(play_animation.bind(active_player, "idle"))
-	await tween.finished
-	is_walking = false
-	
-	var trigger_chance = 0.20
-	if randf() <= trigger_chance and scenario_popup:
-		var has_event = scenario_popup.try_start_scenario(target_place.name)
-		if has_event:
-			# รอจนกว่าผู้เล่นจะเลือกทางเลือกเสร็จ
-			var effects = await scenario_popup.scenario_resolved
-			_apply_scenario_effects(effects)
-			
-	# จบเหตุการณ์แล้ว ค่อยเปิดหน้าต่างกิจกรรมตามปกติ
-	_handle_activity_popup(target_place)
 
 # ==========================================
 # ระบบกิจกรรม และ Popup (แยกระหว่างเรียนกับกิจกรรมปกติ)
