@@ -248,67 +248,89 @@ func walk_to_place(target_place: Node2D) -> void:
 # ระบบกิจกรรม และ Popup (แยกระหว่างเรียนกับกิจกรรมปกติ)
 # ==========================================
 func _handle_activity_popup(target_place: Node2D) -> void:
+	# 1. เช็คว่าเป็นสถานที่ "Learn" หรือไม่ ถ้าใช่ให้ข้ามไปเปิดหน้าเรียนเลย
+	if target_place.name == "Learn":
+		_handle_direct_learning()
+		return
+		
+	# 2. กรณีเป็นสถานที่อื่นๆ ให้เปิดหน้าต่างกิจกรรมตามปกติ
 	var popup = $UILayer/ActivityPopup
 	if not popup: return
 		
 	var place_effects = activity_effects.get(target_place.name, {}).duplicate()
-	
-	# โชว์รายวิชาบนตึก Learn
-	if target_place.name == "Learn":
-		var t_data = Global.player_data[current_player_index].get("timetable", {})
-		if t_data.has("counts"):
-			var registered_subjects = t_data["counts"].keys()
-			for sub_name in registered_subjects:
-				var action_name = "เรียน " + str(sub_name)
-				# Hover ของวิชาเรียน จะไม่แสดงค่าความรู้แล้ว เพราะความรู้ได้จากควิซ
-				place_effects[action_name] = {"stamina": -15, "hunger": -10, "happiness": -10}
-	
 	popup.open_popup(target_place.name, current_player_index, place_effects)
 	var chosen_action = await popup.activity_chosen 
 	
 	if chosen_action != "ยกเลิก (ไม่ทำกิจกรรม)":
-		var is_fainted = false
+		var is_fainted = apply_activity_effects(chosen_action, target_place.name)
+		_process_post_action(is_fainted) # เรียกใช้ระบบประมวลผลหลังทำกิจกรรมเสร็จ
+
+# ------------------------------------------
+# ระบบเปิดหน้าควิซเรียนแบบตรงๆ (Direct Learning)
+# ------------------------------------------
+func _handle_direct_learning() -> void:
+	var p_data = Global.player_data[current_player_index]
+	
+	# เช็คว่ามีข้อมูลตารางเรียนหรือไม่
+	if not p_data.has("timetable") or not p_data["timetable"].has("daily_subjects"):
+		print("ไม่มีข้อมูลตารางเรียน")
+		return
 		
-		# >>> ตรวจสอบว่ากิจกรรมที่กด คือ "เรียน" หรือ "กิจกรรมปกติ" <<<
-		if chosen_action.begins_with("เรียน ") and learning_popup:
-			var subject_name = chosen_action.replace("เรียน ", "")
+	var day_key = "R" + str(((current_round - 1) % 5) + 1)
+	var missions = p_data["timetable"]["daily_subjects"].get(day_key, [])
+	
+	var subject_to_learn = ""
+	
+	# ค้นหาวิชาแรกในรอบนี้ที่ยังไม่ได้เรียน (is_completed == false)
+	for m in missions:
+		if not m.get("is_completed", false):
+			subject_to_learn = m["subject"]
+			break # เจอวิชาแรกที่ยังไม่เรียน ให้หยุดหาและเอาวิชานี้มาใช้
 			
-			# เปิดหน้าควิซ รอผลคะแนน และคำนวณสเตตัส
-			learning_popup.start_quiz(subject_name)
-			var study_gained = await learning_popup.quiz_finished
-			is_fainted = _apply_learning_effects(study_gained)
-			_mark_mission_completed(chosen_action)
-			
-		else:
-			# หากเป็นกิจกรรมปกติ (หอพัก, โรงอาหาร ฯลฯ) ให้ทำงานตามปกติ
-			is_fainted = apply_activity_effects(chosen_action, target_place.name)
+	# ถ้าไม่มีวิชาเหลือให้เรียนแล้วในรอบนี้
+	if subject_to_learn == "":
+		print("เรียนครบทุกวิชาแล้วสำหรับรอบนี้!")
+		# TODO: ตรงนี้อาจจะเพิ่มการแสดงผล Label หรือ Alert ให้ผู้เล่นทราบว่าเรียนครบแล้ว
+		return # ออกจากฟังก์ชันไปเลยโดยไม่เสีย Action Point
 		
-		# --- จัดการการสลบ (จอจะมืดแล้วเด้งไปหอพัก) ---
-		if is_fainted:
-			current_player_walks = max_walks_per_turn
-			var active_player = player_nodes[current_player_index]
+	# เริ่มกระบวนการเรียน
+	if learning_popup:
+		learning_popup.start_quiz(subject_to_learn)
+		var study_gained = await learning_popup.quiz_finished
+		var action_name = "เรียน " + subject_to_learn
+		var is_fainted = _apply_learning_effects(study_gained)
+		
+		_mark_mission_completed(action_name)
+		_process_post_action(is_fainted) # เรียกใช้ระบบประมวลผลหลังทำกิจกรรมเสร็จ
+
+# ------------------------------------------
+# ระบบจัดการ Action Point และ จอดำ (แยกออกมาเพื่อไม่ให้โค้ดซ้ำ)
+# ------------------------------------------
+func _process_post_action(is_fainted: bool) -> void:
+	if is_fainted:
+		current_player_walks = max_walks_per_turn
+		var active_player = player_nodes[current_player_index]
+		
+		if fade_rect:
+			fade_rect.mouse_filter = Control.MOUSE_FILTER_STOP
+			var fade_in = create_tween()
+			fade_in.tween_property(fade_rect, "color:a", 1.0, 0.5)
+			await fade_in.finished
 			
-			if fade_rect:
-				fade_rect.mouse_filter = Control.MOUSE_FILTER_STOP
-				var fade_in = create_tween()
-				fade_in.tween_property(fade_rect, "color:a", 1.0, 0.5)
-				await fade_in.finished
-				
-				active_player.global_position = dorm_marker.global_position
-				camera.global_position = dorm_marker.global_position
-				
-				await get_tree().create_timer(1.0).timeout 
-				
-				var fade_out = create_tween()
-				fade_out.tween_property(fade_rect, "color:a", 0.0, 0.5)
-				await fade_out.finished
-				fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			else:
-				active_player.global_position = dorm_marker.global_position
-				camera.global_position = dorm_marker.global_position
+			active_player.global_position = dorm_marker.global_position
+			camera.global_position = dorm_marker.global_position
 			
+			await get_tree().create_timer(1.0).timeout 
+			
+			var fade_out = create_tween()
+			fade_out.tween_property(fade_rect, "color:a", 0.0, 0.5)
+			await fade_out.finished
+			fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		else:
-			current_player_walks += 1
+			active_player.global_position = dorm_marker.global_position
+			camera.global_position = dorm_marker.global_position
+	else:
+		current_player_walks += 1
 		
 	# อัปเดต UI และเช็คเปลี่ยนเทิร์น
 	if player_panel:
@@ -316,7 +338,8 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 	
 	if current_player_walks >= max_walks_per_turn:
 		pass_turn()
-		
+
+# --- ฟังก์ชันที่เหลือเหมือนเดิม ( _apply_learning_effects, apply_activity_effects ) ---
 func _apply_learning_effects(study_gained: int) -> bool:
 	var p_data = Global.player_data[current_player_index]
 	var is_fainted = false 
