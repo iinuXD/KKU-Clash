@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var original_player: Control = $Player
+@onready var original_player: CharacterBody2D = $Player
 @onready var locations_node: Node2D = $location
 @onready var waypoints_node: Node2D = $waypiont
 @onready var dorm_marker: Marker2D = $waypiont/Dorm 
@@ -15,7 +15,7 @@ extends Node2D
 var astar: AStar2D
 var all_markers: Array[Marker2D] = []
 
-var player_nodes: Array[Control] = [] 
+var player_nodes: Array[CharacterBody2D] = [] 
 var current_player_index: int = 0     
 var current_player_walks: int = 0     
 var max_walks_per_turn: int = 8       
@@ -40,14 +40,14 @@ var activity_effects = {
 	"Dorm": {
 		"นอนพัก": {"stamina": 30},
 		"เล่นเกม": {"happiness": 20, "stamina": -5},
-		"อ่านหนังสือ": {"study": 10, "stamina": -10, "happiness": -5},
+		"อ่านหนังสือ": {"study": 10, "stamina": -10, "happiness": -15},
 		"จ่ายค่าห้อง": {"money": -800, "happiness": 10}
 	},
 	"Food": {
 		"กินข้าวจานธรรมดา": {"money": -40, "hunger": 25},
 		"กินข้าวจานพิเศษ": {"money": -50, "hunger": 35, "happiness": 5},
 		"กินของทานเล่น": {"money": -20, "hunger": 10, "happiness": 15},
-		"ทำ Parttime": {"money": 120, "stamina": -15, "hunger": -10}
+		"ทำ Parttime": {"money": 120, "stamina": -25, "hunger": -20}
 	},
 	"Library": {
 		"อ่านหนังสือ": {"study": 15, "stamina": -10, "hunger": -5},
@@ -92,20 +92,15 @@ func _ready() -> void:
 	if player_panel:
 		player_panel.setup_players_ui()
 		
-	setup_astar()
-	
 	var players = max(1, Global.player_data.size())
 	for i in range(players):
-		var p_node: Control = original_player if i == 0 else original_player.duplicate()
+		var p_node: CharacterBody2D = original_player if i == 0 else original_player.duplicate()
 		if i != 0: add_child(p_node)
 		
 		setup_player(i, p_node)
+		p_node.activity_requested.connect(_on_player_activity_requested)
 		player_nodes.append(p_node)
 		play_animation(p_node, "idle")
-		
-	for place in locations_node.get_children():
-		if place is Area2D:
-			place.input_event.connect(_on_place_clicked.bind(place))
 			
 	setup_current_turn()
 
@@ -125,7 +120,7 @@ func _setup_mock_data() -> void:
 	for i in range(Global.player_data.size()):
 		if not Global.player_data[i].has("money"): Global.player_data[i]["money"] = 1000
 		if not Global.player_data[i].has("stats"):
-			Global.player_data[i]["stats"] = {"happiness": 50, "hunger": 70, "stamina": 70, "study": 0}
+			Global.player_data[i]["stats"] = {"happiness": 50, "hunger": 50, "stamina": 70, "study": 0}
 
 # ==========================================
 # ระบบเทิร์น (Turn Management)
@@ -138,8 +133,10 @@ func setup_current_turn() -> void:
 		if i == current_player_index:
 			player_nodes[i].show()
 			player_nodes[i].global_position = dorm_marker.global_position
+			player_nodes[i].set_movement_enabled(true)
 		else:
 			player_nodes[i].hide()  
+			player_nodes[i].set_movement_enabled(false)
 
 	if player_panel:
 		player_panel.update_turn_ui(current_player_index)
@@ -196,6 +193,23 @@ func _on_place_clicked(viewport: Node, event: InputEvent, shape_idx: int, clicke
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if not is_walking:
 			walk_to_place(clicked_place)
+
+func _on_player_activity_requested(target_place: Node2D) -> void:
+	if is_walking or target_place == null:
+		return
+
+	is_walking = true
+	player_nodes[current_player_index].set_movement_enabled(false)
+	var trigger_chance = 0.20
+	if randf() <= trigger_chance and scenario_popup:
+		var has_event = scenario_popup.try_start_scenario(target_place.name)
+		if has_event:
+			var effects = await scenario_popup.scenario_resolved
+			_apply_scenario_effects(effects)
+
+	await _handle_activity_popup(target_place)
+	player_nodes[current_player_index].set_movement_enabled(true)
+	is_walking = false
 
 func walk_to_place(target_place: Node2D) -> void:
 	var target_marker = target_place.get_node_or_null("Marker2D")
@@ -408,11 +422,11 @@ func _reset_daily_missions(new_round: int) -> void:
 # ==========================================
 # การตั้งค่าตัวละครเบื้องต้น
 # ==========================================
-func play_animation(player_node: Control, anim_name: String) -> void:
+func play_animation(player_node: CharacterBody2D, anim_name: String) -> void:
 	var anim_player = player_node.get_node_or_null("Panel/CenterPoint/AnimationPlayer")
 	if anim_player: anim_player.play(anim_name)
 
-func setup_player(player_index: int, player_character: Control) -> void:
+func setup_player(player_index: int, player_character: CharacterBody2D) -> void:
 	var my_data = Global.player_data[player_index] if Global.player_data.size() > player_index else {}
 	if not my_data.has("avatar_settings"): return
 	

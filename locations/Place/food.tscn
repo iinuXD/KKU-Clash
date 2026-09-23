@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bp77at5l8fmre" path="res://asset/place/Food.png" id="1_w4ger"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oshej"]
-size = Vector2(126, 81)
+size = Vector2(126, 55)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_312yg"]
 shader = ExtResource("1_eeru1")
@@ -17,7 +17,7 @@ position = Vector2(71, 81)
 script = ExtResource("1_mr7qh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=11267842]
-position = Vector2(2, -27.5)
+position = Vector2(2, -14.5)
 shape = SubResource("RectangleShape2D_oshej")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=81602999]
