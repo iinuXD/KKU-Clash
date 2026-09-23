@@ -171,15 +171,13 @@ func setup_current_turn() -> void:
 		else:
 			player_nodes[i].hide()  
 			player_nodes[i].set_movement_enabled(false)
+	camera.target = active_player
 
 	if player_panel:
 		player_panel.update_turn_ui(current_player_index)
 		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES)
 		player_panel.update_round_ui(current_round, max_rounds)
 
-	var tween = create_tween()
-	tween.tween_property(camera, "global_position", active_player.global_position, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	
 	render_mission_text(current_player_index, current_round)
 
 func pass_turn() -> void:

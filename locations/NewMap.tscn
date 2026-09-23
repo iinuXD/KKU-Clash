@@ -582,7 +582,6 @@ tile_map_data = PackedByteArray("AAAxADYAAgADAAEAAAAxADUAAgADAAEAAAAxADQAAgADAAE
 tile_set = ExtResource("3_7rooa")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1263572156]
-visible = false
 
 [node name="PlayerPanel" parent="UILayer" unique_id=871320382 instance=ExtResource("13_os617")]
 
