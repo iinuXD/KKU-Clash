@@ -1,7 +1,9 @@
 extends Camera2D
 @export var map: Sprite2D
 
-var is_dragging :bool = false
+@export var target: Node2D
+@export var follow_speed: float = 8.0
+
 @export_group("Zoom Settings")
 @export var zoom_step: float = 0.1
 @export var min_zoom: float = 0.5
@@ -11,12 +13,14 @@ func _ready() -> void:
 	if map and map.texture:
 		setup_limits()
 
+func _process(delta: float) -> void:
+	if target and is_instance_valid(target):
+		var weight = 1.0 - exp(-follow_speed * delta)
+		global_position = global_position.lerp(target.global_position, weight)
+		clamp_camera_position()
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
-		# Right Click Drag toggle
-		if event.button_index == MOUSE_BUTTON_RIGHT:
-			is_dragging = event.pressed
-
 		# Scroll Up -> Zoom In
 		if event.pressed and event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			adjust_zoom(zoom_step)
@@ -24,11 +28,6 @@ func _input(event: InputEvent) -> void:
 		# Scroll Down -> Zoom Out
 		if event.pressed and event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			adjust_zoom(-zoom_step)
-
-	if event is InputEventMouseMotion:
-		if is_dragging:
-			position -= event.relative / zoom
-			clamp_camera_position()
 
 
 func setup_limits() -> void:

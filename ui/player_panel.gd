@@ -6,7 +6,7 @@ extends Control
 	$playerstat3,
 	$playerstat4
 ]
-@onready var ap_label = $ActionPoint 
+@onready var time_label = $ActionPoint 
 @onready var week_label = $WeekReportLabel 
 
 # --- เพิ่มตัวแปรอ้างอิงหน้าต่างภารกิจ ---
@@ -64,10 +64,15 @@ func update_turn_ui(active_index: int) -> void:
 			else:
 				portrait.texture = border_normal
 
-func update_ap_ui(current_walks: int, max_walks: int) -> void:
-	if ap_label:
-		var ap_left = max_walks - current_walks
-		ap_label.text = "AP " + str(ap_left) + "/" + str(max_walks)
+func update_time_ui(current_minutes: int, start_minutes: int, end_minutes: int) -> void:
+	if time_label:
+		var hour = int(current_minutes / 60) % 24
+		var minute = current_minutes % 60
+		var meridiem = "AM" if hour < 12 else "PM"
+		var display_hour = hour % 12
+		if display_hour == 0:
+			display_hour = 12
+		time_label.text = "TIME " + str(display_hour) + ":%02d " % minute + meridiem
 
 func update_round_ui(current_round: int, max_rounds: int) -> void:
 	if week_label:
