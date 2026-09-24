@@ -26,12 +26,20 @@ var current_question_index: int = 0
 var correct_answers: int = 0
 
 # --- ชุดตัวแปรใหม่สำหรับโจทย์ที่คิดเอง ---
-var current_quiz_set: Array = [] 
+var current_quiz_set: Array = []
 var current_correct_answer: String = ""
-var question_database: Dictionary = {}
+
+# ไฟล์คำถามแยกตามรายวิชา
+const SUBJECT_FILES = {
+	"ภาษาไทย": "res://data/questions/thai.json",
+	"คณิตศาสตร์": "res://data/questions/math.json",
+	"ภาษาอังกฤษ": "res://data/questions/english.json",
+	"ฟิสิกส์": "res://data/questions/physics.json",
+	"เคมี": "res://data/questions/chemistry.json",
+	"ชีววิทยา": "res://data/questions/biology.json"
+}
 
 func _ready() -> void:
-	_load_database_from_json()
 	hide()
 	summary_panel.hide()
 	feedback_label.hide()
@@ -78,31 +86,34 @@ func start_quiz(subject_name: String, subject_level: int = 1) -> void:
 	question_number_label.show()
 	show()
 	
-	# รองรับทั้งโครงสร้างเดิม (วิชา -> Array) และโครงสร้างใหม่ (วิชา -> Level -> Array)
-	var subject_data = question_database.get(subject_name, question_database.get("Default", []))
-	var all_questions: Array = []
 	var display_level = clampi(subject_level, 1, 6)
+	var subject_data = _load_subject_database(subject_name)
 	
-	if subject_data is Dictionary:
-		var level_key = str(display_level)
-		if subject_data.has(level_key):
-			all_questions = subject_data[level_key].duplicate(true)
-		else:
-			print("❌ ไม่พบ Level ", level_key, " ของวิชา ", subject_name)
-			is_quiz_active = false
-			hide()
-			return
-		subject_label.text = "วิชา: %s  |  Level %d" % [subject_name, display_level]
-	else:
-		# วิชาอื่นที่ยังใช้ questions.json รูปแบบเดิมจะทำงานเหมือนเดิม
-		all_questions = subject_data.duplicate(true)
-		subject_label.text = "วิชา: " + subject_name
+	if subject_data.is_empty():
+		print("❌ ไม่สามารถโหลดโจทย์วิชา ", subject_name, " ได้")
+		is_quiz_active = false
+		hide()
+		return
 	
-	# สับเปลี่ยนลำดับโจทย์ทั้งหมดที่มี
+	var level_key = str(display_level)
+	if not subject_data.has(level_key):
+		print("❌ ไม่พบ Level ", level_key, " ของวิชา ", subject_name)
+		is_quiz_active = false
+		hide()
+		return
+	
+	var all_questions: Array = subject_data[level_key].duplicate(true)
+	if all_questions.is_empty():
+		print("❌ Level ", level_key, " ของวิชา ", subject_name, " ไม่มีโจทย์")
+		is_quiz_active = false
+		hide()
+		return
+	
+	subject_label.text = "วิชา: %s  |  Level %d" % [subject_name, display_level]
+	
+	# สุ่มโจทย์จาก Level ปัจจุบัน แล้วเลือกสูงสุด 3 ข้อ
 	all_questions.shuffle()
-	
-	# ตัดมาใช้งานแค่ 3 ข้อ (หรือเท่าที่มีถ้าโจทย์มีไม่ถึง 3 ข้อ)
-	current_quiz_set = all_questions.slice(0, 3)
+	current_quiz_set = all_questions.slice(0, mini(3, all_questions.size()))
 	
 	_load_custom_question()
 
@@ -203,21 +214,32 @@ func _on_ok_pressed() -> void:
 	var study_gained = correct_answers * 10
 	quiz_finished.emit(study_gained) # ส่งค่าความรู้กลับไปให้ new_map.gd
 
-func _load_database_from_json() -> void:
-	var file_path = "res://data/questions.json"
+func _load_subject_database(subject_name: String) -> Dictionary:
+	if not SUBJECT_FILES.has(subject_name):
+		print("❌ ไม่พบไฟล์ที่กำหนดไว้สำหรับวิชา: ", subject_name)
+		return {}
 	
-	if FileAccess.file_exists(file_path):
-		var file = FileAccess.open(file_path, FileAccess.READ)
-		var json_string = file.get_as_text()
-		
-		# แปลงข้อความ JSON ให้กลายเป็น Dictionary
-		var json = JSON.new()
-		var error = json.parse(json_string)
-		
-		if error == OK:
-			question_database = json.data
-			print("✅ โหลดข้อมูลโจทย์สำเร็จ! พบทั้งหมด ", question_database.keys().size(), " วิชา")
-		else:
-			print("❌ เกิดข้อผิดพลาดในการแปลง JSON ที่บรรทัด: ", json.get_error_line(), " ข้อความ: ", json.get_error_message())
-	else:
-		print("❌ หาไฟล์ JSON ไม่เจอ กรุณาตรวจสอบเส้นทางไฟล์: ", file_path)
+	var file_path: String = SUBJECT_FILES[subject_name]
+	if not FileAccess.file_exists(file_path):
+		print("❌ หาไฟล์ JSON ไม่เจอ: ", file_path)
+		return {}
+	
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	if file == null:
+		print("❌ เปิดไฟล์ JSON ไม่สำเร็จ: ", file_path)
+		return {}
+	
+	var json_string = file.get_as_text()
+	var json = JSON.new()
+	var error = json.parse(json_string)
+	
+	if error != OK:
+		print("❌ JSON ผิดพลาดใน ", file_path, " บรรทัด ", json.get_error_line(), ": ", json.get_error_message())
+		return {}
+	
+	if not json.data is Dictionary:
+		print("❌ โครงสร้าง JSON ของวิชา ", subject_name, " ต้องเป็น Dictionary ของ Level 1-6")
+		return {}
+	
+	print("✅ โหลดโจทย์ ", subject_name, " สำเร็จ | ", file_path)
+	return json.data

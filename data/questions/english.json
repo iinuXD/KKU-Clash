@@ -1,0 +1,614 @@
+{
+  "1": [
+    {
+      "q": "Choose the correct sentence.",
+      "choices": [
+        "I am a student.",
+        "I is a student.",
+        "I are a student.",
+        "I be a student."
+      ],
+      "answer": "I am a student."
+    },
+    {
+      "q": "What is the past tense of 'go'?",
+      "choices": [
+        "Goed",
+        "Went",
+        "Gone",
+        "Going"
+      ],
+      "answer": "Went"
+    },
+    {
+      "q": "She _____ to school every day.",
+      "choices": [
+        "go",
+        "goes",
+        "going",
+        "went"
+      ],
+      "answer": "goes"
+    },
+    {
+      "q": "Which word is an adjective?",
+      "choices": [
+        "Beautiful",
+        "Quickly",
+        "Run",
+        "School"
+      ],
+      "answer": "Beautiful"
+    },
+    {
+      "q": "There _____ two books on the table.",
+      "choices": [
+        "is",
+        "are",
+        "am",
+        "be"
+      ],
+      "answer": "are"
+    },
+    {
+      "q": "What is the plural form of 'child'?",
+      "choices": [
+        "Childs",
+        "Childes",
+        "Children",
+        "Childrens"
+      ],
+      "answer": "Children"
+    },
+    {
+      "q": "I _____ breakfast every morning.",
+      "choices": [
+        "eat",
+        "eats",
+        "eating",
+        "ate"
+      ],
+      "answer": "eat"
+    },
+    {
+      "q": "Which word means 'ห้องสมุด'?",
+      "choices": [
+        "Laboratory",
+        "Library",
+        "Cafeteria",
+        "Dormitory"
+      ],
+      "answer": "Library"
+    },
+    {
+      "q": "Tom is _____ than John.",
+      "choices": [
+        "tall",
+        "taller",
+        "tallest",
+        "more tall"
+      ],
+      "answer": "taller"
+    },
+    {
+      "q": "We _____ English now.",
+      "choices": [
+        "study",
+        "studies",
+        "are studying",
+        "studied"
+      ],
+      "answer": "are studying"
+    }
+  ],
+  "2": [
+    {
+      "q": "If it _____ tomorrow, we will stay home.",
+      "choices": [
+        "rain",
+        "rains",
+        "rained",
+        "raining"
+      ],
+      "answer": "rains"
+    },
+    {
+      "q": "I have lived here _____ 2022.",
+      "choices": [
+        "for",
+        "since",
+        "from",
+        "at"
+      ],
+      "answer": "since"
+    },
+    {
+      "q": "Which sentence is in the present perfect tense?",
+      "choices": [
+        "I finished my homework.",
+        "I have finished my homework.",
+        "I finish my homework.",
+        "I was finishing my homework."
+      ],
+      "answer": "I have finished my homework."
+    },
+    {
+      "q": "The book _____ by my teacher yesterday.",
+      "choices": [
+        "gave",
+        "was given",
+        "is giving",
+        "has give"
+      ],
+      "answer": "was given"
+    },
+    {
+      "q": "You _____ wear a helmet when riding a motorcycle.",
+      "choices": [
+        "should",
+        "would",
+        "used",
+        "have"
+      ],
+      "answer": "should"
+    },
+    {
+      "q": "I don't have _____ money with me.",
+      "choices": [
+        "many",
+        "much",
+        "few",
+        "a few"
+      ],
+      "answer": "much"
+    },
+    {
+      "q": "Neither Tom nor Jane _____ ready.",
+      "choices": [
+        "are",
+        "is",
+        "be",
+        "were"
+      ],
+      "answer": "is"
+    },
+    {
+      "q": "Which word is closest in meaning to 'rapid'?",
+      "choices": [
+        "slow",
+        "fast",
+        "weak",
+        "quiet"
+      ],
+      "answer": "fast"
+    },
+    {
+      "q": "He studied hard _____ he could pass the exam.",
+      "choices": [
+        "so that",
+        "but",
+        "although",
+        "unless"
+      ],
+      "answer": "so that"
+    },
+    {
+      "q": "The student _____ won the prize is my friend.",
+      "choices": [
+        "which",
+        "who",
+        "where",
+        "when"
+      ],
+      "answer": "who"
+    }
+  ],
+  "3": [
+    {
+      "q": "Choose the best connector: 'The weather was bad; _____, the event continued.'",
+      "choices": [
+        "therefore",
+        "however",
+        "because",
+        "for example"
+      ],
+      "answer": "however"
+    },
+    {
+      "q": "What does 'look up a word' mean?",
+      "choices": [
+        "Invent a word",
+        "Search for its meaning",
+        "Delete a word",
+        "Pronounce it loudly"
+      ],
+      "answer": "Search for its meaning"
+    },
+    {
+      "q": "Which sentence is most appropriate in a formal email?",
+      "choices": [
+        "Hey, send me the file.",
+        "Could you please send me the file?",
+        "Gimme the file.",
+        "Send it now!"
+      ],
+      "answer": "Could you please send me the file?"
+    },
+    {
+      "q": "The word 'essential' is closest in meaning to _____.",
+      "choices": [
+        "unnecessary",
+        "necessary",
+        "optional",
+        "ordinary"
+      ],
+      "answer": "necessary"
+    },
+    {
+      "q": "Choose the correct sentence.",
+      "choices": [
+        "Despite he was tired, he worked.",
+        "Although he was tired, he continued working.",
+        "Although he was tired, but he worked.",
+        "He tired although continued."
+      ],
+      "answer": "Although he was tired, he continued working."
+    },
+    {
+      "q": "If I _____ more time, I would learn another language.",
+      "choices": [
+        "have",
+        "had",
+        "will have",
+        "am having"
+      ],
+      "answer": "had"
+    },
+    {
+      "q": "By the time we arrived, the class _____.",
+      "choices": [
+        "starts",
+        "had started",
+        "has start",
+        "starting"
+      ],
+      "answer": "had started"
+    },
+    {
+      "q": "Which phrase introduces an example?",
+      "choices": [
+        "In contrast",
+        "For instance",
+        "As a result",
+        "Nevertheless"
+      ],
+      "answer": "For instance"
+    },
+    {
+      "q": "The report was clear and _____.",
+      "choices": [
+        "inform",
+        "informative",
+        "information",
+        "informedly"
+      ],
+      "answer": "informative"
+    },
+    {
+      "q": "Which sentence expresses a recommendation?",
+      "choices": [
+        "You should review the lesson.",
+        "You reviewed the lesson.",
+        "You are the lesson.",
+        "You may reviewed the lesson."
+      ],
+      "answer": "You should review the lesson."
+    }
+  ],
+  "4": [
+    {
+      "q": "In academic writing, a thesis statement mainly _____.",
+      "choices": [
+        "states the main argument or focus",
+        "lists every source",
+        "gives only a title",
+        "repeats the conclusion"
+      ],
+      "answer": "states the main argument or focus"
+    },
+    {
+      "q": "Which transition best shows cause and effect?",
+      "choices": [
+        "Consequently",
+        "Similarly",
+        "Meanwhile",
+        "For example"
+      ],
+      "answer": "Consequently"
+    },
+    {
+      "q": "Choose the most concise sentence.",
+      "choices": [
+        "Due to the fact that it rained, the game was cancelled.",
+        "Because it rained, the game was cancelled.",
+        "The game, due to rain that occurred, was cancelled.",
+        "It rained and for that reason of rain the game was cancelled."
+      ],
+      "answer": "Because it rained, the game was cancelled."
+    },
+    {
+      "q": "What does 'infer' mean in reading?",
+      "choices": [
+        "Copy a sentence",
+        "Draw a conclusion from evidence",
+        "Translate every word",
+        "Memorize a paragraph"
+      ],
+      "answer": "Draw a conclusion from evidence"
+    },
+    {
+      "q": "Which source is generally most suitable for supporting an academic claim?",
+      "choices": [
+        "An anonymous social-media post",
+        "A peer-reviewed research article",
+        "An advertisement",
+        "An unsourced comment"
+      ],
+      "answer": "A peer-reviewed research article"
+    },
+    {
+      "q": "The results were different _____ what we expected.",
+      "choices": [
+        "from",
+        "with",
+        "by",
+        "at"
+      ],
+      "answer": "from"
+    },
+    {
+      "q": "Choose the correct parallel structure.",
+      "choices": [
+        "She likes reading, swimming, and to cook.",
+        "She likes reading, swimming, and cooking.",
+        "She likes to read, swimming, and cooking.",
+        "She likes read, swim, and cooking."
+      ],
+      "answer": "She likes reading, swimming, and cooking."
+    },
+    {
+      "q": "Which sentence uses 'affect' correctly?",
+      "choices": [
+        "The weather may affect attendance.",
+        "The weather may affect to attendance.",
+        "Attendance is an affect weather.",
+        "The weather affective attendance."
+      ],
+      "answer": "The weather may affect attendance."
+    },
+    {
+      "q": "What is the purpose of a topic sentence?",
+      "choices": [
+        "Introduce the main idea of a paragraph",
+        "Provide the bibliography",
+        "End the entire essay",
+        "Define every difficult word"
+      ],
+      "answer": "Introduce the main idea of a paragraph"
+    },
+    {
+      "q": "Which phrase is most appropriate for contrasting two ideas?",
+      "choices": [
+        "On the other hand",
+        "As a result",
+        "For example",
+        "In addition"
+      ],
+      "answer": "On the other hand"
+    }
+  ],
+  "5": [
+    {
+      "q": "Which statement is the most cautious academic claim?",
+      "choices": [
+        "This proves the method always works.",
+        "The findings suggest the method may be effective.",
+        "Everyone knows the method works.",
+        "The method can never fail."
+      ],
+      "answer": "The findings suggest the method may be effective."
+    },
+    {
+      "q": "A paragraph has strong coherence when _____.",
+      "choices": [
+        "its ideas are logically connected",
+        "every sentence is very long",
+        "it contains many difficult words",
+        "it avoids transition words"
+      ],
+      "answer": "its ideas are logically connected"
+    },
+    {
+      "q": "Which is the best paraphrasing practice?",
+      "choices": [
+        "Change a few words only.",
+        "Restate the idea in your own structure and cite the source.",
+        "Copy the sentence without quotation marks.",
+        "Remove the author's name and copy it."
+      ],
+      "answer": "Restate the idea in your own structure and cite the source."
+    },
+    {
+      "q": "If an article gives evidence supporting only one side, a critical reader should _____.",
+      "choices": [
+        "consider possible bias and seek other evidence",
+        "accept it immediately",
+        "ignore all evidence",
+        "judge it by its length"
+      ],
+      "answer": "consider possible bias and seek other evidence"
+    },
+    {
+      "q": "Which sentence avoids an unsupported generalization?",
+      "choices": [
+        "All university students hate exams.",
+        "Some surveyed students reported exam anxiety.",
+        "Nobody enjoys studying.",
+        "Students always learn better online."
+      ],
+      "answer": "Some surveyed students reported exam anxiety."
+    },
+    {
+      "q": "What is a primary purpose of a citation?",
+      "choices": [
+        "Show where information or ideas came from",
+        "Make the essay longer",
+        "Replace analysis",
+        "Guarantee a claim is true"
+      ],
+      "answer": "Show where information or ideas came from"
+    },
+    {
+      "q": "Which phrase best signals a limitation?",
+      "choices": [
+        "One limitation of this study is...",
+        "This proves everything.",
+        "There are no possible weaknesses.",
+        "Obviously, this is perfect."
+      ],
+      "answer": "One limitation of this study is..."
+    },
+    {
+      "q": "Which sentence is grammatically correct?",
+      "choices": [
+        "The results indicate a difference.",
+        "The results indicates a difference.",
+        "The results indicating a difference is.",
+        "The results has indicate a difference."
+      ],
+      "answer": "The results indicate a difference."
+    },
+    {
+      "q": "Which question best evaluates a source's reliability?",
+      "choices": [
+        "Who produced it, what evidence is provided, and can it be verified?",
+        "Is the website colorful?",
+        "Is the title short?",
+        "Does it agree with me?"
+      ],
+      "answer": "Who produced it, what evidence is provided, and can it be verified?"
+    },
+    {
+      "q": "A counterargument is _____.",
+      "choices": [
+        "an opposing viewpoint addressed in an argument",
+        "a spelling correction",
+        "the essay title",
+        "a list of references"
+      ],
+      "answer": "an opposing viewpoint addressed in an argument"
+    }
+  ],
+  "6": [
+    {
+      "q": "Which conclusion is justified by a correlation alone?",
+      "choices": [
+        "One variable definitely causes the other.",
+        "The variables are associated, but causation is not established.",
+        "There is no relationship at all.",
+        "Both variables must have the same cause."
+      ],
+      "answer": "The variables are associated, but causation is not established."
+    },
+    {
+      "q": "If two studies report different results, the best first step is to _____.",
+      "choices": [
+        "compare their samples, methods, measures, and contexts",
+        "average the conclusions",
+        "choose the study with the shorter title",
+        "ignore both studies"
+      ],
+      "answer": "compare their samples, methods, measures, and contexts"
+    },
+    {
+      "q": "Which wording best avoids overstating evidence?",
+      "choices": [
+        "The evidence demonstrates this is true in every case.",
+        "The evidence is consistent with this explanation, though alternatives remain.",
+        "This explanation cannot be questioned.",
+        "This is obviously the only explanation."
+      ],
+      "answer": "The evidence is consistent with this explanation, though alternatives remain."
+    },
+    {
+      "q": "What is a logical fallacy?",
+      "choices": [
+        "An error in reasoning that weakens an argument",
+        "A grammatical tense",
+        "A citation format",
+        "A research database"
+      ],
+      "answer": "An error in reasoning that weakens an argument"
+    },
+    {
+      "q": "The claim 'Everyone uses this app, so it must be the best' mainly relies on _____.",
+      "choices": [
+        "appeal to popularity",
+        "cause and effect",
+        "definition",
+        "analogy"
+      ],
+      "answer": "appeal to popularity"
+    },
+    {
+      "q": "Which revision is most objective?",
+      "choices": [
+        "The amazing results clearly prove our brilliant idea.",
+        "The results showed a 12% increase under the tested conditions.",
+        "Our fantastic method destroyed the competition.",
+        "Obviously, the results were perfect."
+      ],
+      "answer": "The results showed a 12% increase under the tested conditions."
+    },
+    {
+      "q": "When summarizing a research article, you should prioritize _____.",
+      "choices": [
+        "the research question, method, key findings, and limitations",
+        "every sentence in order",
+        "only your personal reaction",
+        "only the article title"
+      ],
+      "answer": "the research question, method, key findings, and limitations"
+    },
+    {
+      "q": "Which statement best distinguishes evidence from interpretation?",
+      "choices": [
+        "Evidence is observed or reported information; interpretation explains what it may mean.",
+        "Evidence and interpretation are always identical.",
+        "Interpretation is always more factual than evidence.",
+        "Evidence never requires a source."
+      ],
+      "answer": "Evidence is observed or reported information; interpretation explains what it may mean."
+    },
+    {
+      "q": "If a sample contains only first-year students, which claim is most defensible?",
+      "choices": [
+        "The findings directly represent all people.",
+        "The findings describe the sampled first-year students and may not generalize broadly.",
+        "The findings represent every university.",
+        "Sample composition does not matter."
+      ],
+      "answer": "The findings describe the sampled first-year students and may not generalize broadly."
+    },
+    {
+      "q": "Which response best handles uncertainty in an academic discussion?",
+      "choices": [
+        "State what the evidence supports and clearly note remaining uncertainty.",
+        "Hide contradictory evidence.",
+        "Use absolute language.",
+        "Replace evidence with personal confidence."
+      ],
+      "answer": "State what the evidence supports and clearly note remaining uncertainty."
+    }
+  ]
+}
