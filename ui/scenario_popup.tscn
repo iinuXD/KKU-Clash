@@ -1,18 +1,103 @@
-[gd_scene format=3 uid="uid://buhwi8ggnu868"]
+[gd_scene load_steps=8 format=3]
 
-[ext_resource type="Script" uid="uid://cablbklbokaxb" path="res://ui/scenario_popup.gd" id="1_b0ocp"]
-[ext_resource type="Texture2D" uid="uid://bgsdilpl8lnr0" path="res://asset/card/simu.png" id="2_2j4s6"]
+[ext_resource type="Script" path="res://ui/scenario_popup.gd" id="1_scenario"]
 
-[node name="ScenarioPopup" type="Control" unique_id=843135863]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(1, 0.952941, 0.858824, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.28)
+shadow_size = 7
+shadow_offset = Vector2(9, 9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frame_border"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.776471, 0.415686, 0.290196, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.18)
+shadow_size = 2
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+content_margin_left = 4.0
+content_margin_top = 7.0
+content_margin_right = 4.0
+content_margin_bottom = 1.0
+bg_color = Color(0.588235, 0.290196, 0.188235, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.839216, 0.494118, 0.364706, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.18)
+shadow_size = 2
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[sub_resource type="Theme" id="Theme_choices"]
+Button/colors/font_color = Color(1, 0.952941, 0.858824, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(1, 0.952941, 0.858824, 0.85)
+Button/styles/normal = SubResource("StyleBoxFlat_btn_normal")
+Button/styles/hover = SubResource("StyleBoxFlat_btn_hover")
+Button/styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+Button/styles/disabled = SubResource("StyleBoxFlat_btn_pressed")
+Button/styles/focus = SubResource("StyleBoxEmpty_focus")
+
+[node name="ScenarioPopup" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_b0ocp")
+script = ExtResource("1_scenario")
 
-[node name="DimBg" type="ColorRect" parent="." unique_id=1978348562]
+[node name="DimBg" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,7 +107,7 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(0, 0, 0, 0.45)
 
-[node name="BgPanel" type="TextureRect" parent="." unique_id=1123614504]
+[node name="BgFrame" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -30,45 +115,90 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -500.0
-offset_top = -350.0
-offset_right = 500.0
-offset_bottom = 350.0
+offset_top = -300.0
+offset_right = 450.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_2j4s6")
-expand_mode = 1
-stretch_mode = 5
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="TitleLabel" type="Label" parent="BgPanel" unique_id=31543078]
+[node name="ImageFrame" type="Panel" parent="BgFrame"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 498.0
+offset_bottom = -32.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_frame_border")
+
+[node name="ScenarioImage" type="TextureRect" parent="BgFrame/ImageFrame"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 200.0
-offset_top = 70.0
-offset_right = 800.0
-offset_bottom = 137.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 48
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="TitleLabel" type="Label" parent="BgFrame"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 520.0
+offset_top = 38.0
+offset_right = -40.0
+offset_bottom = 94.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.545098, 0.227451, 0.113725, 1)
+theme_override_font_sizes/font_size = 38
 text = "มีบางอย่างเกิดขึ้น..."
 horizontal_alignment = 1
-
-[node name="DescLabel" type="Label" parent="BgPanel" unique_id=150048416]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(800, 0)
-layout_mode = 0
-offset_left = 100.0
-offset_top = 175.0
-offset_right = 900.0
-offset_bottom = 198.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 36
-horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="BgPanel" unique_id=1041334951]
+[node name="DescLabel" type="Label" parent="BgFrame"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 150.0
-offset_top = 350.0
-offset_right = 850.0
-offset_bottom = 550.0
-theme_override_constants/separation = 15
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 530.0
+offset_top = 105.0
+offset_right = -50.0
+offset_bottom = 190.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.509804, 0.4, 0.345098, 1)
+theme_override_font_sizes/font_size = 20
+text = "รายละเอียดเหตุการณ์"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ChoicesCenter" type="CenterContainer" parent="BgFrame"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -430.0
+offset_top = 205.0
+offset_right = -45.0
+offset_bottom = -42.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BgFrame/ChoicesCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(370, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_choices")
+theme_override_constants/separation = 16
