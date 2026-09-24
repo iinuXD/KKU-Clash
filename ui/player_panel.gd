@@ -76,7 +76,7 @@ func update_time_ui(current_minutes: int, start_minutes: int, end_minutes: int) 
 
 func update_round_ui(current_round: int, max_rounds: int) -> void:
 	if week_label:
-		week_label.text = "WEEK " + str(current_round) + "/" + str(max_rounds)
+		week_label.text = "DAY " + str(current_round) + "/" + str(max_rounds)
 
 func _update_avatar(stat_panel: Node, player_index: int) -> void:
 	var p_data = Global.player_data[player_index] if Global.player_data.size() > player_index else {}

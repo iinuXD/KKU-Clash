@@ -461,10 +461,10 @@ size = Vector2(173, 413.5)
 size = Vector2(22.5, 36)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yx7sk"]
-size = Vector2(218, 50)
+size = Vector2(218, 35)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jcwe0"]
-size = Vector2(345, 338)
+size = Vector2(338, 324)
 
 [node name="Node2D" type="Node2D" unique_id=2100697291]
 script = ExtResource("1_v1lx3")
@@ -587,10 +587,13 @@ tile_set = ExtResource("3_7rooa")
 [node name="PlayerPanel" parent="UILayer" unique_id=871320382 instance=ExtResource("13_os617")]
 
 [node name="ActivityPopup" parent="UILayer" unique_id=1879262156 instance=ExtResource("15_hysm1")]
+visible = false
 
 [node name="learning_popup" parent="UILayer" unique_id=1389026711 instance=ExtResource("16_j6g76")]
+visible = false
 
 [node name="ScenarioPopup" parent="UILayer" unique_id=843135863 instance=ExtResource("17_haua6")]
+visible = false
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1980044058]
 script = ExtResource("19_player")
@@ -718,9 +721,9 @@ position = Vector2(210.25, 372)
 shape = SubResource("RectangleShape2D_cdwd0")
 
 [node name="CollisionShape2D9" type="CollisionShape2D" parent="WalkBounds" unique_id=1202142823]
-position = Vector2(514, 472)
+position = Vector2(514, 464.5)
 shape = SubResource("RectangleShape2D_yx7sk")
 
 [node name="CollisionShape2D10" type="CollisionShape2D" parent="WalkBounds" unique_id=1868607495]
-position = Vector2(571.5, 703)
+position = Vector2(575, 710)
 shape = SubResource("RectangleShape2D_jcwe0")
