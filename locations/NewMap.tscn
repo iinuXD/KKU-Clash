@@ -587,10 +587,13 @@ tile_set = ExtResource("3_7rooa")
 [node name="PlayerPanel" parent="UILayer" unique_id=871320382 instance=ExtResource("13_os617")]
 
 [node name="ActivityPopup" parent="UILayer" unique_id=1879262156 instance=ExtResource("15_hysm1")]
+visible = false
 
 [node name="learning_popup" parent="UILayer" unique_id=1389026711 instance=ExtResource("16_j6g76")]
+visible = false
 
 [node name="ScenarioPopup" parent="UILayer" unique_id=843135863 instance=ExtResource("17_haua6")]
+visible = false
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1980044058]
 script = ExtResource("19_player")
