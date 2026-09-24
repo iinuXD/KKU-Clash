@@ -345,10 +345,12 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 		# >>> ตรวจสอบว่ากิจกรรมที่กด คือ "เรียน" หรือ "กิจกรรมปกติ" <<<
 		if chosen_action.begins_with("เรียน ") and learning_popup:
 			var subject_name = chosen_action.replace("เรียน ", "")
+			var subject_level = _get_subject_level(current_player_index, subject_name)
 			
-			# เปิดหน้าควิซ รอผลคะแนน และคำนวณสเตตัส
-			learning_popup.start_quiz(subject_name)
+			# เปิดหน้าควิซตาม Level ปัจจุบัน รอผลคะแนน และคำนวณสเตตัส
+			learning_popup.start_quiz(subject_name, subject_level)
 			var study_gained = await learning_popup.quiz_finished
+			_advance_subject_level(current_player_index, subject_name)
 			is_fainted = _apply_learning_effects(study_gained)
 			_mark_mission_completed(chosen_action)
 			
@@ -420,8 +422,10 @@ func _handle_direct_learning() -> void:
 		
 	# เริ่มกระบวนการเรียน
 	if learning_popup:
-		learning_popup.start_quiz(subject_to_learn)
+		var subject_level = _get_subject_level(current_player_index, subject_to_learn)
+		learning_popup.start_quiz(subject_to_learn, subject_level)
 		var study_gained = await learning_popup.quiz_finished
+		_advance_subject_level(current_player_index, subject_to_learn)
 		var action_name = "เรียน " + subject_to_learn
 		var is_fainted = _apply_learning_effects(study_gained)
 		
@@ -433,6 +437,42 @@ func _handle_direct_learning() -> void:
 		else:
 			_force_sleep()
 			await forced_sleep_finished
+
+# ------------------------------------------
+# ระบบ Level รายวิชา
+# ------------------------------------------
+func _get_subject_level(player_index: int, subject_name: String) -> int:
+	if player_index < 0 or player_index >= Global.player_data.size():
+		return 1
+
+	if not Global.player_data[player_index].has("subject_progress"):
+		Global.player_data[player_index]["subject_progress"] = {}
+
+	var progress: Dictionary = Global.player_data[player_index]["subject_progress"]
+	if not progress.has(subject_name):
+		progress[subject_name] = 1
+
+	var level := clampi(int(progress.get(subject_name, 1)), 1, 6)
+	print("📖 LOAD LEVEL | P", player_index + 1, " | ", subject_name, " = ", level)
+	return level
+
+
+func _advance_subject_level(player_index: int, subject_name: String) -> void:
+	if player_index < 0 or player_index >= Global.player_data.size():
+		return
+
+	if not Global.player_data[player_index].has("subject_progress"):
+		Global.player_data[player_index]["subject_progress"] = {}
+
+	var progress: Dictionary = Global.player_data[player_index]["subject_progress"]
+	var current_level := clampi(int(progress.get(subject_name, 1)), 1, 6)
+	var next_level := mini(current_level + 1, 6)
+	progress[subject_name] = next_level
+	Global.player_data[player_index]["subject_progress"] = progress
+
+	print("📚 SAVE LEVEL | P", player_index + 1, " | ", subject_name, " : ", current_level, " -> ", next_level)
+	print("📚 SUBJECT PROGRESS = ", Global.player_data[player_index]["subject_progress"])
+
 
 func _get_activity_time_cost(action_name: String, place_name: String) -> int:
 	if action_name.begins_with("เรียน "):

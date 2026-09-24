@@ -58,5 +58,6 @@ func setup_players(count: int) -> void:
 	player_data.clear()
 	
 	for i in range(player_count):
-		player_data.append({})
+		# เก็บระดับการเรียนแยกรายวิชา โดยไม่กระทบข้อมูลผู้เล่นส่วนอื่น
+		player_data.append({"subject_progress": {}})
 	print(player_count)
