@@ -64,8 +64,7 @@ func _process(delta: float) -> void:
 # ==========================================
 # 1. ระบบเริ่มต้น Quiz (ดึงโจทย์ตามวิชา)
 # ==========================================
-func start_quiz(subject_name: String) -> void:
-	subject_label.text = "วิชา: " + subject_name
+func start_quiz(subject_name: String, subject_level: int = 1) -> void:
 	current_question_index = 0
 	correct_answers = 0
 	time_left = 20.0
@@ -79,11 +78,28 @@ func start_quiz(subject_name: String) -> void:
 	question_number_label.show()
 	show()
 	
-	# ดึงโจทย์ตามชื่อวิชา ถ้าหาวิชาไม่เจอให้ดึงหมวด "Default" มาใช้แทน
-	var all_questions = question_database.get(subject_name, question_database["Default"]).duplicate()
+	# รองรับทั้งโครงสร้างเดิม (วิชา -> Array) และโครงสร้างใหม่ (วิชา -> Level -> Array)
+	var subject_data = question_database.get(subject_name, question_database.get("Default", []))
+	var all_questions: Array = []
+	var display_level = clampi(subject_level, 1, 6)
+	
+	if subject_data is Dictionary:
+		var level_key = str(display_level)
+		if subject_data.has(level_key):
+			all_questions = subject_data[level_key].duplicate(true)
+		else:
+			print("❌ ไม่พบ Level ", level_key, " ของวิชา ", subject_name)
+			is_quiz_active = false
+			hide()
+			return
+		subject_label.text = "วิชา: %s  |  Level %d" % [subject_name, display_level]
+	else:
+		# วิชาอื่นที่ยังใช้ questions.json รูปแบบเดิมจะทำงานเหมือนเดิม
+		all_questions = subject_data.duplicate(true)
+		subject_label.text = "วิชา: " + subject_name
 	
 	# สับเปลี่ยนลำดับโจทย์ทั้งหมดที่มี
-	all_questions.shuffle() 
+	all_questions.shuffle()
 	
 	# ตัดมาใช้งานแค่ 3 ข้อ (หรือเท่าที่มีถ้าโจทย์มีไม่ถึง 3 ข้อ)
 	current_quiz_set = all_questions.slice(0, 3)
@@ -105,12 +121,22 @@ func _load_custom_question() -> void:
 	question_number_label.text = "ข้อ %d/3" % [current_question_index + 1]
 	question_label.text = q_data["q"]
 	
-	# นำตัวเลือกมาสับเปลี่ยนลำดับ (ก.ข.ค.ง จะได้ไม่สลับตำแหน่งเดิมตลอด)
-	var choices = q_data["choices"].duplicate()
-	choices.shuffle() 
+	# เก็บคำตอบที่ถูกต้องก่อนสับตัวเลือก
+	# รองรับทั้ง answer แบบข้อความเดิม และ answer แบบ index (0-3)
+	var original_choices: Array = q_data["choices"]
+	var answer_data = q_data["answer"]
+	if answer_data is int or answer_data is float:
+		var answer_index = int(answer_data)
+		if answer_index >= 0 and answer_index < original_choices.size():
+			current_correct_answer = str(original_choices[answer_index])
+		else:
+			current_correct_answer = ""
+	else:
+		current_correct_answer = str(answer_data)
 	
-	# บันทึกคำตอบที่ถูกต้องของข้อนี้เอาไว้ตรวจ
-	current_correct_answer = q_data["answer"]
+	# นำตัวเลือกมาสับเปลี่ยนลำดับ (ก.ข.ค.ง จะได้ไม่สลับตำแหน่งเดิมตลอด)
+	var choices = original_choices.duplicate()
+	choices.shuffle()
 	
 	# นำตัวเลือกไปใส่ในปุ่ม
 	for i in range(4):
