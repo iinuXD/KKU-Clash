@@ -8,6 +8,7 @@ signal forced_sleep_finished
 @onready var camera: Camera2D = $Camera
 @onready var player_panel = $UILayer/PlayerPanel
 @onready var night_lighting: CanvasModulate = $NightLighting
+@onready var pause_menu: Control = $UILayer/PauseMenu
 
 # >>> 1. อ้างอิงหน้าต่างควิซ (ให้แน่ใจว่าลากมาวางใน UILayer แล้ว) <<<
 @onready var learning_popup = $UILayer/learning_popup 
@@ -89,7 +90,7 @@ var activity_time_costs = {
 }
 
 func _process(delta: float) -> void:
-	if is_walking or is_forcing_sleep:
+	if get_tree().paused or is_walking or is_forcing_sleep:
 		return
 
 	var activity_popup = $UILayer/ActivityPopup
@@ -108,10 +109,13 @@ func _process(delta: float) -> void:
 # ส่วนเริ่มต้นเกม
 # ==========================================
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_setup_mock_data()
 	_setup_fade() # เรียกใช้ระบบจอดำตอนสลบ
 	_update_night_lighting()
 	_setup_turn_notice()
+	pause_menu.resume_requested.connect(_resume_game)
+	pause_menu.main_menu_requested.connect(_return_to_main_menu)
 	
 	if player_panel:
 		player_panel.setup_players_ui()
@@ -129,6 +133,26 @@ func _ready() -> void:
 		late_wake_players.append(false)
 			
 	setup_current_turn()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if get_tree().paused:
+			_resume_game()
+		else:
+			_pause_game()
+		get_viewport().set_input_as_handled()
+
+func _pause_game() -> void:
+	get_tree().paused = true
+	pause_menu.open_menu()
+
+func _resume_game() -> void:
+	pause_menu.close_menu()
+	get_tree().paused = false
+
+func _return_to_main_menu() -> void:
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://ui/MainMenu.tscn")
 
 func _setup_fade() -> void:
 	fade_rect = ColorRect.new()
