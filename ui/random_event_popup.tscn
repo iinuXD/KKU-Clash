@@ -1,0 +1,183 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://ui/random_event_popup.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="DetailStyle"]
+bg_color = Color(1, 0.949, 0.824, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.39, 0.20, 0.12, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 10
+shadow_offset = Vector2(8, 10)
+
+[sub_resource type="StyleBoxFlat" id="ButtonStyle"]
+bg_color = Color(0.76, 0.36, 0.22, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.39, 0.20, 0.12, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="RandomEventPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+z_index = 500
+script = ExtResource("1")
+
+[node name="DimBg" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0,0,0,0.62)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 42.0
+offset_bottom = 102.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1,0.94,0.80,1)
+theme_override_font_sizes/font_size = 40
+text = "✦ เหตุการณ์สุ่ม ✦"
+horizontal_alignment = 1
+
+[node name="CardsLayer" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = 105.0
+offset_right = -50.0
+offset_bottom = -92.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HintLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -82.0
+offset_bottom = -36.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1,0.94,0.80,1)
+theme_override_font_sizes/font_size = 18
+text = "เลือกการ์ดที่ต้องการเปิด"
+horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -76.0
+offset_right = -35.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 17
+disabled = true
+text = "เปิดการ์ดให้ครบก่อน"
+theme_override_styles/normal = SubResource("ButtonStyle")
+theme_override_styles/hover = SubResource("ButtonStyle")
+theme_override_styles/pressed = SubResource("ButtonStyle")
+
+[node name="DetailPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -330.0
+offset_top = -250.0
+offset_right = 330.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("DetailStyle")
+
+[node name="Margin" type="MarginContainer" parent="DetailPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="DetailPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DetailTitle" type="Label" parent="DetailPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.61,0.27,0.16,1)
+theme_override_font_sizes/font_size = 32
+text = "ชื่อเหตุการณ์"
+horizontal_alignment = 1
+
+[node name="DetailDescription" type="Label" parent="DetailPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.39,0.27,0.22,1)
+theme_override_font_sizes/font_size = 20
+text = "รายละเอียด"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Separator" type="HSeparator" parent="DetailPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="EffectsHeader" type="Label" parent="DetailPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.61,0.27,0.16,1)
+theme_override_font_sizes/font_size = 22
+text = "ผลของเหตุการณ์"
+
+[node name="DetailEffects" type="VBoxContainer" parent="DetailPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="DetailConfirm" type="Button" parent="DetailPanel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0,58)
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+text = "ยืนยัน"
+theme_override_styles/normal = SubResource("ButtonStyle")
+theme_override_styles/hover = SubResource("ButtonStyle")
+theme_override_styles/pressed = SubResource("ButtonStyle")
+
+[connection signal="pressed" from="CloseButton" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="DetailPanel/Margin/VBox/DetailConfirm" to="." method="_on_detail_confirm_pressed"]

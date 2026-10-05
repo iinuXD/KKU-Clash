@@ -1,169 +1,130 @@
 extends Control
 
-@onready var stats = [
-	$playerstat1,
-	$playerstat2,
-	$playerstat3,
-	$playerstat4
-]
-@onready var time_label = $ActionPoint 
-@onready var week_label = $WeekReportLabel 
+const BORDER_NORMAL = preload("res://asset/playerpanel/border.png")
+const BORDER_ACTIVE = preload("res://asset/playerpanel/border2.png")
 
-# --- เพิ่มตัวแปรอ้างอิงหน้าต่างภารกิจ ---
-@onready var mission_panel = $MissionPanel
-@onready var mission_details = $MissionPanel/VBoxContainer/MissionDetails
+const STAT_CONFIG := {
+	"happiness": {"bar": "HappinessBar", "value": "HappinessValue", "max": 200.0},
+	"hunger": {"bar": "HungerBar", "value": "HungerValue", "max": 200.0},
+	"stamina": {"bar": "StaminaBar", "value": "StaminaValue", "max": 200.0},
+	"study": {"bar": "StudyBar", "value": "StudyValue", "max": 400.0},
+}
 
-var border_normal = preload("res://asset/playerpanel/border.png")
-var border_active = preload("res://asset/playerpanel/border2.png")
+@onready var stats: Array[Control] = [$playerstat1, $playerstat2, $playerstat3, $playerstat4]
+@onready var time_label: Label = $TopInfo/MarginContainer/InfoRow/ActionPoint
+@onready var week_label: Label = $TopInfo/MarginContainer/InfoRow/WeekReportLabel
+@onready var mission_panel: PanelContainer = $MissionPanel
+@onready var mission_details: Label = $MissionPanel/MarginContainer/VBoxContainer/MissionScroll/MissionDetails
 
-# --- ตัวแปรสำหรับป้ายโชว์ตัวเลข (ลอยตามเมาส์) ---
-var hover_label: Label
-
-func _ready() -> void:
-	# สร้างป้าย Label ขึ้นมาด้วยโค้ด พร้อมตกแต่งกรอบสีดำโปร่งแสง
-	hover_label = Label.new()
-	var style = StyleBoxFlat.new()
-
-	style.bg_color = Color(0.1, 0.1, 0.1, 0.85)
-
-	style.corner_radius_top_left = 6
-	style.corner_radius_top_right = 6
-	style.corner_radius_bottom_left = 6
-	style.corner_radius_bottom_right = 6
-	
-	hover_label.add_theme_stylebox_override("normal", style)
-	hover_label.add_theme_font_size_override("font_size", 14)
-	hover_label.z_index = 100 # ดันให้อยู่บนสุด ไม่โดนอะไรบัง
-	hover_label.hide() # ซ่อนไว้ก่อน
-	add_child(hover_label)
-
-# ฟังก์ชันนี้จะสั่งให้ป้ายวิ่งตามปลายเมาส์ตลอดเวลา (เมื่อถูกเปิดให้มองเห็น)
-func _process(delta: float) -> void:
-	if hover_label and hover_label.visible:
-		hover_label.global_position = get_global_mouse_position() + Vector2(15, 15)
 
 func setup_players_ui() -> void:
-	var player_count = Global.player_data.size() if Global.player_data.size() > 0 else 1
-	
+	var player_count := Global.player_data.size() if Global.player_data.size() > 0 else 1
 	for i in range(stats.size()):
-		var stat_panel = stats[i]
+		var stat_panel := stats[i]
 		if i < player_count:
 			stat_panel.visible = true
+			var player_label := stat_panel.find_child("PlayerName", true, false) as Label
+			if player_label:
+				player_label.text = "P%d" % (i + 1)
 			_update_avatar(stat_panel, i)
 			_update_stats_ui(stat_panel, i)
 		else:
 			stat_panel.visible = false
 
+
 func update_turn_ui(active_index: int) -> void:
 	for i in range(stats.size()):
-		if not stats[i].visible: continue
-		var portrait = stats[i].get_node_or_null("HBoxContainer/PortraitBackground1")
-		if portrait:
-			if i == active_index:
-				portrait.texture = border_active
-			else:
-				portrait.texture = border_normal
+		if stats[i].visible:
+			_set_card_active(stats[i], i == active_index)
 
-func update_time_ui(current_minutes: int, start_minutes: int, end_minutes: int) -> void:
-	if time_label:
-		var hour = int(current_minutes / 60) % 24
-		var minute = current_minutes % 60
-		var meridiem = "AM" if hour < 12 else "PM"
-		var display_hour = hour % 12
-		if display_hour == 0:
-			display_hour = 12
-		time_label.text = "TIME " + str(display_hour) + ":%02d " % minute + meridiem
+
+func update_time_ui(current_minutes: int, _start_minutes: int, _end_minutes: int) -> void:
+	if not time_label:
+		return
+	var hour := int(current_minutes / 60) % 24
+	var minute := current_minutes % 60
+	var meridiem := "AM" if hour < 12 else "PM"
+	var display_hour := hour % 12
+	if display_hour == 0:
+		display_hour = 12
+	time_label.text = "TIME  %d:%02d %s" % [display_hour, minute, meridiem]
+
 
 func update_round_ui(current_round: int, max_rounds: int) -> void:
 	if week_label:
-		week_label.text = "DAY " + str(current_round) + "/" + str(max_rounds)
+		week_label.text = "DAY  %d / %d" % [current_round, max_rounds]
+
 
 func _update_avatar(stat_panel: Node, player_index: int) -> void:
-	var p_data = Global.player_data[player_index] if Global.player_data.size() > player_index else {}
-	if not p_data.has("avatar_settings"): return
-		
-	var settings = p_data["avatar_settings"]
-	var center_point = stat_panel.get_node_or_null("HBoxContainer/PortraitBackground1/CenterPoint")
-	
-	if center_point:
-		if settings.has("skin_path") and settings["skin_path"] != "": center_point.get_node("BodySprite").texture = load(settings["skin_path"])
-		if settings.has("face_path") and settings["face_path"] != "": center_point.get_node("EyeSprite").texture = load(settings["face_path"])
-		if settings.has("outfit_path") and settings["outfit_path"] != "": center_point.get_node("OutfitSprite").texture = load(settings["outfit_path"])
-		if settings.has("hair_path") and settings["hair_path"] != "": center_point.get_node("HairSprite").texture = load(settings["hair_path"])
-		if settings.has("accessory_path") and settings["accessory_path"] != "": center_point.get_node("AccessorySprite").texture = load(settings["accessory_path"])
+	var p_data: Dictionary = Global.player_data[player_index] if Global.player_data.size() > player_index else {}
+	if not p_data.has("avatar_settings"):
+		return
+	var settings: Dictionary = p_data["avatar_settings"]
+	var center_point := stat_panel.find_child("CenterPoint", true, false)
+	if not center_point:
+		return
+	_set_avatar_layer(center_point, "BodySprite", settings.get("skin_path", ""))
+	_set_avatar_layer(center_point, "EyeSprite", settings.get("face_path", ""))
+	_set_avatar_layer(center_point, "OutfitSprite", settings.get("outfit_path", ""))
+	_set_avatar_layer(center_point, "HairSprite", settings.get("hair_path", ""))
+	_set_avatar_layer(center_point, "AccessorySprite", settings.get("accessory_path", ""))
+
+
+func _set_avatar_layer(center_point: Node, node_name: String, texture_path: String) -> void:
+	if texture_path.is_empty():
+		return
+	var sprite := center_point.get_node_or_null(node_name) as Sprite2D
+	if sprite:
+		sprite.texture = load(texture_path)
+
 
 func _update_stats_ui(stat_panel: Node, player_index: int) -> void:
-	var p_data = Global.player_data[player_index] if Global.player_data.size() > player_index else {}
-	
-	var money_val = p_data.get("money", 0)
-	var money_label = stat_panel.find_child("money", true, false)
+	var p_data: Dictionary = Global.player_data[player_index] if Global.player_data.size() > player_index else {}
+	var money_label := stat_panel.find_child("money", true, false) as Label
 	if money_label:
-		money_label.text = str(money_val)
-		
-	var stats_data = p_data.get("stats", {})
-	var stat_nodes = {
-		"happiness": "happinessstat",
-		"hunger": "hungerstat",
-		"stamina": "staminastat",
-		"study": "studystat"
-	}
-	
-	for stat_name in stat_nodes:
-		var target_name = stat_nodes[stat_name]
-		var texture_rect = stat_panel.find_child(target_name, true, false)
-		
-		if texture_rect == null: continue
-			
-		var val = stats_data.get(stat_name, 0)
-		
-		var max_val = 400.0 if stat_name == "study" else 200.0
-		
-		var percent = (float(val) / max_val) * 100.0
-		var level = int(percent / 10) * 10
-		level = clamp(level, 0, 100)
-		
-		var tex_path = "res://asset/playerpanel/%s/%s%d.png" % [stat_name, stat_name, level]
-		if ResourceLoader.exists(tex_path):
-			texture_rect.texture = load(tex_path)
-			
-		texture_rect.set_meta("stat_val", val) 
-		texture_rect.set_meta("stat_max", int(max_val))
-		texture_rect.set_meta("stat_name", stat_name) 
-		
-		texture_rect.mouse_filter = Control.MOUSE_FILTER_PASS 
-		
-		if not texture_rect.mouse_entered.is_connected(_on_icon_mouse_entered):
-			texture_rect.mouse_entered.connect(_on_icon_mouse_entered.bind(texture_rect))
-			texture_rect.mouse_exited.connect(_on_icon_mouse_exited)
+		money_label.text = "%d B" % int(p_data.get("money", 0))
 
-# ==========================================
-# ระบบเอาเมาส์ชี้เพื่อโชว์ตัวเลข (Hover)
-# ==========================================
-func _on_icon_mouse_entered(rect: TextureRect) -> void:
-	var val = rect.get_meta("stat_val", 0)
-	var max_val = rect.get_meta("stat_max", 100) # ดึงค่า Max ที่ฝังไว้ออกมา
-	var s_name = rect.get_meta("stat_name", "")
-	
-	var th_names = {
-		"happiness": "ความสุข", 
-		"hunger": "ความอิ่ม", 
-		"stamina": "พลังงาน", 
-		"study": "ความรู้"
-	}
-	var display_name = th_names.get(s_name, s_name)
-	
-	hover_label.text = "  " + display_name + " : " + str(val) + " / " + str(max_val) + "  "
-	hover_label.show()
+	var stats_data: Dictionary = p_data.get("stats", {})
+	for stat_name: String in STAT_CONFIG:
+		var config: Dictionary = STAT_CONFIG[stat_name]
+		var bar := stat_panel.find_child(config.bar, true, false) as ProgressBar
+		var value_label := stat_panel.find_child(config.value, true, false) as Label
+		var value := float(stats_data.get(stat_name, 0))
+		var max_value := float(config.max)
+		var percent := clampf((value / max_value) * 100.0, 0.0, 100.0)
+		if bar:
+			bar.value = percent
+		if value_label:
+			value_label.text = "%d/%d" % [int(value), int(max_value)]
 
-func _on_icon_mouse_exited() -> void:
-	hover_label.hide()
 
-# ==========================================
-# ระบบอัปเดตหน้าต่างภารกิจ
-# ==========================================
+func _set_card_active(stat_panel: Control, is_active: bool) -> void:
+	var portrait := stat_panel.find_child("PortraitBackground1", true, false) as TextureRect
+	if portrait:
+		portrait.texture = BORDER_ACTIVE if is_active else BORDER_NORMAL
+	var badge := stat_panel.find_child("ActiveBadge", true, false) as Control
+	if badge:
+		badge.visible = is_active
+	if stat_panel is PanelContainer:
+		stat_panel.add_theme_stylebox_override("panel", _make_card_style(is_active))
+	stat_panel.modulate = Color.WHITE if is_active else Color(0.95, 0.87, 0.82, 0.96)
+
+
+func _make_card_style(is_active: bool) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("5b261fe8") if is_active else Color("341915dc")
+	style.border_color = Color("e1a65cff") if is_active else Color("925346b0")
+	style.set_border_width_all(3 if is_active else 2)
+	style.set_corner_radius_all(9)
+	if is_active:
+		style.shadow_color = Color(0.10, 0.025, 0.015, 0.68)
+		style.shadow_size = 6
+		style.shadow_offset = Vector2(0, 3)
+	return style
+
+
 func update_mission(mission_text: String) -> void:
 	if mission_details:
 		mission_details.text = mission_text
-		# โชว์หน้าต่างทันทีถ้าถูกซ่อนอยู่
 		if mission_panel and not mission_panel.visible:
 			mission_panel.show()

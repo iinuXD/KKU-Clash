@@ -13,11 +13,14 @@ signal forced_sleep_finished
 # >>> 1. อ้างอิงหน้าต่างควิซ (ให้แน่ใจว่าลากมาวางใน UILayer แล้ว) <<<
 @onready var learning_popup = $UILayer/learning_popup 
 @onready var scenario_popup = $UILayer/ScenarioPopup
+@onready var random_event_popup = $UILayer/RandomEventPopup
 
 var player_nodes: Array[CharacterBody2D] = [] 
 var current_player_index: int = 0     
 var is_walking: bool = false
 var is_forcing_sleep: bool = false
+var is_random_event_active: bool = false
+var random_event_turns: Dictionary = {}
 
 var current_round: int = 1
 var max_rounds: int = 11     
@@ -94,7 +97,7 @@ func _process(delta: float) -> void:
 		return
 
 	var activity_popup = $UILayer/ActivityPopup
-	if activity_popup.visible or learning_popup.visible or scenario_popup.visible:
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible:
 		return
 
 	real_time_accumulator += delta
@@ -171,6 +174,10 @@ func _setup_mock_data() -> void:
 		if not Global.player_data[i].has("money"): Global.player_data[i]["money"] = 1000
 		if not Global.player_data[i].has("stats"):
 			Global.player_data[i]["stats"] = {"happiness": 50, "hunger": 50, "stamina": 70, "study": 0}
+		if not Global.player_data[i].has("event_missions"):
+			Global.player_data[i]["event_missions"] = []
+		if not Global.player_data[i].has("event_history"):
+			Global.player_data[i]["event_history"] = []
 
 # ==========================================
 # ระบบเทิร์น (Turn Management)
@@ -179,12 +186,13 @@ func setup_current_turn() -> void:
 	current_minutes = player_minutes[current_player_index]
 	real_time_accumulator = 0.0
 	var active_player = player_nodes[current_player_index]
+	var should_draw_events := _should_draw_random_events()
 	
 	for i in range(player_nodes.size()):
 		if i == current_player_index:
 			player_nodes[i].show()
 			player_nodes[i].global_position = dorm_marker.global_position
-			player_nodes[i].set_movement_enabled(true)
+			player_nodes[i].set_movement_enabled(not should_draw_events)
 		else:
 			player_nodes[i].hide()  
 			player_nodes[i].set_movement_enabled(false)
@@ -196,6 +204,41 @@ func setup_current_turn() -> void:
 		player_panel.update_round_ui(current_round, max_rounds)
 
 	render_mission_text(current_player_index, current_round)
+	if should_draw_events:
+		_start_turn_random_events.call_deferred()
+
+
+func _should_draw_random_events() -> bool:
+	# รอบแรกให้ผู้เล่นทำความคุ้นเคยกับเกมก่อน เริ่ม Event ตั้งแต่รอบที่ 2
+	if current_round <= 1 or current_round > max_rounds or not random_event_popup:
+		return false
+	var turn_key := "%d:%d" % [current_round, current_player_index]
+	return not random_event_turns.has(turn_key)
+
+
+func _start_turn_random_events() -> void:
+	var event_player_index := current_player_index
+	var turn_key := "%d:%d" % [current_round, event_player_index]
+	if random_event_turns.has(turn_key):
+		return
+	if not random_event_popup or not random_event_popup.can_show_events():
+		player_nodes[event_player_index].set_movement_enabled(true)
+		return
+
+	random_event_turns[turn_key] = true
+	is_random_event_active = true
+	player_nodes[event_player_index].set_movement_enabled(false)
+	if turn_notice:
+		turn_notice.hide()
+
+	var card_count := randi_range(1, 3)
+	random_event_popup.show_random_events(card_count)
+	var resolved_events: Array = await random_event_popup.events_resolved
+	_apply_random_event_effects(resolved_events, event_player_index)
+
+	is_random_event_active = false
+	if event_player_index == current_player_index and not is_forcing_sleep:
+		player_nodes[event_player_index].set_movement_enabled(true)
 
 func pass_turn() -> void:
 	var previous_player = current_player_index
@@ -357,6 +400,7 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 		else:
 			# หากเป็นกิจกรรมปกติ (หอพัก, โรงอาหาร ฯลฯ) ให้ทำงานตามปกติ
 			is_fainted = apply_activity_effects(chosen_action, target_place.name)
+			_complete_event_missions(target_place.name, chosen_action)
 
 		var activity_minutes = _get_activity_time_cost(chosen_action, target_place.name)
 		if not is_fainted:
@@ -524,22 +568,121 @@ func apply_activity_effects(action_name: String, place_name: String) -> bool:
 	if player_panel: player_panel.setup_players_ui()
 	return is_fainted
 
+
+func _apply_random_event_effects(events: Array, player_index: int) -> void:
+	if player_index < 0 or player_index >= Global.player_data.size():
+		return
+
+	var p_data: Dictionary = Global.player_data[player_index]
+	var stats_data: Dictionary = p_data.get("stats", {})
+	var total_time_minutes := 0
+
+	for event_data in events:
+		if not event_data is Dictionary:
+			continue
+		var effects: Dictionary = event_data.get("effects", {})
+		var applied_effects := {}
+
+		var stat_effects: Dictionary = effects.get("stats", {})
+		for stat_name: String in stat_effects:
+			var max_value := 400 if stat_name == "study" else 200
+			var delta := int(stat_effects[stat_name])
+			stats_data[stat_name] = clampi(int(stats_data.get(stat_name, 0)) + delta, 0, max_value)
+			applied_effects[stat_name] = delta
+
+		var money_range: Array = effects.get("money_range", [])
+		if money_range.size() >= 2:
+			var money_delta := randi_range(int(money_range[0]), int(money_range[1]))
+			p_data["money"] = maxi(0, int(p_data.get("money", 0)) + money_delta)
+			applied_effects["money"] = money_delta
+
+		var time_minutes := maxi(0, int(effects.get("time_minutes", 0)))
+		total_time_minutes += time_minutes
+		if time_minutes > 0:
+			applied_effects["time_minutes"] = time_minutes
+
+		var mission: Dictionary = effects.get("mission", {})
+		if not mission.is_empty():
+			_add_event_mission(p_data, mission)
+			applied_effects["mission"] = mission.get("id", "")
+
+		p_data["event_history"].append({
+			"event_id": event_data.get("id", ""),
+			"round": current_round,
+			"effects": applied_effects,
+		})
+
+	p_data["stats"] = stats_data
+	if total_time_minutes > 0 and player_index == current_player_index:
+		_advance_time(total_time_minutes)
+	if player_panel:
+		player_panel.setup_players_ui()
+	render_mission_text(player_index, current_round)
+
+
+func _add_event_mission(p_data: Dictionary, mission_data: Dictionary) -> void:
+	var missions: Array = p_data.get("event_missions", [])
+	var mission_id: String = mission_data.get("id", "event_mission")
+	for existing in missions:
+		if existing.get("id", "") == mission_id and not existing.get("is_completed", false):
+			return
+
+	var new_mission := mission_data.duplicate(true)
+	new_mission["is_completed"] = false
+	new_mission["created_round"] = current_round
+	new_mission["completed_round"] = 0
+	missions.append(new_mission)
+	p_data["event_missions"] = missions
+
+
+func _complete_event_missions(place_name: String, action_name: String) -> void:
+	var p_data: Dictionary = Global.player_data[current_player_index]
+	var missions: Array = p_data.get("event_missions", [])
+	var changed := false
+
+	for mission in missions:
+		if mission.get("is_completed", false):
+			continue
+		var valid_places: Array = mission.get("places", [])
+		var valid_actions: Array = mission.get("actions", [])
+		if (valid_places.is_empty() or place_name in valid_places) and (valid_actions.is_empty() or action_name in valid_actions):
+			mission["is_completed"] = true
+			mission["completed_round"] = current_round
+			changed = true
+
+	if changed:
+		p_data["event_missions"] = missions
+		render_mission_text(current_player_index, current_round)
+
 # ==========================================
 # ระบบภารกิจ (Missions)
 # ==========================================
 func render_mission_text(player_index: int, round_num: int) -> void:
-	if not Global.player_data[player_index].has("timetable"): return
-		
-	var day_key = "R" + str(((round_num - 1) % 5) + 1) 
-	var missions = Global.player_data[player_index]["timetable"].get("daily_subjects", {}).get(day_key, [])
-	var display_text = ""
-	
-	for m in missions:
-		if m["is_completed"]:
-			display_text += "[color=green]☑[/color] [s]เรียน " + m["subject"] + "[/s]\n"
-		else:
-			display_text += "☐ เรียน " + m["subject"] + "\n"
-			
+	if player_index < 0 or player_index >= Global.player_data.size():
+		return
+	var p_data: Dictionary = Global.player_data[player_index]
+	var display_lines: Array[String] = []
+
+	if p_data.has("timetable"):
+		var day_key := "R" + str(((round_num - 1) % 5) + 1)
+		var study_missions: Array = p_data["timetable"].get("daily_subjects", {}).get(day_key, [])
+		for mission in study_missions:
+			if mission.get("is_completed", false):
+				display_lines.append("☑ เรียน " + str(mission.get("subject", "")))
+			else:
+				display_lines.append("☐ เรียน " + str(mission.get("subject", "")))
+
+	for event_mission in p_data.get("event_missions", []):
+		var is_completed: bool = event_mission.get("is_completed", false)
+		if is_completed and int(event_mission.get("completed_round", 0)) != round_num:
+			continue
+		var prefix := "☑" if is_completed else "⚠"
+		display_lines.append("%s %s" % [prefix, event_mission.get("text", "ภารกิจเหตุการณ์")])
+
+	var display_text := "\n".join(display_lines)
+	if display_text.is_empty():
+		display_text = "ไม่มีภารกิจในขณะนี้"
+
 	if player_panel and player_panel.has_method("update_mission"):
 		player_panel.update_mission(display_text)
 
