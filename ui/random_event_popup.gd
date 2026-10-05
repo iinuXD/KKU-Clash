@@ -1,5 +1,6 @@
 extends Control
 
+signal events_resolved(events: Array)
 signal demo_finished
 
 @onready var dim_bg: ColorRect = %DimBg
@@ -10,6 +11,7 @@ signal demo_finished
 @onready var detail_description: Label = %DetailDescription
 @onready var detail_effects: VBoxContainer = %DetailEffects
 @onready var detail_confirm: Button = %DetailConfirm
+@onready var close_button: Button = %CloseButton
 
 const DATA_PATH := "res://data/random_events.json"
 const CARD_SIZE := Vector2(280, 390)
@@ -24,18 +26,20 @@ var busy := false
 
 func _ready() -> void:
 	_load_database()
+	_configure_detail_labels()
 	detail_panel.hide()
 	hide()
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_F7:
-			show_random_events(1)
-		elif event.keycode == KEY_F8:
-			show_random_events(2)
-		elif event.keycode == KEY_F9:
-			show_random_events(3)
+func _configure_detail_labels() -> void:
+	detail_title.clip_text = true
+	detail_title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+	detail_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	detail_title.max_lines_visible = 2
+	detail_description.clip_text = true
+	detail_description.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+	detail_description.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	detail_description.max_lines_visible = 4
 
 
 func _load_database() -> void:
@@ -47,6 +51,54 @@ func _load_database() -> void:
 	var json := JSON.new()
 	if json.parse(file.get_as_text()) == OK and json.data is Dictionary:
 		events_db = json.data.get("events", [])
+	else:
+		push_error("RandomEventPopup: อ่านข้อมูล Event ไม่สำเร็จ")
+
+
+func can_show_events() -> bool:
+	return not events_db.is_empty() and not busy and not visible
+
+
+func _wrap_text_for_width(value: String, max_characters: int) -> String:
+	var remaining := value.strip_edges()
+	var lines: Array[String] = []
+	while remaining.length() > max_characters:
+		var split_at := max_characters
+		var candidate := remaining.substr(0, max_characters + 1)
+		var last_space := candidate.rfind(" ")
+		if last_space >= int(max_characters * 0.55):
+			split_at = last_space
+		else:
+			split_at = _find_safe_thai_wrap_index(remaining, split_at)
+		lines.append(remaining.substr(0, split_at).strip_edges())
+		remaining = remaining.substr(split_at).strip_edges()
+	if not remaining.is_empty():
+		lines.append(remaining)
+	return "\n".join(lines)
+
+
+func _find_safe_thai_wrap_index(value: String, preferred_index: int) -> int:
+	var split_at := clampi(preferred_index, 1, value.length())
+
+	# สระ เ แ โ ใ ไ ต้องอยู่หน้าพยัญชนะ จึงห้ามทิ้งไว้ท้ายบรรทัด
+	while split_at > 1 and _is_thai_leading_vowel(value.unicode_at(split_at - 1)):
+		split_at -= 1
+
+	# วรรณยุกต์และสระประกอบต้องอยู่กับพยัญชนะก่อนหน้าเสมอ
+	while split_at < value.length() and _is_thai_combining_mark(value.unicode_at(split_at)):
+		split_at += 1
+
+	return split_at
+
+
+func _is_thai_leading_vowel(codepoint: int) -> bool:
+	return codepoint >= 0x0E40 and codepoint <= 0x0E44
+
+
+func _is_thai_combining_mark(codepoint: int) -> bool:
+	return codepoint == 0x0E31 \
+		or (codepoint >= 0x0E34 and codepoint <= 0x0E3A) \
+		or (codepoint >= 0x0E47 and codepoint <= 0x0E4E)
 
 
 func show_random_events(amount: int = 3) -> void:
@@ -65,6 +117,9 @@ func show_random_events(amount: int = 3) -> void:
 	_clear_cards()
 	show()
 	detail_panel.hide()
+	current_detail_index = -1
+	close_button.disabled = true
+	close_button.text = "เปิดการ์ดให้ครบก่อน"
 	hint_label.text = "เลือกการ์ดที่ต้องการเปิด"
 
 	await get_tree().process_frame
@@ -187,25 +242,32 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	image_box.add_child(image_label)
 
 	var title := Label.new()
-	title.text = data.get("title", "เหตุการณ์สุ่ม")
-	title.position = Vector2(16, 204)
-	title.size = Vector2(248, 42)
+	title.text = _wrap_text_for_width(str(data.get("title", "เหตุการณ์สุ่ม")), 17)
+	title.position = Vector2(16, 196)
+	title.size = Vector2(248, 64)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 	title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	title.add_theme_font_size_override("font_size", 21)
+	title.clip_text = true
+	title.max_lines_visible = 2
+	title.add_theme_font_size_override("font_size", 20)
+	title.add_theme_constant_override("line_spacing", -4)
 	title.add_theme_color_override("font_color", Color("#fff4d7"))
 	front.add_child(title)
 
 	var desc := Label.new()
-	desc.text = data.get("description", "")
-	desc.position = Vector2(20, 248)
-	desc.size = Vector2(240, 62)
+	desc.text = _wrap_text_for_width(str(data.get("description", "")), 22)
+	desc.position = Vector2(20, 268)
+	desc.size = Vector2(240, 42)
 	desc.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	desc.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desc.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	desc.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 	desc.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	desc.add_theme_font_size_override("font_size", 13)
+	desc.clip_text = true
+	desc.max_lines_visible = 2
+	desc.add_theme_font_size_override("font_size", 12)
+	desc.add_theme_constant_override("line_spacing", -2)
 	desc.add_theme_color_override("font_color", Color("#fff4d7"))
 	front.add_child(desc)
 
@@ -321,6 +383,8 @@ func _flip_card(index: int) -> void:
 	busy = false
 	if _all_opened():
 		hint_label.text = "เปิดครบทุกใบแล้ว — เลือกดูรายละเอียดของแต่ละเหตุการณ์ได้"
+		close_button.disabled = false
+		close_button.text = "รับผลและเล่นต่อ"
 	else:
 		hint_label.text = "เปิดใบอื่นต่อได้ หรือดูรายละเอียดของใบนี้"
 
@@ -332,16 +396,20 @@ func _show_detail(index: int) -> void:
 	current_detail_index = index
 	var data: Dictionary = selected_events[index]
 
-	detail_title.text = data.get("title", "เหตุการณ์สุ่ม")
-	detail_description.text = data.get("description", "")
+	detail_title.text = _wrap_text_for_width(str(data.get("title", "เหตุการณ์สุ่ม")), 36)
+	detail_description.text = _wrap_text_for_width(str(data.get("description", "")), 60)
 
 	for child in detail_effects.get_children():
 		child.queue_free()
 
 	for effect in data.get("effects_text", []):
 		var l := Label.new()
-		l.text = "• " + str(effect)
-		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		l.text = _wrap_text_for_width("• " + str(effect), 52)
+		l.custom_minimum_size = Vector2.ZERO
+		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		l.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+		l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		l.clip_text = true
 		l.add_theme_font_size_override("font_size", 18)
 		l.add_theme_color_override("font_color", Color("#5b3a2a"))
 		detail_effects.add_child(l)
@@ -391,5 +459,9 @@ func _hover(card: Panel, hovering: bool) -> void:
 
 
 func _on_close_pressed() -> void:
+	if busy or not _all_opened():
+		return
+	var resolved_events := selected_events.duplicate(true)
 	hide()
+	events_resolved.emit(resolved_events)
 	demo_finished.emit()

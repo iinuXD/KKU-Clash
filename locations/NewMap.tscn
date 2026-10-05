@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://bi2n55pmv7l4d" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="17_j6g76"]
 [ext_resource type="Texture2D" uid="uid://bu2dm5qksxe6n" path="res://asset/Character/Accessories/32x32/Accessory_01_Ladybug_01.png" id="18_haua6"]
 [ext_resource type="Script" uid="uid://ctpw3qfp3bwn0" path="res://locations/player_controller.gd" id="19_player"]
+[ext_resource type="PackedScene" path="res://ui/random_event_popup.tscn" id="20_random_event"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(32, 39)
@@ -593,6 +594,9 @@ visible = false
 visible = false
 
 [node name="ScenarioPopup" parent="UILayer" unique_id=843135863 instance=ExtResource("17_haua6")]
+visible = false
+
+[node name="RandomEventPopup" parent="UILayer" instance=ExtResource("20_random_event")]
 visible = false
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1980044058]

@@ -1,0 +1,342 @@
+[gd_scene load_steps=19 format=3]
+
+[ext_resource type="FontFile" path="res://font/04B_30__.TTF" id="1_font"]
+[ext_resource type="Texture2D" path="res://asset/playerpanel/border.png" id="2_border"]
+[ext_resource type="Texture2D" path="res://asset/Character/Bodies/32x32/Body_01 69.png" id="3_body"]
+[ext_resource type="Texture2D" path="res://asset/Character/Eyes/32x32/Eyes_06.png" id="4_eyes"]
+[ext_resource type="Texture2D" path="res://asset/Character/Outfits/32x32/Outfit_01_01.png" id="5_outfit"]
+[ext_resource type="Texture2D" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="6_hair"]
+[ext_resource type="Texture2D" path="res://asset/Character/Accessories/32x32/Accessory_01_Ladybug_01.png" id="7_accessory"]
+[ext_resource type="Texture2D" path="res://asset/playerpanel/happiness/happiness100.png" id="8_happiness"]
+[ext_resource type="Texture2D" path="res://asset/playerpanel/hunger/hunger100.png" id="9_hunger"]
+[ext_resource type="Texture2D" path="res://asset/playerpanel/stamina/stamina100.png" id="10_stamina"]
+[ext_resource type="Texture2D" path="res://asset/playerpanel/study/study100.png" id="11_study"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_card"]
+bg_color = Color(0.20, 0.078, 0.062, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.57, 0.27, 0.21, 0.85)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_badge"]
+bg_color = Color(0.84, 0.45, 0.27, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 6.0
+content_margin_right = 6.0
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_bar_bg"]
+bg_color = Color(0.12, 0.045, 0.035, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.36, 0.16, 0.12, 0.9)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_happiness"]
+bg_color = Color(0.94, 0.33, 0.46, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_hunger"]
+bg_color = Color(0.95, 0.58, 0.22, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_stamina"]
+bg_color = Color(0.24, 0.76, 0.55, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_study"]
+bg_color = Color(0.35, 0.53, 0.94, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="PlayerStatusCard" type="PanelContainer"]
+custom_minimum_size = Vector2(252, 118)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_card")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="PlayerName" type="Label" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.82, 0.55, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 13
+text = "P1"
+
+[node name="ActiveBadge" type="PanelContainer" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_badge")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Header/ActiveBadge"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.16, 0.055, 0.035, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 7
+text = "TURN"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="MoneyCaption" type="Label" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.74, 0.58, 0.46, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 7
+text = "MONEY"
+vertical_alignment = 1
+
+[node name="money" type="Label" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.9, 0.76, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 10
+text = "2000 B"
+vertical_alignment = 1
+
+[node name="Body" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 7
+
+[node name="PortraitBackground1" type="TextureRect" parent="MarginContainer/VBoxContainer/Body"]
+custom_minimum_size = Vector2(66, 66)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_border")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CenterPoint" type="Control" parent="MarginContainer/VBoxContainer/Body/PortraitBackground1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BodySprite" type="Sprite2D" parent="MarginContainer/VBoxContainer/Body/PortraitBackground1/CenterPoint"]
+position = Vector2(0, -2)
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("3_body")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="EyeSprite" type="Sprite2D" parent="MarginContainer/VBoxContainer/Body/PortraitBackground1/CenterPoint"]
+position = Vector2(0, -2)
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("4_eyes")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="OutfitSprite" type="Sprite2D" parent="MarginContainer/VBoxContainer/Body/PortraitBackground1/CenterPoint"]
+position = Vector2(0, -2)
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("5_outfit")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="HairSprite" type="Sprite2D" parent="MarginContainer/VBoxContainer/Body/PortraitBackground1/CenterPoint"]
+position = Vector2(0, -2)
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("6_hair")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="AccessorySprite" type="Sprite2D" parent="MarginContainer/VBoxContainer/Body/PortraitBackground1/CenterPoint"]
+position = Vector2(0, -2)
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("7_accessory")
+hframes = 56
+vframes = 20
+frame = 74
+
+[node name="Stats" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1
+
+[node name="HappinessRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Body/Stats"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="happinessstat" type="TextureRect" parent="MarginContainer/VBoxContainer/Body/Stats/HappinessRow"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("8_happiness")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HappinessBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/Body/Stats/HappinessRow"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBox_bar_bg")
+theme_override_styles/fill = SubResource("StyleBox_happiness")
+value = 100.0
+show_percentage = false
+
+[node name="HappinessValue" type="Label" parent="MarginContainer/VBoxContainer/Body/Stats/HappinessRow"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.9, 0.78, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 7
+text = "200/200"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HungerRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Body/Stats"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="hungerstat" type="TextureRect" parent="MarginContainer/VBoxContainer/Body/Stats/HungerRow"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("9_hunger")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HungerBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/Body/Stats/HungerRow"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBox_bar_bg")
+theme_override_styles/fill = SubResource("StyleBox_hunger")
+value = 100.0
+show_percentage = false
+
+[node name="HungerValue" type="Label" parent="MarginContainer/VBoxContainer/Body/Stats/HungerRow"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.9, 0.78, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 7
+text = "200/200"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="StaminaRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Body/Stats"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="staminastat" type="TextureRect" parent="MarginContainer/VBoxContainer/Body/Stats/StaminaRow"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("10_stamina")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StaminaBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/Body/Stats/StaminaRow"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBox_bar_bg")
+theme_override_styles/fill = SubResource("StyleBox_stamina")
+value = 100.0
+show_percentage = false
+
+[node name="StaminaValue" type="Label" parent="MarginContainer/VBoxContainer/Body/Stats/StaminaRow"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.9, 0.78, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 7
+text = "200/200"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="StudyRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Body/Stats"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="studystat" type="TextureRect" parent="MarginContainer/VBoxContainer/Body/Stats/StudyRow"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("11_study")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StudyBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/Body/Stats/StudyRow"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBox_bar_bg")
+theme_override_styles/fill = SubResource("StyleBox_study")
+value = 100.0
+show_percentage = false
+
+[node name="StudyValue" type="Label" parent="MarginContainer/VBoxContainer/Body/Stats/StudyRow"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.9, 0.78, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 7
+text = "400/400"
+horizontal_alignment = 2
+vertical_alignment = 1
