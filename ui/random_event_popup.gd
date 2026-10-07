@@ -32,14 +32,18 @@ func _ready() -> void:
 
 
 func _configure_detail_labels() -> void:
-	detail_title.clip_text = true
-	detail_title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
-	detail_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	detail_title.max_lines_visible = 2
-	detail_description.clip_text = true
-	detail_description.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
-	detail_description.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	detail_description.max_lines_visible = 4
+	detail_title.language = "th"
+	detail_title.clip_text = false
+	detail_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	detail_title.max_lines_visible = -1
+	detail_title.custom_minimum_size = Vector2(0, 52)
+	detail_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	detail_description.language = "th"
+	detail_description.clip_text = false
+	detail_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	detail_description.max_lines_visible = -1
+	detail_description.custom_minimum_size = Vector2(0, 64)
+	detail_description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 
 func _load_database() -> void:
@@ -59,17 +63,23 @@ func can_show_events() -> bool:
 	return not events_db.is_empty() and not busy and not visible
 
 
-func _wrap_text_for_width(value: String, max_characters: int) -> String:
+func _wrap_card_text(value: String, preferred_characters: int) -> String:
 	var remaining := value.strip_edges()
 	var lines: Array[String] = []
-	while remaining.length() > max_characters:
-		var split_at := max_characters
-		var candidate := remaining.substr(0, max_characters + 1)
-		var last_space := candidate.rfind(" ")
-		if last_space >= int(max_characters * 0.55):
-			split_at = last_space
+	while remaining.length() > preferred_characters:
+		var split_at := preferred_characters
+		var nearby_text := remaining.substr(0, preferred_characters + 1)
+		var previous_space := nearby_text.rfind(" ")
+		var next_space := remaining.find(" ", preferred_characters)
+
+		if previous_space >= int(preferred_characters * 0.55):
+			split_at = previous_space
+		elif next_space > 0 and next_space <= int(preferred_characters * 1.35):
+			# ยอมให้บรรทัดยาวขึ้นเล็กน้อย เพื่อไม่ตัดวลีไทยก่อนถึงช่องว่าง
+			split_at = next_space
 		else:
 			split_at = _find_safe_thai_wrap_index(remaining, split_at)
+
 		lines.append(remaining.substr(0, split_at).strip_edges())
 		remaining = remaining.substr(split_at).strip_edges()
 	if not remaining.is_empty():
@@ -79,15 +89,10 @@ func _wrap_text_for_width(value: String, max_characters: int) -> String:
 
 func _find_safe_thai_wrap_index(value: String, preferred_index: int) -> int:
 	var split_at := clampi(preferred_index, 1, value.length())
-
-	# สระ เ แ โ ใ ไ ต้องอยู่หน้าพยัญชนะ จึงห้ามทิ้งไว้ท้ายบรรทัด
 	while split_at > 1 and _is_thai_leading_vowel(value.unicode_at(split_at - 1)):
 		split_at -= 1
-
-	# วรรณยุกต์และสระประกอบต้องอยู่กับพยัญชนะก่อนหน้าเสมอ
 	while split_at < value.length() and _is_thai_combining_mark(value.unicode_at(split_at)):
 		split_at += 1
-
 	return split_at
 
 
@@ -242,7 +247,8 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	image_box.add_child(image_label)
 
 	var title := Label.new()
-	title.text = _wrap_text_for_width(str(data.get("title", "เหตุการณ์สุ่ม")), 17)
+	title.text = _wrap_card_text(str(data.get("title", "เหตุการณ์สุ่ม")), 24)
+	title.language = "th"
 	title.position = Vector2(16, 196)
 	title.size = Vector2(248, 64)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -257,7 +263,8 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	front.add_child(title)
 
 	var desc := Label.new()
-	desc.text = _wrap_text_for_width(str(data.get("description", "")), 22)
+	desc.text = _wrap_card_text(str(data.get("description", "")), 28)
+	desc.language = "th"
 	desc.position = Vector2(20, 268)
 	desc.size = Vector2(240, 42)
 	desc.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -396,20 +403,21 @@ func _show_detail(index: int) -> void:
 	current_detail_index = index
 	var data: Dictionary = selected_events[index]
 
-	detail_title.text = _wrap_text_for_width(str(data.get("title", "เหตุการณ์สุ่ม")), 36)
-	detail_description.text = _wrap_text_for_width(str(data.get("description", "")), 60)
+	detail_title.text = str(data.get("title", "เหตุการณ์สุ่ม"))
+	detail_description.text = str(data.get("description", ""))
 
 	for child in detail_effects.get_children():
+		detail_effects.remove_child(child)
 		child.queue_free()
 
 	for effect in data.get("effects_text", []):
 		var l := Label.new()
-		l.text = _wrap_text_for_width("• " + str(effect), 52)
-		l.custom_minimum_size = Vector2.ZERO
+		l.text = "• " + str(effect)
+		l.language = "th"
+		l.custom_minimum_size = Vector2(0, 34)
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		l.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
-		l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		l.clip_text = true
+		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		l.clip_text = false
 		l.add_theme_font_size_override("font_size", 18)
 		l.add_theme_color_override("font_color", Color("#5b3a2a"))
 		detail_effects.add_child(l)

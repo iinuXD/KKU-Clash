@@ -20,6 +20,9 @@ var is_walking: bool = false
 var is_forcing_sleep: bool = false
 var is_random_event_active: bool = false
 var random_event_turns: Dictionary = {}
+var scenario_attempt_turns: Dictionary = {}
+var occurred_scenarios: Dictionary = {}
+var scenario_failed_attempts: int = 0
 
 var current_round: int = 1
 var max_rounds: int = 11     
@@ -31,6 +34,9 @@ const REAL_SECONDS_PER_GAME_MINUTE := 0.1
 const NIGHT_START_MINUTES := 18 * 60
 const NIGHT_FULL_MINUTES := 24 * 60
 const NIGHT_COLOR := Color(0.48, 0.55, 0.78, 1.0)
+const SCENARIO_BASE_CHANCE := 0.30
+const SCENARIO_CHANCE_STEP := 0.10
+const SCENARIO_MAX_CHANCE := 0.70
 
 var player_minutes: Array[int] = []
 var late_wake_players: Array[bool] = []
@@ -326,16 +332,39 @@ func _on_player_activity_requested(target_place: Node2D) -> void:
 
 	is_walking = true
 	player_nodes[current_player_index].set_movement_enabled(false)
-	var trigger_chance = 0.20
-	if randf() <= trigger_chance and scenario_popup:
-		var has_event = scenario_popup.try_start_scenario(target_place.name)
+	var scenario_turn_key := "%d:%d" % [current_round, current_player_index]
+	var can_attempt_scenario := not scenario_attempt_turns.has(scenario_turn_key)
+	if can_attempt_scenario:
+		# ผู้เล่นแต่ละคนทอย Scenario ได้เพียงหนึ่งครั้งต่อรอบ ป้องกันการกด E รัว
+		scenario_attempt_turns[scenario_turn_key] = true
+
+	if can_attempt_scenario:
+		var trigger_chance := _get_scenario_trigger_chance()
+		var has_event := false
+		if randf() <= trigger_chance and scenario_popup:
+			has_event = scenario_popup.try_start_scenario(target_place.name, occurred_scenarios)
+
 		if has_event:
+			scenario_failed_attempts = 0
+			var scenario_key: String = scenario_popup.get_current_scenario_key()
+			if not scenario_key.is_empty():
+				# แต่ละ Scenario เกิดได้เพียงครั้งเดียวต่อเกม แต่ Scenario อื่นยังเกิดได้
+				occurred_scenarios[scenario_key] = true
 			var effects = await scenario_popup.scenario_resolved
 			_apply_scenario_effects(effects)
+		else:
+			scenario_failed_attempts += 1
 
 	await _handle_activity_popup(target_place)
 	player_nodes[current_player_index].set_movement_enabled(true)
 	is_walking = false
+
+
+func _get_scenario_trigger_chance() -> float:
+	return minf(
+		SCENARIO_BASE_CHANCE + SCENARIO_CHANCE_STEP * scenario_failed_attempts,
+		SCENARIO_MAX_CHANCE
+	)
 
 # ==========================================
 # ระบบกิจกรรม และ Popup (แยกระหว่างเรียนกับกิจกรรมปกติ)
