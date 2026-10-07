@@ -197,8 +197,8 @@ func _play_popup_animation() -> void:
 func _setup_hover_label() -> void:
 	hover_label = Label.new()
 	var style = StyleBoxFlat.new()
-	style.bg_color = Color(0.18, 0.10, 0.07, 0.94)
-	style.border_color = Color("d69a65")
+	style.bg_color = Color("f7e8cd")
+	style.border_color = Color("78301f")
 	style.set_border_width_all(2)
 	style.corner_radius_top_left = 7
 	style.corner_radius_top_right = 7
@@ -209,7 +209,7 @@ func _setup_hover_label() -> void:
 	style.content_margin_top = 7
 	style.content_margin_bottom = 7
 	hover_label.add_theme_stylebox_override("normal", style)
-	hover_label.add_theme_color_override("font_color", Color("fff2d7"))
+	hover_label.add_theme_color_override("font_color", Color("4b1d13"))
 	hover_label.add_theme_font_size_override("font_size", 15)
 	hover_label.z_index = 100
 	hover_label.hide()

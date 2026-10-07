@@ -80,12 +80,12 @@ func _build_schedule_grid(timetable: Dictionary) -> void:
 func _add_header_cell(text: String) -> void:
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size = Vector2(0, 48)
-	panel.add_theme_stylebox_override("panel", _make_style(Color("#742d1d"), Color("#d59b45"), 1, 8))
+	panel.add_theme_stylebox_override("panel", _make_style(Color("#ead2ad"), Color("#742d1d"), 2, 8))
 	var label := Label.new()
 	label.text = text
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.add_theme_color_override("font_color", Color("#fff1cf"))
+	label.add_theme_color_override("font_color", Color("#4d2318"))
 	label.add_theme_font_size_override("font_size", 17)
 	panel.add_child(label)
 	schedule_grid.add_child(panel)
@@ -94,12 +94,12 @@ func _add_header_cell(text: String) -> void:
 func _add_day_cell(day_name: String) -> void:
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size = Vector2(130, 66)
-	panel.add_theme_stylebox_override("panel", _make_style(Color("#4c231b"), Color("#9e5938"), 1, 8))
+	panel.add_theme_stylebox_override("panel", _make_style(Color("#f3e6cf"), Color("#9e5938"), 2, 8))
 	var label := Label.new()
 	label.text = day_name
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.add_theme_color_override("font_color", Color("#ffe7bd"))
+	label.add_theme_color_override("font_color", Color("#5a2b1d"))
 	label.add_theme_font_size_override("font_size", 18)
 	panel.add_child(label)
 	schedule_grid.add_child(panel)
@@ -109,15 +109,15 @@ func _add_schedule_cell(class_entry: Dictionary) -> void:
 	var subject: String = class_entry.get("subject", "")
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size = Vector2(205, 66)
-	var background: Color = Color("#eadcc3") if subject.is_empty() else Color("#9f4328")
-	var border: Color = Color("#cbb58e") if subject.is_empty() else Color("#e4b25f")
+	var background: Color = Color("#f6eddd") if subject.is_empty() else Color("#edc997")
+	var border: Color = Color("#cbb58e") if subject.is_empty() else Color("#8a3522")
 	panel.add_theme_stylebox_override("panel", _make_style(background, border, 1, 8))
 
 	var label := Label.new()
 	label.text = "—" if subject.is_empty() else subject
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.add_theme_color_override("font_color", Color("#8f7b60") if subject.is_empty() else Color("#fff7e6"))
+	label.add_theme_color_override("font_color", Color("#8f7b60") if subject.is_empty() else Color("#4d2318"))
 	label.add_theme_font_size_override("font_size", 17)
 	panel.add_child(label)
 	schedule_grid.add_child(panel)

@@ -163,8 +163,8 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	card.clip_contents = true
 
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#3f3028")
-	style.border_color = Color("#f0d39a")
+	style.bg_color = Color("#fff4dc")
+	style.border_color = Color("#78301f")
 	style.set_border_width_all(6)
 	style.set_corner_radius_all(20)
 	style.shadow_color = Color(0, 0, 0, 0.35)
@@ -185,7 +185,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	star.size = Vector2(240, 55)
 	star.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	star.add_theme_font_size_override("font_size", 44)
-	star.add_theme_color_override("font_color", Color("#ffe9b7"))
+	star.add_theme_color_override("font_color", Color("#6d2b1d"))
 	back.add_child(star)
 
 	var question := Label.new()
@@ -195,7 +195,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	question.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	question.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	question.add_theme_font_size_override("font_size", 96)
-	question.add_theme_color_override("font_color", Color("#ffe9b7"))
+	question.add_theme_color_override("font_color", Color("#6d2b1d"))
 	back.add_child(question)
 
 	var random_text := Label.new()
@@ -204,7 +204,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	random_text.size = Vector2(240, 32)
 	random_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	random_text.add_theme_font_size_override("font_size", 18)
-	random_text.add_theme_color_override("font_color", Color("#ffe9b7"))
+	random_text.add_theme_color_override("font_color", Color("#6d2b1d"))
 	back.add_child(random_text)
 
 	var open_text := Label.new()
@@ -213,7 +213,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	open_text.size = Vector2(240, 30)
 	open_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	open_text.add_theme_font_size_override("font_size", 16)
-	open_text.add_theme_color_override("font_color", Color("#ffe9b7"))
+	open_text.add_theme_color_override("font_color", Color("#6d2b1d"))
 	back.add_child(open_text)
 
 	# ---------- FRONT ----------
@@ -275,7 +275,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	title.max_lines_visible = 2
 	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_constant_override("line_spacing", -4)
-	title.add_theme_color_override("font_color", Color("#fff4d7"))
+	title.add_theme_color_override("font_color", Color("#4d3026"))
 	front.add_child(title)
 
 	var desc := Label.new()
@@ -291,7 +291,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	desc.max_lines_visible = 2
 	desc.add_theme_font_size_override("font_size", 12)
 	desc.add_theme_constant_override("line_spacing", -2)
-	desc.add_theme_color_override("font_color", Color("#fff4d7"))
+	desc.add_theme_color_override("font_color", Color("#4d3026"))
 	front.add_child(desc)
 
 	var button := Button.new()
@@ -390,11 +390,11 @@ func _flip_card(index: int) -> void:
 	var kind: String = selected_events[index].get("type", "negative")
 
 	if kind == "positive":
-		style.bg_color = Color("#245c45")
-		style.border_color = Color("#83b99a")
+		style.bg_color = Color("#e5f0e4")
+		style.border_color = Color("#315f46")
 	else:
-		style.bg_color = Color("#9a4728")
-		style.border_color = Color("#e7a06f")
+		style.bg_color = Color("#f7e2cf")
+		style.border_color = Color("#9a4728")
 
 	c.add_theme_stylebox_override("panel", style)
 

@@ -111,6 +111,7 @@ text = "4 PLAYERS
 
 [node name="Label" type="Label" parent="." unique_id=91500621]
 layout_mode = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5

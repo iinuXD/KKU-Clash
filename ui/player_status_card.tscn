@@ -13,19 +13,19 @@
 [ext_resource type="Texture2D" path="res://asset/playerpanel/study/study100.png" id="11_study"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_card"]
-bg_color = Color(0.20, 0.078, 0.062, 0.9)
+bg_color = Color(0.965, 0.91, 0.79, 0.96)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.57, 0.27, 0.21, 0.85)
+border_color = Color(0.45, 0.15, 0.09, 1)
 corner_radius_top_left = 9
 corner_radius_top_right = 9
 corner_radius_bottom_right = 9
 corner_radius_bottom_left = 9
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_badge"]
-bg_color = Color(0.84, 0.45, 0.27, 1)
+bg_color = Color(0.45, 0.15, 0.09, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -36,12 +36,12 @@ content_margin_top = 2.0
 content_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_bar_bg"]
-bg_color = Color(0.12, 0.045, 0.035, 0.95)
+bg_color = Color(0.9, 0.83, 0.72, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.36, 0.16, 0.12, 0.9)
+border_color = Color(0.38, 0.145, 0.09, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -98,7 +98,7 @@ theme_override_constants/separation = 5
 
 [node name="PlayerName" type="Label" parent="MarginContainer/VBoxContainer/Header"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.98, 0.82, 0.55, 1)
+theme_override_colors/font_color = Color(0.31, 0.11, 0.065, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 13
 text = "P1"
@@ -110,7 +110,7 @@ theme_override_styles/panel = SubResource("StyleBox_badge")
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Header/ActiveBadge"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.16, 0.055, 0.035, 1)
+theme_override_colors/font_color = Color(1, 0.94, 0.82, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 7
 text = "TURN"
@@ -122,7 +122,7 @@ mouse_filter = 2
 
 [node name="MoneyCaption" type="Label" parent="MarginContainer/VBoxContainer/Header"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.74, 0.58, 0.46, 1)
+theme_override_colors/font_color = Color(0.42, 0.28, 0.2, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 7
 text = "MONEY"
@@ -130,7 +130,7 @@ vertical_alignment = 1
 
 [node name="money" type="Label" parent="MarginContainer/VBoxContainer/Header"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.98, 0.9, 0.76, 1)
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 10
 text = "2000 B"
@@ -232,7 +232,7 @@ show_percentage = false
 [node name="HappinessValue" type="Label" parent="MarginContainer/VBoxContainer/Body/Stats/HappinessRow"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.96, 0.9, 0.78, 1)
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 7
 text = "200/200"
@@ -266,7 +266,7 @@ show_percentage = false
 [node name="HungerValue" type="Label" parent="MarginContainer/VBoxContainer/Body/Stats/HungerRow"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.96, 0.9, 0.78, 1)
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 7
 text = "200/200"
@@ -300,7 +300,7 @@ show_percentage = false
 [node name="StaminaValue" type="Label" parent="MarginContainer/VBoxContainer/Body/Stats/StaminaRow"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.96, 0.9, 0.78, 1)
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 7
 text = "200/200"
@@ -334,7 +334,7 @@ show_percentage = false
 [node name="StudyValue" type="Label" parent="MarginContainer/VBoxContainer/Body/Stats/StudyRow"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.96, 0.9, 0.78, 1)
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_fonts/font = ExtResource("1_font")
 theme_override_font_sizes/font_size = 7
 text = "400/400"

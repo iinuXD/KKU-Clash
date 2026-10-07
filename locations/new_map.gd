@@ -16,6 +16,7 @@ signal forced_sleep_finished
 
 const TIMETABLE_VIEWER_SCENE = preload("res://ui/registration_ui.tscn")
 const CLASS_TIME_POPUP_SCENE = preload("res://ui/class_time_popup.tscn")
+const SAVE_SLOT_MENU_SCENE = preload("res://ui/save_slot_menu.tscn")
 
 var player_nodes: Array[CharacterBody2D] = [] 
 var current_player_index: int = 0     
@@ -29,6 +30,8 @@ var scenario_failed_attempts: int = 0
 var timetable_popup: Control
 var timetable_button: Button
 var class_time_popup: Control
+var save_slot_menu: SaveSlotMenu
+var save_button: Button
 
 var current_round: int = 1
 var max_rounds: int = 11     
@@ -113,7 +116,7 @@ func _process(delta: float) -> void:
 		return
 
 	var activity_popup = $UILayer/ActivityPopup
-	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible or (timetable_popup and timetable_popup.visible) or (class_time_popup and class_time_popup.visible):
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible or (timetable_popup and timetable_popup.visible) or (class_time_popup and class_time_popup.visible) or (save_slot_menu and save_slot_menu.visible):
 		return
 
 	real_time_accumulator += delta * _get_current_time_speed()
@@ -128,6 +131,12 @@ func _process(delta: float) -> void:
 # ส่วนเริ่มต้นเกม
 # ==========================================
 func _ready() -> void:
+	var loaded_checkpoint := SaveManager.take_pending_load()
+	if not loaded_checkpoint.is_empty():
+		var global_state = loaded_checkpoint.get("global", {})
+		if global_state is Dictionary:
+			Global.import_save_data(global_state)
+
 	_setup_mock_data()
 	Global.ensure_random_timetables()
 	_setup_fade() # เรียกใช้ระบบจอดำตอนสลบ
@@ -135,6 +144,7 @@ func _ready() -> void:
 	_setup_turn_notice()
 	_setup_timetable_ui()
 	_setup_class_time_ui()
+	_setup_save_ui()
 	
 	if player_panel:
 		player_panel.setup_players_ui()
@@ -151,7 +161,13 @@ func _ready() -> void:
 		player_minutes.append(NORMAL_WAKE_MINUTES)
 		player_time_speed_multipliers.append(1.0)
 		late_wake_players.append(false)
-			
+
+	if not loaded_checkpoint.is_empty():
+		var map_state = loaded_checkpoint.get("map", {})
+		if map_state is Dictionary:
+			_apply_map_save_data(map_state)
+
+	SaveManager.set_checkpoint(_build_checkpoint_state())
 	setup_current_turn()
 
 
@@ -186,6 +202,64 @@ func _setup_class_time_ui() -> void:
 		return
 	class_time_popup = CLASS_TIME_POPUP_SCENE.instantiate()
 	$UILayer.add_child(class_time_popup)
+
+
+func _setup_save_ui() -> void:
+	if not has_node("UILayer"):
+		return
+
+	save_slot_menu = SAVE_SLOT_MENU_SCENE.instantiate() as SaveSlotMenu
+	$UILayer.add_child(save_slot_menu)
+	save_slot_menu.save_completed.connect(_on_manual_save_completed)
+
+	save_button = Button.new()
+	_update_save_button_text()
+	save_button.z_index = 50
+	save_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	save_button.offset_left = -88.0
+	save_button.offset_top = 8.0
+	save_button.offset_right = -8.0
+	save_button.offset_bottom = 44.0
+	save_button.add_theme_font_size_override("font_size", 15)
+	save_button.add_theme_color_override("font_color", Color("#fff0cf"))
+	save_button.add_theme_color_override("font_hover_color", Color.WHITE)
+	save_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#8f371f"), Color("#d99a43")))
+	save_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#b34b28"), Color("#ffc866")))
+	save_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
+	save_button.pressed.connect(_on_save_button_pressed)
+	$UILayer.add_child(save_button)
+
+
+func _on_save_button_pressed() -> void:
+	if is_walking or is_forcing_sleep or is_random_event_active:
+		return
+	var activity_popup = $UILayer/ActivityPopup
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or random_event_popup.visible or (timetable_popup and timetable_popup.visible) or (class_time_popup and class_time_popup.visible):
+		return
+
+	is_walking = true
+	player_nodes[current_player_index].set_movement_enabled(false)
+	save_slot_menu.open_menu(SaveSlotMenu.MenuMode.SAVE)
+	await save_slot_menu.closed
+
+	if not is_forcing_sleep and current_player_index < player_nodes.size():
+		player_nodes[current_player_index].set_movement_enabled(true)
+	is_walking = false
+
+
+func _on_manual_save_completed(_slot: int) -> void:
+	_update_save_button_text()
+
+
+func _update_save_button_text() -> void:
+	if not save_button:
+		return
+	save_button.text = "SAVE"
+	save_button.tooltip_text = (
+		"บันทึกเกม • ช่อง %d" % SaveManager.active_slot
+		if SaveManager.active_slot >= 1
+		else "บันทึกเกม"
+	)
 
 
 func _make_timetable_button_style(background: Color, border: Color) -> StyleBoxFlat:
@@ -322,7 +396,73 @@ func pass_turn() -> void:
 		_show_turn_notice("ผู้เล่นที่ %d จบเทิร์น\nผู้เล่นที่ %d ถึงตาคุณ" % [previous_player + 1, current_player_index + 1])
 
 	print("--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ ", current_player_index + 1, " ---")
+	_capture_completed_turn_checkpoint()
 	setup_current_turn()
+
+
+func _capture_completed_turn_checkpoint() -> void:
+	SaveManager.set_checkpoint(_build_checkpoint_state())
+	if SaveManager.active_slot >= 1 and not SaveManager.autosave_checkpoint():
+		push_warning("บันทึกอัตโนมัติไม่สำเร็จ: " + SaveManager.last_error)
+
+
+func _build_checkpoint_state() -> Dictionary:
+	return {
+		"global": Global.export_save_data(),
+		"map": {
+			"current_player_index": current_player_index,
+			"current_round": current_round,
+			"max_rounds": max_rounds,
+			"player_minutes": player_minutes.duplicate(),
+			"player_time_speed_multipliers": player_time_speed_multipliers.duplicate(),
+			"late_wake_players": late_wake_players.duplicate(),
+			"random_event_turns": random_event_turns.duplicate(true),
+			"scenario_attempt_turns": scenario_attempt_turns.duplicate(true),
+			"occurred_scenarios": occurred_scenarios.duplicate(true),
+			"scenario_failed_attempts": scenario_failed_attempts
+		}
+	}
+
+
+func _apply_map_save_data(data: Dictionary) -> void:
+	max_rounds = maxi(1, int(data.get("max_rounds", max_rounds)))
+	current_round = clampi(int(data.get("current_round", 1)), 1, max_rounds)
+	current_player_index = clampi(
+		int(data.get("current_player_index", 0)),
+		0,
+		maxi(0, player_nodes.size() - 1)
+	)
+
+	_copy_int_array(data.get("player_minutes", []), player_minutes, NORMAL_WAKE_MINUTES)
+	_copy_float_array(data.get("player_time_speed_multipliers", []), player_time_speed_multipliers, 1.0)
+	_copy_bool_array(data.get("late_wake_players", []), late_wake_players, false)
+
+	random_event_turns = _copy_dictionary(data.get("random_event_turns", {}))
+	scenario_attempt_turns = _copy_dictionary(data.get("scenario_attempt_turns", {}))
+	occurred_scenarios = _copy_dictionary(data.get("occurred_scenarios", {}))
+	scenario_failed_attempts = maxi(0, int(data.get("scenario_failed_attempts", 0)))
+
+
+func _copy_int_array(source_value, target: Array[int], fallback: int) -> void:
+	var source: Array = source_value if source_value is Array else []
+	for index in range(target.size()):
+		target[index] = int(source[index]) if index < source.size() else fallback
+
+
+func _copy_float_array(source_value, target: Array[float], fallback: float) -> void:
+	var source: Array = source_value if source_value is Array else []
+	for index in range(target.size()):
+		target[index] = float(source[index]) if index < source.size() else fallback
+
+
+func _copy_bool_array(source_value, target: Array[bool], fallback: bool) -> void:
+	var source: Array = source_value if source_value is Array else []
+	for index in range(target.size()):
+		target[index] = bool(source[index]) if index < source.size() else fallback
+
+
+func _copy_dictionary(source_value) -> Dictionary:
+	return source_value.duplicate(true) if source_value is Dictionary else {}
 
 func _setup_turn_notice() -> void:
 	turn_notice = Label.new()
@@ -334,12 +474,12 @@ func _setup_turn_notice() -> void:
 	turn_notice.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	turn_notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	turn_notice.add_theme_font_size_override("font_size", 20)
-	turn_notice.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1.0))
-	turn_notice.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 1.0))
-	turn_notice.add_theme_constant_override("outline_size", 5)
+	turn_notice.add_theme_color_override("font_color", Color("#4b1d13"))
+	turn_notice.add_theme_color_override("font_outline_color", Color(1.0, 0.96, 0.87, 1.0))
+	turn_notice.add_theme_constant_override("outline_size", 2)
 	var notice_style = StyleBoxFlat.new()
-	notice_style.bg_color = Color(0.06, 0.08, 0.14, 0.94)
-	notice_style.border_color = Color(1.0, 0.72, 0.28, 0.95)
+	notice_style.bg_color = Color("#f7e8cd")
+	notice_style.border_color = Color("#78301f")
 	notice_style.set_border_width_all(2)
 	notice_style.set_corner_radius_all(8)
 	turn_notice.add_theme_stylebox_override("normal", notice_style)

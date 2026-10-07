@@ -178,3 +178,84 @@ func _timetable_signature(timetable: Dictionary) -> String:
 		for entry in daily_subjects.get(day_key, []):
 			signature_parts.append("%s:%s:%s" % [day_key, entry.get("period", entry.get("col", 0)), entry.get("subject", "")])
 	return "|".join(signature_parts)
+
+
+func reset_game_state() -> void:
+	money = 2000
+	study_score = 0
+	happy = 40
+	energy = 100
+	hunger = 50
+	current_round = 1
+	max_rounds = 5
+	time_remaining = 24
+	max_time = 24
+	travel_time_cost = 2
+	travel_energy_cost = 0
+	is_injured = false
+	is_sick = false
+	sick_sleep_count = 0
+	has_medicine = false
+	lost_item_active = false
+	class_join_count = 0
+	exam_bonus_pct = 0
+	next_round_time_penalty_pct = 0
+	weather = "normal"
+	skip_next_activity_ui = false
+	player_count = 1
+	player_data.clear()
+
+
+func export_save_data() -> Dictionary:
+	return {
+		"money": money,
+		"study_score": study_score,
+		"happy": happy,
+		"energy": energy,
+		"hunger": hunger,
+		"current_round": current_round,
+		"max_rounds": max_rounds,
+		"time_remaining": time_remaining,
+		"max_time": max_time,
+		"travel_time_cost": travel_time_cost,
+		"travel_energy_cost": travel_energy_cost,
+		"is_injured": is_injured,
+		"is_sick": is_sick,
+		"sick_sleep_count": sick_sleep_count,
+		"has_medicine": has_medicine,
+		"lost_item_active": lost_item_active,
+		"class_join_count": class_join_count,
+		"exam_bonus_pct": exam_bonus_pct,
+		"next_round_time_penalty_pct": next_round_time_penalty_pct,
+		"weather": weather,
+		"skip_next_activity_ui": skip_next_activity_ui,
+		"player_count": player_count,
+		"player_data": player_data.duplicate(true)
+	}
+
+
+func import_save_data(data: Dictionary) -> void:
+	money = int(data.get("money", 2000))
+	study_score = int(data.get("study_score", 0))
+	happy = int(data.get("happy", 40))
+	energy = int(data.get("energy", 100))
+	hunger = int(data.get("hunger", 50))
+	current_round = int(data.get("current_round", 1))
+	max_rounds = int(data.get("max_rounds", 5))
+	time_remaining = int(data.get("time_remaining", 24))
+	max_time = int(data.get("max_time", 24))
+	travel_time_cost = int(data.get("travel_time_cost", 2))
+	travel_energy_cost = int(data.get("travel_energy_cost", 0))
+	is_injured = bool(data.get("is_injured", false))
+	is_sick = bool(data.get("is_sick", false))
+	sick_sleep_count = int(data.get("sick_sleep_count", 0))
+	has_medicine = bool(data.get("has_medicine", false))
+	lost_item_active = bool(data.get("lost_item_active", false))
+	class_join_count = int(data.get("class_join_count", 0))
+	exam_bonus_pct = int(data.get("exam_bonus_pct", 0))
+	next_round_time_penalty_pct = int(data.get("next_round_time_penalty_pct", 0))
+	weather = str(data.get("weather", "normal"))
+	skip_next_activity_ui = bool(data.get("skip_next_activity_ui", false))
+	player_count = maxi(1, int(data.get("player_count", 1)))
+	var saved_players = data.get("player_data", [])
+	player_data = saved_players.duplicate(true) if saved_players is Array else []
