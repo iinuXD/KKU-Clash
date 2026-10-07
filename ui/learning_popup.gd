@@ -24,6 +24,8 @@ var is_quiz_active: bool = false
 var time_left: float = 20.0
 var current_question_index: int = 0
 var correct_answers: int = 0
+var study_multiplier: float = 1.0
+var result_modifier_text: String = ""
 
 # --- ชุดตัวแปรใหม่สำหรับโจทย์ที่คิดเอง ---
 var current_quiz_set: Array = []
@@ -72,9 +74,11 @@ func _process(delta: float) -> void:
 # ==========================================
 # 1. ระบบเริ่มต้น Quiz (ดึงโจทย์ตามวิชา)
 # ==========================================
-func start_quiz(subject_name: String, subject_level: int = 1) -> void:
+func start_quiz(subject_name: String, subject_level: int = 1, reward_multiplier: float = 1.0, modifier_text: String = "") -> void:
 	current_question_index = 0
 	correct_answers = 0
+	study_multiplier = clampf(reward_multiplier, 0.0, 1.0)
+	result_modifier_text = modifier_text
 	time_left = 20.0
 	is_quiz_active = true
 	
@@ -202,17 +206,22 @@ func _end_quiz() -> void:
 	question_number_label.hide()
 	
 	# คำนวณความรู้ที่ได้รับ (สมมติข้อละ 20 หน่วย)
-	var study_gained = correct_answers * 10 
+	var study_gained := _calculate_study_gained()
 	
 	var time_up_text = "หมดเวลา!\n" if time_left <= 0 else ""
-	result_label.text = "%sตอบถูก: %d / 3 ข้อ\nความรู้ที่ได้รับ: +%d" % [time_up_text, correct_answers, study_gained]
+	var modifier_line := (result_modifier_text + "\n") if not result_modifier_text.is_empty() else ""
+	result_label.text = "%sตอบถูก: %d / 3 ข้อ\n%sความรู้ที่ได้รับ: +%d" % [time_up_text, correct_answers, modifier_line, study_gained]
 	
 	summary_panel.show()
 
 func _on_ok_pressed() -> void:
 	hide()
-	var study_gained = correct_answers * 10
+	var study_gained := _calculate_study_gained()
 	quiz_finished.emit(study_gained) # ส่งค่าความรู้กลับไปให้ new_map.gd
+
+
+func _calculate_study_gained() -> int:
+	return roundi(float(correct_answers * 10) * study_multiplier)
 
 func _load_subject_database(subject_name: String) -> Dictionary:
 	if not SUBJECT_FILES.has(subject_name):

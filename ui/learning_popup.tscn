@@ -301,12 +301,13 @@ layout_mode = 0
 offset_left = 40.0
 offset_top = 71.0
 offset_right = 460.0
-offset_bottom = 151.0
+offset_bottom = 230.0
 theme_override_colors/font_color = Color(0.188235, 0.117647, 0.0784314, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 28
 text = "คุณทำได้ 4 / 5 ข้อ"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="OkButton" type="Button" parent="BgPanel/SummaryPanel" unique_id=1845602665]
 unique_name_in_owner = true

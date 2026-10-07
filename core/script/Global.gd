@@ -150,6 +150,7 @@ func _generate_random_timetable() -> Dictionary:
 			var entry := {
 				"subject": subject,
 				"is_completed": false,
+				"attendance_status": "pending",
 				"col": column,
 				"period": column,
 				"time_label": period["label"],

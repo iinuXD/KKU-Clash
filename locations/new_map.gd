@@ -15,6 +15,7 @@ signal forced_sleep_finished
 @onready var random_event_popup = $UILayer/RandomEventPopup
 
 const TIMETABLE_VIEWER_SCENE = preload("res://ui/registration_ui.tscn")
+const CLASS_TIME_POPUP_SCENE = preload("res://ui/class_time_popup.tscn")
 
 var player_nodes: Array[CharacterBody2D] = [] 
 var current_player_index: int = 0     
@@ -27,6 +28,7 @@ var occurred_scenarios: Dictionary = {}
 var scenario_failed_attempts: int = 0
 var timetable_popup: Control
 var timetable_button: Button
+var class_time_popup: Control
 
 var current_round: int = 1
 var max_rounds: int = 11     
@@ -41,6 +43,10 @@ const NIGHT_COLOR := Color(0.48, 0.55, 0.78, 1.0)
 const SCENARIO_BASE_CHANCE := 0.30
 const SCENARIO_CHANCE_STEP := 0.10
 const SCENARIO_MAX_CHANCE := 0.70
+const CLASS_EARLY_WAIT_MINUTES := 30
+const CLASS_ON_TIME_GRACE_MINUTES := 30
+const CLASS_LATE_LIMIT_MINUTES := 60
+const CLASS_LATE_STUDY_MULTIPLIER := 0.75
 
 var player_minutes: Array[int] = []
 var late_wake_players: Array[bool] = []
@@ -106,7 +112,7 @@ func _process(delta: float) -> void:
 		return
 
 	var activity_popup = $UILayer/ActivityPopup
-	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible or (timetable_popup and timetable_popup.visible):
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible or (timetable_popup and timetable_popup.visible) or (class_time_popup and class_time_popup.visible):
 		return
 
 	real_time_accumulator += delta
@@ -127,6 +133,7 @@ func _ready() -> void:
 	_update_night_lighting()
 	_setup_turn_notice()
 	_setup_timetable_ui()
+	_setup_class_time_ui()
 	
 	if player_panel:
 		player_panel.setup_players_ui()
@@ -172,6 +179,13 @@ func _setup_timetable_ui() -> void:
 	$UILayer.add_child(timetable_button)
 
 
+func _setup_class_time_ui() -> void:
+	if not has_node("UILayer"):
+		return
+	class_time_popup = CLASS_TIME_POPUP_SCENE.instantiate()
+	$UILayer.add_child(class_time_popup)
+
+
 func _make_timetable_button_style(background: Color, border: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = background
@@ -187,7 +201,7 @@ func _on_timetable_button_pressed() -> void:
 	var activity_popup = $UILayer/ActivityPopup
 	if is_walking or is_forcing_sleep or is_random_event_active:
 		return
-	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or random_event_popup.visible:
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or random_event_popup.visible or (class_time_popup and class_time_popup.visible):
 		return
 
 	is_walking = true
@@ -284,6 +298,7 @@ func _start_turn_random_events() -> void:
 
 func pass_turn() -> void:
 	var previous_player = current_player_index
+	_mark_remaining_classes_missed(previous_player, current_round)
 	current_player_index += 1
 	
 	if current_player_index >= player_nodes.size():
@@ -432,7 +447,7 @@ func _get_scenario_trigger_chance() -> float:
 func _handle_activity_popup(target_place: Node2D) -> void:
 	# 1. เช็คว่าเป็นสถานที่ "Learn" หรือไม่ ถ้าใช่ให้ข้ามไปเปิดหน้าเรียนเลย
 	if target_place.name == "Learn":
-		_handle_direct_learning()
+		await _handle_direct_learning()
 		return
 		
 	# 2. กรณีเป็นสถานที่อื่นๆ ให้เปิดหน้าต่างกิจกรรมตามปกติ
@@ -505,47 +520,169 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 # ระบบเปิดหน้าควิซเรียนแบบตรงๆ (Direct Learning)
 # ------------------------------------------
 func _handle_direct_learning() -> void:
-	var p_data = Global.player_data[current_player_index]
-	
-	# เช็คว่ามีข้อมูลตารางเรียนหรือไม่
+	var p_data: Dictionary = Global.player_data[current_player_index]
+
 	if not p_data.has("timetable") or not p_data["timetable"].has("daily_subjects"):
-		print("ไม่มีข้อมูลตารางเรียน")
+		await _show_class_time_message("ไม่มีตารางเรียน", "", "ไม่พบข้อมูลตารางเรียนของผู้เล่น")
 		return
-		
-	var day_key = "R" + str(((current_round - 1) % 5) + 1)
-	var missions = p_data["timetable"]["daily_subjects"].get(day_key, [])
-	
-	var subject_to_learn = ""
-	
-	# ค้นหาวิชาแรกในรอบนี้ที่ยังไม่ได้เรียน (is_completed == false)
-	for m in missions:
-		if not m.get("is_completed", false):
-			subject_to_learn = m["subject"]
-			break # เจอวิชาแรกที่ยังไม่เรียน ให้หยุดหาและเอาวิชานี้มาใช้
-			
-	# ถ้าไม่มีวิชาเหลือให้เรียนแล้วในรอบนี้
-	if subject_to_learn == "":
-		print("เรียนครบทุกวิชาแล้วสำหรับรอบนี้!")
-		# TODO: ตรงนี้อาจจะเพิ่มการแสดงผล Label หรือ Alert ให้ผู้เล่นทราบว่าเรียนครบแล้ว
-		return # ออกจากฟังก์ชันไปเลยโดยไม่เสีย Action Point
-		
-	# เริ่มกระบวนการเรียน
-	if learning_popup:
-		var subject_level = _get_subject_level(current_player_index, subject_to_learn)
-		learning_popup.start_quiz(subject_to_learn, subject_level)
-		var study_gained = await learning_popup.quiz_finished
-		_advance_subject_level(current_player_index, subject_to_learn)
-		var action_name = "เรียน " + subject_to_learn
-		var is_fainted = _apply_learning_effects(study_gained)
-		
-		_mark_mission_completed(action_name)
-		if not is_fainted:
-			_advance_time(_get_activity_time_cost(action_name, "Learn") * 60)
-			if is_forcing_sleep:
-				await forced_sleep_finished
+
+	var day_key := "R" + str(((current_round - 1) % 5) + 1)
+	var classes: Array = p_data["timetable"]["daily_subjects"].get(day_key, [])
+	if classes.is_empty():
+		await _show_class_time_message("ไม่มีคาบเรียน", "", "วันนี้ไม่มีคาบเรียน")
+		return
+
+	_refresh_missed_classes(classes)
+	var selected_class: Dictionary = {}
+	for class_entry in classes:
+		if class_entry.get("is_completed", false):
+			continue
+		if class_entry.get("attendance_status", "pending") == "missed":
+			continue
+		selected_class = class_entry
+		break
+
+	if selected_class.is_empty():
+		var all_completed := true
+		var missed_class: Dictionary = {}
+		for class_entry in classes:
+			if not class_entry.get("is_completed", false):
+				all_completed = false
+				if missed_class.is_empty() and class_entry.get("attendance_status", "pending") == "missed":
+					missed_class = class_entry
+		if all_completed:
+			await _show_class_time_message("ตารางวันนี้", "", "เรียนครบทุกวิชาแล้วสำหรับวันนี้")
+		elif not missed_class.is_empty():
+			await _show_class_time_message(
+				missed_class.get("subject", "คาบเรียน"),
+				missed_class.get("time_label", ""),
+				"เลยเวลาเรียนแล้ว\nไม่สามารถเข้าเรียนคาบนี้ได้"
+			)
 		else:
-			_force_sleep()
+			await _show_class_time_message("ตารางวันนี้", "", "ไม่มีคาบที่สามารถเข้าเรียนได้แล้ววันนี้")
+		return
+
+	var subject_name: String = selected_class.get("subject", "")
+	var class_time: String = selected_class.get("time_label", "")
+	var start_minutes: int = int(selected_class.get("start_minutes", 0))
+	var minutes_until_start := start_minutes - current_minutes
+	var timing_state := _get_class_timing_state(start_minutes, current_minutes)
+
+	if timing_state == "too_early":
+		await _show_class_time_message(
+			subject_name,
+			class_time,
+			"ยังไม่ถึงเวลาเรียน\nเริ่มอีก %d นาที" % minutes_until_start
+		)
+		return
+
+	var reward_multiplier := 1.0
+	var result_note := ""
+	var choice := ""
+	if timing_state == "wait":
+		class_time_popup.open_class_info(
+			subject_name,
+			class_time,
+			"เริ่มเรียนในอีก %d นาที" % minutes_until_start,
+			"รอเข้าเรียน",
+			"wait",
+			true,
+			Color("#f2c96d")
+		)
+		choice = await class_time_popup.choice_made
+		if choice != "wait":
+			return
+		_advance_time(minutes_until_start)
+	else:
+		var late_minutes := current_minutes - start_minutes
+		if timing_state == "on_time":
+			var status_text := "ตรงเวลา" if late_minutes <= 0 else "ยังอยู่ในช่วงผ่อนผัน %d นาที" % late_minutes
+			class_time_popup.open_class_info(
+				subject_name, class_time, status_text, "เข้าเรียน", "attend", true, Color("#8fd19e")
+			)
+		elif timing_state == "late":
+			reward_multiplier = CLASS_LATE_STUDY_MULTIPLIER
+			result_note = "เข้าสาย: ความรู้ลดลง 25%"
+			class_time_popup.open_class_info(
+				subject_name,
+				class_time,
+				"สาย %d นาที — ความรู้ลดลง 25%%" % late_minutes,
+				"เข้าเรียน",
+				"attend",
+				true,
+				Color("#ef9b69")
+			)
+		choice = await class_time_popup.choice_made
+		if choice != "attend":
+			return
+
+	await _start_scheduled_class(selected_class, reward_multiplier, result_note)
+
+
+func _start_scheduled_class(class_entry: Dictionary, reward_multiplier: float, result_note: String) -> void:
+	if not learning_popup:
+		return
+	var subject_name: String = class_entry.get("subject", "")
+	var subject_level := _get_subject_level(current_player_index, subject_name)
+	learning_popup.start_quiz(subject_name, subject_level, reward_multiplier, result_note)
+	var study_gained: int = await learning_popup.quiz_finished
+	_advance_subject_level(current_player_index, subject_name)
+	var is_fainted := _apply_learning_effects(study_gained)
+
+	class_entry["is_completed"] = true
+	class_entry["attendance_status"] = "attended"
+	class_entry["late_minutes"] = maxi(0, current_minutes - int(class_entry.get("start_minutes", current_minutes)))
+	render_mission_text(current_player_index, current_round)
+
+	if not is_fainted:
+		var end_minutes: int = int(class_entry.get("end_minutes", current_minutes))
+		_advance_time(maxi(0, end_minutes - current_minutes))
+		if is_forcing_sleep:
 			await forced_sleep_finished
+	else:
+		_force_sleep()
+		await forced_sleep_finished
+
+
+func _refresh_missed_classes(classes: Array) -> void:
+	var changed := false
+	for class_entry in classes:
+		if class_entry.get("is_completed", false):
+			continue
+		if class_entry.get("attendance_status", "pending") == "missed":
+			continue
+		var start_minutes: int = int(class_entry.get("start_minutes", 0))
+		if _get_class_timing_state(start_minutes, current_minutes) == "missed":
+			class_entry["attendance_status"] = "missed"
+			changed = true
+	if changed:
+		render_mission_text(current_player_index, current_round)
+
+
+func _get_class_timing_state(start_minutes: int, now_minutes: int) -> String:
+	var difference := now_minutes - start_minutes
+	if difference < -CLASS_EARLY_WAIT_MINUTES:
+		return "too_early"
+	if difference < 0:
+		return "wait"
+	if difference <= CLASS_ON_TIME_GRACE_MINUTES:
+		return "on_time"
+	if difference <= CLASS_LATE_LIMIT_MINUTES:
+		return "late"
+	return "missed"
+
+
+func _show_class_time_message(subject_name: String, class_time: String, message: String) -> void:
+	class_time_popup.open_class_info(
+		subject_name,
+		class_time,
+		message,
+		"ตกลง",
+		"close",
+		false,
+		Color("#f3d29b")
+	)
+	await class_time_popup.choice_made
 
 # ------------------------------------------
 # ระบบ Level รายวิชา
@@ -734,6 +871,8 @@ func render_mission_text(player_index: int, round_num: int) -> void:
 		for mission in study_missions:
 			if mission.get("is_completed", false):
 				display_lines.append("☑ เรียน " + str(mission.get("subject", "")))
+			elif mission.get("attendance_status", "pending") == "missed":
+				display_lines.append("✕ พลาด " + str(mission.get("subject", "")))
 			else:
 				display_lines.append("☐ เรียน " + str(mission.get("subject", "")))
 
@@ -759,6 +898,7 @@ func _mark_mission_completed(action_name: String) -> void:
 	for m in missions:
 		if m["subject"] == subject_name and not m["is_completed"]:
 			m["is_completed"] = true
+			m["attendance_status"] = "attended"
 			break 
 			
 	render_mission_text(current_player_index, current_round)
@@ -770,6 +910,21 @@ func _reset_daily_missions(new_round: int) -> void:
 			var missions = p_data["timetable"]["daily_subjects"].get(day_key, [])
 			for m in missions:
 				m["is_completed"] = false
+				m["attendance_status"] = "pending"
+				m.erase("late_minutes")
+
+
+func _mark_remaining_classes_missed(player_index: int, round_num: int) -> void:
+	if player_index < 0 or player_index >= Global.player_data.size():
+		return
+	var p_data: Dictionary = Global.player_data[player_index]
+	if not p_data.has("timetable"):
+		return
+	var day_key := "R" + str(((round_num - 1) % 5) + 1)
+	var classes: Array = p_data["timetable"].get("daily_subjects", {}).get(day_key, [])
+	for class_entry in classes:
+		if not class_entry.get("is_completed", false):
+			class_entry["attendance_status"] = "missed"
 
 # ==========================================
 # การตั้งค่าตัวละครเบื้องต้น
