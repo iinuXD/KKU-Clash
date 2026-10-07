@@ -14,6 +14,8 @@ signal forced_sleep_finished
 @onready var scenario_popup = $UILayer/ScenarioPopup
 @onready var random_event_popup = $UILayer/RandomEventPopup
 
+const TIMETABLE_VIEWER_SCENE = preload("res://ui/registration_ui.tscn")
+
 var player_nodes: Array[CharacterBody2D] = [] 
 var current_player_index: int = 0     
 var is_walking: bool = false
@@ -23,6 +25,8 @@ var random_event_turns: Dictionary = {}
 var scenario_attempt_turns: Dictionary = {}
 var occurred_scenarios: Dictionary = {}
 var scenario_failed_attempts: int = 0
+var timetable_popup: Control
+var timetable_button: Button
 
 var current_round: int = 1
 var max_rounds: int = 11     
@@ -102,7 +106,7 @@ func _process(delta: float) -> void:
 		return
 
 	var activity_popup = $UILayer/ActivityPopup
-	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible:
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible or (timetable_popup and timetable_popup.visible):
 		return
 
 	real_time_accumulator += delta
@@ -118,9 +122,11 @@ func _process(delta: float) -> void:
 # ==========================================
 func _ready() -> void:
 	_setup_mock_data()
+	Global.ensure_random_timetables()
 	_setup_fade() # เรียกใช้ระบบจอดำตอนสลบ
 	_update_night_lighting()
 	_setup_turn_notice()
+	_setup_timetable_ui()
 	
 	if player_panel:
 		player_panel.setup_players_ui()
@@ -138,6 +144,60 @@ func _ready() -> void:
 		late_wake_players.append(false)
 			
 	setup_current_turn()
+
+
+func _setup_timetable_ui() -> void:
+	if not has_node("UILayer"):
+		return
+
+	timetable_popup = TIMETABLE_VIEWER_SCENE.instantiate()
+	timetable_popup.in_game_mode = true
+	$UILayer.add_child(timetable_popup)
+
+	timetable_button = Button.new()
+	timetable_button.text = "ตารางเรียน"
+	timetable_button.z_index = 50
+	timetable_button.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	timetable_button.offset_left = -75.0
+	timetable_button.offset_top = 54.0
+	timetable_button.offset_right = 75.0
+	timetable_button.offset_bottom = 90.0
+	timetable_button.add_theme_font_size_override("font_size", 17)
+	timetable_button.add_theme_color_override("font_color", Color("#fff0cf"))
+	timetable_button.add_theme_color_override("font_hover_color", Color.WHITE)
+	timetable_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#8f371f"), Color("#d99a43")))
+	timetable_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#b34b28"), Color("#ffc866")))
+	timetable_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
+	timetable_button.pressed.connect(_on_timetable_button_pressed)
+	$UILayer.add_child(timetable_button)
+
+
+func _make_timetable_button_style(background: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = background
+	style.border_color = border
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(10)
+	style.shadow_color = Color(0, 0, 0, 0.35)
+	style.shadow_size = 4
+	return style
+
+
+func _on_timetable_button_pressed() -> void:
+	var activity_popup = $UILayer/ActivityPopup
+	if is_walking or is_forcing_sleep or is_random_event_active:
+		return
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or random_event_popup.visible:
+		return
+
+	is_walking = true
+	player_nodes[current_player_index].set_movement_enabled(false)
+	timetable_popup.open_for_player(current_player_index)
+	await timetable_popup.closed
+
+	if not is_forcing_sleep and current_player_index < player_nodes.size():
+		player_nodes[current_player_index].set_movement_enabled(true)
+	is_walking = false
 
 func _setup_fade() -> void:
 	fade_rect = ColorRect.new()
