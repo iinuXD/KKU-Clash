@@ -38,7 +38,7 @@ func update_turn_ui(active_index: int) -> void:
 			_set_card_active(stats[i], i == active_index)
 
 
-func update_time_ui(current_minutes: int, _start_minutes: int, _end_minutes: int) -> void:
+func update_time_ui(current_minutes: int, _start_minutes: int, _end_minutes: int, speed_multiplier: float = 1.0) -> void:
 	if not time_label:
 		return
 	var hour := int(current_minutes / 60) % 24
@@ -47,7 +47,12 @@ func update_time_ui(current_minutes: int, _start_minutes: int, _end_minutes: int
 	var display_hour := hour % 12
 	if display_hour == 0:
 		display_hour = 12
-	time_label.text = "TIME  %d:%02d %s" % [display_hour, minute, meridiem]
+	var speed_text := "  ×%.2f" % speed_multiplier if speed_multiplier > 1.001 else ""
+	time_label.text = "TIME  %d:%02d %s%s" % [display_hour, minute, meridiem, speed_text]
+	time_label.add_theme_color_override(
+		"font_color",
+		Color("#f4ad65") if speed_multiplier > 1.001 else Color(0.96, 0.88, 0.72, 1)
+	)
 
 
 func update_round_ui(current_round: int, max_rounds: int) -> void:

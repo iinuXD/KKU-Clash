@@ -49,6 +49,7 @@ const CLASS_LATE_LIMIT_MINUTES := 60
 const CLASS_LATE_STUDY_MULTIPLIER := 0.75
 
 var player_minutes: Array[int] = []
+var player_time_speed_multipliers: Array[float] = []
 var late_wake_players: Array[bool] = []
 var current_minutes: int = NORMAL_WAKE_MINUTES
 var real_time_accumulator: float = 0.0
@@ -115,7 +116,7 @@ func _process(delta: float) -> void:
 	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible or (timetable_popup and timetable_popup.visible) or (class_time_popup and class_time_popup.visible):
 		return
 
-	real_time_accumulator += delta
+	real_time_accumulator += delta * _get_current_time_speed()
 	var minutes_to_advance = int(real_time_accumulator / REAL_SECONDS_PER_GAME_MINUTE)
 	if minutes_to_advance <= 0:
 		return
@@ -148,6 +149,7 @@ func _ready() -> void:
 		player_nodes.append(p_node)
 		play_animation(p_node, "idle")
 		player_minutes.append(NORMAL_WAKE_MINUTES)
+		player_time_speed_multipliers.append(1.0)
 		late_wake_players.append(false)
 			
 	setup_current_turn()
@@ -256,7 +258,7 @@ func setup_current_turn() -> void:
 
 	if player_panel:
 		player_panel.update_turn_ui(current_player_index)
-		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES)
+		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES, _get_current_time_speed())
 		player_panel.update_round_ui(current_round, max_rounds)
 
 	render_mission_text(current_player_index, current_round)
@@ -311,6 +313,7 @@ func pass_turn() -> void:
 			return
 			
 		_reset_daily_missions(current_round)
+		_reset_daily_time_speeds()
 		for i in range(player_minutes.size()):
 			player_minutes[i] = LATE_WAKE_MINUTES if late_wake_players[i] else NORMAL_WAKE_MINUTES
 			late_wake_players[i] = false
@@ -358,10 +361,21 @@ func _advance_time(minutes: int) -> void:
 	player_minutes[current_player_index] = current_minutes
 	_update_night_lighting()
 	if player_panel:
-		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES)
+		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES, _get_current_time_speed())
 
 	if current_minutes >= SLEEP_MINUTES:
 		_force_sleep()
+
+
+func _get_current_time_speed() -> float:
+	if current_player_index < 0 or current_player_index >= player_time_speed_multipliers.size():
+		return 1.0
+	return maxf(1.0, player_time_speed_multipliers[current_player_index])
+
+
+func _reset_daily_time_speeds() -> void:
+	for player_index in range(player_time_speed_multipliers.size()):
+		player_time_speed_multipliers[player_index] = 1.0
 
 func _update_night_lighting() -> void:
 	if not night_lighting:
@@ -777,7 +791,7 @@ func _apply_random_event_effects(events: Array, player_index: int) -> void:
 
 	var p_data: Dictionary = Global.player_data[player_index]
 	var stats_data: Dictionary = p_data.get("stats", {})
-	var total_time_minutes := 0
+	var total_time_speed_bonus := 0.0
 
 	for event_data in events:
 		if not event_data is Dictionary:
@@ -798,10 +812,10 @@ func _apply_random_event_effects(events: Array, player_index: int) -> void:
 			p_data["money"] = maxi(0, int(p_data.get("money", 0)) + money_delta)
 			applied_effects["money"] = money_delta
 
-		var time_minutes := maxi(0, int(effects.get("time_minutes", 0)))
-		total_time_minutes += time_minutes
-		if time_minutes > 0:
-			applied_effects["time_minutes"] = time_minutes
+		var time_speed_bonus := maxf(0.0, float(effects.get("time_speed_bonus", 0.0)))
+		total_time_speed_bonus += time_speed_bonus
+		if time_speed_bonus > 0.0:
+			applied_effects["time_speed_bonus"] = time_speed_bonus
 
 		var mission: Dictionary = effects.get("mission", {})
 		if not mission.is_empty():
@@ -815,10 +829,12 @@ func _apply_random_event_effects(events: Array, player_index: int) -> void:
 		})
 
 	p_data["stats"] = stats_data
-	if total_time_minutes > 0 and player_index == current_player_index:
-		_advance_time(total_time_minutes)
+	if total_time_speed_bonus > 0.0 and player_index < player_time_speed_multipliers.size():
+		player_time_speed_multipliers[player_index] += total_time_speed_bonus
 	if player_panel:
 		player_panel.setup_players_ui()
+		if player_index == current_player_index:
+			player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES, _get_current_time_speed())
 	render_mission_text(player_index, current_round)
 
 

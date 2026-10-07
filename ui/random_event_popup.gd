@@ -235,16 +235,32 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	image_style.set_border_width_all(3)
 	image_style.set_corner_radius_all(12)
 	image_box.add_theme_stylebox_override("panel", image_style)
+	image_box.clip_contents = true
 	front.add_child(image_box)
 
-	var image_label := Label.new()
-	image_label.text = "พื้นที่ภาพ Event"
-	image_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	image_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	image_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	image_label.add_theme_font_size_override("font_size", 15)
-	image_label.add_theme_color_override("font_color", Color("#806f61"))
-	image_box.add_child(image_label)
+	var image_path: String = str(data.get("image", ""))
+	if not image_path.is_empty() and ResourceLoader.exists(image_path):
+		var event_image := TextureRect.new()
+		event_image.texture = load(image_path)
+		event_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		event_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		event_image.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		event_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		image_box.add_child(event_image)
+		event_image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		event_image.offset_left = 5.0
+		event_image.offset_top = 5.0
+		event_image.offset_right = -5.0
+		event_image.offset_bottom = -5.0
+	else:
+		var image_label := Label.new()
+		image_label.text = "ไม่พบภาพ Event"
+		image_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		image_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		image_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		image_label.add_theme_font_size_override("font_size", 15)
+		image_label.add_theme_color_override("font_color", Color("#806f61"))
+		image_box.add_child(image_label)
 
 	var title := Label.new()
 	title.text = _wrap_card_text(str(data.get("title", "เหตุการณ์สุ่ม")), 24)
