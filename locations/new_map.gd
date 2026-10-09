@@ -32,7 +32,7 @@ var timetable_popup: Control
 var timetable_button: Button
 var class_time_popup: Control
 var save_slot_menu: SaveSlotMenu
-var save_button: Button
+var menu_button: Button
 
 var current_round: int = 1
 var max_rounds: int = 11     
@@ -148,7 +148,8 @@ func _ready() -> void:
 	_setup_class_time_ui()
 	_setup_save_ui()
 	pause_menu.resume_requested.connect(_resume_game)
-	pause_menu.main_menu_requested.connect(_return_to_main_menu)
+	pause_menu.save_requested.connect(_on_pause_save_requested)
+	pause_menu.quit_requested.connect(_return_to_main_menu)
 	
 	if player_panel:
 		player_panel.setup_players_ui()
@@ -234,27 +235,27 @@ func _setup_save_ui() -> void:
 
 	save_slot_menu = SAVE_SLOT_MENU_SCENE.instantiate() as SaveSlotMenu
 	$UILayer.add_child(save_slot_menu)
-	save_slot_menu.save_completed.connect(_on_manual_save_completed)
 
-	save_button = Button.new()
-	_update_save_button_text()
-	save_button.z_index = 50
-	save_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	save_button.offset_left = -88.0
-	save_button.offset_top = 8.0
-	save_button.offset_right = -8.0
-	save_button.offset_bottom = 44.0
-	save_button.add_theme_font_size_override("font_size", 15)
-	save_button.add_theme_color_override("font_color", Color("#fff0cf"))
-	save_button.add_theme_color_override("font_hover_color", Color.WHITE)
-	save_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#8f371f"), Color("#d99a43")))
-	save_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#b34b28"), Color("#ffc866")))
-	save_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
-	save_button.pressed.connect(_on_save_button_pressed)
-	$UILayer.add_child(save_button)
+	menu_button = Button.new()
+	menu_button.text = "☰"
+	menu_button.tooltip_text = "เมนู"
+	menu_button.z_index = 50
+	menu_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	menu_button.offset_left = -60.0
+	menu_button.offset_top = 10.0
+	menu_button.offset_right = -10.0
+	menu_button.offset_bottom = 58.0
+	menu_button.add_theme_font_size_override("font_size", 25)
+	menu_button.add_theme_color_override("font_color", Color("#fff0cf"))
+	menu_button.add_theme_color_override("font_hover_color", Color.WHITE)
+	menu_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#8f371f"), Color("#d99a43")))
+	menu_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#b34b28"), Color("#ffc866")))
+	menu_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
+	menu_button.pressed.connect(_pause_game)
+	$UILayer.add_child(menu_button)
 
 
-func _on_save_button_pressed() -> void:
+func _on_pause_save_requested() -> void:
 	if is_walking or is_forcing_sleep or is_random_event_active:
 		return
 	var activity_popup = $UILayer/ActivityPopup
@@ -269,22 +270,6 @@ func _on_save_button_pressed() -> void:
 	if not is_forcing_sleep and current_player_index < player_nodes.size():
 		player_nodes[current_player_index].set_movement_enabled(true)
 	is_walking = false
-
-
-func _on_manual_save_completed(_slot: int) -> void:
-	_update_save_button_text()
-
-
-func _update_save_button_text() -> void:
-	if not save_button:
-		return
-	save_button.text = "SAVE"
-	save_button.tooltip_text = (
-		"บันทึกเกม • ช่อง %d" % SaveManager.active_slot
-		if SaveManager.active_slot >= 1
-		else "บันทึกเกม"
-	)
-
 
 func _make_timetable_button_style(background: Color, border: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -1049,12 +1034,15 @@ func render_mission_text(player_index: int, round_num: int) -> void:
 		var day_key := "R" + str(((round_num - 1) % 5) + 1)
 		var study_missions: Array = p_data["timetable"].get("daily_subjects", {}).get(day_key, [])
 		for mission in study_missions:
+			var subject := str(mission.get("subject", ""))
+			var class_time := _get_mission_class_time(mission)
+			var mission_label := "%s (เวลา %s)" % [subject, class_time] if not class_time.is_empty() else subject
 			if mission.get("is_completed", false):
-				display_lines.append("☑ เรียน " + str(mission.get("subject", "")))
+				display_lines.append("☑ เรียน " + mission_label)
 			elif mission.get("attendance_status", "pending") == "missed":
-				display_lines.append("✕ พลาด " + str(mission.get("subject", "")))
+				display_lines.append("✕ พลาด " + mission_label)
 			else:
-				display_lines.append("☐ เรียน " + str(mission.get("subject", "")))
+				display_lines.append("☐ เรียน " + mission_label)
 
 	for event_mission in p_data.get("event_missions", []):
 		var is_completed: bool = event_mission.get("is_completed", false)
@@ -1069,6 +1057,23 @@ func render_mission_text(player_index: int, round_num: int) -> void:
 
 	if player_panel and player_panel.has_method("update_mission"):
 		player_panel.update_mission(display_text)
+
+func _get_mission_class_time(mission: Dictionary) -> String:
+	var time_label := str(mission.get("time_label", ""))
+	if not time_label.is_empty():
+		return time_label
+
+	var start_minutes := int(mission.get("start_minutes", -1))
+	var end_minutes := int(mission.get("end_minutes", -1))
+	if start_minutes < 0 or end_minutes < 0:
+		return ""
+
+	return "%s - %s" % [_format_mission_time(start_minutes), _format_mission_time(end_minutes)]
+
+func _format_mission_time(total_minutes: int) -> String:
+	var hour := int(total_minutes / 60) % 24
+	var minute := total_minutes % 60
+	return "%02d:%02d" % [hour, minute]
 
 func _mark_mission_completed(action_name: String) -> void:
 	var subject_name = action_name.replace("เรียน ", "")
