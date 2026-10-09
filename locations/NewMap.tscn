@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://clbyntv3xs4cx" path="res://locations/Place/shop.tscn" id="3_mhtu8"]
 [ext_resource type="PackedScene" uid="uid://doy0ijcc75ryh" path="res://locations/Place/learn.tscn" id="3_nv14v"]
 [ext_resource type="PackedScene" uid="uid://dex4p3bg43usj" path="res://locations/Place/fun.tscn" id="3_nwy2u"]
-[ext_resource type="PackedScene" uid="uid://bodnaybt0hfca" path="res://locations/Place/park.tscn" id="3_u7v77"]
 [ext_resource type="PackedScene" uid="uid://dq8bgncojgwpq" path="res://locations/Place/hospital.tscn" id="4_l4dg8"]
 [ext_resource type="PackedScene" uid="uid://xk0g0paoa0oj" path="res://locations/Place/sport.tscn" id="10_l4dg8"]
 [ext_resource type="PackedScene" uid="uid://ccjivjc3gdk15" path="res://ui/player_panel.tscn" id="13_os617"]
@@ -492,9 +491,6 @@ position = Vector2(0, 37)
 [node name="Fun" type="Marker2D" parent="waypiont" unique_id=1089689220]
 position = Vector2(500.67172, 473.61414)
 
-[node name="Park" type="Marker2D" parent="waypiont" unique_id=656510570]
-position = Vector2(77.25189, 518.68054)
-
 [node name="End4" type="Marker2D" parent="waypiont" unique_id=2025995514]
 position = Vector2(178, 520)
 
@@ -553,9 +549,6 @@ position = Vector2(248, 88)
 position = Vector2(681, 392)
 
 [node name="location" type="Node2D" parent="." unique_id=1864991258]
-
-[node name="Park" parent="location" unique_id=2057062151 instance=ExtResource("3_u7v77")]
-position = Vector2(80, 612)
 
 [node name="Learn" parent="location" unique_id=339713687 instance=ExtResource("3_nv14v")]
 position = Vector2(508, 307)

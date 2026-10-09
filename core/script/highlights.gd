@@ -13,8 +13,21 @@ const LOCATION_NAMES := {
 	"Hospital": "โรงพยาบาล",
 	"Sport": "สนามกีฬา",
 	"Fun": "สถานบันเทิง",
-	"Learn": "คณะ/อาคารเรียน",
-	"Park": "สวนเกษตร มข."
+	"Learn": "คณะ/อาคารเรียน"
+}
+const LOCATION_LABEL_POSITIONS := {
+	# อาคารสองแห่งนี้อยู่ชิดขอบบนของแผนที่ จึงวางป้ายไว้ด้านข้าง
+	# เพื่อไม่ให้ชนกับแถบวันที่ เวลา และตารางเรียน
+	"Dorm": Vector2(44, -56),
+	"Shop": Vector2(-188, -56),
+	"Food": Vector2(-188, -56),
+}
+const LOCATION_LABEL_FONT_SIZES := {
+	"Food": 18,
+	"Hospital": 18,
+	"Sport": 18,
+	"Fun": 17,
+	"Learn": 16,
 }
 
 func _ready() -> void:
@@ -82,13 +95,13 @@ func _update_highlight() -> void:
 func _setup_location_label() -> void:
 	location_label = Label.new()
 	location_label.text = "  " + str(LOCATION_NAMES.get(name, name)) + "  "
-	location_label.position = Vector2(-72, -108)
+	location_label.position = LOCATION_LABEL_POSITIONS.get(name, Vector2(-72, -108))
 	location_label.size = Vector2(144, 30)
 	location_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	location_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	location_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	location_label.z_index = 10
-	location_label.add_theme_font_size_override("font_size", 14)
+	location_label.add_theme_font_size_override("font_size", LOCATION_LABEL_FONT_SIZES.get(name, 20))
 	location_label.add_theme_color_override("font_color", Color("#4b1d13"))
 	location_label.add_theme_color_override("font_shadow_color", Color(1.0, 0.96, 0.87, 0.85))
 	location_label.add_theme_constant_override("shadow_offset_x", 2)

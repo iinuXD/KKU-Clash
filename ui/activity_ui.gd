@@ -34,7 +34,7 @@ func setup(npc_name: String, portrait: Texture2D, dialog: String, activity_list:
 	activities = activity_list
 	for i in activity_buttons.size():
 		if i < activities.size():
-			activity_buttons[i].text = activities[i].get("name", "Activity %d" % (i + 1))
+			activity_buttons[i].text = activities[i].get("name", "กิจกรรม %d" % (i + 1))
 			activity_buttons[i].visible = true
 			activity_buttons[i].disabled = not _check_requirements(activities[i])
 		else:

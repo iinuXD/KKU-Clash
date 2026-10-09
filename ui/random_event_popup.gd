@@ -199,7 +199,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	back.add_child(question)
 
 	var random_text := Label.new()
-	random_text.text = "RANDOM EVENT"
+	random_text.text = "เหตุการณ์สุ่ม"
 	random_text.position = Vector2(20, 246)
 	random_text.size = Vector2(240, 32)
 	random_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -254,7 +254,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 		event_image.offset_bottom = -5.0
 	else:
 		var image_label := Label.new()
-		image_label.text = "ไม่พบภาพ Event"
+		image_label.text = "ไม่พบภาพเหตุการณ์"
 		image_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		image_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		image_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER

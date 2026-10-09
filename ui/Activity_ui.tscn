@@ -175,48 +175,64 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
+theme_override_colors/font_hover_color = Color(0.25, 0.11, 0.07, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.065, 0.04, 1)
+theme_override_colors/font_focus_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
-text = "Activity 1"
+text = "กิจกรรม 1"
 
 [node name="Activity2Btn" type="Button" parent="ActivityWindow/MainVBox/TopHBox/ActivitiesPanel/ActivitiesMargin/ActivitiesGrid" unique_id=1477487878]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
+theme_override_colors/font_hover_color = Color(0.25, 0.11, 0.07, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.065, 0.04, 1)
+theme_override_colors/font_focus_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
-text = "Activity 2"
+text = "กิจกรรม 2"
 
 [node name="Activity3Btn" type="Button" parent="ActivityWindow/MainVBox/TopHBox/ActivitiesPanel/ActivitiesMargin/ActivitiesGrid" unique_id=130441655]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
+theme_override_colors/font_hover_color = Color(0.25, 0.11, 0.07, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.065, 0.04, 1)
+theme_override_colors/font_focus_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
-text = "Activity 3"
+text = "กิจกรรม 3"
 
 [node name="Activity4Btn" type="Button" parent="ActivityWindow/MainVBox/TopHBox/ActivitiesPanel/ActivitiesMargin/ActivitiesGrid" unique_id=1250494951]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
+theme_override_colors/font_hover_color = Color(0.25, 0.11, 0.07, 1)
+theme_override_colors/font_pressed_color = Color(0.18, 0.065, 0.04, 1)
+theme_override_colors/font_focus_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_btn_normal")
-text = "Activity 4"
+text = "กิจกรรม 4"
 
 [node name="BottomHBox" type="HBoxContainer" parent="ActivityWindow/MainVBox" unique_id=2079706785]
 layout_mode = 2
@@ -238,7 +254,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 18
-text = "NPC Name"
+text = "ชื่อตัวละคร"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -262,12 +278,12 @@ theme_override_constants/margin_bottom = 6
 
 [node name="DialogLabel" type="Label" parent="ActivityWindow/MainVBox/BottomHBox/DialogPanel/DialogMargin" unique_id=1093171904]
 unique_name_in_owner = true
-modulate = Color(0, 0, 0, 1)
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 14
-text = "What would you like to do today?"
+text = "วันนี้ต้องการทำอะไร?"
 vertical_alignment = 1
 autowrap_mode = 3
 

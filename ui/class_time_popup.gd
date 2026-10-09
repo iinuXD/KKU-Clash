@@ -24,7 +24,7 @@ func open_class_info(
 	primary_text: String,
 	choice: String,
 	show_cancel: bool = true,
-	status_color: Color = Color("#f3d29b")
+	status_color: Color = Color("#78301f")
 ) -> void:
 	subject_label.text = subject_name
 	time_label.text = class_time

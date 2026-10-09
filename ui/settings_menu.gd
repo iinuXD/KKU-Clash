@@ -90,7 +90,7 @@ func _build_interface() -> void:
 	content.add_child(spacer)
 
 	var music_credit := Label.new()
-	music_credit.text = "Music by Dmitrii Kolesnikov from Pixabay"
+	music_credit.text = "เพลงประกอบโดย Dmitrii Kolesnikov จาก Pixabay"
 	music_credit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	music_credit.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	music_credit.add_theme_color_override("font_color", Color("#8f98ad"))

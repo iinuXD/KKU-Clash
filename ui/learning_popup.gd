@@ -68,8 +68,8 @@ func _process(delta: float) -> void:
 		if time_left <= 5.0:
 			time_label.add_theme_color_override("font_color", Color(0.9, 0.25, 0.25))
 		else:
-			# สีปกติเป็นสีขาว ให้ตรงกับที่ตั้งใน UI
-			time_label.add_theme_color_override("font_color", Color(1.0, 1.0, 1.0))
+			# พื้นคำถามเป็นสีครีม จึงใช้สีน้ำตาลเข้มเพื่อให้อ่านชัด
+			time_label.add_theme_color_override("font_color", Color("#401c12"))
 
 # ==========================================
 # 1. ระบบเริ่มต้น Quiz (ดึงโจทย์ตามวิชา)
@@ -113,7 +113,7 @@ func start_quiz(subject_name: String, subject_level: int = 1, reward_multiplier:
 		hide()
 		return
 	
-	subject_label.text = "วิชา: %s  |  Level %d" % [subject_name, display_level]
+	subject_label.text = "วิชา: %s  |  ระดับ %d" % [subject_name, display_level]
 	
 	# สุ่มโจทย์จาก Level ปัจจุบัน แล้วเลือกสูงสุด 3 ข้อ
 	all_questions.shuffle()

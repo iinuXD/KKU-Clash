@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://u6iv2vnf4aqc" path="res://asset/Character/Outfits/32x32/Outfit_01_01.png" id="4_c68so"]
 [ext_resource type="Texture2D" uid="uid://bi2n55pmv7l4d" path="res://asset/Character/Hairstyles/32x32/Hairstyle_01_01.png" id="5_w3tk2"]
 [ext_resource type="Texture2D" uid="uid://bu2dm5qksxe6n" path="res://asset/Character/Accessories/32x32/Accessory_01_Ladybug_01.png" id="6_0rb2n"]
-[ext_resource type="FontFile" uid="uid://dnpvp0ej773ky" path="res://font/04B_30__.TTF" id="8_5o7jl"]
+[ext_resource type="FontFile" path="res://font/ZFTERMIN__.ttf" id="8_5o7jl"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3dvgv"]
 texture = ExtResource("1_0tesp")
@@ -249,11 +249,13 @@ speed_scale = 0.5
 [node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot1" unique_id=794291048]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.065, 0.04, 1)
+theme_override_constants/outline_size = 3
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("8_5o7jl")
-theme_override_font_sizes/font_size = 35
-text = "player 1"
+theme_override_font_sizes/font_size = 32
+text = "ผู้เล่น 1"
 horizontal_alignment = 1
 
 [node name="PlayerSlot2" type="VBoxContainer" parent="HBoxContainer" unique_id=2115076132]
@@ -324,11 +326,13 @@ speed_scale = 0.5
 [node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot2" unique_id=38820664]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.065, 0.04, 1)
+theme_override_constants/outline_size = 3
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("8_5o7jl")
-theme_override_font_sizes/font_size = 35
-text = "player 2"
+theme_override_font_sizes/font_size = 32
+text = "ผู้เล่น 2"
 horizontal_alignment = 1
 
 [node name="PlayerSlot3" type="VBoxContainer" parent="HBoxContainer" unique_id=1240499626]
@@ -399,11 +403,13 @@ speed_scale = 0.5
 [node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot3" unique_id=1228420865]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.065, 0.04, 1)
+theme_override_constants/outline_size = 3
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("8_5o7jl")
-theme_override_font_sizes/font_size = 35
-text = "player 3"
+theme_override_font_sizes/font_size = 32
+text = "ผู้เล่น 3"
 horizontal_alignment = 1
 
 [node name="PlayerSlot4" type="VBoxContainer" parent="HBoxContainer" unique_id=345859691]
@@ -474,16 +480,20 @@ speed_scale = 0.5
 [node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot4" unique_id=1831186141]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.065, 0.04, 1)
+theme_override_constants/outline_size = 3
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("8_5o7jl")
-theme_override_font_sizes/font_size = 35
-text = "player 4"
+theme_override_font_sizes/font_size = 32
+text = "ผู้เล่น 4"
 horizontal_alignment = 1
 
 [node name="LoadingLabel" type="Label" parent="." unique_id=276786700]
 layout_mode = 1
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.065, 0.04, 1)
+theme_override_constants/outline_size = 4
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -496,8 +506,8 @@ offset_bottom = -547.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("8_5o7jl")
-theme_override_font_sizes/font_size = 64
-text = "loading."
+theme_override_font_sizes/font_size = 40
+text = "กำลังโหลด..."
 
 [node name="LoadingTimer" type="Timer" parent="." unique_id=190095505]
 wait_time = 0.5

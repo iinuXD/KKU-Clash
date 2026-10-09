@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=9 format=3]
+[gd_resource type="Theme" load_steps=10 format=3]
+
+[ext_resource type="FontFile" path="res://font/ZFTERMIN__.ttf" id="1_font"]
 
 [sub_resource type="StyleBoxFlat" id="Panel"]
 bg_color = Color(0.965, 0.918, 0.82, 0.98)
@@ -95,7 +97,8 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [resource]
-default_font_size = 18
+default_font = ExtResource("1_font")
+default_font_size = 24
 Button/colors/font_color = Color(0.26, 0.105, 0.065, 1)
 Button/colors/font_disabled_color = Color(0.4, 0.37, 0.33, 1)
 Button/colors/font_focus_color = Color(0.26, 0.105, 0.065, 1)

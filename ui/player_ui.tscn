@@ -31,7 +31,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.38
-text = " Hunger"
+text = " ความอิ่ม"
 
 [node name="HungerProgressBar" type="ProgressBar" parent="Status/VBoxContainer/HungerBox" unique_id=1112731412]
 modulate = Color(1, 0.5411765, 0.29411766, 1)
@@ -47,7 +47,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.39
-text = " Happy"
+text = " ความสุข"
 
 [node name="HappyProgressBar" type="ProgressBar" parent="Status/VBoxContainer/HappyBox" unique_id=1658936441]
 modulate = Color(0.32424015, 0.73581535, 0, 1)
@@ -63,7 +63,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.39
-text = " Study"
+text = " การเรียน"
 
 [node name="StudyProgressBar" type="ProgressBar" parent="Status/VBoxContainer/StudyBox" unique_id=1737020562]
 modulate = Color(0.17184411, 0.53013366, 0.96857667, 1)
@@ -79,7 +79,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.39
-text = " Energy"
+text = " พลังงาน"
 
 [node name="EnergyProgressBar" type="ProgressBar" parent="Status/VBoxContainer/EnergyBox" unique_id=518404721]
 modulate = Color(1, 1, 0, 1)
@@ -95,7 +95,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.38
-text = " Money :"
+text = " เงิน :"
 
 [node name="MoneyAmount" type="Label" parent="Status/VBoxContainer/Money" unique_id=683638794]
 layout_mode = 2
@@ -112,7 +112,7 @@ offset_bottom = 94.0
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=1257933917]
 layout_mode = 2
-text = "Time"
+text = "เวลา"
 horizontal_alignment = 1
 
 [node name="TimeProgessBar" type="ProgressBar" parent="VBoxContainer" unique_id=182320296]
@@ -138,11 +138,11 @@ layout_mode = 2
 
 [node name="MainQuest" type="Label" parent="FoldableContainer/VBoxContainer/miancontainer" unique_id=152252075]
 layout_mode = 2
-text = "Main Quest"
+text = "ภารกิจหลัก"
 
 [node name="main" type="Label" parent="FoldableContainer/VBoxContainer/miancontainer" unique_id=1134534302]
 layout_mode = 2
-text = "[Main Quest] Join Class: 0 / 10"
+text = "[ภารกิจหลัก] เข้าเรียน: 0 / 10"
 
 [node name="Label" type="Label" parent="FoldableContainer/VBoxContainer" unique_id=463307917]
 layout_mode = 2
@@ -153,11 +153,11 @@ layout_mode = 2
 
 [node name="SubQuest" type="Label" parent="FoldableContainer/VBoxContainer/subcontainer" unique_id=72065605]
 layout_mode = 2
-text = "Sub Quest"
+text = "ภารกิจรอง"
 
 [node name="subInjured" type="Label" parent="FoldableContainer/VBoxContainer/subcontainer" unique_id=600566433]
 layout_mode = 2
-text = "Go to hospital you are injured"
+text = "ไปโรงพยาบาลเพื่อรักษาอาการบาดเจ็บ"
 
 [node name="subSick" type="Label" parent="FoldableContainer/VBoxContainer/subcontainer" unique_id=1224708510]
 layout_mode = 2

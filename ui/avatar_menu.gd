@@ -48,7 +48,7 @@ func _ready() -> void:
 
 # ฟังก์ชันสำหรับการอัปเดตหน้า ui 
 func update_ui() -> void:
-	player_label.text = "Player " + str(current_player_index)
+	player_label.text = "ผู้เล่น " + str(current_player_index)
 	
 	#อาจจะมีการดึง avatar ที่เลือกไว้
 	

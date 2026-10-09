@@ -19,14 +19,11 @@ func _process(delta: float) -> void:
 		global_position = global_position.lerp(target.global_position, weight)
 		clamp_camera_position()
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
-		# Scroll Up -> Zoom In
 		if event.pressed and event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			adjust_zoom(zoom_step)
-
-		# Scroll Down -> Zoom Out
-		if event.pressed and event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		elif event.pressed and event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			adjust_zoom(-zoom_step)
 
 
