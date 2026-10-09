@@ -5,6 +5,17 @@ extends Area2D
 var is_hovered: bool = false
 var is_nearby: bool = false
 var location_label: Label
+const LOCATION_NAMES := {
+	"Dorm": "หอพัก",
+	"Food": "โรงอาหาร",
+	"Library": "หอสมุด",
+	"Shop": "ร้านค้า",
+	"Hospital": "โรงพยาบาล",
+	"Sport": "สนามกีฬา",
+	"Fun": "สถานบันเทิง",
+	"Learn": "คณะ/อาคารเรียน",
+	"Park": "สวนเกษตร มข."
+}
 
 func _ready() -> void:
 	if not mouse_entered.is_connected(_on_mouse_entered):
@@ -70,7 +81,7 @@ func _update_highlight() -> void:
 
 func _setup_location_label() -> void:
 	location_label = Label.new()
-	location_label.text = "  " + name.to_upper() + "  "
+	location_label.text = "  " + str(LOCATION_NAMES.get(name, name)) + "  "
 	location_label.position = Vector2(-72, -108)
 	location_label.size = Vector2(144, 30)
 	location_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
