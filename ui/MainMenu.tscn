@@ -48,7 +48,7 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -190.6875
-offset_top = -388.0
+offset_top = -440.0
 offset_right = 190.6875
 offset_bottom = -47.0
 grow_horizontal = 2
@@ -80,6 +80,19 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
 theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
 text = "LOAD GAME"
+
+[node name="settingsBtn" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_g5fyd")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
+theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
+text = "SETTINGS"
 
 [node name="exitBtn" type="Button" parent="VBoxContainer" unique_id=812520096]
 layout_mode = 2
@@ -113,4 +126,5 @@ horizontal_alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/startgameBtn" to="." method="_on_startgame_btn_pressed"]
 [connection signal="button_up" from="VBoxContainer/optionsBtn" to="." method="_on_options_btn_button_up"]
+[connection signal="pressed" from="VBoxContainer/settingsBtn" to="." method="_on_settings_btn_pressed"]
 [connection signal="pressed" from="VBoxContainer/exitBtn" to="." method="_on_exit_btn_pressed"]
