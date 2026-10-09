@@ -2,6 +2,7 @@
   "events": [
     {
       "id": "sick",
+      "image": "res://asset/event_images/sick.png",
       "type": "negative",
       "title": "ป่วย",
       "description": "วันนี้คุณรู้สึกไม่สบาย",
@@ -16,26 +17,29 @@
     },
     {
       "id": "overslept",
+      "image": "res://asset/event_images/overslept.png",
       "type": "negative",
       "title": "ตื่นสาย",
       "description": "คุณตื่นสายกว่าที่คิดไว้",
       "effects_text": [
-        "เวลาในวันนี้ลดลง 1 ชั่วโมง"
+        "เวลาในวันนี้เดินเร็วขึ้น ×1.10"
       ],
-      "effects": {"time_minutes": 60}
+      "effects": {"time_speed_bonus": 0.10}
     },
     {
       "id": "heavy_rain",
+      "image": "res://asset/event_images/heavy_rain.png",
       "type": "negative",
       "title": "ฝนตกหนัก",
       "description": "ฝนตกหนักจนการเดินทางลำบาก",
       "effects_text": [
-        "เวลาในวันนี้ลดลง 2 ชั่วโมง"
+        "เวลาในวันนี้เดินเร็วขึ้น ×1.15"
       ],
-      "effects": {"time_minutes": 120}
+      "effects": {"time_speed_bonus": 0.15}
     },
     {
       "id": "lost_money",
+      "image": "res://asset/event_images/lost_money.png",
       "type": "negative",
       "title": "เงินหาย",
       "description": "คุณพบว่าเงินบางส่วนหายไป",
@@ -46,6 +50,7 @@
     },
     {
       "id": "health_check",
+      "image": "res://asset/event_images/health_check.png",
       "type": "negative",
       "title": "รู้สึกว่าร่างกายผิดปกติ",
       "description": "คุณรู้สึกว่าร่างกายมีอาการผิดปกติ",
@@ -58,6 +63,7 @@
     },
     {
       "id": "allowance",
+      "image": "res://asset/event_images/allowance.png",
       "type": "positive",
       "title": "ทางบ้านส่งค่าขนมให้",
       "description": "ทางบ้านส่งเงินค่าขนมมาให้",
@@ -68,16 +74,18 @@
     },
     {
       "id": "flash_flood",
+      "image": "res://asset/event_images/flash_flood.png",
       "type": "negative",
       "title": "น้ำท่วมกะทันหัน",
       "description": "เกิดน้ำท่วมกะทันหัน ทำให้การเดินทางติดขัด",
       "effects_text": [
-        "เวลาในวันนี้ลดลง 3 ชั่วโมง"
+        "เวลาในวันนี้เดินเร็วขึ้น ×1.20"
       ],
-      "effects": {"time_minutes": 180}
+      "effects": {"time_speed_bonus": 0.20}
     },
     {
       "id": "return_lost_item",
+      "image": "res://asset/event_images/return_lost_item.png",
       "type": "positive",
       "title": "นำของหายส่งคืนเจ้าของ",
       "description": "คุณนำของที่พบไปคืนเจ้าของ และได้รับรางวัลตอบแทน",
@@ -88,6 +96,7 @@
     },
     {
       "id": "diarrhea",
+      "image": "res://asset/event_images/diarrhea.png",
       "type": "negative",
       "title": "ท้องเสีย",
       "description": "คุณมีอาการท้องเสียและรู้สึกไม่พร้อมทำกิจกรรม",
@@ -102,17 +111,18 @@
     },
     {
       "id": "accident",
+      "image": "res://asset/event_images/accident.png",
       "type": "negative",
       "title": "รถชน",
       "description": "คุณประสบอุบัติเหตุทางรถยนต์",
       "effects_text": [
         "ภารกิจใหม่: เข้ารับการรักษาที่โรงพยาบาล",
-        "เวลาในวันนี้ลดลง 2 ชั่วโมง",
+        "เวลาในวันนี้เดินเร็วขึ้น ×1.15",
         "พลังงาน -20, ความอิ่ม -10, ความสุข -10"
       ],
       "effects": {
         "stats": {"stamina": -20, "hunger": -10, "happiness": -10},
-        "time_minutes": 120,
+        "time_speed_bonus": 0.15,
         "mission": {"id": "accident_treatment", "text": "เข้ารับการรักษาจากอุบัติเหตุ", "places": ["Hospital"], "actions": ["เข้ารับการรักษา"]}
       }
     }

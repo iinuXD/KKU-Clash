@@ -5,12 +5,12 @@
 [ext_resource type="PackedScene" path="res://ui/player_status_card.tscn" id="3_card"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_top"]
-bg_color = Color(0.235, 0.075, 0.055, 0.94)
+bg_color = Color(0.965, 0.91, 0.79, 0.96)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.84, 0.45, 0.27, 0.95)
+border_color = Color(0.45, 0.15, 0.09, 1)
 corner_radius_top_left = 9
 corner_radius_top_right = 9
 corner_radius_bottom_right = 9
@@ -20,12 +20,12 @@ shadow_size = 5
 shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_mission"]
-bg_color = Color(0.16, 0.065, 0.052, 0.91)
+bg_color = Color(0.965, 0.91, 0.79, 0.96)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.56, 0.255, 0.18, 0.95)
+border_color = Color(0.45, 0.15, 0.09, 1)
 corner_radius_top_left = 9
 corner_radius_top_right = 9
 corner_radius_bottom_right = 9
@@ -35,7 +35,7 @@ shadow_size = 5
 shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_divider"]
-bg_color = Color(0.84, 0.45, 0.27, 0.9)
+bg_color = Color(0.45, 0.15, 0.09, 1)
 corner_radius_top_left = 2
 corner_radius_top_right = 2
 corner_radius_bottom_right = 2
@@ -79,10 +79,7 @@ alignment = 1
 [node name="WeekReportLabel" type="Label" parent="TopInfo/MarginContainer/InfoRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.98, 0.82, 0.55, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.7)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
+theme_override_colors/font_color = Color(0.28, 0.11, 0.07, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 15
 text = "DAY  1 / 11"
@@ -99,7 +96,7 @@ theme_override_styles/panel = SubResource("StyleBox_divider")
 [node name="ActionPoint" type="Label" parent="TopInfo/MarginContainer/InfoRow"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.96, 0.88, 0.72, 1)
+theme_override_colors/font_color = Color(0.28, 0.11, 0.07, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 11
 text = "TIME  6:00 AM"
@@ -109,9 +106,9 @@ vertical_alignment = 1
 [node name="playerstat1" parent="." instance=ExtResource("3_card")]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 8.0
+offset_top = 56.0
 offset_right = 260.0
-offset_bottom = 126.0
+offset_bottom = 186.0
 
 [node name="playerstat2" parent="." instance=ExtResource("3_card")]
 layout_mode = 1
@@ -119,9 +116,9 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -260.0
-offset_top = 8.0
+offset_top = 56.0
 offset_right = -8.0
-offset_bottom = 126.0
+offset_bottom = 186.0
 grow_horizontal = 0
 
 [node name="playerstat3" parent="." instance=ExtResource("3_card")]
@@ -130,7 +127,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
-offset_top = -126.0
+offset_top = -138.0
 offset_right = 260.0
 offset_bottom = -8.0
 grow_vertical = 0
@@ -143,7 +140,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -260.0
-offset_top = -126.0
+offset_top = -138.0
 offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 0
@@ -152,9 +149,9 @@ grow_vertical = 0
 [node name="MissionPanel" type="PanelContainer" parent="."]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 138.0
+offset_top = 198.0
 offset_right = 260.0
-offset_bottom = 258.0
+offset_bottom = 318.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBox_mission")
 
@@ -171,7 +168,7 @@ theme_override_constants/separation = 5
 
 [node name="MissionTitle" type="Label" parent="MissionPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.98, 0.82, 0.55, 1)
+theme_override_colors/font_color = Color(0.32, 0.12, 0.075, 1)
 theme_override_font_sizes/font_size = 16
 text = "ภารกิจปัจจุบัน"
 
@@ -189,7 +186,7 @@ horizontal_scroll_mode = 0
 [node name="MissionDetails" type="Label" parent="MissionPanel/MarginContainer/VBoxContainer/MissionScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.96, 0.9, 0.78, 1)
+theme_override_colors/font_color = Color(0.25, 0.13, 0.09, 1)
 theme_override_font_sizes/font_size = 13
 text = "☐ เรียน คณิตศาสตร์\n☐ เรียน ภาษาอังกฤษ"
 autowrap_mode = 2

@@ -211,6 +211,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_qplyf")
 
 [node name="Label" type="Label" parent="." unique_id=211994187]
 layout_mode = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -226,6 +227,7 @@ horizontal_alignment = 1
 
 [node name="Label_current_player" type="Label" parent="." unique_id=1435783860]
 layout_mode = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -458,6 +460,7 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=703209469]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_30drc")
 theme_override_font_sizes/font_size = 40
@@ -466,6 +469,7 @@ horizontal_alignment = 2
 
 [node name="Label2" type="Label" parent="VBoxContainer" unique_id=1727985489]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_30drc")
 theme_override_font_sizes/font_size = 40
@@ -474,6 +478,7 @@ horizontal_alignment = 2
 
 [node name="Label3" type="Label" parent="VBoxContainer" unique_id=967464347]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_30drc")
 theme_override_font_sizes/font_size = 40
@@ -482,6 +487,7 @@ horizontal_alignment = 2
 
 [node name="Label4" type="Label" parent="VBoxContainer" unique_id=356792092]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_30drc")
 theme_override_font_sizes/font_size = 40
@@ -490,6 +496,7 @@ horizontal_alignment = 2
 
 [node name="Label5" type="Label" parent="VBoxContainer" unique_id=2074858871]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_30drc")
 theme_override_font_sizes/font_size = 40

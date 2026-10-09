@@ -32,14 +32,18 @@ func _ready() -> void:
 
 
 func _configure_detail_labels() -> void:
-	detail_title.clip_text = true
-	detail_title.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
-	detail_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	detail_title.max_lines_visible = 2
-	detail_description.clip_text = true
-	detail_description.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
-	detail_description.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	detail_description.max_lines_visible = 4
+	detail_title.language = "th"
+	detail_title.clip_text = false
+	detail_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	detail_title.max_lines_visible = -1
+	detail_title.custom_minimum_size = Vector2(0, 52)
+	detail_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	detail_description.language = "th"
+	detail_description.clip_text = false
+	detail_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	detail_description.max_lines_visible = -1
+	detail_description.custom_minimum_size = Vector2(0, 64)
+	detail_description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 
 func _load_database() -> void:
@@ -59,17 +63,23 @@ func can_show_events() -> bool:
 	return not events_db.is_empty() and not busy and not visible
 
 
-func _wrap_text_for_width(value: String, max_characters: int) -> String:
+func _wrap_card_text(value: String, preferred_characters: int) -> String:
 	var remaining := value.strip_edges()
 	var lines: Array[String] = []
-	while remaining.length() > max_characters:
-		var split_at := max_characters
-		var candidate := remaining.substr(0, max_characters + 1)
-		var last_space := candidate.rfind(" ")
-		if last_space >= int(max_characters * 0.55):
-			split_at = last_space
+	while remaining.length() > preferred_characters:
+		var split_at := preferred_characters
+		var nearby_text := remaining.substr(0, preferred_characters + 1)
+		var previous_space := nearby_text.rfind(" ")
+		var next_space := remaining.find(" ", preferred_characters)
+
+		if previous_space >= int(preferred_characters * 0.55):
+			split_at = previous_space
+		elif next_space > 0 and next_space <= int(preferred_characters * 1.35):
+			# ยอมให้บรรทัดยาวขึ้นเล็กน้อย เพื่อไม่ตัดวลีไทยก่อนถึงช่องว่าง
+			split_at = next_space
 		else:
 			split_at = _find_safe_thai_wrap_index(remaining, split_at)
+
 		lines.append(remaining.substr(0, split_at).strip_edges())
 		remaining = remaining.substr(split_at).strip_edges()
 	if not remaining.is_empty():
@@ -79,15 +89,10 @@ func _wrap_text_for_width(value: String, max_characters: int) -> String:
 
 func _find_safe_thai_wrap_index(value: String, preferred_index: int) -> int:
 	var split_at := clampi(preferred_index, 1, value.length())
-
-	# สระ เ แ โ ใ ไ ต้องอยู่หน้าพยัญชนะ จึงห้ามทิ้งไว้ท้ายบรรทัด
 	while split_at > 1 and _is_thai_leading_vowel(value.unicode_at(split_at - 1)):
 		split_at -= 1
-
-	# วรรณยุกต์และสระประกอบต้องอยู่กับพยัญชนะก่อนหน้าเสมอ
 	while split_at < value.length() and _is_thai_combining_mark(value.unicode_at(split_at)):
 		split_at += 1
-
 	return split_at
 
 
@@ -158,8 +163,8 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	card.clip_contents = true
 
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#3f3028")
-	style.border_color = Color("#f0d39a")
+	style.bg_color = Color("#fff4dc")
+	style.border_color = Color("#78301f")
 	style.set_border_width_all(6)
 	style.set_corner_radius_all(20)
 	style.shadow_color = Color(0, 0, 0, 0.35)
@@ -180,7 +185,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	star.size = Vector2(240, 55)
 	star.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	star.add_theme_font_size_override("font_size", 44)
-	star.add_theme_color_override("font_color", Color("#ffe9b7"))
+	star.add_theme_color_override("font_color", Color("#6d2b1d"))
 	back.add_child(star)
 
 	var question := Label.new()
@@ -190,7 +195,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	question.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	question.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	question.add_theme_font_size_override("font_size", 96)
-	question.add_theme_color_override("font_color", Color("#ffe9b7"))
+	question.add_theme_color_override("font_color", Color("#6d2b1d"))
 	back.add_child(question)
 
 	var random_text := Label.new()
@@ -199,7 +204,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	random_text.size = Vector2(240, 32)
 	random_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	random_text.add_theme_font_size_override("font_size", 18)
-	random_text.add_theme_color_override("font_color", Color("#ffe9b7"))
+	random_text.add_theme_color_override("font_color", Color("#6d2b1d"))
 	back.add_child(random_text)
 
 	var open_text := Label.new()
@@ -208,7 +213,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	open_text.size = Vector2(240, 30)
 	open_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	open_text.add_theme_font_size_override("font_size", 16)
-	open_text.add_theme_color_override("font_color", Color("#ffe9b7"))
+	open_text.add_theme_color_override("font_color", Color("#6d2b1d"))
 	back.add_child(open_text)
 
 	# ---------- FRONT ----------
@@ -230,19 +235,36 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	image_style.set_border_width_all(3)
 	image_style.set_corner_radius_all(12)
 	image_box.add_theme_stylebox_override("panel", image_style)
+	image_box.clip_contents = true
 	front.add_child(image_box)
 
-	var image_label := Label.new()
-	image_label.text = "พื้นที่ภาพ Event"
-	image_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	image_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	image_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	image_label.add_theme_font_size_override("font_size", 15)
-	image_label.add_theme_color_override("font_color", Color("#806f61"))
-	image_box.add_child(image_label)
+	var image_path: String = str(data.get("image", ""))
+	if not image_path.is_empty() and ResourceLoader.exists(image_path):
+		var event_image := TextureRect.new()
+		event_image.texture = load(image_path)
+		event_image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		event_image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		event_image.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		event_image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		image_box.add_child(event_image)
+		event_image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		event_image.offset_left = 5.0
+		event_image.offset_top = 5.0
+		event_image.offset_right = -5.0
+		event_image.offset_bottom = -5.0
+	else:
+		var image_label := Label.new()
+		image_label.text = "ไม่พบภาพ Event"
+		image_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		image_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		image_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		image_label.add_theme_font_size_override("font_size", 15)
+		image_label.add_theme_color_override("font_color", Color("#806f61"))
+		image_box.add_child(image_label)
 
 	var title := Label.new()
-	title.text = _wrap_text_for_width(str(data.get("title", "เหตุการณ์สุ่ม")), 17)
+	title.text = _wrap_card_text(str(data.get("title", "เหตุการณ์สุ่ม")), 24)
+	title.language = "th"
 	title.position = Vector2(16, 196)
 	title.size = Vector2(248, 64)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -253,11 +275,12 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	title.max_lines_visible = 2
 	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_constant_override("line_spacing", -4)
-	title.add_theme_color_override("font_color", Color("#fff4d7"))
+	title.add_theme_color_override("font_color", Color("#4d3026"))
 	front.add_child(title)
 
 	var desc := Label.new()
-	desc.text = _wrap_text_for_width(str(data.get("description", "")), 22)
+	desc.text = _wrap_card_text(str(data.get("description", "")), 28)
+	desc.language = "th"
 	desc.position = Vector2(20, 268)
 	desc.size = Vector2(240, 42)
 	desc.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -268,7 +291,7 @@ func _make_card(data: Dictionary, index: int) -> Panel:
 	desc.max_lines_visible = 2
 	desc.add_theme_font_size_override("font_size", 12)
 	desc.add_theme_constant_override("line_spacing", -2)
-	desc.add_theme_color_override("font_color", Color("#fff4d7"))
+	desc.add_theme_color_override("font_color", Color("#4d3026"))
 	front.add_child(desc)
 
 	var button := Button.new()
@@ -367,11 +390,11 @@ func _flip_card(index: int) -> void:
 	var kind: String = selected_events[index].get("type", "negative")
 
 	if kind == "positive":
-		style.bg_color = Color("#245c45")
-		style.border_color = Color("#83b99a")
+		style.bg_color = Color("#e5f0e4")
+		style.border_color = Color("#315f46")
 	else:
-		style.bg_color = Color("#9a4728")
-		style.border_color = Color("#e7a06f")
+		style.bg_color = Color("#f7e2cf")
+		style.border_color = Color("#9a4728")
 
 	c.add_theme_stylebox_override("panel", style)
 
@@ -396,20 +419,21 @@ func _show_detail(index: int) -> void:
 	current_detail_index = index
 	var data: Dictionary = selected_events[index]
 
-	detail_title.text = _wrap_text_for_width(str(data.get("title", "เหตุการณ์สุ่ม")), 36)
-	detail_description.text = _wrap_text_for_width(str(data.get("description", "")), 60)
+	detail_title.text = str(data.get("title", "เหตุการณ์สุ่ม"))
+	detail_description.text = str(data.get("description", ""))
 
 	for child in detail_effects.get_children():
+		detail_effects.remove_child(child)
 		child.queue_free()
 
 	for effect in data.get("effects_text", []):
 		var l := Label.new()
-		l.text = _wrap_text_for_width("• " + str(effect), 52)
-		l.custom_minimum_size = Vector2.ZERO
+		l.text = "• " + str(effect)
+		l.language = "th"
+		l.custom_minimum_size = Vector2(0, 34)
 		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		l.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
-		l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		l.clip_text = true
+		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		l.clip_text = false
 		l.add_theme_font_size_override("font_size", 18)
 		l.add_theme_color_override("font_color", Color("#5b3a2a"))
 		detail_effects.add_child(l)

@@ -15,12 +15,24 @@ signal forced_sleep_finished
 @onready var scenario_popup = $UILayer/ScenarioPopup
 @onready var random_event_popup = $UILayer/RandomEventPopup
 
+const TIMETABLE_VIEWER_SCENE = preload("res://ui/registration_ui.tscn")
+const CLASS_TIME_POPUP_SCENE = preload("res://ui/class_time_popup.tscn")
+const SAVE_SLOT_MENU_SCENE = preload("res://ui/save_slot_menu.tscn")
+
 var player_nodes: Array[CharacterBody2D] = [] 
 var current_player_index: int = 0     
 var is_walking: bool = false
 var is_forcing_sleep: bool = false
 var is_random_event_active: bool = false
 var random_event_turns: Dictionary = {}
+var scenario_attempt_turns: Dictionary = {}
+var occurred_scenarios: Dictionary = {}
+var scenario_failed_attempts: int = 0
+var timetable_popup: Control
+var timetable_button: Button
+var class_time_popup: Control
+var save_slot_menu: SaveSlotMenu
+var save_button: Button
 
 var current_round: int = 1
 var max_rounds: int = 11     
@@ -32,8 +44,16 @@ const REAL_SECONDS_PER_GAME_MINUTE := 0.1
 const NIGHT_START_MINUTES := 18 * 60
 const NIGHT_FULL_MINUTES := 24 * 60
 const NIGHT_COLOR := Color(0.48, 0.55, 0.78, 1.0)
+const SCENARIO_BASE_CHANCE := 0.30
+const SCENARIO_CHANCE_STEP := 0.10
+const SCENARIO_MAX_CHANCE := 0.70
+const CLASS_EARLY_WAIT_MINUTES := 30
+const CLASS_ON_TIME_GRACE_MINUTES := 30
+const CLASS_LATE_LIMIT_MINUTES := 60
+const CLASS_LATE_STUDY_MULTIPLIER := 0.75
 
 var player_minutes: Array[int] = []
+var player_time_speed_multipliers: Array[float] = []
 var late_wake_players: Array[bool] = []
 var current_minutes: int = NORMAL_WAKE_MINUTES
 var real_time_accumulator: float = 0.0
@@ -97,10 +117,10 @@ func _process(delta: float) -> void:
 		return
 
 	var activity_popup = $UILayer/ActivityPopup
-	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible:
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible or (timetable_popup and timetable_popup.visible) or (class_time_popup and class_time_popup.visible) or (save_slot_menu and save_slot_menu.visible):
 		return
 
-	real_time_accumulator += delta
+	real_time_accumulator += delta * _get_current_time_speed()
 	var minutes_to_advance = int(real_time_accumulator / REAL_SECONDS_PER_GAME_MINUTE)
 	if minutes_to_advance <= 0:
 		return
@@ -112,11 +132,21 @@ func _process(delta: float) -> void:
 # ส่วนเริ่มต้นเกม
 # ==========================================
 func _ready() -> void:
+	var loaded_checkpoint := SaveManager.take_pending_load()
+	if not loaded_checkpoint.is_empty():
+		var global_state = loaded_checkpoint.get("global", {})
+		if global_state is Dictionary:
+			Global.import_save_data(global_state)
+
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_setup_mock_data()
+	Global.ensure_random_timetables()
 	_setup_fade() # เรียกใช้ระบบจอดำตอนสลบ
 	_update_night_lighting()
 	_setup_turn_notice()
+	_setup_timetable_ui()
+	_setup_class_time_ui()
+	_setup_save_ui()
 	pause_menu.resume_requested.connect(_resume_game)
 	pause_menu.main_menu_requested.connect(_return_to_main_menu)
 	
@@ -133,8 +163,15 @@ func _ready() -> void:
 		player_nodes.append(p_node)
 		play_animation(p_node, "idle")
 		player_minutes.append(NORMAL_WAKE_MINUTES)
+		player_time_speed_multipliers.append(1.0)
 		late_wake_players.append(false)
-			
+
+	if not loaded_checkpoint.is_empty():
+		var map_state = loaded_checkpoint.get("map", {})
+		if map_state is Dictionary:
+			_apply_map_save_data(map_state)
+
+	SaveManager.set_checkpoint(_build_checkpoint_state())
 	setup_current_turn()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -156,6 +193,125 @@ func _resume_game() -> void:
 func _return_to_main_menu() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://ui/MainMenu.tscn")
+
+
+func _setup_timetable_ui() -> void:
+	if not has_node("UILayer"):
+		return
+
+	timetable_popup = TIMETABLE_VIEWER_SCENE.instantiate()
+	timetable_popup.in_game_mode = true
+	$UILayer.add_child(timetable_popup)
+
+	timetable_button = Button.new()
+	timetable_button.text = "ตารางเรียน"
+	timetable_button.z_index = 50
+	timetable_button.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	timetable_button.offset_left = -75.0
+	timetable_button.offset_top = 54.0
+	timetable_button.offset_right = 75.0
+	timetable_button.offset_bottom = 90.0
+	timetable_button.add_theme_font_size_override("font_size", 17)
+	timetable_button.add_theme_color_override("font_color", Color("#fff0cf"))
+	timetable_button.add_theme_color_override("font_hover_color", Color.WHITE)
+	timetable_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#8f371f"), Color("#d99a43")))
+	timetable_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#b34b28"), Color("#ffc866")))
+	timetable_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
+	timetable_button.pressed.connect(_on_timetable_button_pressed)
+	$UILayer.add_child(timetable_button)
+
+
+func _setup_class_time_ui() -> void:
+	if not has_node("UILayer"):
+		return
+	class_time_popup = CLASS_TIME_POPUP_SCENE.instantiate()
+	$UILayer.add_child(class_time_popup)
+
+
+func _setup_save_ui() -> void:
+	if not has_node("UILayer"):
+		return
+
+	save_slot_menu = SAVE_SLOT_MENU_SCENE.instantiate() as SaveSlotMenu
+	$UILayer.add_child(save_slot_menu)
+	save_slot_menu.save_completed.connect(_on_manual_save_completed)
+
+	save_button = Button.new()
+	_update_save_button_text()
+	save_button.z_index = 50
+	save_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	save_button.offset_left = -88.0
+	save_button.offset_top = 8.0
+	save_button.offset_right = -8.0
+	save_button.offset_bottom = 44.0
+	save_button.add_theme_font_size_override("font_size", 15)
+	save_button.add_theme_color_override("font_color", Color("#fff0cf"))
+	save_button.add_theme_color_override("font_hover_color", Color.WHITE)
+	save_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#8f371f"), Color("#d99a43")))
+	save_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#b34b28"), Color("#ffc866")))
+	save_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
+	save_button.pressed.connect(_on_save_button_pressed)
+	$UILayer.add_child(save_button)
+
+
+func _on_save_button_pressed() -> void:
+	if is_walking or is_forcing_sleep or is_random_event_active:
+		return
+	var activity_popup = $UILayer/ActivityPopup
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or random_event_popup.visible or (timetable_popup and timetable_popup.visible) or (class_time_popup and class_time_popup.visible):
+		return
+
+	is_walking = true
+	player_nodes[current_player_index].set_movement_enabled(false)
+	save_slot_menu.open_menu(SaveSlotMenu.MenuMode.SAVE)
+	await save_slot_menu.closed
+
+	if not is_forcing_sleep and current_player_index < player_nodes.size():
+		player_nodes[current_player_index].set_movement_enabled(true)
+	is_walking = false
+
+
+func _on_manual_save_completed(_slot: int) -> void:
+	_update_save_button_text()
+
+
+func _update_save_button_text() -> void:
+	if not save_button:
+		return
+	save_button.text = "SAVE"
+	save_button.tooltip_text = (
+		"บันทึกเกม • ช่อง %d" % SaveManager.active_slot
+		if SaveManager.active_slot >= 1
+		else "บันทึกเกม"
+	)
+
+
+func _make_timetable_button_style(background: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = background
+	style.border_color = border
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(10)
+	style.shadow_color = Color(0, 0, 0, 0.35)
+	style.shadow_size = 4
+	return style
+
+
+func _on_timetable_button_pressed() -> void:
+	var activity_popup = $UILayer/ActivityPopup
+	if is_walking or is_forcing_sleep or is_random_event_active:
+		return
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or random_event_popup.visible or (class_time_popup and class_time_popup.visible):
+		return
+
+	is_walking = true
+	player_nodes[current_player_index].set_movement_enabled(false)
+	timetable_popup.open_for_player(current_player_index)
+	await timetable_popup.closed
+
+	if not is_forcing_sleep and current_player_index < player_nodes.size():
+		player_nodes[current_player_index].set_movement_enabled(true)
+	is_walking = false
 
 func _setup_fade() -> void:
 	fade_rect = ColorRect.new()
@@ -200,7 +356,7 @@ func setup_current_turn() -> void:
 
 	if player_panel:
 		player_panel.update_turn_ui(current_player_index)
-		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES)
+		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES, _get_current_time_speed())
 		player_panel.update_round_ui(current_round, max_rounds)
 
 	render_mission_text(current_player_index, current_round)
@@ -242,6 +398,7 @@ func _start_turn_random_events() -> void:
 
 func pass_turn() -> void:
 	var previous_player = current_player_index
+	_mark_remaining_classes_missed(previous_player, current_round)
 	current_player_index += 1
 	
 	if current_player_index >= player_nodes.size():
@@ -254,6 +411,7 @@ func pass_turn() -> void:
 			return
 			
 		_reset_daily_missions(current_round)
+		_reset_daily_time_speeds()
 		for i in range(player_minutes.size()):
 			player_minutes[i] = LATE_WAKE_MINUTES if late_wake_players[i] else NORMAL_WAKE_MINUTES
 			late_wake_players[i] = false
@@ -262,7 +420,73 @@ func pass_turn() -> void:
 		_show_turn_notice("ผู้เล่นที่ %d จบเทิร์น\nผู้เล่นที่ %d ถึงตาคุณ" % [previous_player + 1, current_player_index + 1])
 
 	print("--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ ", current_player_index + 1, " ---")
+	_capture_completed_turn_checkpoint()
 	setup_current_turn()
+
+
+func _capture_completed_turn_checkpoint() -> void:
+	SaveManager.set_checkpoint(_build_checkpoint_state())
+	if SaveManager.active_slot >= 1 and not SaveManager.autosave_checkpoint():
+		push_warning("บันทึกอัตโนมัติไม่สำเร็จ: " + SaveManager.last_error)
+
+
+func _build_checkpoint_state() -> Dictionary:
+	return {
+		"global": Global.export_save_data(),
+		"map": {
+			"current_player_index": current_player_index,
+			"current_round": current_round,
+			"max_rounds": max_rounds,
+			"player_minutes": player_minutes.duplicate(),
+			"player_time_speed_multipliers": player_time_speed_multipliers.duplicate(),
+			"late_wake_players": late_wake_players.duplicate(),
+			"random_event_turns": random_event_turns.duplicate(true),
+			"scenario_attempt_turns": scenario_attempt_turns.duplicate(true),
+			"occurred_scenarios": occurred_scenarios.duplicate(true),
+			"scenario_failed_attempts": scenario_failed_attempts
+		}
+	}
+
+
+func _apply_map_save_data(data: Dictionary) -> void:
+	max_rounds = maxi(1, int(data.get("max_rounds", max_rounds)))
+	current_round = clampi(int(data.get("current_round", 1)), 1, max_rounds)
+	current_player_index = clampi(
+		int(data.get("current_player_index", 0)),
+		0,
+		maxi(0, player_nodes.size() - 1)
+	)
+
+	_copy_int_array(data.get("player_minutes", []), player_minutes, NORMAL_WAKE_MINUTES)
+	_copy_float_array(data.get("player_time_speed_multipliers", []), player_time_speed_multipliers, 1.0)
+	_copy_bool_array(data.get("late_wake_players", []), late_wake_players, false)
+
+	random_event_turns = _copy_dictionary(data.get("random_event_turns", {}))
+	scenario_attempt_turns = _copy_dictionary(data.get("scenario_attempt_turns", {}))
+	occurred_scenarios = _copy_dictionary(data.get("occurred_scenarios", {}))
+	scenario_failed_attempts = maxi(0, int(data.get("scenario_failed_attempts", 0)))
+
+
+func _copy_int_array(source_value, target: Array[int], fallback: int) -> void:
+	var source: Array = source_value if source_value is Array else []
+	for index in range(target.size()):
+		target[index] = int(source[index]) if index < source.size() else fallback
+
+
+func _copy_float_array(source_value, target: Array[float], fallback: float) -> void:
+	var source: Array = source_value if source_value is Array else []
+	for index in range(target.size()):
+		target[index] = float(source[index]) if index < source.size() else fallback
+
+
+func _copy_bool_array(source_value, target: Array[bool], fallback: bool) -> void:
+	var source: Array = source_value if source_value is Array else []
+	for index in range(target.size()):
+		target[index] = bool(source[index]) if index < source.size() else fallback
+
+
+func _copy_dictionary(source_value) -> Dictionary:
+	return source_value.duplicate(true) if source_value is Dictionary else {}
 
 func _setup_turn_notice() -> void:
 	turn_notice = Label.new()
@@ -274,12 +498,12 @@ func _setup_turn_notice() -> void:
 	turn_notice.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	turn_notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	turn_notice.add_theme_font_size_override("font_size", 20)
-	turn_notice.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1.0))
-	turn_notice.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 1.0))
-	turn_notice.add_theme_constant_override("outline_size", 5)
+	turn_notice.add_theme_color_override("font_color", Color("#4b1d13"))
+	turn_notice.add_theme_color_override("font_outline_color", Color(1.0, 0.96, 0.87, 1.0))
+	turn_notice.add_theme_constant_override("outline_size", 2)
 	var notice_style = StyleBoxFlat.new()
-	notice_style.bg_color = Color(0.06, 0.08, 0.14, 0.94)
-	notice_style.border_color = Color(1.0, 0.72, 0.28, 0.95)
+	notice_style.bg_color = Color("#f7e8cd")
+	notice_style.border_color = Color("#78301f")
 	notice_style.set_border_width_all(2)
 	notice_style.set_corner_radius_all(8)
 	turn_notice.add_theme_stylebox_override("normal", notice_style)
@@ -301,10 +525,21 @@ func _advance_time(minutes: int) -> void:
 	player_minutes[current_player_index] = current_minutes
 	_update_night_lighting()
 	if player_panel:
-		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES)
+		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES, _get_current_time_speed())
 
 	if current_minutes >= SLEEP_MINUTES:
 		_force_sleep()
+
+
+func _get_current_time_speed() -> float:
+	if current_player_index < 0 or current_player_index >= player_time_speed_multipliers.size():
+		return 1.0
+	return maxf(1.0, player_time_speed_multipliers[current_player_index])
+
+
+func _reset_daily_time_speeds() -> void:
+	for player_index in range(player_time_speed_multipliers.size()):
+		player_time_speed_multipliers[player_index] = 1.0
 
 func _update_night_lighting() -> void:
 	if not night_lighting:
@@ -350,16 +585,39 @@ func _on_player_activity_requested(target_place: Node2D) -> void:
 
 	is_walking = true
 	player_nodes[current_player_index].set_movement_enabled(false)
-	var trigger_chance = 0.20
-	if randf() <= trigger_chance and scenario_popup:
-		var has_event = scenario_popup.try_start_scenario(target_place.name)
+	var scenario_turn_key := "%d:%d" % [current_round, current_player_index]
+	var can_attempt_scenario := not scenario_attempt_turns.has(scenario_turn_key)
+	if can_attempt_scenario:
+		# ผู้เล่นแต่ละคนทอย Scenario ได้เพียงหนึ่งครั้งต่อรอบ ป้องกันการกด E รัว
+		scenario_attempt_turns[scenario_turn_key] = true
+
+	if can_attempt_scenario:
+		var trigger_chance := _get_scenario_trigger_chance()
+		var has_event := false
+		if randf() <= trigger_chance and scenario_popup:
+			has_event = scenario_popup.try_start_scenario(target_place.name, occurred_scenarios)
+
 		if has_event:
+			scenario_failed_attempts = 0
+			var scenario_key: String = scenario_popup.get_current_scenario_key()
+			if not scenario_key.is_empty():
+				# แต่ละ Scenario เกิดได้เพียงครั้งเดียวต่อเกม แต่ Scenario อื่นยังเกิดได้
+				occurred_scenarios[scenario_key] = true
 			var effects = await scenario_popup.scenario_resolved
 			_apply_scenario_effects(effects)
+		else:
+			scenario_failed_attempts += 1
 
 	await _handle_activity_popup(target_place)
 	player_nodes[current_player_index].set_movement_enabled(true)
 	is_walking = false
+
+
+func _get_scenario_trigger_chance() -> float:
+	return minf(
+		SCENARIO_BASE_CHANCE + SCENARIO_CHANCE_STEP * scenario_failed_attempts,
+		SCENARIO_MAX_CHANCE
+	)
 
 # ==========================================
 # ระบบกิจกรรม และ Popup (แยกระหว่างเรียนกับกิจกรรมปกติ)
@@ -367,7 +625,7 @@ func _on_player_activity_requested(target_place: Node2D) -> void:
 func _handle_activity_popup(target_place: Node2D) -> void:
 	# 1. เช็คว่าเป็นสถานที่ "Learn" หรือไม่ ถ้าใช่ให้ข้ามไปเปิดหน้าเรียนเลย
 	if target_place.name == "Learn":
-		_handle_direct_learning()
+		await _handle_direct_learning()
 		return
 		
 	# 2. กรณีเป็นสถานที่อื่นๆ ให้เปิดหน้าต่างกิจกรรมตามปกติ
@@ -440,47 +698,169 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 # ระบบเปิดหน้าควิซเรียนแบบตรงๆ (Direct Learning)
 # ------------------------------------------
 func _handle_direct_learning() -> void:
-	var p_data = Global.player_data[current_player_index]
-	
-	# เช็คว่ามีข้อมูลตารางเรียนหรือไม่
+	var p_data: Dictionary = Global.player_data[current_player_index]
+
 	if not p_data.has("timetable") or not p_data["timetable"].has("daily_subjects"):
-		print("ไม่มีข้อมูลตารางเรียน")
+		await _show_class_time_message("ไม่มีตารางเรียน", "", "ไม่พบข้อมูลตารางเรียนของผู้เล่น")
 		return
-		
-	var day_key = "R" + str(((current_round - 1) % 5) + 1)
-	var missions = p_data["timetable"]["daily_subjects"].get(day_key, [])
-	
-	var subject_to_learn = ""
-	
-	# ค้นหาวิชาแรกในรอบนี้ที่ยังไม่ได้เรียน (is_completed == false)
-	for m in missions:
-		if not m.get("is_completed", false):
-			subject_to_learn = m["subject"]
-			break # เจอวิชาแรกที่ยังไม่เรียน ให้หยุดหาและเอาวิชานี้มาใช้
-			
-	# ถ้าไม่มีวิชาเหลือให้เรียนแล้วในรอบนี้
-	if subject_to_learn == "":
-		print("เรียนครบทุกวิชาแล้วสำหรับรอบนี้!")
-		# TODO: ตรงนี้อาจจะเพิ่มการแสดงผล Label หรือ Alert ให้ผู้เล่นทราบว่าเรียนครบแล้ว
-		return # ออกจากฟังก์ชันไปเลยโดยไม่เสีย Action Point
-		
-	# เริ่มกระบวนการเรียน
-	if learning_popup:
-		var subject_level = _get_subject_level(current_player_index, subject_to_learn)
-		learning_popup.start_quiz(subject_to_learn, subject_level)
-		var study_gained = await learning_popup.quiz_finished
-		_advance_subject_level(current_player_index, subject_to_learn)
-		var action_name = "เรียน " + subject_to_learn
-		var is_fainted = _apply_learning_effects(study_gained)
-		
-		_mark_mission_completed(action_name)
-		if not is_fainted:
-			_advance_time(_get_activity_time_cost(action_name, "Learn") * 60)
-			if is_forcing_sleep:
-				await forced_sleep_finished
+
+	var day_key := "R" + str(((current_round - 1) % 5) + 1)
+	var classes: Array = p_data["timetable"]["daily_subjects"].get(day_key, [])
+	if classes.is_empty():
+		await _show_class_time_message("ไม่มีคาบเรียน", "", "วันนี้ไม่มีคาบเรียน")
+		return
+
+	_refresh_missed_classes(classes)
+	var selected_class: Dictionary = {}
+	for class_entry in classes:
+		if class_entry.get("is_completed", false):
+			continue
+		if class_entry.get("attendance_status", "pending") == "missed":
+			continue
+		selected_class = class_entry
+		break
+
+	if selected_class.is_empty():
+		var all_completed := true
+		var missed_class: Dictionary = {}
+		for class_entry in classes:
+			if not class_entry.get("is_completed", false):
+				all_completed = false
+				if missed_class.is_empty() and class_entry.get("attendance_status", "pending") == "missed":
+					missed_class = class_entry
+		if all_completed:
+			await _show_class_time_message("ตารางวันนี้", "", "เรียนครบทุกวิชาแล้วสำหรับวันนี้")
+		elif not missed_class.is_empty():
+			await _show_class_time_message(
+				missed_class.get("subject", "คาบเรียน"),
+				missed_class.get("time_label", ""),
+				"เลยเวลาเรียนแล้ว\nไม่สามารถเข้าเรียนคาบนี้ได้"
+			)
 		else:
-			_force_sleep()
+			await _show_class_time_message("ตารางวันนี้", "", "ไม่มีคาบที่สามารถเข้าเรียนได้แล้ววันนี้")
+		return
+
+	var subject_name: String = selected_class.get("subject", "")
+	var class_time: String = selected_class.get("time_label", "")
+	var start_minutes: int = int(selected_class.get("start_minutes", 0))
+	var minutes_until_start := start_minutes - current_minutes
+	var timing_state := _get_class_timing_state(start_minutes, current_minutes)
+
+	if timing_state == "too_early":
+		await _show_class_time_message(
+			subject_name,
+			class_time,
+			"ยังไม่ถึงเวลาเรียน\nเริ่มอีก %d นาที" % minutes_until_start
+		)
+		return
+
+	var reward_multiplier := 1.0
+	var result_note := ""
+	var choice := ""
+	if timing_state == "wait":
+		class_time_popup.open_class_info(
+			subject_name,
+			class_time,
+			"เริ่มเรียนในอีก %d นาที" % minutes_until_start,
+			"รอเข้าเรียน",
+			"wait",
+			true,
+			Color("#f2c96d")
+		)
+		choice = await class_time_popup.choice_made
+		if choice != "wait":
+			return
+		_advance_time(minutes_until_start)
+	else:
+		var late_minutes := current_minutes - start_minutes
+		if timing_state == "on_time":
+			var status_text := "ตรงเวลา" if late_minutes <= 0 else "ยังอยู่ในช่วงผ่อนผัน %d นาที" % late_minutes
+			class_time_popup.open_class_info(
+				subject_name, class_time, status_text, "เข้าเรียน", "attend", true, Color("#8fd19e")
+			)
+		elif timing_state == "late":
+			reward_multiplier = CLASS_LATE_STUDY_MULTIPLIER
+			result_note = "เข้าสาย: ความรู้ลดลง 25%"
+			class_time_popup.open_class_info(
+				subject_name,
+				class_time,
+				"สาย %d นาที — ความรู้ลดลง 25%%" % late_minutes,
+				"เข้าเรียน",
+				"attend",
+				true,
+				Color("#ef9b69")
+			)
+		choice = await class_time_popup.choice_made
+		if choice != "attend":
+			return
+
+	await _start_scheduled_class(selected_class, reward_multiplier, result_note)
+
+
+func _start_scheduled_class(class_entry: Dictionary, reward_multiplier: float, result_note: String) -> void:
+	if not learning_popup:
+		return
+	var subject_name: String = class_entry.get("subject", "")
+	var subject_level := _get_subject_level(current_player_index, subject_name)
+	learning_popup.start_quiz(subject_name, subject_level, reward_multiplier, result_note)
+	var study_gained: int = await learning_popup.quiz_finished
+	_advance_subject_level(current_player_index, subject_name)
+	var is_fainted := _apply_learning_effects(study_gained)
+
+	class_entry["is_completed"] = true
+	class_entry["attendance_status"] = "attended"
+	class_entry["late_minutes"] = maxi(0, current_minutes - int(class_entry.get("start_minutes", current_minutes)))
+	render_mission_text(current_player_index, current_round)
+
+	if not is_fainted:
+		var end_minutes: int = int(class_entry.get("end_minutes", current_minutes))
+		_advance_time(maxi(0, end_minutes - current_minutes))
+		if is_forcing_sleep:
 			await forced_sleep_finished
+	else:
+		_force_sleep()
+		await forced_sleep_finished
+
+
+func _refresh_missed_classes(classes: Array) -> void:
+	var changed := false
+	for class_entry in classes:
+		if class_entry.get("is_completed", false):
+			continue
+		if class_entry.get("attendance_status", "pending") == "missed":
+			continue
+		var start_minutes: int = int(class_entry.get("start_minutes", 0))
+		if _get_class_timing_state(start_minutes, current_minutes) == "missed":
+			class_entry["attendance_status"] = "missed"
+			changed = true
+	if changed:
+		render_mission_text(current_player_index, current_round)
+
+
+func _get_class_timing_state(start_minutes: int, now_minutes: int) -> String:
+	var difference := now_minutes - start_minutes
+	if difference < -CLASS_EARLY_WAIT_MINUTES:
+		return "too_early"
+	if difference < 0:
+		return "wait"
+	if difference <= CLASS_ON_TIME_GRACE_MINUTES:
+		return "on_time"
+	if difference <= CLASS_LATE_LIMIT_MINUTES:
+		return "late"
+	return "missed"
+
+
+func _show_class_time_message(subject_name: String, class_time: String, message: String) -> void:
+	class_time_popup.open_class_info(
+		subject_name,
+		class_time,
+		message,
+		"ตกลง",
+		"close",
+		false,
+		Color("#f3d29b")
+	)
+	await class_time_popup.choice_made
 
 # ------------------------------------------
 # ระบบ Level รายวิชา
@@ -575,7 +955,7 @@ func _apply_random_event_effects(events: Array, player_index: int) -> void:
 
 	var p_data: Dictionary = Global.player_data[player_index]
 	var stats_data: Dictionary = p_data.get("stats", {})
-	var total_time_minutes := 0
+	var total_time_speed_bonus := 0.0
 
 	for event_data in events:
 		if not event_data is Dictionary:
@@ -596,10 +976,10 @@ func _apply_random_event_effects(events: Array, player_index: int) -> void:
 			p_data["money"] = maxi(0, int(p_data.get("money", 0)) + money_delta)
 			applied_effects["money"] = money_delta
 
-		var time_minutes := maxi(0, int(effects.get("time_minutes", 0)))
-		total_time_minutes += time_minutes
-		if time_minutes > 0:
-			applied_effects["time_minutes"] = time_minutes
+		var time_speed_bonus := maxf(0.0, float(effects.get("time_speed_bonus", 0.0)))
+		total_time_speed_bonus += time_speed_bonus
+		if time_speed_bonus > 0.0:
+			applied_effects["time_speed_bonus"] = time_speed_bonus
 
 		var mission: Dictionary = effects.get("mission", {})
 		if not mission.is_empty():
@@ -613,10 +993,12 @@ func _apply_random_event_effects(events: Array, player_index: int) -> void:
 		})
 
 	p_data["stats"] = stats_data
-	if total_time_minutes > 0 and player_index == current_player_index:
-		_advance_time(total_time_minutes)
+	if total_time_speed_bonus > 0.0 and player_index < player_time_speed_multipliers.size():
+		player_time_speed_multipliers[player_index] += total_time_speed_bonus
 	if player_panel:
 		player_panel.setup_players_ui()
+		if player_index == current_player_index:
+			player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES, _get_current_time_speed())
 	render_mission_text(player_index, current_round)
 
 
@@ -669,6 +1051,8 @@ func render_mission_text(player_index: int, round_num: int) -> void:
 		for mission in study_missions:
 			if mission.get("is_completed", false):
 				display_lines.append("☑ เรียน " + str(mission.get("subject", "")))
+			elif mission.get("attendance_status", "pending") == "missed":
+				display_lines.append("✕ พลาด " + str(mission.get("subject", "")))
 			else:
 				display_lines.append("☐ เรียน " + str(mission.get("subject", "")))
 
@@ -694,6 +1078,7 @@ func _mark_mission_completed(action_name: String) -> void:
 	for m in missions:
 		if m["subject"] == subject_name and not m["is_completed"]:
 			m["is_completed"] = true
+			m["attendance_status"] = "attended"
 			break 
 			
 	render_mission_text(current_player_index, current_round)
@@ -705,6 +1090,21 @@ func _reset_daily_missions(new_round: int) -> void:
 			var missions = p_data["timetable"]["daily_subjects"].get(day_key, [])
 			for m in missions:
 				m["is_completed"] = false
+				m["attendance_status"] = "pending"
+				m.erase("late_minutes")
+
+
+func _mark_remaining_classes_missed(player_index: int, round_num: int) -> void:
+	if player_index < 0 or player_index >= Global.player_data.size():
+		return
+	var p_data: Dictionary = Global.player_data[player_index]
+	if not p_data.has("timetable"):
+		return
+	var day_key := "R" + str(((round_num - 1) % 5) + 1)
+	var classes: Array = p_data["timetable"].get("daily_subjects", {}).get(day_key, [])
+	for class_entry in classes:
+		if not class_entry.get("is_completed", false):
+			class_entry["attendance_status"] = "missed"
 
 # ==========================================
 # การตั้งค่าตัวละครเบื้องต้น

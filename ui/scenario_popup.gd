@@ -11,6 +11,7 @@ signal scenario_resolved(effects)
 
 var scenarios_db: Dictionary = {}
 var current_scenario: Dictionary = {}
+var current_scenario_key: String = ""
 var is_resolving: bool = false
 
 
@@ -35,17 +36,25 @@ func _load_scenarios() -> void:
 		push_warning("ScenarioPopup: อ่าน scenarios.json ไม่สำเร็จ")
 
 
-# เช็คว่ามี Scenario ของสถานที่นี้หรือไม่ แล้วสุ่มมา 1 เหตุการณ์
-func try_start_scenario(place_name: String) -> bool:
+# เช็คว่ามี Scenario ที่ยังไม่เคยเกิดของสถานที่นี้หรือไม่ แล้วสุ่มมา 1 เหตุการณ์
+func try_start_scenario(place_name: String, excluded_scenarios: Dictionary = {}) -> bool:
+	if visible:
+		return false
 	if not scenarios_db.has(place_name):
 		return false
 
-	var place_scenarios = scenarios_db[place_name]
-	if place_scenarios.is_empty():
+	var available_scenarios: Array = []
+	for scenario in scenarios_db[place_name]:
+		var scenario_key := _get_scenario_key(place_name, scenario)
+		if not excluded_scenarios.has(scenario_key):
+			available_scenarios.append(scenario)
+
+	if available_scenarios.is_empty():
 		return false
 
 	is_resolving = false
-	current_scenario = place_scenarios.pick_random()
+	current_scenario = available_scenarios.pick_random()
+	current_scenario_key = _get_scenario_key(place_name, current_scenario)
 
 	title_label.text = current_scenario.get("title", "มีบางอย่างเกิดขึ้น...")
 	desc_label.text = current_scenario.get("description", "")
@@ -79,6 +88,15 @@ func try_start_scenario(place_name: String) -> bool:
 	# เรียกใช้งานได้เหมือนเดิมโดยไม่ต้อง await
 	_setup_and_play_animations.call_deferred()
 	return true
+
+
+func get_current_scenario_key() -> String:
+	return current_scenario_key
+
+
+func _get_scenario_key(place_name: String, scenario: Dictionary) -> String:
+	var identity := str(scenario.get("id", scenario.get("image", scenario.get("description", ""))))
+	return "%s:%s" % [place_name, identity]
 
 
 func _setup_and_play_animations() -> void:

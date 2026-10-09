@@ -31,6 +31,8 @@ func _physics_process(_delta: float) -> void:
 		animation_player.play("idle")
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.echo:
+		return
 	if not get_tree().paused and movement_enabled and event.is_action_pressed("interact") and nearby_place:
 		activity_requested.emit(nearby_place)
 

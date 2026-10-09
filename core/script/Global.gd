@@ -52,6 +52,23 @@ var player_count: int = 1
 # Array สำหรับเก็บข้อมูล ของแต่ละคน
 var player_data: Array = []
 
+# Timetable rules shared by the pre-game viewer and the main game.
+const SUBJECT_POOL: Array[String] = [
+	"ภาษาไทย",
+	"คณิตศาสตร์",
+	"ภาษาอังกฤษ",
+	"ฟิสิกส์",
+	"เคมี",
+	"ชีววิทยา"
+]
+const TIMETABLE_DAY_KEYS: Array[String] = ["R1", "R2", "R3", "R4", "R5"]
+const TIMETABLE_PERIODS: Array[Dictionary] = [
+	{"column": 1, "label": "08:00 - 10:00", "start_minutes": 480, "end_minutes": 600},
+	{"column": 2, "label": "10:00 - 12:00", "start_minutes": 600, "end_minutes": 720},
+	{"column": 4, "label": "13:00 - 15:00", "start_minutes": 780, "end_minutes": 900},
+	{"column": 5, "label": "15:00 - 17:00", "start_minutes": 900, "end_minutes": 1020}
+]
+
 # ฟังก์ชันสำหรับรีเซ็ตและเตรียมข้อมูลผู้เล่น
 func setup_players(count: int) -> void:
 	player_count = count
@@ -61,3 +78,184 @@ func setup_players(count: int) -> void:
 		# เก็บระดับการเรียนแยกรายวิชา โดยไม่กระทบข้อมูลผู้เล่นส่วนอื่น
 		player_data.append({"subject_progress": {}})
 	print(player_count)
+
+
+# Creates a separate balanced timetable for every player. Old manually-built
+# timetables are replaced once because the registration system is no longer used.
+func ensure_random_timetables(force_regenerate: bool = false) -> void:
+	var used_signatures: Dictionary = {}
+
+	for player_index in range(player_data.size()):
+		var existing: Dictionary = player_data[player_index].get("timetable", {})
+		var needs_generation: bool = force_regenerate or not bool(existing.get("generated_randomly", false))
+		var signature := ""
+
+		if not needs_generation:
+			signature = _timetable_signature(existing)
+			needs_generation = signature.is_empty() or used_signatures.has(signature)
+
+		if needs_generation:
+			var generated := _generate_random_timetable()
+			signature = _timetable_signature(generated)
+			while used_signatures.has(signature):
+				generated = _generate_random_timetable()
+				signature = _timetable_signature(generated)
+			player_data[player_index]["timetable"] = generated
+
+		used_signatures[signature] = true
+
+
+func _generate_random_timetable() -> Dictionary:
+	var selected_subjects: Array = SUBJECT_POOL.duplicate()
+	selected_subjects.shuffle()
+	selected_subjects.resize(4)
+
+	# Ten weekly classes distributed as 3, 3, 2, 2.
+	var target_counts := [3, 3, 2, 2]
+	var session_subjects: Array[String] = []
+	var subject_counts: Dictionary = {}
+	for subject_index in range(selected_subjects.size()):
+		var subject: String = selected_subjects[subject_index]
+		var count: int = target_counts[subject_index]
+		subject_counts[subject] = count
+		for _class_index in range(count):
+			session_subjects.append(subject)
+
+	# Prevent both same-day duplicates and identical subjects in consecutive slots.
+	var valid_order := false
+	while not valid_order:
+		session_subjects.shuffle()
+		valid_order = true
+		for class_index in range(1, session_subjects.size()):
+			if session_subjects[class_index] == session_subjects[class_index - 1]:
+				valid_order = false
+				break
+
+	var positions: Dictionary = {}
+	var daily_subjects: Dictionary = {}
+	var session_index := 0
+
+	for day_key in TIMETABLE_DAY_KEYS:
+		var available_periods: Array = TIMETABLE_PERIODS.duplicate(true)
+		available_periods.shuffle()
+		available_periods.resize(2)
+		available_periods.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+			return int(a["start_minutes"]) < int(b["start_minutes"])
+		)
+
+		var day_classes: Array = []
+		for period in available_periods:
+			var subject := session_subjects[session_index]
+			var column: int = period["column"]
+			var entry := {
+				"subject": subject,
+				"is_completed": false,
+				"attendance_status": "pending",
+				"col": column,
+				"period": column,
+				"time_label": period["label"],
+				"start_minutes": period["start_minutes"],
+				"end_minutes": period["end_minutes"]
+			}
+			day_classes.append(entry)
+			positions["Cell_%sC%d" % [day_key, column]] = subject
+			session_index += 1
+		daily_subjects[day_key] = day_classes
+
+	return {
+		"generated_randomly": true,
+		"positions": positions,
+		"counts": subject_counts,
+		"selected_subjects": selected_subjects,
+		"daily_subjects": daily_subjects
+	}
+
+
+func _timetable_signature(timetable: Dictionary) -> String:
+	var signature_parts: Array[String] = []
+	var daily_subjects: Dictionary = timetable.get("daily_subjects", {})
+	for day_key in TIMETABLE_DAY_KEYS:
+		for entry in daily_subjects.get(day_key, []):
+			signature_parts.append("%s:%s:%s" % [day_key, entry.get("period", entry.get("col", 0)), entry.get("subject", "")])
+	return "|".join(signature_parts)
+
+
+func reset_game_state() -> void:
+	money = 2000
+	study_score = 0
+	happy = 40
+	energy = 100
+	hunger = 50
+	current_round = 1
+	max_rounds = 5
+	time_remaining = 24
+	max_time = 24
+	travel_time_cost = 2
+	travel_energy_cost = 0
+	is_injured = false
+	is_sick = false
+	sick_sleep_count = 0
+	has_medicine = false
+	lost_item_active = false
+	class_join_count = 0
+	exam_bonus_pct = 0
+	next_round_time_penalty_pct = 0
+	weather = "normal"
+	skip_next_activity_ui = false
+	player_count = 1
+	player_data.clear()
+
+
+func export_save_data() -> Dictionary:
+	return {
+		"money": money,
+		"study_score": study_score,
+		"happy": happy,
+		"energy": energy,
+		"hunger": hunger,
+		"current_round": current_round,
+		"max_rounds": max_rounds,
+		"time_remaining": time_remaining,
+		"max_time": max_time,
+		"travel_time_cost": travel_time_cost,
+		"travel_energy_cost": travel_energy_cost,
+		"is_injured": is_injured,
+		"is_sick": is_sick,
+		"sick_sleep_count": sick_sleep_count,
+		"has_medicine": has_medicine,
+		"lost_item_active": lost_item_active,
+		"class_join_count": class_join_count,
+		"exam_bonus_pct": exam_bonus_pct,
+		"next_round_time_penalty_pct": next_round_time_penalty_pct,
+		"weather": weather,
+		"skip_next_activity_ui": skip_next_activity_ui,
+		"player_count": player_count,
+		"player_data": player_data.duplicate(true)
+	}
+
+
+func import_save_data(data: Dictionary) -> void:
+	money = int(data.get("money", 2000))
+	study_score = int(data.get("study_score", 0))
+	happy = int(data.get("happy", 40))
+	energy = int(data.get("energy", 100))
+	hunger = int(data.get("hunger", 50))
+	current_round = int(data.get("current_round", 1))
+	max_rounds = int(data.get("max_rounds", 5))
+	time_remaining = int(data.get("time_remaining", 24))
+	max_time = int(data.get("max_time", 24))
+	travel_time_cost = int(data.get("travel_time_cost", 2))
+	travel_energy_cost = int(data.get("travel_energy_cost", 0))
+	is_injured = bool(data.get("is_injured", false))
+	is_sick = bool(data.get("is_sick", false))
+	sick_sleep_count = int(data.get("sick_sleep_count", 0))
+	has_medicine = bool(data.get("has_medicine", false))
+	lost_item_active = bool(data.get("lost_item_active", false))
+	class_join_count = int(data.get("class_join_count", 0))
+	exam_bonus_pct = int(data.get("exam_bonus_pct", 0))
+	next_round_time_penalty_pct = int(data.get("next_round_time_penalty_pct", 0))
+	weather = str(data.get("weather", "normal"))
+	skip_next_activity_ui = bool(data.get("skip_next_activity_ui", false))
+	player_count = maxi(1, int(data.get("player_count", 1)))
+	var saved_players = data.get("player_data", [])
+	player_data = saved_players.duplicate(true) if saved_players is Array else []

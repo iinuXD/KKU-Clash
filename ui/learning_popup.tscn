@@ -67,6 +67,18 @@ shadow_size = 1
 shadow_offset = Vector2(8, 8)
 anti_aliasing = false
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_question_surface"]
+bg_color = Color(1, 0.94902, 0.858824, 0.96)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.352941, 0.164706, 0.094118, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
 [node name="learning_popup" type="Control" unique_id=1389026711]
 layout_mode = 3
 anchors_preset = 15
@@ -103,6 +115,15 @@ texture = ExtResource("2_yxqbv")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="QuestionSurface" type="Panel" parent="BgPanel"]
+layout_mode = 0
+offset_left = 185.0
+offset_top = 180.0
+offset_right = 815.0
+offset_bottom = 420.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_question_surface")
+
 [node name="SubjectLabel" type="Label" parent="BgPanel" unique_id=1364180609]
 unique_name_in_owner = true
 layout_mode = 0
@@ -110,10 +131,7 @@ offset_left = 300.0
 offset_top = 200.0
 offset_right = 700.0
 offset_bottom = 240.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0.1254902, 0.20392157, 0.16078432, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 32
 text = "วิชา"
 horizontal_alignment = 1
@@ -126,10 +144,7 @@ offset_left = 680.0
 offset_top = 200.0
 offset_right = 790.0
 offset_bottom = 240.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0.1254902, 0.20392157, 0.16078432, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 24
 text = "20 วินาที"
 horizontal_alignment = 2
@@ -143,10 +158,7 @@ offset_left = 200.0
 offset_top = 250.0
 offset_right = 800.0
 offset_bottom = 340.0
-theme_override_colors/font_color = Color(0.952941, 0.960784, 0.898039, 1)
-theme_override_colors/font_shadow_color = Color(0.12549, 0.203922, 0.160784, 1)
-theme_override_constants/shadow_offset_x = 3
-theme_override_constants/shadow_offset_y = 3
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 30
 text = "500 + 500"
 horizontal_alignment = 1
@@ -160,10 +172,7 @@ offset_left = 200.0
 offset_top = 350.0
 offset_right = 800.0
 offset_bottom = 400.0
-theme_override_colors/font_color = Color(0.976471, 0.87451, 0.384314, 1)
-theme_override_colors/font_shadow_color = Color(0.12549, 0.203922, 0.160784, 1)
-theme_override_constants/shadow_offset_x = 3
-theme_override_constants/shadow_offset_y = 3
+theme_override_colors/font_color = Color(0.61, 0.22, 0.1, 1)
 theme_override_font_sizes/font_size = 36
 text = "ถูกต้อง"
 horizontal_alignment = 1
@@ -176,10 +185,7 @@ offset_left = 210.0
 offset_top = 200.0
 offset_right = 300.0
 offset_bottom = 240.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_shadow_color = Color(0.1254902, 0.20392157, 0.16078432, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 24
 text = "1/3"
 
@@ -301,12 +307,13 @@ layout_mode = 0
 offset_left = 40.0
 offset_top = 71.0
 offset_right = 460.0
-offset_bottom = 151.0
+offset_bottom = 230.0
 theme_override_colors/font_color = Color(0.188235, 0.117647, 0.0784314, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 28
 text = "คุณทำได้ 4 / 5 ข้อ"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="OkButton" type="Button" parent="BgPanel/SummaryPanel" unique_id=1845602665]
 unique_name_in_owner = true

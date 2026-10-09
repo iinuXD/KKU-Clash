@@ -248,6 +248,7 @@ speed_scale = 0.5
 
 [node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot1" unique_id=794291048]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("8_5o7jl")
@@ -322,6 +323,7 @@ speed_scale = 0.5
 
 [node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot2" unique_id=38820664]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("8_5o7jl")
@@ -396,6 +398,7 @@ speed_scale = 0.5
 
 [node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot3" unique_id=1228420865]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("8_5o7jl")
@@ -470,6 +473,7 @@ speed_scale = 0.5
 
 [node name="Label_current_player" type="Label" parent="HBoxContainer/PlayerSlot4" unique_id=1831186141]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("8_5o7jl")
@@ -479,6 +483,7 @@ horizontal_alignment = 1
 
 [node name="LoadingLabel" type="Label" parent="." unique_id=276786700]
 layout_mode = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0

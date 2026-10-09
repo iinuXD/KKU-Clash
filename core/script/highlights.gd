@@ -78,15 +78,15 @@ func _setup_location_label() -> void:
 	location_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	location_label.z_index = 10
 	location_label.add_theme_font_size_override("font_size", 14)
-	location_label.add_theme_color_override("font_color", Color(1.0, 0.92, 0.68, 1.0))
-	location_label.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.85))
+	location_label.add_theme_color_override("font_color", Color("#4b1d13"))
+	location_label.add_theme_color_override("font_shadow_color", Color(1.0, 0.96, 0.87, 0.85))
 	location_label.add_theme_constant_override("shadow_offset_x", 2)
 	location_label.add_theme_constant_override("shadow_offset_y", 2)
 	location_label.add_theme_constant_override("shadow_outline_size", 3)
 
 	var badge = StyleBoxFlat.new()
-	badge.bg_color = Color(0.08, 0.1, 0.16, 0.94)
-	badge.border_color = Color(1.0, 0.72, 0.28, 0.95)
+	badge.bg_color = Color("#f7e8cd")
+	badge.border_color = Color("#78301f")
 	badge.set_border_width_all(2)
 	badge.set_corner_radius_all(6)
 	badge.content_margin_left = 8.0

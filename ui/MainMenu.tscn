@@ -66,7 +66,7 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
 theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
-text = "START GAME"
+text = "NEW GAME"
 
 [node name="optionsBtn" type="Button" parent="VBoxContainer" unique_id=2024472305]
 layout_mode = 2
@@ -79,7 +79,7 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
 theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
-text = "OPTIONS"
+text = "LOAD GAME"
 
 [node name="exitBtn" type="Button" parent="VBoxContainer" unique_id=812520096]
 layout_mode = 2
@@ -97,6 +97,7 @@ text = "EXIT
 
 [node name="Label" type="Label" parent="." unique_id=1497352883]
 layout_mode = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5

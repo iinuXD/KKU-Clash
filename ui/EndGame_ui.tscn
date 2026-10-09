@@ -90,7 +90,7 @@ theme_override_constants/separation = 16
 
 [node name="TitleLabel" type="Label" parent="EndGameWindow/MainVBox" unique_id=100000004]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40

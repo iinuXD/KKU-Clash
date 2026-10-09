@@ -38,7 +38,7 @@ func update_turn_ui(active_index: int) -> void:
 			_set_card_active(stats[i], i == active_index)
 
 
-func update_time_ui(current_minutes: int, _start_minutes: int, _end_minutes: int) -> void:
+func update_time_ui(current_minutes: int, _start_minutes: int, _end_minutes: int, speed_multiplier: float = 1.0) -> void:
 	if not time_label:
 		return
 	var hour := int(current_minutes / 60) % 24
@@ -47,7 +47,12 @@ func update_time_ui(current_minutes: int, _start_minutes: int, _end_minutes: int
 	var display_hour := hour % 12
 	if display_hour == 0:
 		display_hour = 12
-	time_label.text = "TIME  %d:%02d %s" % [display_hour, minute, meridiem]
+	var speed_text := "  ×%.2f" % speed_multiplier if speed_multiplier > 1.001 else ""
+	time_label.text = "TIME  %d:%02d %s%s" % [display_hour, minute, meridiem, speed_text]
+	time_label.add_theme_color_override(
+		"font_color",
+		Color("#a33f23") if speed_multiplier > 1.001 else Color("#471c12")
+	)
 
 
 func update_round_ui(current_round: int, max_rounds: int) -> void:
@@ -107,17 +112,17 @@ func _set_card_active(stat_panel: Control, is_active: bool) -> void:
 		badge.visible = is_active
 	if stat_panel is PanelContainer:
 		stat_panel.add_theme_stylebox_override("panel", _make_card_style(is_active))
-	stat_panel.modulate = Color.WHITE if is_active else Color(0.95, 0.87, 0.82, 0.96)
+	stat_panel.modulate = Color.WHITE if is_active else Color(0.94, 0.91, 0.86, 0.98)
 
 
 func _make_card_style(is_active: bool) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("5b261fe8") if is_active else Color("341915dc")
-	style.border_color = Color("e1a65cff") if is_active else Color("925346b0")
+	style.bg_color = Color("f7e3bff7") if is_active else Color("f1dfc4f2")
+	style.border_color = Color("8e341fff") if is_active else Color("9f6a50e6")
 	style.set_border_width_all(3 if is_active else 2)
 	style.set_corner_radius_all(9)
 	if is_active:
-		style.shadow_color = Color(0.10, 0.025, 0.015, 0.68)
+		style.shadow_color = Color(0.18, 0.07, 0.035, 0.36)
 		style.shadow_size = 6
 		style.shadow_offset = Vector2(0, 3)
 	return style
