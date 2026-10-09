@@ -47,47 +47,47 @@ func open_menu(mode: MenuMode) -> void:
 
 func _build_interface() -> void:
 	var dim := ColorRect.new()
-	dim.color = Color(0.09, 0.06, 0.05, 0.62)
+	dim.color = Color(0.02, 0.03, 0.06, 0.84)
 	dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(dim)
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 	var panel := PanelContainer.new()
 	panel.set_anchors_preset(Control.PRESET_CENTER)
-	panel.offset_left = -360.0
-	panel.offset_top = -318.0
-	panel.offset_right = 360.0
-	panel.offset_bottom = 318.0
+	panel.offset_left = -330.0
+	panel.offset_top = -300.0
+	panel.offset_right = 330.0
+	panel.offset_bottom = 300.0
 	panel.add_theme_stylebox_override("panel", _make_panel_style())
 	add_child(panel)
 
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 34)
-	margin.add_theme_constant_override("margin_top", 26)
-	margin.add_theme_constant_override("margin_right", 34)
+	margin.add_theme_constant_override("margin_left", 28)
+	margin.add_theme_constant_override("margin_top", 24)
+	margin.add_theme_constant_override("margin_right", 28)
 	margin.add_theme_constant_override("margin_bottom", 24)
 	panel.add_child(margin)
 
 	var content := VBoxContainer.new()
-	content.add_theme_constant_override("separation", 10)
+	content.add_theme_constant_override("separation", 8)
 	margin.add_child(content)
 
 	title_label = Label.new()
 	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_label.add_theme_font_size_override("font_size", 34)
-	title_label.add_theme_color_override("font_color", Color("#6f2b1d"))
+	title_label.add_theme_font_size_override("font_size", 30)
+	title_label.add_theme_color_override("font_color", Color("#ffd77a"))
 	content.add_child(title_label)
 
 	subtitle_label = Label.new()
 	subtitle_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	subtitle_label.add_theme_font_size_override("font_size", 17)
-	subtitle_label.add_theme_color_override("font_color", Color("#5b4034"))
+	subtitle_label.add_theme_font_size_override("font_size", 15)
+	subtitle_label.add_theme_color_override("font_color", Color("#c7cad4"))
 	content.add_child(subtitle_label)
 
 	for slot in range(1, SaveManager.SLOT_COUNT + 1):
 		var button := Button.new()
-		button.custom_minimum_size = Vector2(0, 86)
-		button.add_theme_font_size_override("font_size", 17)
+		button.custom_minimum_size = Vector2(0, 78)
+		button.add_theme_font_size_override("font_size", 16)
 		_apply_slot_button_style(button, false)
 		button.pressed.connect(_on_slot_pressed.bind(slot))
 		content.add_child(button)
@@ -96,19 +96,19 @@ func _build_interface() -> void:
 	status_label = Label.new()
 	status_label.custom_minimum_size = Vector2(0, 28)
 	status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	status_label.add_theme_font_size_override("font_size", 16)
-	status_label.add_theme_color_override("font_color", Color("#7a2f1f"))
+	status_label.add_theme_font_size_override("font_size", 15)
+	status_label.add_theme_color_override("font_color", Color("#ffb38a"))
 	content.add_child(status_label)
 
 	var back_button := Button.new()
-	back_button.text = "ย้อนกลับ"
-	back_button.custom_minimum_size = Vector2(0, 48)
-	back_button.add_theme_font_size_override("font_size", 18)
-	back_button.add_theme_color_override("font_color", Color("#fff5df"))
+	back_button.text = "กลับ"
+	back_button.custom_minimum_size = Vector2(0, 44)
+	back_button.add_theme_font_size_override("font_size", 17)
+	back_button.add_theme_color_override("font_color", Color("#fff0cf"))
 	back_button.add_theme_color_override("font_hover_color", Color.WHITE)
-	back_button.add_theme_stylebox_override("normal", _make_button_style(Color("#6f2b1d"), Color("#9d5d3e")))
-	back_button.add_theme_stylebox_override("hover", _make_button_style(Color("#8f3823"), Color("#c88152")))
-	back_button.add_theme_stylebox_override("pressed", _make_button_style(Color("#542116"), Color("#86462f")))
+	back_button.add_theme_stylebox_override("normal", _make_button_style(Color("#562219"), Color("#d99a43")))
+	back_button.add_theme_stylebox_override("hover", _make_button_style(Color("#7c301e"), Color("#ffc866")))
+	back_button.add_theme_stylebox_override("pressed", _make_button_style(Color("#42170f"), Color("#d99a43")))
 	back_button.pressed.connect(_close_menu)
 	content.add_child(back_button)
 
@@ -217,13 +217,13 @@ func _format_saved_at(value: String) -> String:
 
 func _make_panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#f4e7cf")
-	style.border_color = Color("#7a2f1f")
-	style.set_border_width_all(5)
-	style.set_corner_radius_all(20)
-	style.shadow_color = Color(0.18, 0.08, 0.04, 0.4)
-	style.shadow_size = 14
-	style.shadow_offset = Vector2(8, 10)
+	style.bg_color = Color("#141a29")
+	style.border_color = Color("#d99a43")
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(14)
+	style.shadow_color = Color(0, 0, 0, 0.5)
+	style.shadow_size = 16
+	style.shadow_offset = Vector2(0, 8)
 	return style
 
 
@@ -232,7 +232,7 @@ func _make_button_style(background: Color, border: Color) -> StyleBoxFlat:
 	style.bg_color = background
 	style.border_color = border
 	style.set_border_width_all(2)
-	style.set_corner_radius_all(11)
+	style.set_corner_radius_all(9)
 	style.content_margin_left = 18
 	style.content_margin_right = 18
 	style.content_margin_top = 7
@@ -242,19 +242,19 @@ func _make_button_style(background: Color, border: Color) -> StyleBoxFlat:
 
 func _apply_slot_button_style(button: Button, is_active: bool) -> void:
 	if is_active:
-		button.add_theme_color_override("font_color", Color("#fff5df"))
+		button.add_theme_color_override("font_color", Color("#fff0cf"))
 		button.add_theme_color_override("font_hover_color", Color.WHITE)
-		button.add_theme_stylebox_override("normal", _make_button_style(Color("#7a2f1f"), Color("#b96b3f")))
-		button.add_theme_stylebox_override("hover", _make_button_style(Color("#913b25"), Color("#d08a56")))
-		button.add_theme_stylebox_override("pressed", _make_button_style(Color("#5d2318"), Color("#9d5738")))
+		button.add_theme_stylebox_override("normal", _make_button_style(Color("#6f2b1d"), Color("#d99a43")))
+		button.add_theme_stylebox_override("hover", _make_button_style(Color("#913b25"), Color("#ffc866")))
+		button.add_theme_stylebox_override("pressed", _make_button_style(Color("#542116"), Color("#d99a43")))
 	else:
-		button.add_theme_color_override("font_color", Color("#4d3026"))
-		button.add_theme_color_override("font_hover_color", Color("#5d2418"))
-		button.add_theme_stylebox_override("normal", _make_button_style(Color("#fff7e7"), Color("#b9784d")))
-		button.add_theme_stylebox_override("hover", _make_button_style(Color("#f2d7b5"), Color("#8c3a25")))
-		button.add_theme_stylebox_override("pressed", _make_button_style(Color("#e5c39a"), Color("#742d1d")))
-	button.add_theme_color_override("font_disabled_color", Color("#8a7767"))
-	button.add_theme_stylebox_override("disabled", _make_button_style(Color("#ddd2c0"), Color("#b9a58c")))
+		button.add_theme_color_override("font_color", Color("#e6e8ef"))
+		button.add_theme_color_override("font_hover_color", Color("#fff0cf"))
+		button.add_theme_stylebox_override("normal", _make_button_style(Color("#20283b"), Color("#58647d")))
+		button.add_theme_stylebox_override("hover", _make_button_style(Color("#2d3851"), Color("#d99a43")))
+		button.add_theme_stylebox_override("pressed", _make_button_style(Color("#182033"), Color("#ffc866")))
+	button.add_theme_color_override("font_disabled_color", Color("#8991a3"))
+	button.add_theme_stylebox_override("disabled", _make_button_style(Color("#252b38"), Color("#454d60")))
 
 
 func _build_overwrite_confirmation() -> void:
@@ -265,7 +265,7 @@ func _build_overwrite_confirmation() -> void:
 	add_child(confirmation_layer)
 
 	var blocker := ColorRect.new()
-	blocker.color = Color(0.18, 0.08, 0.04, 0.38)
+	blocker.color = Color(0.02, 0.03, 0.06, 0.62)
 	blocker.mouse_filter = Control.MOUSE_FILTER_STOP
 	confirmation_layer.add_child(blocker)
 	blocker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -293,12 +293,12 @@ func _build_overwrite_confirmation() -> void:
 	var heading := Label.new()
 	heading.text = "ยืนยันการเขียนทับ"
 	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	heading.add_theme_color_override("font_color", Color("#6f2b1d"))
-	heading.add_theme_font_size_override("font_size", 28)
+	heading.add_theme_color_override("font_color", Color("#ffd77a"))
+	heading.add_theme_font_size_override("font_size", 25)
 	content.add_child(heading)
 
 	var divider := HSeparator.new()
-	divider.modulate = Color("#8a3522")
+	divider.modulate = Color("#d99a43")
 	content.add_child(divider)
 
 	confirmation_message = Label.new()
@@ -307,8 +307,8 @@ func _build_overwrite_confirmation() -> void:
 	confirmation_message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	confirmation_message.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	confirmation_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	confirmation_message.add_theme_color_override("font_color", Color("#4d3026"))
-	confirmation_message.add_theme_font_size_override("font_size", 20)
+	confirmation_message.add_theme_color_override("font_color", Color("#e6e8ef"))
+	confirmation_message.add_theme_font_size_override("font_size", 18)
 	content.add_child(confirmation_message)
 
 	var buttons := HBoxContainer.new()
@@ -334,14 +334,14 @@ func _build_overwrite_confirmation() -> void:
 
 
 func _apply_confirmation_button_style(button: Button, primary: bool) -> void:
-	var text_color := Color("#4d2318")
+	var text_color := Color("#fff0cf")
 	for color_name in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
 		button.add_theme_color_override(color_name, text_color)
 	if primary:
-		button.add_theme_stylebox_override("normal", _make_button_style(Color("#edc997"), Color("#7a2f1f")))
-		button.add_theme_stylebox_override("hover", _make_button_style(Color("#f6d9aa"), Color("#9a4329")))
-		button.add_theme_stylebox_override("pressed", _make_button_style(Color("#ddb57e"), Color("#6a2619")))
+		button.add_theme_stylebox_override("normal", _make_button_style(Color("#6f2b1d"), Color("#d99a43")))
+		button.add_theme_stylebox_override("hover", _make_button_style(Color("#913b25"), Color("#ffc866")))
+		button.add_theme_stylebox_override("pressed", _make_button_style(Color("#542116"), Color("#d99a43")))
 	else:
-		button.add_theme_stylebox_override("normal", _make_button_style(Color("#fff7e7"), Color("#a56443")))
-		button.add_theme_stylebox_override("hover", _make_button_style(Color("#f2dfc2"), Color("#8c3a25")))
-		button.add_theme_stylebox_override("pressed", _make_button_style(Color("#e5cba5"), Color("#742d1d")))
+		button.add_theme_stylebox_override("normal", _make_button_style(Color("#20283b"), Color("#58647d")))
+		button.add_theme_stylebox_override("hover", _make_button_style(Color("#2d3851"), Color("#d99a43")))
+		button.add_theme_stylebox_override("pressed", _make_button_style(Color("#182033"), Color("#ffc866")))
