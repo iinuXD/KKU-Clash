@@ -94,7 +94,7 @@ theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
-text = "GAME OVER"
+text = "สรุปผลการเล่น"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="EndGameWindow/MainVBox" unique_id=100000005]
@@ -102,6 +102,7 @@ layout_mode = 2
 
 [node name="MainQuestLabel" type="Label" parent="EndGameWindow/MainVBox" unique_id=100000006]
 layout_mode = 2
+visible = false
 theme_override_font_sizes/font_size = 20
 text = "[Main Quest] Attend 10 Classes: ..."
 horizontal_alignment = 1
@@ -112,7 +113,7 @@ layout_mode = 2
 
 [node name="ScoreBox" type="VBoxContainer" parent="EndGameWindow/MainVBox" unique_id=100000008]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 6
 
 [node name="FinalScoreLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000009]
 layout_mode = 2
@@ -122,21 +123,63 @@ horizontal_alignment = 1
 
 [node name="StudyLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000010]
 layout_mode = 2
+visible = false
 theme_override_font_sizes/font_size = 18
 text = "Study Score: ..."
 horizontal_alignment = 1
 
 [node name="MoneyLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000011]
 layout_mode = 2
+visible = false
 theme_override_font_sizes/font_size = 18
 text = "Money: ..."
 horizontal_alignment = 1
 
 [node name="ClassesLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000012]
 layout_mode = 2
+visible = false
 theme_override_font_sizes/font_size = 18
 text = "Classes Attended: ..."
 horizontal_alignment = 1
+
+[node name="StatusScoreLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox"]
+layout_mode = 2
+visible = false
+theme_override_font_sizes/font_size = 17
+text = "ส่วนที่ 1 ค่าสถานะ  0 / 1000"
+horizontal_alignment = 1
+
+[node name="MissionScoreLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox"]
+layout_mode = 2
+visible = false
+theme_override_font_sizes/font_size = 17
+text = "ส่วนที่ 2 ภารกิจรายรอบ  0 / 1000"
+horizontal_alignment = 1
+
+[node name="ExamScoreLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox"]
+layout_mode = 2
+visible = false
+theme_override_font_sizes/font_size = 17
+text = "ส่วนที่ 3 คะแนนสอบ  0 / 1000"
+horizontal_alignment = 1
+
+[node name="RatingLabel" type="Label" parent="EndGameWindow/MainVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "ระดับผลการเล่น"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="PlayersHeader" type="Label" parent="EndGameWindow/MainVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
+theme_override_font_sizes/font_size = 20
+text = "ผลลัพธ์ผู้เล่น"
+horizontal_alignment = 1
+
+[node name="PlayerScores" type="VBoxContainer" parent="EndGameWindow/MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="Spacer" type="Control" parent="EndGameWindow/MainVBox" unique_id=100000013]
 layout_mode = 2
@@ -148,4 +191,12 @@ size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
-text = "Play Again"
+text = "เล่นอีกครั้ง"
+
+[node name="ExitButton" type="Button" parent="EndGameWindow/MainVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+text = "ออกจากเกม"

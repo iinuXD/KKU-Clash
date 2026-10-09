@@ -9,6 +9,7 @@ signal forced_sleep_finished
 @onready var player_panel = $UILayer/PlayerPanel
 @onready var night_lighting: CanvasModulate = $NightLighting
 @onready var pause_menu: Control = $UILayer/PauseMenu
+@onready var endgame_ui: Control = $UILayer/EndgameUI
 
 # >>> 1. อ้างอิงหน้าต่างควิซ (ให้แน่ใจว่าลากมาวางใน UILayer แล้ว) <<<
 @onready var learning_popup = $UILayer/learning_popup 
@@ -22,6 +23,7 @@ const SAVE_SLOT_MENU_SCENE = preload("res://ui/save_slot_menu.tscn")
 var player_nodes: Array[CharacterBody2D] = [] 
 var current_player_index: int = 0     
 var is_walking: bool = false
+var is_turn_transitioning: bool = false
 var is_forcing_sleep: bool = false
 var is_random_event_active: bool = false
 var random_event_turns: Dictionary = {}
@@ -33,6 +35,7 @@ var timetable_button: Button
 var class_time_popup: Control
 var save_slot_menu: SaveSlotMenu
 var menu_button: Button
+var debug_endgame_button: Button
 
 var current_round: int = 1
 var max_rounds: int = 11     
@@ -147,6 +150,7 @@ func _ready() -> void:
 	_setup_timetable_ui()
 	_setup_class_time_ui()
 	_setup_save_ui()
+	_setup_debug_endgame_ui()
 	pause_menu.resume_requested.connect(_resume_game)
 	pause_menu.save_requested.connect(_on_pause_save_requested)
 	pause_menu.quit_requested.connect(_return_to_main_menu)
@@ -253,6 +257,58 @@ func _setup_save_ui() -> void:
 	menu_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
 	menu_button.pressed.connect(_pause_game)
 	$UILayer.add_child(menu_button)
+
+
+func _setup_debug_endgame_ui() -> void:
+	if not OS.is_debug_build() or not has_node("UILayer"):
+		return
+
+	debug_endgame_button = Button.new()
+	debug_endgame_button.text = "DEBUG: END GAME"
+	debug_endgame_button.tooltip_text = "เปิดหน้าจอจบเกมสำหรับทดสอบ"
+	debug_endgame_button.z_index = 50
+	debug_endgame_button.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	debug_endgame_button.offset_left = 10.0
+	debug_endgame_button.offset_top = 10.0
+	debug_endgame_button.offset_right = 170.0
+	debug_endgame_button.offset_bottom = 48.0
+	debug_endgame_button.add_theme_font_size_override("font_size", 13)
+	debug_endgame_button.add_theme_color_override("font_color", Color("#fff0cf"))
+	debug_endgame_button.add_theme_color_override("font_hover_color", Color.WHITE)
+	debug_endgame_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
+	debug_endgame_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#9a3d22"), Color("#ffc866")))
+	debug_endgame_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#4d1d14"), Color("#d99a43")))
+	debug_endgame_button.pressed.connect(_show_debug_endgame)
+	$UILayer.add_child(debug_endgame_button)
+
+
+func _show_debug_endgame() -> void:
+	if not endgame_ui:
+		push_error("NewMap: ไม่พบ EndgameUI สำหรับโหมดทดสอบ")
+		return
+
+	if debug_endgame_button:
+		debug_endgame_button.hide()
+	if pause_menu.visible:
+		pause_menu.close_menu()
+	if current_player_index < player_nodes.size():
+		player_nodes[current_player_index].set_movement_enabled(false)
+
+	get_tree().paused = true
+	_show_endgame()
+
+
+func _get_current_player_money() -> int:
+	if current_player_index >= 0 and current_player_index < Global.player_data.size():
+		return int(Global.player_data[current_player_index].get("money", 0))
+	return Global.money
+
+
+func _show_endgame() -> void:
+	if timetable_button:
+		timetable_button.hide()
+	endgame_ui.show()
+	endgame_ui.setup(0.0, Global.exam_bonus_pct, _get_current_player_money())
 
 
 func _on_pause_save_requested() -> void:
@@ -382,6 +438,9 @@ func _start_turn_random_events() -> void:
 		player_nodes[event_player_index].set_movement_enabled(true)
 
 func pass_turn() -> void:
+	if is_turn_transitioning:
+		return
+	is_turn_transitioning = true
 	var previous_player = current_player_index
 	_mark_remaining_classes_missed(previous_player, current_round)
 	current_player_index += 1
@@ -393,6 +452,8 @@ func pass_turn() -> void:
 		
 		if current_round > max_rounds:
 			print("จบเกม!!!")
+			get_tree().paused = true
+			_show_endgame()
 			return
 			
 		_reset_daily_missions(current_round)
@@ -407,6 +468,7 @@ func pass_turn() -> void:
 	print("--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ ", current_player_index + 1, " ---")
 	_capture_completed_turn_checkpoint()
 	setup_current_turn()
+	is_turn_transitioning = false
 
 
 func _capture_completed_turn_checkpoint() -> void:
