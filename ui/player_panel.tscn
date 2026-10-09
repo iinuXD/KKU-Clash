@@ -108,7 +108,7 @@ layout_mode = 0
 offset_left = 8.0
 offset_top = 56.0
 offset_right = 260.0
-offset_bottom = 174.0
+offset_bottom = 186.0
 
 [node name="playerstat2" parent="." instance=ExtResource("3_card")]
 layout_mode = 1
@@ -118,7 +118,7 @@ anchor_right = 1.0
 offset_left = -260.0
 offset_top = 56.0
 offset_right = -8.0
-offset_bottom = 174.0
+offset_bottom = 186.0
 grow_horizontal = 0
 
 [node name="playerstat3" parent="." instance=ExtResource("3_card")]
@@ -127,7 +127,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
-offset_top = -126.0
+offset_top = -138.0
 offset_right = 260.0
 offset_bottom = -8.0
 grow_vertical = 0
@@ -140,7 +140,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -260.0
-offset_top = -126.0
+offset_top = -138.0
 offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 0
@@ -149,9 +149,9 @@ grow_vertical = 0
 [node name="MissionPanel" type="PanelContainer" parent="."]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 186.0
+offset_top = 198.0
 offset_right = 260.0
-offset_bottom = 306.0
+offset_bottom = 318.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBox_mission")
 

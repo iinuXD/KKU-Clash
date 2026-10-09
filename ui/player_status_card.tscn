@@ -76,7 +76,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [node name="PlayerStatusCard" type="PanelContainer"]
-custom_minimum_size = Vector2(252, 118)
+custom_minimum_size = Vector2(252, 130)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBox_card")
 
@@ -206,12 +206,12 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 1
 
 [node name="HappinessRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Body/Stats"]
-custom_minimum_size = Vector2(0, 15)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="happinessstat" type="TextureRect" parent="MarginContainer/VBoxContainer/Body/Stats/HappinessRow"]
-custom_minimum_size = Vector2(15, 15)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("8_happiness")
@@ -240,12 +240,12 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="HungerRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Body/Stats"]
-custom_minimum_size = Vector2(0, 15)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="hungerstat" type="TextureRect" parent="MarginContainer/VBoxContainer/Body/Stats/HungerRow"]
-custom_minimum_size = Vector2(15, 15)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("9_hunger")
@@ -274,12 +274,12 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="StaminaRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Body/Stats"]
-custom_minimum_size = Vector2(0, 15)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="staminastat" type="TextureRect" parent="MarginContainer/VBoxContainer/Body/Stats/StaminaRow"]
-custom_minimum_size = Vector2(15, 15)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("10_stamina")
@@ -308,12 +308,12 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="StudyRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Body/Stats"]
-custom_minimum_size = Vector2(0, 15)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="studystat" type="TextureRect" parent="MarginContainer/VBoxContainer/Body/Stats/StudyRow"]
-custom_minimum_size = Vector2(15, 15)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("11_study")
