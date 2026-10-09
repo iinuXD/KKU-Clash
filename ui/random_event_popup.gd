@@ -363,6 +363,8 @@ func _deal_cards() -> void:
 
 
 func _card_input(event: InputEvent, index: int) -> void:
+	if index < 0 or index >= opened.size() or index >= cards.size() or index >= selected_events.size():
+		return
 	if busy or opened[index]:
 		return
 
@@ -371,6 +373,8 @@ func _card_input(event: InputEvent, index: int) -> void:
 
 
 func _flip_card(index: int) -> void:
+	if index < 0 or index >= opened.size() or index >= cards.size() or index >= selected_events.size():
+		return
 	if busy or opened[index]:
 		return
 
@@ -413,6 +417,8 @@ func _flip_card(index: int) -> void:
 
 
 func _show_detail(index: int) -> void:
+	if index < 0 or index >= opened.size() or index >= selected_events.size():
+		return
 	if busy or not opened[index]:
 		return
 

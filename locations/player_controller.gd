@@ -16,7 +16,7 @@ func _ready() -> void:
 	interaction_area.area_exited.connect(_on_area_exited)
 
 func _physics_process(_delta: float) -> void:
-	if not movement_enabled:
+	if get_tree().paused or not movement_enabled:
 		velocity = Vector2.ZERO
 		return
 
@@ -33,7 +33,7 @@ func _physics_process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.echo:
 		return
-	if movement_enabled and event.is_action_pressed("interact") and nearby_place:
+	if not get_tree().paused and movement_enabled and event.is_action_pressed("interact") and nearby_place:
 		activity_requested.emit(nearby_place)
 
 func set_movement_enabled(enabled: bool) -> void:

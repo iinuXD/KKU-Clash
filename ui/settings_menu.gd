@@ -1,0 +1,137 @@
+extends Control
+class_name SettingsMenu
+
+signal closed
+
+var volume_slider: HSlider
+var volume_value: Label
+
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	z_index = 1100
+	_build_interface()
+	hide()
+
+func open_menu() -> void:
+	volume_slider.value = AudioManager.get_music_volume() * 100.0
+	_update_volume_label(volume_slider.value)
+	show()
+	volume_slider.grab_focus()
+
+func close_menu() -> void:
+	hide()
+	closed.emit()
+
+func _build_interface() -> void:
+	var overlay := ColorRect.new()
+	overlay.color = Color(0.02, 0.03, 0.06, 0.84)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(overlay)
+
+	var panel := PanelContainer.new()
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.offset_left = -260.0
+	panel.offset_top = -170.0
+	panel.offset_right = 260.0
+	panel.offset_bottom = 170.0
+	panel.add_theme_stylebox_override("panel", _make_panel_style())
+	add_child(panel)
+
+	var margin := MarginContainer.new()
+	for setting in [
+		["margin_left", 28],
+		["margin_top", 24],
+		["margin_right", 28],
+		["margin_bottom", 24]
+	]:
+		margin.add_theme_constant_override(setting[0], setting[1])
+	panel.add_child(margin)
+
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 14)
+	margin.add_child(content)
+
+	var title := Label.new()
+	title.text = "ตั้งค่า"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_color_override("font_color", Color("#ffd77a"))
+	title.add_theme_font_size_override("font_size", 28)
+	content.add_child(title)
+
+	var music_label := Label.new()
+	music_label.text = "เสียงเพลง"
+	music_label.add_theme_color_override("font_color", Color("#e6e8ef"))
+	music_label.add_theme_font_size_override("font_size", 18)
+	content.add_child(music_label)
+
+	var volume_row := HBoxContainer.new()
+	volume_row.add_theme_constant_override("separation", 12)
+	content.add_child(volume_row)
+
+	volume_slider = HSlider.new()
+	volume_slider.min_value = 0.0
+	volume_slider.max_value = 100.0
+	volume_slider.step = 1.0
+	volume_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	volume_slider.value_changed.connect(_on_volume_changed)
+	volume_row.add_child(volume_slider)
+
+	volume_value = Label.new()
+	volume_value.custom_minimum_size = Vector2(52, 0)
+	volume_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	volume_value.add_theme_color_override("font_color", Color("#ffd77a"))
+	volume_row.add_child(volume_value)
+
+	var spacer := Control.new()
+	spacer.custom_minimum_size = Vector2(0, 20)
+	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_child(spacer)
+
+	var music_credit := Label.new()
+	music_credit.text = "Music by Dmitrii Kolesnikov from Pixabay"
+	music_credit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	music_credit.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	music_credit.add_theme_color_override("font_color", Color("#8f98ad"))
+	music_credit.add_theme_font_size_override("font_size", 11)
+	content.add_child(music_credit)
+
+	var close_button := Button.new()
+	close_button.text = "กลับ"
+	close_button.custom_minimum_size = Vector2(0, 44)
+	close_button.add_theme_font_size_override("font_size", 17)
+	close_button.add_theme_color_override("font_color", Color("#fff0cf"))
+	close_button.add_theme_color_override("font_hover_color", Color.WHITE)
+	close_button.add_theme_stylebox_override("normal", _make_button_style(Color("#562219"), Color("#d99a43")))
+	close_button.add_theme_stylebox_override("hover", _make_button_style(Color("#7c301e"), Color("#ffc866")))
+	close_button.add_theme_stylebox_override("pressed", _make_button_style(Color("#42170f"), Color("#d99a43")))
+	close_button.pressed.connect(close_menu)
+	content.add_child(close_button)
+
+func _on_volume_changed(value: float) -> void:
+	AudioManager.set_music_volume(value / 100.0)
+	_update_volume_label(value)
+
+func _update_volume_label(value: float) -> void:
+	if volume_value:
+		volume_value.text = "%d%%" % int(value)
+
+func _make_panel_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#141a29")
+	style.border_color = Color("#d99a43")
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(14)
+	style.shadow_color = Color(0, 0, 0, 0.5)
+	style.shadow_size = 16
+	style.shadow_offset = Vector2(0, 8)
+	return style
+
+func _make_button_style(background: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = background
+	style.border_color = border
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(9)
+	return style

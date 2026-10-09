@@ -95,12 +95,7 @@ func fire_activity_event(location: String) -> void:
 
 func end_game():
 	print("--- GAME OVER ---")
-	# Apply exam bonus (from card events)
-	var exam_multiplier = 1.0 + (Global.exam_bonus_pct / 100.0)
-	var boosted_study = int(Global.study_score * exam_multiplier)
-	var final_score = (0.5 * boosted_study) + (0.1 * Global.happy) + (0.2 * Global.energy) + (0.2 * Global.hunger)
-	print("Final Score: ", final_score, " (exam bonus: ", Global.exam_bonus_pct, "%)")
 
 	get_tree().paused = true
 	_end_game_ui.visible = true
-	_end_game_ui.setup(final_score, Global.exam_bonus_pct)
+	_end_game_ui.setup(0.0, Global.exam_bonus_pct)

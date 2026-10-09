@@ -8,6 +8,8 @@ signal forced_sleep_finished
 @onready var camera: Camera2D = $Camera
 @onready var player_panel = $UILayer/PlayerPanel
 @onready var night_lighting: CanvasModulate = $NightLighting
+@onready var pause_menu: Control = $UILayer/PauseMenu
+@onready var endgame_ui: Control = $UILayer/EndgameUI
 
 # >>> 1. อ้างอิงหน้าต่างควิซ (ให้แน่ใจว่าลากมาวางใน UILayer แล้ว) <<<
 @onready var learning_popup = $UILayer/learning_popup 
@@ -21,6 +23,7 @@ const SAVE_SLOT_MENU_SCENE = preload("res://ui/save_slot_menu.tscn")
 var player_nodes: Array[CharacterBody2D] = [] 
 var current_player_index: int = 0     
 var is_walking: bool = false
+var is_turn_transitioning: bool = false
 var is_forcing_sleep: bool = false
 var is_random_event_active: bool = false
 var random_event_turns: Dictionary = {}
@@ -31,7 +34,8 @@ var timetable_popup: Control
 var timetable_button: Button
 var class_time_popup: Control
 var save_slot_menu: SaveSlotMenu
-var save_button: Button
+var menu_button: Button
+var debug_endgame_button: Button
 
 var current_round: int = 1
 var max_rounds: int = 11     
@@ -112,7 +116,7 @@ var activity_time_costs = {
 }
 
 func _process(delta: float) -> void:
-	if is_walking or is_forcing_sleep:
+	if get_tree().paused or is_walking or is_forcing_sleep:
 		return
 
 	var activity_popup = $UILayer/ActivityPopup
@@ -137,6 +141,7 @@ func _ready() -> void:
 		if global_state is Dictionary:
 			Global.import_save_data(global_state)
 
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_setup_mock_data()
 	Global.ensure_random_timetables()
 	_setup_fade() # เรียกใช้ระบบจอดำตอนสลบ
@@ -145,6 +150,10 @@ func _ready() -> void:
 	_setup_timetable_ui()
 	_setup_class_time_ui()
 	_setup_save_ui()
+	_setup_debug_endgame_ui()
+	pause_menu.resume_requested.connect(_resume_game)
+	pause_menu.save_requested.connect(_on_pause_save_requested)
+	pause_menu.quit_requested.connect(_return_to_main_menu)
 	
 	if player_panel:
 		player_panel.setup_players_ui()
@@ -169,6 +178,26 @@ func _ready() -> void:
 
 	SaveManager.set_checkpoint(_build_checkpoint_state())
 	setup_current_turn()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if get_tree().paused:
+			_resume_game()
+		else:
+			_pause_game()
+		get_viewport().set_input_as_handled()
+
+func _pause_game() -> void:
+	get_tree().paused = true
+	pause_menu.open_menu()
+
+func _resume_game() -> void:
+	pause_menu.close_menu()
+	get_tree().paused = false
+
+func _return_to_main_menu() -> void:
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://ui/MainMenu.tscn")
 
 
 func _setup_timetable_ui() -> void:
@@ -210,27 +239,79 @@ func _setup_save_ui() -> void:
 
 	save_slot_menu = SAVE_SLOT_MENU_SCENE.instantiate() as SaveSlotMenu
 	$UILayer.add_child(save_slot_menu)
-	save_slot_menu.save_completed.connect(_on_manual_save_completed)
 
-	save_button = Button.new()
-	_update_save_button_text()
-	save_button.z_index = 50
-	save_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	save_button.offset_left = -88.0
-	save_button.offset_top = 8.0
-	save_button.offset_right = -8.0
-	save_button.offset_bottom = 44.0
-	save_button.add_theme_font_size_override("font_size", 15)
-	save_button.add_theme_color_override("font_color", Color("#fff0cf"))
-	save_button.add_theme_color_override("font_hover_color", Color.WHITE)
-	save_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#8f371f"), Color("#d99a43")))
-	save_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#b34b28"), Color("#ffc866")))
-	save_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
-	save_button.pressed.connect(_on_save_button_pressed)
-	$UILayer.add_child(save_button)
+	menu_button = Button.new()
+	menu_button.text = "☰"
+	menu_button.tooltip_text = "เมนู"
+	menu_button.z_index = 50
+	menu_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	menu_button.offset_left = -60.0
+	menu_button.offset_top = 10.0
+	menu_button.offset_right = -10.0
+	menu_button.offset_bottom = 58.0
+	menu_button.add_theme_font_size_override("font_size", 25)
+	menu_button.add_theme_color_override("font_color", Color("#fff0cf"))
+	menu_button.add_theme_color_override("font_hover_color", Color.WHITE)
+	menu_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#8f371f"), Color("#d99a43")))
+	menu_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#b34b28"), Color("#ffc866")))
+	menu_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
+	menu_button.pressed.connect(_pause_game)
+	$UILayer.add_child(menu_button)
 
 
-func _on_save_button_pressed() -> void:
+func _setup_debug_endgame_ui() -> void:
+	if not OS.is_debug_build() or not has_node("UILayer"):
+		return
+
+	debug_endgame_button = Button.new()
+	debug_endgame_button.text = "DEBUG: END GAME"
+	debug_endgame_button.tooltip_text = "เปิดหน้าจอจบเกมสำหรับทดสอบ"
+	debug_endgame_button.z_index = 50
+	debug_endgame_button.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	debug_endgame_button.offset_left = 10.0
+	debug_endgame_button.offset_top = 10.0
+	debug_endgame_button.offset_right = 170.0
+	debug_endgame_button.offset_bottom = 48.0
+	debug_endgame_button.add_theme_font_size_override("font_size", 13)
+	debug_endgame_button.add_theme_color_override("font_color", Color("#fff0cf"))
+	debug_endgame_button.add_theme_color_override("font_hover_color", Color.WHITE)
+	debug_endgame_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
+	debug_endgame_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#9a3d22"), Color("#ffc866")))
+	debug_endgame_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#4d1d14"), Color("#d99a43")))
+	debug_endgame_button.pressed.connect(_show_debug_endgame)
+	$UILayer.add_child(debug_endgame_button)
+
+
+func _show_debug_endgame() -> void:
+	if not endgame_ui:
+		push_error("NewMap: ไม่พบ EndgameUI สำหรับโหมดทดสอบ")
+		return
+
+	if debug_endgame_button:
+		debug_endgame_button.hide()
+	if pause_menu.visible:
+		pause_menu.close_menu()
+	if current_player_index < player_nodes.size():
+		player_nodes[current_player_index].set_movement_enabled(false)
+
+	get_tree().paused = true
+	_show_endgame()
+
+
+func _get_current_player_money() -> int:
+	if current_player_index >= 0 and current_player_index < Global.player_data.size():
+		return int(Global.player_data[current_player_index].get("money", 0))
+	return Global.money
+
+
+func _show_endgame() -> void:
+	if timetable_button:
+		timetable_button.hide()
+	endgame_ui.show()
+	endgame_ui.setup(0.0, Global.exam_bonus_pct, _get_current_player_money())
+
+
+func _on_pause_save_requested() -> void:
 	if is_walking or is_forcing_sleep or is_random_event_active:
 		return
 	var activity_popup = $UILayer/ActivityPopup
@@ -245,22 +326,6 @@ func _on_save_button_pressed() -> void:
 	if not is_forcing_sleep and current_player_index < player_nodes.size():
 		player_nodes[current_player_index].set_movement_enabled(true)
 	is_walking = false
-
-
-func _on_manual_save_completed(_slot: int) -> void:
-	_update_save_button_text()
-
-
-func _update_save_button_text() -> void:
-	if not save_button:
-		return
-	save_button.text = "SAVE"
-	save_button.tooltip_text = (
-		"บันทึกเกม • ช่อง %d" % SaveManager.active_slot
-		if SaveManager.active_slot >= 1
-		else "บันทึกเกม"
-	)
-
 
 func _make_timetable_button_style(background: Color, border: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -373,6 +438,9 @@ func _start_turn_random_events() -> void:
 		player_nodes[event_player_index].set_movement_enabled(true)
 
 func pass_turn() -> void:
+	if is_turn_transitioning:
+		return
+	is_turn_transitioning = true
 	var previous_player = current_player_index
 	_mark_remaining_classes_missed(previous_player, current_round)
 	current_player_index += 1
@@ -384,6 +452,8 @@ func pass_turn() -> void:
 		
 		if current_round > max_rounds:
 			print("จบเกม!!!")
+			get_tree().paused = true
+			_show_endgame()
 			return
 			
 		_reset_daily_missions(current_round)
@@ -398,6 +468,7 @@ func pass_turn() -> void:
 	print("--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ ", current_player_index + 1, " ---")
 	_capture_completed_turn_checkpoint()
 	setup_current_turn()
+	is_turn_transitioning = false
 
 
 func _capture_completed_turn_checkpoint() -> void:
@@ -1025,12 +1096,15 @@ func render_mission_text(player_index: int, round_num: int) -> void:
 		var day_key := "R" + str(((round_num - 1) % 5) + 1)
 		var study_missions: Array = p_data["timetable"].get("daily_subjects", {}).get(day_key, [])
 		for mission in study_missions:
+			var subject := str(mission.get("subject", ""))
+			var class_time := _get_mission_class_time(mission)
+			var mission_label := "%s (เวลา %s)" % [subject, class_time] if not class_time.is_empty() else subject
 			if mission.get("is_completed", false):
-				display_lines.append("☑ เรียน " + str(mission.get("subject", "")))
+				display_lines.append("☑ เรียน " + mission_label)
 			elif mission.get("attendance_status", "pending") == "missed":
-				display_lines.append("✕ พลาด " + str(mission.get("subject", "")))
+				display_lines.append("✕ พลาด " + mission_label)
 			else:
-				display_lines.append("☐ เรียน " + str(mission.get("subject", "")))
+				display_lines.append("☐ เรียน " + mission_label)
 
 	for event_mission in p_data.get("event_missions", []):
 		var is_completed: bool = event_mission.get("is_completed", false)
@@ -1045,6 +1119,23 @@ func render_mission_text(player_index: int, round_num: int) -> void:
 
 	if player_panel and player_panel.has_method("update_mission"):
 		player_panel.update_mission(display_text)
+
+func _get_mission_class_time(mission: Dictionary) -> String:
+	var time_label := str(mission.get("time_label", ""))
+	if not time_label.is_empty():
+		return time_label
+
+	var start_minutes := int(mission.get("start_minutes", -1))
+	var end_minutes := int(mission.get("end_minutes", -1))
+	if start_minutes < 0 or end_minutes < 0:
+		return ""
+
+	return "%s - %s" % [_format_mission_time(start_minutes), _format_mission_time(end_minutes)]
+
+func _format_mission_time(total_minutes: int) -> String:
+	var hour := int(total_minutes / 60) % 24
+	var minute := total_minutes % 60
+	return "%02d:%02d" % [hour, minute]
 
 func _mark_mission_completed(action_name: String) -> void:
 	var subject_name = action_name.replace("เรียน ", "")
