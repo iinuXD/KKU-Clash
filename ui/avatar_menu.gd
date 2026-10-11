@@ -94,26 +94,18 @@ func update_avatar_preview() -> void:
 	
 func load_asset_from_Folder(path: String) -> Array:
 	var file_paths: Array = []
-	var dir = DirAccess.open(path)
-	
-	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		while file_name != "":
-			if !dir.current_is_dir():
-				# ดักจับไฟล์ .png และไฟล์ .png.import (สำหรับตอน Export)
-				if file_name.ends_with(".png") or file_name.ends_with(".png.import"):
-					# ตัดคำว่า .import ออก เพื่อให้เวลาเอาไปใช้คำสั่ง load() มันยังเป็นชื่อ .png ปกติ
-					var clean_name = file_name.replace(".import", "")
-					
-					# กันเหนียว: เผื่อมีคำว่า .remap โผล่มา
-					clean_name = clean_name.replace(".remap", "") 
-					
-					file_paths.append(path + "/" + clean_name)
-			file_name = dir.get_next()
-	else:
-		print("หาโฟลเดอร์ไม่เจอ: ", path)
-		
+
+	# ResourceLoader คืนชื่อทรัพยากรเดิมทั้งใน Editor และไฟล์ .pck หลัง Export
+	# จึงไม่ต้องพึ่งไฟล์ .import/.remap ที่อาจแสดงผลต่างกันในแต่ละระบบ
+	for file_name in ResourceLoader.list_directory(path):
+		if file_name.ends_with("/") or not file_name.to_lower().ends_with(".png"):
+			continue
+		var resource_path := path.path_join(file_name)
+		if ResourceLoader.exists(resource_path, "Texture2D"):
+			file_paths.append(resource_path)
+
+	# ลำดับต้องคงที่ เพื่อให้ index ของตัวละครในไฟล์เซฟตรงกันทุกเครื่อง
+	file_paths.sort()
 	return file_paths
 	
 func _on_nexthair_pressed() -> void:

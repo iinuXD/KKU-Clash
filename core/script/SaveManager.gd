@@ -4,7 +4,7 @@ signal save_written(slot: int, success: bool, message: String)
 
 const SAVE_SCHEMA_VERSION := 1
 const SLOT_COUNT := 4
-const SAVE_DIRECTORY := "user://saves"
+const SAVE_DIRECTORY := "user://"
 
 var active_slot: int = -1
 var checkpoint: Dictionary = {}
@@ -183,7 +183,7 @@ func _read_slot(slot: int) -> Dictionary:
 
 
 func _slot_path(slot: int) -> String:
-	return "%s/slot_%d.json" % [SAVE_DIRECTORY, slot]
+	return "%sslot_%d.json" % [SAVE_DIRECTORY, slot]
 
 
 func _is_valid_slot(slot: int) -> bool:
