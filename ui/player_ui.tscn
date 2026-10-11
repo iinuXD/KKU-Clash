@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://de7edduoqhje1"]
+[gd_scene format=3 uid="uid://b1ar8pq6ypjro"]
 
-[ext_resource type="Script" uid="uid://cb3logb14kxdd" path="res://ui/player_ui.gd" id="1_cfom6"]
+[ext_resource type="Script" path="res://ui/player_ui.gd" id="1_cfom6"]
 
 [node name="PlayerUI" type="Control" unique_id=1594373216]
 visible = false
