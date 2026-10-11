@@ -13,12 +13,12 @@ extends Control
 @onready var sub_quest_sick = $FoldableContainer/VBoxContainer/subcontainer/subSick
 
 func _ready() -> void:
-	sub_quest_injured.text = "[Sub Quest] You are injured! Visit the Hospital to recover."
-	sub_quest_sick.text = "[Sub Quest] You are sick! Get medicine or rest at the Dorm."
+		sub_quest_injured.text = "[ภารกิจรอง] คุณบาดเจ็บ ไปโรงพยาบาลเพื่อรักษาตัว"
+		sub_quest_sick.text = "[ภารกิจรอง] คุณป่วย ซื้อยาหรือพักผ่อนที่หอพัก"
 
 func _process(delta: float) -> void:
-	round_label.text = "Round: " + str(Global.current_round) + " / " + str(Global.max_rounds)
-	money_label.text = "$" + str(Global.money)
+	round_label.text = "รอบ: " + str(Global.current_round) + " / " + str(Global.max_rounds)
+	money_label.text = "฿" + str(Global.money)
 	
 	energy_bar.value = Global.energy
 	happy_bar.value = Global.happy
@@ -27,6 +27,6 @@ func _process(delta: float) -> void:
 	timer_bar.value = Global.time_remaining
 	
 	# Quest labels
-	main_quest.text = "[Main Quest]Join Class: %d / 10" % Global.class_join_count
+	main_quest.text = "[ภารกิจหลัก] เข้าเรียน: %d / 10" % Global.class_join_count
 	sub_quest_injured.visible = Global.is_injured
 	sub_quest_sick.visible = Global.is_sick

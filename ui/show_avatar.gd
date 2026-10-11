@@ -9,7 +9,7 @@ extends Control
 ]
 
 @onready var loading_label: Label = $LoadingLabel
-var loading_texts: Array = ["loading.", "loading..", "loading..."]
+var loading_texts: Array = ["กำลังโหลด.", "กำลังโหลด..", "กำลังโหลด..."]
 var current_text_index: int = 0
 
 # Called when the node enters the scene tree for the first time.

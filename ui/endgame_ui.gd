@@ -10,8 +10,8 @@ extends Control
 @onready var exam_score_label: Label = $EndGameWindow/MainVBox/ScoreBox/ExamScoreLabel
 @onready var rating_label: Label = $EndGameWindow/MainVBox/RatingLabel
 @onready var player_scores: VBoxContainer = $EndGameWindow/MainVBox/PlayerScores
-@onready var restart_button: Button = $EndGameWindow/MainVBox/RestartButton
-@onready var exit_button: Button = $EndGameWindow/MainVBox/ExitButton
+@onready var restart_button: Button = $EndGameWindow/MainVBox/ButtonRow/RestartButton
+@onready var exit_button: Button = $EndGameWindow/MainVBox/ButtonRow/ExitButton
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -62,9 +62,13 @@ func _render_player_scores() -> void:
 
 
 func _add_player_score_row(player_index: int, player_data: Dictionary) -> void:
+	var row_panel := PanelContainer.new()
+	row_panel.custom_minimum_size = Vector2(0, 50)
+	row_panel.add_theme_stylebox_override("panel", _make_player_row_style())
+
 	var row := Label.new()
 	var scores := _calculate_player_scores(player_data)
-	row.text = "ผู้เล่น %d     %d / 3000     %s\nเข้าเรียน %d/10   •   เงิน ฿%d" % [
+	row.text = "ผู้เล่น %d   •   %d / 3000   •   %s\nเข้าเรียน %d/10   •   เงินคงเหลือ ฿%d" % [
 		player_index + 1,
 		scores.total,
 		scores.rating,
@@ -75,8 +79,21 @@ func _add_player_score_row(player_index: int, player_data: Dictionary) -> void:
 	row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	row.add_theme_font_size_override("font_size", 17)
 	row.add_theme_color_override("font_color", Color("#471c12"))
-	row.custom_minimum_size = Vector2(0, 44)
-	player_scores.add_child(row)
+	row_panel.add_child(row)
+	player_scores.add_child(row_panel)
+
+
+func _make_player_row_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#fff5df")
+	style.border_color = Color("#b96a43")
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(9)
+	style.content_margin_left = 14.0
+	style.content_margin_right = 14.0
+	style.content_margin_top = 5.0
+	style.content_margin_bottom = 5.0
+	return style
 
 
 func _calculate_player_scores(player_data: Dictionary) -> Dictionary:

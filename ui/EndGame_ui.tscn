@@ -3,48 +3,72 @@
 [ext_resource type="Script" uid="uid://bj44f3de33qov" path="res://ui/endgame_ui.gd" id="1_eg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-bg_color = Color(0.906, 0.824, 0.643, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.137, 0.098, 0.059, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
+bg_color = Color(0.969, 0.91, 0.804, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.49, 0.188, 0.122, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0.12, 0.04, 0.02, 0.5)
+shadow_size = 14
+shadow_offset = Vector2(0, 7)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
 content_margin_left = 24.0
 content_margin_top = 14.0
 content_margin_right = 24.0
 content_margin_bottom = 14.0
-bg_color = Color(0.776, 0.651, 0.412, 1)
+bg_color = Color(0.561, 0.216, 0.122, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 5
-border_color = Color(0.137, 0.098, 0.059, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(0.835, 0.537, 0.267, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
 content_margin_left = 24.0
 content_margin_top = 14.0
 content_margin_right = 24.0
 content_margin_bottom = 14.0
-bg_color = Color(0.647, 0.525, 0.325, 1)
+bg_color = Color(0.365, 0.122, 0.071, 1)
 border_width_left = 2
 border_width_top = 5
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.137, 0.098, 0.059, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(0.835, 0.537, 0.267, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.69, 0.294, 0.157, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 5
+border_color = Color(1, 0.725, 0.376, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_separator"]
+bg_color = Color(0.561, 0.216, 0.122, 0.82)
+content_margin_top = 1.0
+content_margin_bottom = 1.0
 
 [node name="Control" type="Control" unique_id=1532158066]
 layout_mode = 3
@@ -62,15 +86,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.75)
+color = Color(0.102, 0.035, 0.02, 0.76)
 
 [node name="EndGameWindow" type="Panel" parent="." unique_id=100000002]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.2
-anchor_top = 0.05
-anchor_right = 0.8
-anchor_bottom = 0.95
+anchor_left = 0.5
+anchor_top = 0.04
+anchor_right = 0.5
+anchor_bottom = 0.96
+offset_left = -390.0
+offset_right = 390.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
@@ -80,36 +106,39 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 30.0
-offset_top = 30.0
-offset_right = -30.0
-offset_bottom = -30.0
+offset_left = 26.0
+offset_top = 22.0
+offset_right = -26.0
+offset_bottom = -22.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 12
 
 [node name="TitleLabel" type="Label" parent="EndGameWindow/MainVBox" unique_id=100000004]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 34
 text = "สรุปผลการเล่น"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="EndGameWindow/MainVBox" unique_id=100000005]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_separator")
 
 [node name="MainQuestLabel" type="Label" parent="EndGameWindow/MainVBox" unique_id=100000006]
 layout_mode = 2
 visible = false
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 20
-text = "[Main Quest] Attend 10 Classes: ..."
+text = "ภารกิจหลัก: เข้าเรียนให้ครบ 10 ครั้ง"
 horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="HSeparator2" type="HSeparator" parent="EndGameWindow/MainVBox" unique_id=100000007]
 layout_mode = 2
+visible = false
 
 [node name="ScoreBox" type="VBoxContainer" parent="EndGameWindow/MainVBox" unique_id=100000008]
 layout_mode = 2
@@ -117,34 +146,39 @@ theme_override_constants/separation = 6
 
 [node name="FinalScoreLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000009]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.369, 0.125, 0.071, 1)
 theme_override_font_sizes/font_size = 28
-text = "Final Score: ..."
+text = "คะแนนสูงสุด  0 / 3000"
 horizontal_alignment = 1
 
 [node name="StudyLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000010]
 layout_mode = 2
 visible = false
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 18
-text = "Study Score: ..."
+text = "คะแนนการเรียน: ..."
 horizontal_alignment = 1
 
 [node name="MoneyLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000011]
 layout_mode = 2
 visible = false
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 18
-text = "Money: ..."
+text = "เงินคงเหลือ: ..."
 horizontal_alignment = 1
 
 [node name="ClassesLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox" unique_id=100000012]
 layout_mode = 2
 visible = false
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 18
-text = "Classes Attended: ..."
+text = "จำนวนครั้งที่เข้าเรียน: ..."
 horizontal_alignment = 1
 
 [node name="StatusScoreLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox"]
 layout_mode = 2
 visible = false
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 17
 text = "ส่วนที่ 1 ค่าสถานะ  0 / 1000"
 horizontal_alignment = 1
@@ -152,6 +186,7 @@ horizontal_alignment = 1
 [node name="MissionScoreLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox"]
 layout_mode = 2
 visible = false
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 17
 text = "ส่วนที่ 2 ภารกิจรายรอบ  0 / 1000"
 horizontal_alignment = 1
@@ -159,13 +194,15 @@ horizontal_alignment = 1
 [node name="ExamScoreLabel" type="Label" parent="EndGameWindow/MainVBox/ScoreBox"]
 layout_mode = 2
 visible = false
+theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 17
 text = "ส่วนที่ 3 คะแนนสอบ  0 / 1000"
 horizontal_alignment = 1
 
 [node name="RatingLabel" type="Label" parent="EndGameWindow/MainVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.282, 0.11, 0.071, 1)
+theme_override_font_sizes/font_size = 19
 text = "ระดับผลการเล่น"
 horizontal_alignment = 1
 autowrap_mode = 2
@@ -179,24 +216,39 @@ horizontal_alignment = 1
 
 [node name="PlayerScores" type="VBoxContainer" parent="EndGameWindow/MainVBox"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 7
 
 [node name="Spacer" type="Control" parent="EndGameWindow/MainVBox" unique_id=100000013]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="RestartButton" type="Button" parent="EndGameWindow/MainVBox" unique_id=100000014]
+[node name="ButtonRow" type="HBoxContainer" parent="EndGameWindow/MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="EndGameWindow/MainVBox/ButtonRow" unique_id=100000014]
+custom_minimum_size = Vector2(210, 48)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.941, 0.812, 1)
+theme_override_colors/font_hover_color = Color(1, 0.973, 0.902, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.941, 0.812, 1)
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 text = "เล่นอีกครั้ง"
 
-[node name="ExitButton" type="Button" parent="EndGameWindow/MainVBox"]
+[node name="ExitButton" type="Button" parent="EndGameWindow/MainVBox/ButtonRow"]
+custom_minimum_size = Vector2(210, 48)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.941, 0.812, 1)
+theme_override_colors/font_hover_color = Color(1, 0.973, 0.902, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.941, 0.812, 1)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
 text = "ออกจากเกม"

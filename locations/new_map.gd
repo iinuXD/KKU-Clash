@@ -35,7 +35,6 @@ var timetable_button: Button
 var class_time_popup: Control
 var save_slot_menu: SaveSlotMenu
 var menu_button: Button
-var debug_endgame_button: Button
 
 var current_round: int = 1
 var max_rounds: int = 11     
@@ -150,7 +149,6 @@ func _ready() -> void:
 	_setup_timetable_ui()
 	_setup_class_time_ui()
 	_setup_save_ui()
-	_setup_debug_endgame_ui()
 	pause_menu.resume_requested.connect(_resume_game)
 	pause_menu.save_requested.connect(_on_pause_save_requested)
 	pause_menu.quit_requested.connect(_return_to_main_menu)
@@ -212,16 +210,18 @@ func _setup_timetable_ui() -> void:
 	timetable_button.text = "ตารางเรียน"
 	timetable_button.z_index = 50
 	timetable_button.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	timetable_button.offset_left = -75.0
-	timetable_button.offset_top = 54.0
-	timetable_button.offset_right = 75.0
-	timetable_button.offset_bottom = 90.0
-	timetable_button.add_theme_font_size_override("font_size", 17)
-	timetable_button.add_theme_color_override("font_color", Color("#fff0cf"))
-	timetable_button.add_theme_color_override("font_hover_color", Color.WHITE)
-	timetable_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#8f371f"), Color("#d99a43")))
-	timetable_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#b34b28"), Color("#ffc866")))
-	timetable_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
+	# วางต่อจากแถบวันที่/เวลาให้เป็นแถวเดียวกัน และคืนพื้นที่ด้านล่างให้ป้ายสถานที่
+	timetable_button.offset_left = 160.0
+	timetable_button.offset_top = 8.0
+	timetable_button.offset_right = 300.0
+	timetable_button.offset_bottom = 48.0
+	timetable_button.add_theme_font_size_override("font_size", 22)
+	timetable_button.add_theme_color_override("font_color", Color("#471c12"))
+	timetable_button.add_theme_color_override("font_hover_color", Color("#471c12"))
+	timetable_button.add_theme_color_override("font_pressed_color", Color("#471c12"))
+	timetable_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#f7e8cd"), Color("#8f371f")))
+	timetable_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#ffe0a2"), Color("#b34b28")))
+	timetable_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#ebc98f"), Color("#6f2919")))
 	timetable_button.pressed.connect(_on_timetable_button_pressed)
 	$UILayer.add_child(timetable_button)
 
@@ -257,45 +257,6 @@ func _setup_save_ui() -> void:
 	menu_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
 	menu_button.pressed.connect(_pause_game)
 	$UILayer.add_child(menu_button)
-
-
-func _setup_debug_endgame_ui() -> void:
-	if not OS.is_debug_build() or not has_node("UILayer"):
-		return
-
-	debug_endgame_button = Button.new()
-	debug_endgame_button.text = "DEBUG: END GAME"
-	debug_endgame_button.tooltip_text = "เปิดหน้าจอจบเกมสำหรับทดสอบ"
-	debug_endgame_button.z_index = 50
-	debug_endgame_button.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	debug_endgame_button.offset_left = 10.0
-	debug_endgame_button.offset_top = 10.0
-	debug_endgame_button.offset_right = 170.0
-	debug_endgame_button.offset_bottom = 48.0
-	debug_endgame_button.add_theme_font_size_override("font_size", 13)
-	debug_endgame_button.add_theme_color_override("font_color", Color("#fff0cf"))
-	debug_endgame_button.add_theme_color_override("font_hover_color", Color.WHITE)
-	debug_endgame_button.add_theme_stylebox_override("normal", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
-	debug_endgame_button.add_theme_stylebox_override("hover", _make_timetable_button_style(Color("#9a3d22"), Color("#ffc866")))
-	debug_endgame_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#4d1d14"), Color("#d99a43")))
-	debug_endgame_button.pressed.connect(_show_debug_endgame)
-	$UILayer.add_child(debug_endgame_button)
-
-
-func _show_debug_endgame() -> void:
-	if not endgame_ui:
-		push_error("NewMap: ไม่พบ EndgameUI สำหรับโหมดทดสอบ")
-		return
-
-	if debug_endgame_button:
-		debug_endgame_button.hide()
-	if pause_menu.visible:
-		pause_menu.close_menu()
-	if current_player_index < player_nodes.size():
-		player_nodes[current_player_index].set_movement_enabled(false)
-
-	get_tree().paused = true
-	_show_endgame()
 
 
 func _get_current_player_money() -> int:
@@ -544,7 +505,7 @@ func _setup_turn_notice() -> void:
 	turn_notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	turn_notice.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	turn_notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	turn_notice.add_theme_font_size_override("font_size", 20)
+	turn_notice.add_theme_font_size_override("font_size", 24)
 	turn_notice.add_theme_color_override("font_color", Color("#4b1d13"))
 	turn_notice.add_theme_color_override("font_outline_color", Color(1.0, 0.96, 0.87, 1.0))
 	turn_notice.add_theme_constant_override("outline_size", 2)
@@ -812,7 +773,7 @@ func _handle_direct_learning() -> void:
 			"รอเข้าเรียน",
 			"wait",
 			true,
-			Color("#f2c96d")
+			Color("#8a5a00")
 		)
 		choice = await class_time_popup.choice_made
 		if choice != "wait":
@@ -823,7 +784,7 @@ func _handle_direct_learning() -> void:
 		if timing_state == "on_time":
 			var status_text := "ตรงเวลา" if late_minutes <= 0 else "ยังอยู่ในช่วงผ่อนผัน %d นาที" % late_minutes
 			class_time_popup.open_class_info(
-				subject_name, class_time, status_text, "เข้าเรียน", "attend", true, Color("#8fd19e")
+				subject_name, class_time, status_text, "เข้าเรียน", "attend", true, Color("#246b3d")
 			)
 		elif timing_state == "late":
 			reward_multiplier = CLASS_LATE_STUDY_MULTIPLIER
@@ -835,7 +796,7 @@ func _handle_direct_learning() -> void:
 				"เข้าเรียน",
 				"attend",
 				true,
-				Color("#ef9b69")
+				Color("#a33f23")
 			)
 		choice = await class_time_popup.choice_made
 		if choice != "attend":
@@ -905,7 +866,7 @@ func _show_class_time_message(subject_name: String, class_time: String, message:
 		"ตกลง",
 		"close",
 		false,
-		Color("#f3d29b")
+		Color("#78301f")
 	)
 	await class_time_popup.choice_made
 

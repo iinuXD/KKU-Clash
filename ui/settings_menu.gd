@@ -33,7 +33,7 @@ func close_menu() -> void:
 
 func _build_interface() -> void:
 	var overlay := ColorRect.new()
-	overlay.color = Color(0.02, 0.03, 0.06, 0.84)
+	overlay.color = Color(0.12, 0.055, 0.025, 0.62)
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(overlay)
@@ -64,14 +64,14 @@ func _build_interface() -> void:
 	var title := Label.new()
 	title.text = "ตั้งค่า"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_color_override("font_color", Color("#ffd77a"))
-	title.add_theme_font_size_override("font_size", 28)
+	title.add_theme_color_override("font_color", Color("#5f2418"))
+	title.add_theme_font_size_override("font_size", 34)
 	content.add_child(title)
 
 	var music_label := Label.new()
 	music_label.text = "เสียงเพลง"
-	music_label.add_theme_color_override("font_color", Color("#e6e8ef"))
-	music_label.add_theme_font_size_override("font_size", 18)
+	music_label.add_theme_color_override("font_color", Color("#4b2418"))
+	music_label.add_theme_font_size_override("font_size", 22)
 	content.add_child(music_label)
 
 	var volume_row := HBoxContainer.new()
@@ -89,13 +89,14 @@ func _build_interface() -> void:
 	volume_value = Label.new()
 	volume_value.custom_minimum_size = Vector2(52, 0)
 	volume_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	volume_value.add_theme_color_override("font_color", Color("#ffd77a"))
+	volume_value.add_theme_color_override("font_color", Color("#a33f23"))
+	volume_value.add_theme_font_size_override("font_size", 20)
 	volume_row.add_child(volume_value)
 
 	var display_label := Label.new()
 	display_label.text = "รูปแบบหน้าจอ"
-	display_label.add_theme_color_override("font_color", Color("#e6e8ef"))
-	display_label.add_theme_font_size_override("font_size", 18)
+	display_label.add_theme_color_override("font_color", Color("#4b2418"))
+	display_label.add_theme_font_size_override("font_size", 22)
 	content.add_child(display_label)
 
 	display_mode_option = OptionButton.new()
@@ -112,22 +113,22 @@ func _build_interface() -> void:
 	content.add_child(spacer)
 
 	var music_credit := Label.new()
-	music_credit.text = "Music by Dmitrii Kolesnikov from Pixabay"
+	music_credit.text = "เพลงประกอบโดย Dmitrii Kolesnikov จาก Pixabay"
 	music_credit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	music_credit.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	music_credit.add_theme_color_override("font_color", Color("#8f98ad"))
-	music_credit.add_theme_font_size_override("font_size", 11)
+	music_credit.add_theme_color_override("font_color", Color("#6f5e50"))
+	music_credit.add_theme_font_size_override("font_size", 15)
 	content.add_child(music_credit)
 
 	var close_button := Button.new()
 	close_button.text = "กลับ"
-	close_button.custom_minimum_size = Vector2(0, 44)
-	close_button.add_theme_font_size_override("font_size", 17)
-	close_button.add_theme_color_override("font_color", Color("#fff0cf"))
-	close_button.add_theme_color_override("font_hover_color", Color.WHITE)
-	close_button.add_theme_stylebox_override("normal", _make_button_style(Color("#562219"), Color("#d99a43")))
-	close_button.add_theme_stylebox_override("hover", _make_button_style(Color("#7c301e"), Color("#ffc866")))
-	close_button.add_theme_stylebox_override("pressed", _make_button_style(Color("#42170f"), Color("#d99a43")))
+	close_button.custom_minimum_size = Vector2(0, 50)
+	close_button.add_theme_font_size_override("font_size", 21)
+	close_button.add_theme_color_override("font_color", Color("#451a10"))
+	close_button.add_theme_color_override("font_hover_color", Color("#451a10"))
+	close_button.add_theme_stylebox_override("normal", _make_button_style(Color("#d98b63"), Color("#78301f")))
+	close_button.add_theme_stylebox_override("hover", _make_button_style(Color("#f0aa79"), Color("#8f371f")))
+	close_button.add_theme_stylebox_override("pressed", _make_button_style(Color("#c87550"), Color("#672619")))
 	close_button.pressed.connect(close_menu)
 	content.add_child(close_button)
 
@@ -174,13 +175,13 @@ func _save_display_settings(mode: int) -> void:
 
 func _make_panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#141a29")
-	style.border_color = Color("#d99a43")
-	style.set_border_width_all(2)
+	style.bg_color = Color("#f7e8cd")
+	style.border_color = Color("#78301f")
+	style.set_border_width_all(3)
 	style.set_corner_radius_all(14)
-	style.shadow_color = Color(0, 0, 0, 0.5)
-	style.shadow_size = 16
-	style.shadow_offset = Vector2(0, 8)
+	style.shadow_color = Color(0.18, 0.07, 0.035, 0.34)
+	style.shadow_size = 12
+	style.shadow_offset = Vector2(0, 6)
 	return style
 
 func _make_button_style(background: Color, border: Color) -> StyleBoxFlat:

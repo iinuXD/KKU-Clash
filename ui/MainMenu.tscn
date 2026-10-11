@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cke6ju6jgx7rh" path="res://ui/main_menu.gd" id="1_qo3sn"]
 [ext_resource type="Texture2D" uid="uid://cp2ygg6ywvbof" path="res://asset/menu/background.png" id="1_x262b"]
-[ext_resource type="FontFile" uid="uid://dnpvp0ej773ky" path="res://font/04B_30__.TTF" id="3_g5fyd"]
+[ext_resource type="FontFile" path="res://font/ZFTERMIN__.ttf" id="3_g5fyd"]
 [ext_resource type="Texture2D" uid="uid://cue4i2n4yk5gj" path="res://asset/menu/btn.png" id="3_qo3sn"]
 [ext_resource type="Texture2D" uid="uid://c45lkmfsob54p" path="res://asset/menu/press.png" id="4_g5fyd"]
 [ext_resource type="Texture2D" uid="uid://cv64rjw42fj2x" path="res://asset/menu/hover.png" id="5_uwsby"]
@@ -59,57 +59,59 @@ theme_override_constants/separation = 8
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.065, 0.04, 1)
 theme_override_fonts/font = ExtResource("3_g5fyd")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
 theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
-text = "NEW GAME"
+text = "เกมใหม่"
 
 [node name="optionsBtn" type="Button" parent="VBoxContainer" unique_id=2024472305]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.065, 0.04, 1)
 theme_override_fonts/font = ExtResource("3_g5fyd")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
 theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
-text = "LOAD GAME"
+text = "เล่นต่อ"
 
 [node name="settingsBtn" type="Button" parent="VBoxContainer" unique_id=1514704683]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.065, 0.04, 1)
 theme_override_fonts/font = ExtResource("3_g5fyd")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
 theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
-text = "SETTINGS"
+text = "ตั้งค่า"
 
 [node name="exitBtn" type="Button" parent="VBoxContainer" unique_id=812520096]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.065, 0.04, 1)
 theme_override_fonts/font = ExtResource("3_g5fyd")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
 theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
-text = "EXIT
-"
+text = "ออกจากเกม"
 
 [node name="Label" type="Label" parent="." unique_id=1497352883]
 layout_mode = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.065, 0.04, 1)
+theme_override_constants/outline_size = 6
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -120,7 +122,7 @@ offset_bottom = 296.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_g5fyd")
-theme_override_font_sizes/font_size = 100
+theme_override_font_sizes/font_size = 92
 text = "KKU CLASH"
 horizontal_alignment = 1
 
@@ -138,14 +140,14 @@ offset_bottom = -11.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_hover_color = Color(0.18, 0.065, 0.04, 1)
 theme_override_fonts/font = ExtResource("3_g5fyd")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
 theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
-text = "LEADERBOARD"
+text = "อันดับคะแนน"
 
 [connection signal="pressed" from="VBoxContainer/startgameBtn" to="." method="_on_startgame_btn_pressed"]
 [connection signal="button_up" from="VBoxContainer/optionsBtn" to="." method="_on_options_btn_button_up"]
