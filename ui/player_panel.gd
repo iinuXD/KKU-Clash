@@ -5,7 +5,7 @@ const BORDER_ACTIVE = preload("res://asset/playerpanel/border2.png")
 const FULL_CARD_SIZE := Vector2(252, 130)
 const COMPACT_CARD_SIZE := Vector2(104, 112)
 const CARD_SIDE_MARGIN := 8.0
-const CARD_TOP_OFFSET := 56.0
+const CARD_TOP_OFFSET := 68.0
 const CARD_BOTTOM_MARGIN := 8.0
 
 const STAT_CONFIG := {

@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://clbyntv3xs4cx" path="res://locations/Place/shop.tscn" id="3_mhtu8"]
 [ext_resource type="PackedScene" uid="uid://doy0ijcc75ryh" path="res://locations/Place/learn.tscn" id="3_nv14v"]
 [ext_resource type="PackedScene" uid="uid://dex4p3bg43usj" path="res://locations/Place/fun.tscn" id="3_nwy2u"]
+[ext_resource type="Texture2D" uid="uid://r1fy6hcuw8nb" path="res://asset/place/park.png" id="3_park_decor"]
 [ext_resource type="PackedScene" uid="uid://dq8bgncojgwpq" path="res://locations/Place/hospital.tscn" id="4_l4dg8"]
 [ext_resource type="PackedScene" uid="uid://xk0g0paoa0oj" path="res://locations/Place/sport.tscn" id="10_l4dg8"]
 [ext_resource type="PackedScene" uid="uid://ccjivjc3gdk15" path="res://ui/player_panel.tscn" id="13_os617"]
@@ -547,6 +548,13 @@ position = Vector2(248, 88)
 
 [node name="Hospital" type="Marker2D" parent="waypiont" unique_id=541237133]
 position = Vector2(681, 392)
+
+[node name="Decorations" type="Node2D" parent="."]
+
+[node name="ParkDecoration" type="Sprite2D" parent="Decorations"]
+position = Vector2(84.04236, 581.0427)
+scale = Vector2(1.0009292, 1.0009291)
+texture = ExtResource("3_park_decor")
 
 [node name="location" type="Node2D" parent="." unique_id=1864991258]
 
