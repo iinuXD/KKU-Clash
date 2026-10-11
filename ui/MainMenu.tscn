@@ -81,7 +81,7 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
 text = "LOAD GAME"
 
-[node name="settingsBtn" type="Button" parent="VBoxContainer"]
+[node name="settingsBtn" type="Button" parent="VBoxContainer" unique_id=1514704683]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -110,7 +110,6 @@ text = "EXIT
 
 [node name="Label" type="Label" parent="." unique_id=1497352883]
 layout_mode = 1
-theme_override_colors/font_color = Color(1, 1, 1, 1)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -119,6 +118,7 @@ offset_top = 116.0
 offset_right = 354.5
 offset_bottom = 296.0
 grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_g5fyd")
 theme_override_font_sizes/font_size = 100
 text = "KKU CLASH"
@@ -131,10 +131,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -280.0
-offset_top = -82.0
-offset_right = -32.0
-offset_bottom = -32.0
+offset_left = -273.0
+offset_top = -108.0
+offset_right = -11.0
+offset_bottom = -11.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
