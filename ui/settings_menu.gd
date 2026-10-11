@@ -3,19 +3,27 @@ class_name SettingsMenu
 
 signal closed
 
+const DISPLAY_SETTINGS_PATH := "user://display_settings.cfg"
+const DISPLAY_MODE_WINDOWED := 0
+const DISPLAY_MODE_FULLSCREEN := 1
+const DISPLAY_MODE_BORDERLESS := 2
+
 var volume_slider: HSlider
 var volume_value: Label
+var display_mode_option: OptionButton
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	z_index = 1100
+	_load_display_settings()
 	_build_interface()
 	hide()
 
 func open_menu() -> void:
 	volume_slider.value = AudioManager.get_music_volume() * 100.0
 	_update_volume_label(volume_slider.value)
+	display_mode_option.select(_get_current_display_mode())
 	show()
 	volume_slider.grab_focus()
 
@@ -33,9 +41,9 @@ func _build_interface() -> void:
 	var panel := PanelContainer.new()
 	panel.set_anchors_preset(Control.PRESET_CENTER)
 	panel.offset_left = -260.0
-	panel.offset_top = -170.0
+	panel.offset_top = -220.0
 	panel.offset_right = 260.0
-	panel.offset_bottom = 170.0
+	panel.offset_bottom = 220.0
 	panel.add_theme_stylebox_override("panel", _make_panel_style())
 	add_child(panel)
 
@@ -84,6 +92,20 @@ func _build_interface() -> void:
 	volume_value.add_theme_color_override("font_color", Color("#ffd77a"))
 	volume_row.add_child(volume_value)
 
+	var display_label := Label.new()
+	display_label.text = "รูปแบบหน้าจอ"
+	display_label.add_theme_color_override("font_color", Color("#e6e8ef"))
+	display_label.add_theme_font_size_override("font_size", 18)
+	content.add_child(display_label)
+
+	display_mode_option = OptionButton.new()
+	display_mode_option.add_item("หน้าต่าง", DISPLAY_MODE_WINDOWED)
+	display_mode_option.add_item("เต็มจอ", DISPLAY_MODE_FULLSCREEN)
+	display_mode_option.add_item("ไร้ขอบ", DISPLAY_MODE_BORDERLESS)
+	display_mode_option.custom_minimum_size = Vector2(0, 42)
+	display_mode_option.item_selected.connect(_on_display_mode_selected)
+	content.add_child(display_mode_option)
+
 	var spacer := Control.new()
 	spacer.custom_minimum_size = Vector2(0, 20)
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -116,6 +138,39 @@ func _on_volume_changed(value: float) -> void:
 func _update_volume_label(value: float) -> void:
 	if volume_value:
 		volume_value.text = "%d%%" % int(value)
+
+func _on_display_mode_selected(mode: int) -> void:
+	_apply_display_mode(mode)
+	_save_display_settings(mode)
+
+func _get_current_display_mode() -> int:
+	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
+		return DISPLAY_MODE_FULLSCREEN
+	if DisplayServer.window_get_flag(DisplayServer.WINDOW_FLAG_BORDERLESS):
+		return DISPLAY_MODE_BORDERLESS
+	return DISPLAY_MODE_WINDOWED
+
+func _apply_display_mode(mode: int) -> void:
+	var is_borderless := mode == DISPLAY_MODE_BORDERLESS
+	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, is_borderless)
+	if mode == DISPLAY_MODE_FULLSCREEN:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+func _load_display_settings() -> void:
+	var config := ConfigFile.new()
+	if config.load(DISPLAY_SETTINGS_PATH) != OK:
+		return
+	var mode := clampi(int(config.get_value("display", "mode", DISPLAY_MODE_WINDOWED)), DISPLAY_MODE_WINDOWED, DISPLAY_MODE_BORDERLESS)
+	_apply_display_mode(mode)
+
+func _save_display_settings(mode: int) -> void:
+	var config := ConfigFile.new()
+	config.set_value("display", "mode", mode)
+	var error := config.save(DISPLAY_SETTINGS_PATH)
+	if error != OK:
+		push_error("Unable to save display settings: %s" % error)
 
 func _make_panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()

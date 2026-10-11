@@ -21,6 +21,7 @@ config/run/main_scene="res://locations/mapscreen.tscn"
 Global="*uid://b6qyp4iayeb1x"
 SaveManager="*res://core/script/SaveManager.gd"
 AudioManager="*res://core/script/AudioManager.gd"
+LeaderboardManager="*res://core/script/LeaderboardManager.gd"
 
 [dialogic]
 

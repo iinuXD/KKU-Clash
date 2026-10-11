@@ -21,13 +21,20 @@ func _ready() -> void:
 
 func setup(_final_score: float = 0.0, exam_bonus_pct: int = 0, remaining_money: int = -1) -> void:
 	var player_results := _get_player_results()
+	var leaderboard_scores: Array[Dictionary] = []
 	var highest_score := 0
 	var highest_rating := "ต้องปรับปรุง"
-	for result in player_results:
+	for player_index in range(player_results.size()):
+		var result: Dictionary = player_results[player_index]
+		leaderboard_scores.append({
+			"name": "ผู้เล่น %d" % (player_index + 1),
+			"score": result.total
+		})
 		if result.total > highest_score:
 			highest_score = result.total
 			highest_rating = result.rating
 
+	LeaderboardManager.record_scores(leaderboard_scores)
 	final_score_label.text = "คะแนนสูงสุด  %d / 3000" % highest_score
 	rating_label.text = "ระดับสูงสุด: %s" % highest_rating
 	_render_player_scores()

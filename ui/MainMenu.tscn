@@ -124,7 +124,31 @@ theme_override_font_sizes/font_size = 100
 text = "KKU CLASH"
 horizontal_alignment = 1
 
+[node name="leaderboardBtn" type="Button" parent="." unique_id=2057965531]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -280.0
+offset_top = -82.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_fonts/font = ExtResource("3_g5fyd")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_qo3sn")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_uvwf2")
+theme_override_styles/hover = SubResource("StyleBoxTexture_youui")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kjwba")
+text = "LEADERBOARD"
+
 [connection signal="pressed" from="VBoxContainer/startgameBtn" to="." method="_on_startgame_btn_pressed"]
 [connection signal="button_up" from="VBoxContainer/optionsBtn" to="." method="_on_options_btn_button_up"]
 [connection signal="pressed" from="VBoxContainer/settingsBtn" to="." method="_on_settings_btn_pressed"]
 [connection signal="pressed" from="VBoxContainer/exitBtn" to="." method="_on_exit_btn_pressed"]
+[connection signal="pressed" from="leaderboardBtn" to="." method="_on_leaderboard_btn_pressed"]
