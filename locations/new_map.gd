@@ -42,7 +42,7 @@ var max_rounds: int = 11
 const NORMAL_WAKE_MINUTES := 6 * 60
 const LATE_WAKE_MINUTES := 10 * 60
 const SLEEP_MINUTES := 27 * 60
-const REAL_SECONDS_PER_GAME_MINUTE := 0.1
+const REAL_SECONDS_PER_GAME_MINUTE := 0.15
 const NIGHT_START_MINUTES := 18 * 60
 const NIGHT_FULL_MINUTES := 24 * 60
 const NIGHT_COLOR := Color(0.48, 0.55, 0.78, 1.0)
@@ -53,6 +53,8 @@ const CLASS_EARLY_WAIT_MINUTES := 30
 const CLASS_ON_TIME_GRACE_MINUTES := 30
 const CLASS_LATE_LIMIT_MINUTES := 60
 const CLASS_LATE_STUDY_MULTIPLIER := 0.75
+const FINAL_EXAM_ROUND := 11
+const EXAM_QUESTIONS_PER_SUBJECT := 5
 
 var player_minutes: Array[int] = []
 var player_time_speed_multipliers: Array[float] = []
@@ -79,13 +81,13 @@ var activity_effects = {
 		"กินข้าวจานธรรมดา": {"money": -40, "hunger": 30},
 		"กินข้าวจานพิเศษ": {"money": -60, "hunger": 45, "happiness": 10},
 		"กินของทานเล่น": {"money": -25, "hunger": 15, "happiness": 15},
-		"ทำ Parttime": {"money": 150, "stamina": -20, "hunger": -15}
+		"ทำ Parttime": {"money": 500, "stamina": -20, "hunger": -15}
 	},
 	"Shop": {
 		"ซื้อกาแฟ": {"money": -40, "stamina": 15, "hunger": 5},
 		"ซื้อขนม": {"money": -30, "hunger": 10, "happiness": 10},
 		"ซื้อยา": {"money": -100, "stamina": 30},
-		"ทำ Parttime": {"money": 150, "stamina": -20, "happiness": -5}
+		"ทำ Parttime": {"money": 500, "stamina": -20, "happiness": -5}
 	},
 	"Hospital": {
 		"เข้ารับการรักษา": {"money": -500, "stamina": 100, "happiness": 20},
@@ -100,22 +102,22 @@ var activity_effects = {
 	"Fun": {
 		"ร้องคาราโอเกะ": {"money": -150, "happiness": 40, "stamina": -10},
 		"ปาร์ตี้": {"money": -300, "happiness": 60, "stamina": -25, "study": -5},
-		"ทำ Parttime": {"money": 200, "stamina": -30, "hunger": -20}
+		"ทำ Parttime": {"money": 500, "stamina": -30, "hunger": -20}
 	}
 } 
 
 var activity_time_costs = {
-	"Dorm": {"นอนพัก": 8, "เล่นเกม": 2, "อ่านหนังสือ": 2, "จบเทิร์น": 0},
-	"Food": {"กินข้าวจานธรรมดา": 1, "กินข้าวจานพิเศษ": 1, "กินของทานเล่น": 1, "ทำ Parttime": 4},
-	"Library": {"อ่านหนังสือ": 2, "ยืมหนังสือ": 1, "นั่งเล่น": 1},
-	"Shop": {"ซื้อกาแฟ": 1, "ซื้อขนม": 1, "ซื้อยา": 1, "ทำ Parttime": 4},
-	"Hospital": {"เข้ารับการรักษา": 3, "ซื้อยา": 1, "ตรวจสุขภาพ": 2},
-	"Sport": {"วิ่ง": 2, "เล่นกีฬา": 3, "ออกกำลังกาย": 2},
-	"Fun": {"ร้องคาราโอเกะ": 3, "ปาร์ตี้": 4, "ทำ Parttime": 4}
+	"Dorm": {"นอนพัก": 120, "เล่นเกม": 120, "อ่านหนังสือ": 120, "จบเทิร์น": 0},
+	"Food": {"กินข้าวจานธรรมดา": 30, "กินข้าวจานพิเศษ": 30, "กินของทานเล่น": 30, "ทำ Parttime": 240},
+	"Library": {"อ่านหนังสือ": 120, "ยืมหนังสือ": 10, "นั่งเล่น": 60},
+	"Shop": {"ซื้อกาแฟ": 10, "ซื้อขนม": 10, "ซื้อยา": 10, "ทำ Parttime": 240},
+	"Hospital": {"เข้ารับการรักษา": 60, "ซื้อยา": 10, "ตรวจสุขภาพ": 60},
+	"Sport": {"วิ่ง": 120, "เล่นกีฬา": 180, "ออกกำลังกาย": 120},
+	"Fun": {"ร้องคาราโอเกะ": 180, "ปาร์ตี้": 240, "ทำ Parttime": 240}
 }
 
 func _process(delta: float) -> void:
-	if get_tree().paused or is_walking or is_forcing_sleep:
+	if get_tree().paused or is_walking or is_forcing_sleep or current_round == FINAL_EXAM_ROUND:
 		return
 
 	var activity_popup = $UILayer/ActivityPopup
@@ -344,13 +346,14 @@ func setup_current_turn() -> void:
 	current_minutes = player_minutes[current_player_index]
 	real_time_accumulator = 0.0
 	var active_player = player_nodes[current_player_index]
-	var should_draw_events := _should_draw_random_events()
+	var is_exam_round: bool = current_round == FINAL_EXAM_ROUND
+	var should_draw_events: bool = _should_draw_random_events()
 	
 	for i in range(player_nodes.size()):
 		if i == current_player_index:
 			player_nodes[i].show()
 			player_nodes[i].global_position = dorm_marker.global_position
-			player_nodes[i].set_movement_enabled(not should_draw_events)
+			player_nodes[i].set_movement_enabled(not should_draw_events and not is_exam_round)
 		else:
 			player_nodes[i].hide()  
 			player_nodes[i].set_movement_enabled(false)
@@ -361,14 +364,23 @@ func setup_current_turn() -> void:
 		player_panel.update_time_ui(current_minutes, NORMAL_WAKE_MINUTES, SLEEP_MINUTES, _get_current_time_speed())
 		player_panel.update_round_ui(current_round, max_rounds)
 
-	render_mission_text(current_player_index, current_round)
-	if should_draw_events:
+	if is_exam_round:
+		if timetable_button:
+			timetable_button.hide()
+		if player_panel and player_panel.has_method("update_mission"):
+			player_panel.update_mission("สอบปลายภาค 4 วิชา\nวิชาละ 5 ข้อ")
+		_start_final_exam_turn.call_deferred()
+	else:
+		if timetable_button:
+			timetable_button.show()
+		render_mission_text(current_player_index, current_round)
+	if should_draw_events and not is_exam_round:
 		_start_turn_random_events.call_deferred()
 
 
 func _should_draw_random_events() -> bool:
 	# รอบแรกให้ผู้เล่นทำความคุ้นเคยกับเกมก่อน เริ่ม Event ตั้งแต่รอบที่ 2
-	if current_round <= 1 or current_round > max_rounds or not random_event_popup:
+	if current_round <= 1 or current_round >= FINAL_EXAM_ROUND or current_round > max_rounds or not random_event_popup:
 		return false
 	var turn_key := "%d:%d" % [current_round, current_player_index]
 	return not random_event_turns.has(turn_key)
@@ -398,12 +410,123 @@ func _start_turn_random_events() -> void:
 	if event_player_index == current_player_index and not is_forcing_sleep:
 		player_nodes[event_player_index].set_movement_enabled(true)
 
+
+func _start_final_exam_turn() -> void:
+	if current_round != FINAL_EXAM_ROUND:
+		return
+	var exam_player_index := current_player_index
+	if exam_player_index < 0 or exam_player_index >= Global.player_data.size():
+		return
+
+	var player_data: Dictionary = Global.player_data[exam_player_index]
+	var existing_result: Dictionary = player_data.get("exam_result", {})
+	if bool(existing_result.get("completed", false)):
+		pass_turn()
+		return
+
+	is_walking = true
+	player_nodes[exam_player_index].set_movement_enabled(false)
+	var exam_subjects: Array[String] = _get_exam_subjects(player_data)
+	var expected_total := exam_subjects.size() * EXAM_QUESTIONS_PER_SUBJECT
+
+	class_time_popup.open_class_info(
+		"สอบปลายภาค",
+		"%d วิชา • %d ข้อ" % [exam_subjects.size(), expected_total],
+		"คะแนนสอบคิดจากจำนวนข้อที่ตอบถูกทั้งหมด",
+		"เริ่มสอบ",
+		"start_exam",
+		false,
+		Color("#78301f")
+	)
+	await class_time_popup.choice_made
+	if current_round != FINAL_EXAM_ROUND or current_player_index != exam_player_index:
+		return
+
+	var total_correct := 0
+	var total_questions := 0
+	var subject_results: Array[Dictionary] = []
+	for subject_name: String in exam_subjects:
+		var subject_level := _get_subject_level(exam_player_index, subject_name)
+		learning_popup.start_exam(subject_name, subject_level, EXAM_QUESTIONS_PER_SUBJECT)
+		var subject_result: Dictionary = await learning_popup.exam_finished
+		var subject_correct := maxi(0, int(subject_result.get("correct", 0)))
+		var subject_total := maxi(0, int(subject_result.get("total", EXAM_QUESTIONS_PER_SUBJECT)))
+		total_correct += subject_correct
+		total_questions += subject_total
+		subject_results.append({
+			"subject": subject_name,
+			"correct": subject_correct,
+			"total": subject_total
+		})
+
+	var exam_score := clampi(
+		roundi(float(total_correct) / float(maxi(1, total_questions)) * 1000.0),
+		0,
+		1000
+	)
+	player_data["exam_result"] = {
+		"completed": true,
+		"correct": total_correct,
+		"total": total_questions,
+		"score": exam_score,
+		"subjects": subject_results
+	}
+
+	class_time_popup.open_class_info(
+		"สอบเสร็จแล้ว",
+		"ตอบถูก %d / %d ข้อ" % [total_correct, total_questions],
+		"คะแนนสอบรวม %d / 1000" % exam_score,
+		"ดูผลสรุป",
+		"finish_exam",
+		false,
+		Color("#246b3d")
+	)
+	await class_time_popup.choice_made
+
+	is_walking = false
+	pass_turn()
+
+
+func _get_exam_subjects(player_data: Dictionary) -> Array[String]:
+	var subjects: Array[String] = []
+	var timetable: Dictionary = player_data.get("timetable", {})
+	var selected_subjects: Array = timetable.get("selected_subjects", [])
+	for subject_value in selected_subjects:
+		var subject_name := str(subject_value)
+		if not subject_name.is_empty() and not subjects.has(subject_name):
+			subjects.append(subject_name)
+
+	if subjects.size() < 4:
+		var daily_subjects: Dictionary = timetable.get("daily_subjects", {})
+		for day_key: String in Global.TIMETABLE_DAY_KEYS:
+			for class_entry in daily_subjects.get(day_key, []):
+				var subject_name := str(class_entry.get("subject", ""))
+				if not subject_name.is_empty() and not subjects.has(subject_name):
+					subjects.append(subject_name)
+					if subjects.size() >= 4:
+						break
+			if subjects.size() >= 4:
+				break
+
+	if subjects.size() < 4:
+		for fallback_subject: String in Global.SUBJECT_POOL:
+			if not subjects.has(fallback_subject):
+				subjects.append(fallback_subject)
+			if subjects.size() >= 4:
+				break
+
+	if subjects.size() > 4:
+		subjects.resize(4)
+	return subjects
+
+
 func pass_turn() -> void:
 	if is_turn_transitioning:
 		return
 	is_turn_transitioning = true
 	var previous_player = current_player_index
-	_mark_remaining_classes_missed(previous_player, current_round)
+	if current_round < FINAL_EXAM_ROUND:
+		_mark_remaining_classes_missed(previous_player, current_round)
 	current_player_index += 1
 	
 	if current_player_index >= player_nodes.size():
@@ -417,7 +540,8 @@ func pass_turn() -> void:
 			_show_endgame()
 			return
 			
-		_reset_daily_missions(current_round)
+		if current_round < FINAL_EXAM_ROUND:
+			_reset_daily_missions(current_round)
 		_reset_daily_time_speeds()
 		for i in range(player_minutes.size()):
 			player_minutes[i] = LATE_WAKE_MINUTES if late_wake_players[i] else NORMAL_WAKE_MINUTES
@@ -648,8 +772,17 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 		if chosen_action == "จบเทิร์น":
 			pass_turn()
 			return
+		if not _can_afford_activity(chosen_action, target_place.name):
+			_show_turn_notice("เงินไม่พอ\nไม่เสียเงินและเวลา")
+			return
 
 		var is_fainted = false
+		var activity_minutes = _get_activity_time_cost(chosen_action, target_place.name)
+		var ends_turn_by_sleep: bool = (
+			target_place.name == "Dorm"
+			and chosen_action == "นอนพัก"
+			and current_minutes + activity_minutes >= SLEEP_MINUTES
+		)
 		
 		# >>> ตรวจสอบว่ากิจกรรมที่กด คือ "เรียน" หรือ "กิจกรรมปกติ" <<<
 		if chosen_action.begins_with("เรียน ") and learning_popup:
@@ -668,9 +801,11 @@ func _handle_activity_popup(target_place: Node2D) -> void:
 			is_fainted = apply_activity_effects(chosen_action, target_place.name)
 			_complete_event_missions(target_place.name, chosen_action)
 
-		var activity_minutes = _get_activity_time_cost(chosen_action, target_place.name)
 		if not is_fainted:
-			_advance_time(activity_minutes * 60)
+			if ends_turn_by_sleep:
+				_finish_turn_by_sleep()
+				return
+			_advance_time(activity_minutes)
 			if is_forcing_sleep:
 				await forced_sleep_finished
 		
@@ -908,8 +1043,26 @@ func _advance_subject_level(player_index: int, subject_name: String) -> void:
 
 func _get_activity_time_cost(action_name: String, place_name: String) -> int:
 	if action_name.begins_with("เรียน "):
-		return 2
-	return activity_time_costs.get(place_name, {}).get(action_name, 1)
+		return 120
+	return activity_time_costs.get(place_name, {}).get(action_name, 60)
+
+
+func _can_afford_activity(action_name: String, place_name: String) -> bool:
+	var effects: Dictionary = activity_effects.get(place_name, {}).get(action_name, {})
+	var money_change := int(effects.get("money", 0))
+	if money_change >= 0:
+		return true
+	var current_money := int(Global.player_data[current_player_index].get("money", 0))
+	return current_money >= -money_change
+
+
+func _finish_turn_by_sleep() -> void:
+	# การเลือกนอนเมื่อเวลานอนพาไปถึงเวลาปิดวัน ถือเป็นการจบเทิร์นโดยสมัครใจ
+	# จึงตื่น 06:00 ตามปกติ ไม่รับโทษตื่นสายแบบการถูกบังคับให้นอน
+	current_minutes = SLEEP_MINUTES
+	player_minutes[current_player_index] = current_minutes
+	late_wake_players[current_player_index] = false
+	pass_turn()
 		
 func _apply_learning_effects(study_gained: int) -> bool:
 	var p_data = Global.player_data[current_player_index]

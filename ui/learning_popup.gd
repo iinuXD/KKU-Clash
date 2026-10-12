@@ -1,6 +1,7 @@
 extends Control
 
 signal quiz_finished(study_gained: int)
+signal exam_finished(result: Dictionary)
 
 # อ้างอิง Nodes ด้วย % (อย่าลืมตั้งค่า Access as Unique Name ใน Editor ด้วยนะครับ)
 @onready var subject_label = %SubjectLabel
@@ -26,6 +27,8 @@ var current_question_index: int = 0
 var correct_answers: int = 0
 var study_multiplier: float = 1.0
 var result_modifier_text: String = ""
+var question_target: int = 3
+var is_exam_mode: bool = false
 
 # --- ชุดตัวแปรใหม่สำหรับโจทย์ที่คิดเอง ---
 var current_quiz_set: Array = []
@@ -77,6 +80,8 @@ func _process(delta: float) -> void:
 func start_quiz(subject_name: String, subject_level: int = 1, reward_multiplier: float = 1.0, modifier_text: String = "") -> void:
 	current_question_index = 0
 	correct_answers = 0
+	question_target = 3
+	is_exam_mode = false
 	study_multiplier = clampf(reward_multiplier, 0.0, 1.0)
 	result_modifier_text = modifier_text
 	time_left = 20.0
@@ -117,23 +122,62 @@ func start_quiz(subject_name: String, subject_level: int = 1, reward_multiplier:
 	
 	# สุ่มโจทย์จาก Level ปัจจุบัน แล้วเลือกสูงสุด 3 ข้อ
 	all_questions.shuffle()
-	current_quiz_set = all_questions.slice(0, mini(3, all_questions.size()))
+	current_quiz_set = all_questions.slice(0, mini(question_target, all_questions.size()))
 	
+	_load_custom_question()
+
+
+func start_exam(subject_name: String, subject_level: int = 1, exam_question_count: int = 5) -> void:
+	current_question_index = 0
+	correct_answers = 0
+	question_target = maxi(1, exam_question_count)
+	is_exam_mode = true
+	study_multiplier = 1.0
+	result_modifier_text = ""
+	time_left = 60.0
+	is_quiz_active = true
+
+	summary_panel.hide()
+	feedback_label.hide()
+	question_label.show()
+	grid_container.show()
+	question_number_label.show()
+	show()
+
+	var display_level := clampi(subject_level, 1, 6)
+	var subject_data := _load_subject_database(subject_name)
+	if subject_data.is_empty():
+		_abort_current_session()
+		return
+
+	var level_key := str(display_level)
+	if not subject_data.has(level_key):
+		_abort_current_session()
+		return
+
+	var all_questions: Array = subject_data[level_key].duplicate(true)
+	if all_questions.is_empty():
+		_abort_current_session()
+		return
+
+	subject_label.text = "สอบปลายภาค: %s  |  ระดับ %d" % [subject_name, display_level]
+	all_questions.shuffle()
+	current_quiz_set = all_questions.slice(0, mini(question_target, all_questions.size()))
 	_load_custom_question()
 
 # ==========================================
 # 2. ระบบโหลดโจทย์ขึ้นหน้าจอ
 # ==========================================
 func _load_custom_question() -> void:
-	# เช็คว่าทำครบ 3 ข้อหรือยัง หรือโจทย์หมดหรือยัง
-	if current_question_index >= 3 or current_question_index >= current_quiz_set.size():
+	# เช็คว่าทำครบตามจำนวนของโหมดปัจจุบัน หรือโจทย์หมดหรือยัง
+	if current_question_index >= question_target or current_question_index >= current_quiz_set.size():
 		_end_quiz()
 		return
 		
 	var q_data = current_quiz_set[current_question_index]
 	
 	# เอาคำถามไปแสดงผล
-	question_number_label.text = "ข้อ %d/3" % [current_question_index + 1]
+	question_number_label.text = "ข้อ %d/%d" % [current_question_index + 1, current_quiz_set.size()]
 	question_label.text = q_data["q"]
 	
 	# เก็บคำตอบที่ถูกต้องก่อนสับตัวเลือก
@@ -205,19 +249,45 @@ func _end_quiz() -> void:
 	grid_container.hide()
 	question_number_label.hide()
 	
-	# คำนวณความรู้ที่ได้รับ (สมมติข้อละ 20 หน่วย)
-	var study_gained := _calculate_study_gained()
-	
 	var time_up_text = "หมดเวลา!\n" if time_left <= 0 else ""
-	var modifier_line := (result_modifier_text + "\n") if not result_modifier_text.is_empty() else ""
-	result_label.text = "%sตอบถูก: %d / 3 ข้อ\n%sความรู้ที่ได้รับ: +%d" % [time_up_text, correct_answers, modifier_line, study_gained]
+	if is_exam_mode:
+		result_label.text = "%sผลสอบวิชานี้\nตอบถูก: %d / %d ข้อ" % [
+			time_up_text,
+			correct_answers,
+			current_quiz_set.size()
+		]
+	else:
+		var study_gained := _calculate_study_gained()
+		var modifier_line := (result_modifier_text + "\n") if not result_modifier_text.is_empty() else ""
+		result_label.text = "%sตอบถูก: %d / %d ข้อ\n%sความรู้ที่ได้รับ: +%d" % [
+			time_up_text,
+			correct_answers,
+			current_quiz_set.size(),
+			modifier_line,
+			study_gained
+		]
 	
 	summary_panel.show()
 
 func _on_ok_pressed() -> void:
 	hide()
+	if is_exam_mode:
+		exam_finished.emit({
+			"correct": correct_answers,
+			"total": current_quiz_set.size()
+		})
+		return
 	var study_gained := _calculate_study_gained()
 	quiz_finished.emit(study_gained) # ส่งค่าความรู้กลับไปให้ new_map.gd
+
+
+func _abort_current_session() -> void:
+	is_quiz_active = false
+	hide()
+	if is_exam_mode:
+		exam_finished.emit.call_deferred({"correct": 0, "total": question_target})
+	else:
+		quiz_finished.emit.call_deferred(0)
 
 
 func _calculate_study_gained() -> int:

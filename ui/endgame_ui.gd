@@ -68,11 +68,13 @@ func _add_player_score_row(player_index: int, player_data: Dictionary) -> void:
 
 	var row := Label.new()
 	var scores := _calculate_player_scores(player_data)
-	row.text = "ผู้เล่น %d   •   %d / 3000   •   %s\nเข้าเรียน %d/10   •   เงินคงเหลือ ฿%d" % [
+	row.text = "ผู้เล่น %d   •   %d / 3000   •   %s\nสอบ %d/1000   •   ตอบถูก %d/%d   •   เงินคงเหลือ ฿%d" % [
 		player_index + 1,
 		scores.total,
 		scores.rating,
-		scores.classes,
+		scores.exam,
+		scores.exam_correct,
+		scores.exam_total,
 		int(player_data.get("money", 0))
 	]
 	row.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -122,7 +124,10 @@ func _calculate_player_scores(player_data: Dictionary) -> Dictionary:
 
 	var status := learning + mental + body + nutrition
 	var missions := completed_rounds * 100
-	var exam := int(round(float(learning) / 400.0 * 1000.0))
+	var exam_result: Dictionary = player_data.get("exam_result", {})
+	var exam := clampi(int(exam_result.get("score", 0)), 0, 1000)
+	var exam_correct := maxi(0, int(exam_result.get("correct", 0)))
+	var exam_total := maxi(0, int(exam_result.get("total", 0)))
 	var total := status + missions + exam
 	var rating := "ต้องปรับปรุง"
 	if total >= 2100:
@@ -133,6 +138,9 @@ func _calculate_player_scores(player_data: Dictionary) -> Dictionary:
 	return {
 		"total": total,
 		"classes": mini(classes, 10),
+		"exam": exam,
+		"exam_correct": exam_correct,
+		"exam_total": exam_total,
 		"rating": rating
 	}
 

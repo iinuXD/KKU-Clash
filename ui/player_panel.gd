@@ -53,7 +53,9 @@ func update_time_ui(current_minutes: int, _start_minutes: int, _end_minutes: int
 		return
 	var hour := int(current_minutes / 60) % 24
 	var minute := current_minutes % 60
-	var speed_text := "  ×%.2f" % speed_multiplier if speed_multiplier > 1.001 else ""
+	var multiplier_text := "%.2f" % speed_multiplier
+	multiplier_text = multiplier_text.trim_suffix("0").trim_suffix("0").trim_suffix(".")
+	var speed_text := "  " + multiplier_text if speed_multiplier > 1.001 else ""
 	time_label.text = "เวลา  %02d:%02d น.%s" % [hour, minute, speed_text]
 	time_label.add_theme_color_override(
 		"font_color",
