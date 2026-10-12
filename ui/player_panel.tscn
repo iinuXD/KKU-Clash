@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://ccjivjc3gdk15"]
 
-[ext_resource type="Script" path="res://ui/player_panel.gd" id="1_script"]
-[ext_resource type="FontFile" path="res://font/ZFTERMIN__.ttf" id="2_font"]
+[ext_resource type="Script" uid="uid://dg717k2wd8gr5" path="res://ui/player_panel.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://ui/player_status_card.tscn" id="3_card"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_top"]
@@ -19,6 +18,17 @@ shadow_color = Color(0, 0, 0, 0.55)
 shadow_size = 5
 shadow_offset = Vector2(0, 3)
 
+[sub_resource type="SystemFont" id="SystemFont_mvqis"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_divider"]
+bg_color = Color(0.45, 0.15, 0.09, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="SystemFont" id="SystemFont_e7hkg"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBox_mission"]
 bg_color = Color(0.965, 0.91, 0.79, 0.96)
 border_width_left = 2
@@ -34,14 +44,7 @@ shadow_color = Color(0, 0, 0, 0.5)
 shadow_size = 5
 shadow_offset = Vector2(0, 3)
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_divider"]
-bg_color = Color(0.45, 0.15, 0.09, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[node name="PlayerPanel" type="Control"]
+[node name="PlayerPanel" type="Control" unique_id=1750888360]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,9 +54,9 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_script")
 
-[node name="TopInfo" type="PanelContainer" parent="."]
+[node name="TopInfo" type="PanelContainer" parent="." unique_id=600813508]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -150.0
@@ -64,53 +67,53 @@ grow_horizontal = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBox_top")
 
-[node name="MarginContainer" type="MarginContainer" parent="TopInfo"]
+[node name="MarginContainer" type="MarginContainer" parent="TopInfo" unique_id=1474756384]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 4
 
-[node name="InfoRow" type="HBoxContainer" parent="TopInfo/MarginContainer"]
+[node name="InfoRow" type="HBoxContainer" parent="TopInfo/MarginContainer" unique_id=2036944561]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="WeekReportLabel" type="Label" parent="TopInfo/MarginContainer/InfoRow"]
+[node name="WeekReportLabel" type="Label" parent="TopInfo/MarginContainer/InfoRow" unique_id=1080257440]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.28, 0.11, 0.07, 1)
-theme_override_fonts/font = ExtResource("2_font")
+theme_override_fonts/font = SubResource("SystemFont_mvqis")
 theme_override_font_sizes/font_size = 21
 text = "วันที่  1 / 11"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TimeDivider" type="Panel" parent="TopInfo/MarginContainer/InfoRow"]
+[node name="TimeDivider" type="Panel" parent="TopInfo/MarginContainer/InfoRow" unique_id=902530028]
 custom_minimum_size = Vector2(2, 20)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBox_divider")
 
-[node name="ActionPoint" type="Label" parent="TopInfo/MarginContainer/InfoRow"]
+[node name="ActionPoint" type="Label" parent="TopInfo/MarginContainer/InfoRow" unique_id=1888868584]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.28, 0.11, 0.07, 1)
-theme_override_fonts/font = ExtResource("2_font")
+theme_override_fonts/font = SubResource("SystemFont_e7hkg")
 theme_override_font_sizes/font_size = 18
 text = "เวลา  06:00 น."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="playerstat1" parent="." instance=ExtResource("3_card")]
+[node name="playerstat1" parent="." unique_id=183611808 instance=ExtResource("3_card")]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 68.0
 offset_right = 260.0
 offset_bottom = 198.0
 
-[node name="playerstat2" parent="." instance=ExtResource("3_card")]
+[node name="playerstat2" parent="." unique_id=1744491006 instance=ExtResource("3_card")]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -121,7 +124,7 @@ offset_right = -8.0
 offset_bottom = 198.0
 grow_horizontal = 0
 
-[node name="playerstat3" parent="." instance=ExtResource("3_card")]
+[node name="playerstat3" parent="." unique_id=1379625147 instance=ExtResource("3_card")]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -132,7 +135,7 @@ offset_right = 260.0
 offset_bottom = -8.0
 grow_vertical = 0
 
-[node name="playerstat4" parent="." instance=ExtResource("3_card")]
+[node name="playerstat4" parent="." unique_id=2008217 instance=ExtResource("3_card")]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -146,7 +149,7 @@ offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="MissionPanel" type="PanelContainer" parent="."]
+[node name="MissionPanel" type="PanelContainer" parent="." unique_id=210420865]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -159,40 +162,41 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBox_mission")
 
-[node name="MarginContainer" type="MarginContainer" parent="MissionPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="MissionPanel" unique_id=1092203998]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 9
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MissionPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MissionPanel/MarginContainer" unique_id=1292452105]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="MissionTitle" type="Label" parent="MissionPanel/MarginContainer/VBoxContainer"]
+[node name="MissionTitle" type="Label" parent="MissionPanel/MarginContainer/VBoxContainer" unique_id=1060897292]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.32, 0.12, 0.075, 1)
 theme_override_font_sizes/font_size = 22
 text = "ภารกิจปัจจุบัน"
 
-[node name="Divider" type="Panel" parent="MissionPanel/MarginContainer/VBoxContainer"]
+[node name="Divider" type="Panel" parent="MissionPanel/MarginContainer/VBoxContainer" unique_id=1259275956]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBox_divider")
 
-[node name="MissionScroll" type="ScrollContainer" parent="MissionPanel/MarginContainer/VBoxContainer"]
+[node name="MissionScroll" type="ScrollContainer" parent="MissionPanel/MarginContainer/VBoxContainer" unique_id=130259960]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 0
 horizontal_scroll_mode = 0
 
-[node name="MissionDetails" type="Label" parent="MissionPanel/MarginContainer/VBoxContainer/MissionScroll"]
+[node name="MissionDetails" type="Label" parent="MissionPanel/MarginContainer/VBoxContainer/MissionScroll" unique_id=2037476202]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 theme_override_colors/font_color = Color(0.25, 0.13, 0.09, 1)
 theme_override_font_sizes/font_size = 18
-text = "☐ เรียน คณิตศาสตร์\n☐ เรียน ภาษาอังกฤษ"
+text = "☐ เรียน คณิตศาสตร์
+☐ เรียน ภาษาอังกฤษ"
 autowrap_mode = 2
