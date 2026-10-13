@@ -19,6 +19,7 @@ signal forced_sleep_finished
 const TIMETABLE_VIEWER_SCENE = preload("res://ui/registration_ui.tscn")
 const CLASS_TIME_POPUP_SCENE = preload("res://ui/class_time_popup.tscn")
 const SAVE_SLOT_MENU_SCENE = preload("res://ui/save_slot_menu.tscn")
+const TUTORIAL_POPUP_SCENE = preload("res://ui/tutorial_popup.tscn")
 
 var player_nodes: Array[CharacterBody2D] = [] 
 var current_player_index: int = 0     
@@ -35,6 +36,8 @@ var timetable_button: Button
 var class_time_popup: Control
 var save_slot_menu: SaveSlotMenu
 var menu_button: Button
+var tutorial_popup: TutorialPopup
+var tutorial_opened_from_pause: bool = false
 
 var current_round: int = 1
 var max_rounds: int = 11     
@@ -121,7 +124,7 @@ func _process(delta: float) -> void:
 		return
 
 	var activity_popup = $UILayer/ActivityPopup
-	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible or (timetable_popup and timetable_popup.visible) or (class_time_popup and class_time_popup.visible) or (save_slot_menu and save_slot_menu.visible):
+	if activity_popup.visible or learning_popup.visible or scenario_popup.visible or is_random_event_active or random_event_popup.visible or (timetable_popup and timetable_popup.visible) or (class_time_popup and class_time_popup.visible) or (save_slot_menu and save_slot_menu.visible) or (tutorial_popup and tutorial_popup.visible):
 		return
 
 	real_time_accumulator += delta * _get_current_time_speed()
@@ -151,7 +154,9 @@ func _ready() -> void:
 	_setup_timetable_ui()
 	_setup_class_time_ui()
 	_setup_save_ui()
+	_setup_tutorial_ui()
 	pause_menu.resume_requested.connect(_resume_game)
+	pause_menu.tutorial_requested.connect(_on_pause_tutorial_requested)
 	pause_menu.save_requested.connect(_on_pause_save_requested)
 	pause_menu.quit_requested.connect(_return_to_main_menu)
 	
@@ -178,8 +183,13 @@ func _ready() -> void:
 
 	SaveManager.set_checkpoint(_build_checkpoint_state())
 	setup_current_turn()
+	_show_initial_tutorial_if_needed.call_deferred()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if tutorial_popup and tutorial_popup.visible:
+		if event.is_action_pressed("ui_cancel"):
+			get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("ui_cancel"):
 		if get_tree().paused:
 			_resume_game()
@@ -188,6 +198,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _pause_game() -> void:
+	if tutorial_popup and tutorial_popup.visible:
+		return
 	get_tree().paused = true
 	pause_menu.open_menu()
 
@@ -259,6 +271,50 @@ func _setup_save_ui() -> void:
 	menu_button.add_theme_stylebox_override("pressed", _make_timetable_button_style(Color("#6f2919"), Color("#d99a43")))
 	menu_button.pressed.connect(_pause_game)
 	$UILayer.add_child(menu_button)
+
+
+func _setup_tutorial_ui() -> void:
+	if not has_node("UILayer"):
+		return
+	tutorial_popup = TUTORIAL_POPUP_SCENE.instantiate() as TutorialPopup
+	$UILayer.add_child(tutorial_popup)
+	tutorial_popup.closed.connect(_on_tutorial_closed)
+
+
+func _show_initial_tutorial_if_needed() -> void:
+	if not tutorial_popup or Global.tutorial_seen:
+		return
+	if current_round != 1 or current_player_index != 0 or current_round == FINAL_EXAM_ROUND:
+		return
+
+	tutorial_opened_from_pause = false
+	if current_player_index < player_nodes.size():
+		player_nodes[current_player_index].set_movement_enabled(false)
+	if turn_notice:
+		turn_notice.hide()
+	tutorial_popup.open_tutorial()
+
+
+func _on_pause_tutorial_requested() -> void:
+	if not tutorial_popup:
+		return
+	tutorial_opened_from_pause = true
+	pause_menu.close_menu()
+	tutorial_popup.open_tutorial()
+
+
+func _on_tutorial_closed(_completed: bool) -> void:
+	Global.tutorial_seen = true
+
+	if tutorial_opened_from_pause:
+		tutorial_opened_from_pause = false
+		pause_menu.open_menu()
+		return
+
+	# จุดนี้ยังเป็นต้นเทิร์น จึงอัปเดต checkpoint ได้โดยไม่บันทึกความคืบหน้ากลางเทิร์น
+	SaveManager.set_checkpoint(_build_checkpoint_state())
+	if not get_tree().paused and not is_forcing_sleep and current_player_index < player_nodes.size():
+		player_nodes[current_player_index].set_movement_enabled(true)
 
 
 func _get_current_player_money() -> int:

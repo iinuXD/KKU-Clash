@@ -1,0 +1,237 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://ui/tutorial_popup.gd" id="1_script"]
+
+[sub_resource type="SystemFont" id="SystemFontThai"]
+font_names = PackedStringArray("Tahoma", "Noto Sans Thai", "Leelawadee UI", "Arial")
+
+[sub_resource type="StyleBoxFlat" id="StylePanel"]
+bg_color = Color(0.976, 0.918, 0.792, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.561, 0.216, 0.122, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.36)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleHint"]
+bg_color = Color(0.941, 0.8, 0.608, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.718, 0.294, 0.157, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleButton"]
+bg_color = Color(0.561, 0.216, 0.122, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.835, 0.51, 0.235, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleButtonHover"]
+bg_color = Color(0.702, 0.294, 0.157, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.753, 0.353, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleButtonDisabled"]
+bg_color = Color(0.68, 0.59, 0.49, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.77, 0.7, 0.61, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="TutorialPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+process_mode = 3
+z_index = 200
+mouse_filter = 0
+script = ExtResource("1_script")
+
+[node name="Dim" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.035, 0.047, 0.043, 0.78)
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -390.0
+offset_top = -270.0
+offset_right = 390.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StylePanel")
+
+[node name="HeaderLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 24.0
+offset_right = 620.0
+offset_bottom = 69.0
+theme_override_colors/font_color = Color(0.278, 0.11, 0.071, 1)
+theme_override_fonts/font = SubResource("SystemFontThai")
+theme_override_font_sizes/font_size = 32
+text = "วิธีเล่น"
+
+[node name="ProgressLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 638.0
+offset_top = 31.0
+offset_right = 741.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.384, 0.18, 0.118, 1)
+theme_override_fonts/font = SubResource("SystemFontThai")
+theme_override_font_sizes/font_size = 20
+text = "1 / 6"
+horizontal_alignment = 2
+
+[node name="Divider" type="ColorRect" parent="Panel"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 76.0
+offset_right = 742.0
+offset_bottom = 79.0
+color = Color(0.561, 0.216, 0.122, 1)
+
+[node name="TitleLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 100.0
+offset_right = 738.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0.278, 0.11, 0.071, 1)
+theme_override_fonts/font = SubResource("SystemFontThai")
+theme_override_font_sizes/font_size = 28
+text = "หัวข้อ"
+horizontal_alignment = 1
+
+[node name="BodyLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 164.0
+offset_right = 720.0
+offset_bottom = 327.0
+theme_override_colors/font_color = Color(0.29, 0.2, 0.16, 1)
+theme_override_fonts/font = SubResource("SystemFontThai")
+theme_override_font_sizes/font_size = 23
+text = "รายละเอียด"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+theme_override_constants/line_spacing = 7
+
+[node name="HintPanel" type="Panel" parent="Panel"]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 344.0
+offset_right = 726.0
+offset_bottom = 416.0
+theme_override_styles/panel = SubResource("StyleHint")
+
+[node name="HintLabel" type="Label" parent="Panel/HintPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 8.0
+offset_right = -20.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.345, 0.137, 0.078, 1)
+theme_override_fonts/font = SubResource("SystemFontThai")
+theme_override_font_sizes/font_size = 19
+text = "คำแนะนำ"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 444.0
+offset_right = 726.0
+offset_bottom = 504.0
+theme_override_constants/separation = 12
+
+[node name="SkipButton" type="Button" parent="Panel/Buttons"]
+custom_minimum_size = Vector2(150, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.953, 0.847, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFontThai")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleButton")
+theme_override_styles/hover = SubResource("StyleButtonHover")
+text = "ข้ามการสอน"
+
+[node name="Spacer" type="Control" parent="Panel/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackButton" type="Button" parent="Panel/Buttons"]
+custom_minimum_size = Vector2(150, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.953, 0.847, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.91, 0.86, 0.78, 1)
+theme_override_fonts/font = SubResource("SystemFontThai")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleButton")
+theme_override_styles/hover = SubResource("StyleButtonHover")
+theme_override_styles/disabled = SubResource("StyleButtonDisabled")
+text = "ย้อนกลับ"
+
+[node name="NextButton" type="Button" parent="Panel/Buttons"]
+custom_minimum_size = Vector2(150, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.953, 0.847, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFontThai")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleButton")
+theme_override_styles/hover = SubResource("StyleButtonHover")
+text = "ถัดไป"

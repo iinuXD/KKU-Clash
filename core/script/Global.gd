@@ -36,6 +36,9 @@ var weather: String = "normal"
 # Set by canteen_full "eat outside" choice to skip the Food Court activity UI once
 var skip_next_activity_ui: bool = false
 
+# บันทึกว่าผู้เล่นอ่านคำแนะนำรอบแรกแล้วหรือยัง เพื่อไม่ให้แสดงซ้ำหลังโหลดเซฟ
+var tutorial_seen: bool = false
+
 # Helper function to keep stats between 0 and 100 (except money/study)
 func update_stat(stat_name: String, amount: int):
 	match stat_name:
@@ -202,6 +205,7 @@ func reset_game_state() -> void:
 	next_round_time_penalty_pct = 0
 	weather = "normal"
 	skip_next_activity_ui = false
+	tutorial_seen = false
 	player_count = 1
 	player_data.clear()
 
@@ -229,6 +233,7 @@ func export_save_data() -> Dictionary:
 		"next_round_time_penalty_pct": next_round_time_penalty_pct,
 		"weather": weather,
 		"skip_next_activity_ui": skip_next_activity_ui,
+		"tutorial_seen": tutorial_seen,
 		"player_count": player_count,
 		"player_data": player_data.duplicate(true)
 	}
@@ -256,6 +261,7 @@ func import_save_data(data: Dictionary) -> void:
 	next_round_time_penalty_pct = int(data.get("next_round_time_penalty_pct", 0))
 	weather = str(data.get("weather", "normal"))
 	skip_next_activity_ui = bool(data.get("skip_next_activity_ui", false))
+	tutorial_seen = bool(data.get("tutorial_seen", false))
 	player_count = maxi(1, int(data.get("player_count", 1)))
 	var saved_players = data.get("player_data", [])
 	player_data = saved_players.duplicate(true) if saved_players is Array else []
