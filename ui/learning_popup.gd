@@ -118,7 +118,8 @@ func start_quiz(subject_name: String, subject_level: int = 1, reward_multiplier:
 		hide()
 		return
 	
-	subject_label.text = "วิชา: %s  |  ระดับ %d" % [subject_name, display_level]
+	# ทำข้อความส่วนหัวให้กระชับเพื่อไม่ให้ทับเลขข้อและตัวจับเวลา
+	subject_label.text = "%s | ระดับ %d" % [subject_name, display_level]
 	
 	# สุ่มโจทย์จาก Level ปัจจุบัน แล้วเลือกสูงสุด 3 ข้อ
 	all_questions.shuffle()
@@ -160,7 +161,8 @@ func start_exam(subject_name: String, subject_level: int = 1, exam_question_coun
 		_abort_current_session()
 		return
 
-	subject_label.text = "สอบปลายภาค: %s  |  ระดับ %d" % [subject_name, display_level]
+	# ชื่อวิชาอาจยาว โดยเฉพาะข้อความที่ผสมภาษาไทยและภาษาอังกฤษ
+	subject_label.text = "สอบ %s | ระดับ %d" % [subject_name, display_level]
 	all_questions.shuffle()
 	current_quiz_set = all_questions.slice(0, mini(question_target, all_questions.size()))
 	_load_custom_question()
