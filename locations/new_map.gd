@@ -527,6 +527,7 @@ func pass_turn() -> void:
 	var previous_player = current_player_index
 	if current_round < FINAL_EXAM_ROUND:
 		_mark_remaining_classes_missed(previous_player, current_round)
+		_finalize_round_mission_score(previous_player, current_round)
 	current_player_index += 1
 	
 	if current_player_index >= player_nodes.size():
@@ -1286,6 +1287,71 @@ func _mark_remaining_classes_missed(player_index: int, round_num: int) -> void:
 	for class_entry in classes:
 		if not class_entry.get("is_completed", false):
 			class_entry["attendance_status"] = "missed"
+
+
+func _finalize_round_mission_score(player_index: int, round_num: int) -> void:
+	if player_index < 0 or player_index >= Global.player_data.size():
+		return
+	if round_num < 1 or round_num >= FINAL_EXAM_ROUND:
+		return
+
+	var p_data: Dictionary = Global.player_data[player_index]
+	var day_key := "R" + str(((round_num - 1) % 5) + 1)
+	var class_missions: Array = p_data.get("timetable", {}).get("daily_subjects", {}).get(day_key, [])
+	var event_missions: Array = p_data.get("event_missions", [])
+	var round_event_missions: Array = []
+	var completed_classes := 0
+	var completed_events := 0
+
+	for class_mission in class_missions:
+		if bool(class_mission.get("is_completed", false)):
+			completed_classes += 1
+
+	for event_mission in event_missions:
+		if int(event_mission.get("created_round", 0)) != round_num:
+			continue
+		round_event_missions.append(event_mission)
+		if bool(event_mission.get("is_completed", false)) and int(event_mission.get("completed_round", 0)) == round_num:
+			completed_events += 1
+
+	var total_missions := class_missions.size() + round_event_missions.size()
+	var completed_missions := completed_classes + completed_events
+	var round_score := 0
+	if total_missions > 0:
+		round_score = clampi(roundi(float(completed_missions) / float(total_missions) * 100.0), 0, 100)
+
+	var mission_scores: Dictionary = p_data.get("mission_scores", {})
+	mission_scores[str(round_num)] = round_score
+	p_data["mission_scores"] = mission_scores
+
+	var mission_score_details: Dictionary = p_data.get("mission_score_details", {})
+	mission_score_details[str(round_num)] = {
+		"score": round_score,
+		"completed": completed_missions,
+		"total": total_missions,
+		"completed_classes": completed_classes,
+		"total_classes": class_missions.size(),
+		"completed_events": completed_events,
+		"total_events": round_event_missions.size()
+	}
+	p_data["mission_score_details"] = mission_score_details
+
+	# เควสเสริมมีอายุเพียงรอบที่ได้รับ เคลียร์ออกหลังบันทึกคะแนนแล้ว
+	var remaining_event_missions: Array = []
+	for event_mission in event_missions:
+		if int(event_mission.get("created_round", 0)) > round_num:
+			remaining_event_missions.append(event_mission)
+	p_data["event_missions"] = remaining_event_missions
+
+	print(
+		"ภารกิจผู้เล่น %d รอบ %d: %d/%d = %d คะแนน" % [
+			player_index + 1,
+			round_num,
+			completed_missions,
+			total_missions,
+			round_score
+		]
+	)
 
 # ==========================================
 # การตั้งค่าตัวละครเบื้องต้น
