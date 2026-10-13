@@ -63,15 +63,17 @@ func _render_player_scores() -> void:
 
 func _add_player_score_row(player_index: int, player_data: Dictionary) -> void:
 	var row_panel := PanelContainer.new()
-	row_panel.custom_minimum_size = Vector2(0, 50)
+	row_panel.custom_minimum_size = Vector2(0, 72)
 	row_panel.add_theme_stylebox_override("panel", _make_player_row_style())
 
 	var row := Label.new()
 	var scores := _calculate_player_scores(player_data)
-	row.text = "ผู้เล่น %d   •   %d / 3000   •   %s\nสอบ %d/1000   •   ตอบถูก %d/%d   •   เงินคงเหลือ ฿%d" % [
+	row.text = "ผู้เล่น %d   •   %d / 3000   •   %s\nสถานะ %d/1000   •   ภารกิจ %d/1000   •   สอบ %d/1000\nตอบถูก %d/%d   •   เงินคงเหลือ ฿%d" % [
 		player_index + 1,
 		scores.total,
 		scores.rating,
+		scores.status,
+		scores.missions,
 		scores.exam,
 		scores.exam_correct,
 		scores.exam_total,
@@ -104,26 +106,13 @@ func _calculate_player_scores(player_data: Dictionary) -> Dictionary:
 	var mental := clampi(int(stats.get("happiness", 0)), 0, 200)
 	var body := clampi(int(stats.get("stamina", 0)), 0, 200)
 	var nutrition := clampi(int(stats.get("hunger", 0)), 0, 200)
-	var completed_rounds := 0
-	var classes := 0
-	var timetable: Dictionary = player_data.get("timetable", {})
-	var daily_subjects: Dictionary = timetable.get("daily_subjects", {})
-
-	for round_num in range(1, 11):
-		var day_key := "R" + str(((round_num - 1) % 5) + 1)
-		var round_complete := true
-		var has_classes := false
-		for class_entry in daily_subjects.get(day_key, []):
-			has_classes = true
-			if class_entry.get("is_completed", false):
-				classes += 1
-			else:
-				round_complete = false
-		if round_complete and has_classes:
-			completed_rounds += 1
 
 	var status := learning + mental + body + nutrition
-	var missions := completed_rounds * 100
+	var missions := 0
+	var mission_scores: Dictionary = player_data.get("mission_scores", {})
+	for round_num in range(1, 11):
+		missions += clampi(int(mission_scores.get(str(round_num), 0)), 0, 100)
+	missions = clampi(missions, 0, 1000)
 	var exam_result: Dictionary = player_data.get("exam_result", {})
 	var exam := clampi(int(exam_result.get("score", 0)), 0, 1000)
 	var exam_correct := maxi(0, int(exam_result.get("correct", 0)))
@@ -137,7 +126,8 @@ func _calculate_player_scores(player_data: Dictionary) -> Dictionary:
 
 	return {
 		"total": total,
-		"classes": mini(classes, 10),
+		"status": status,
+		"missions": missions,
 		"exam": exam,
 		"exam_correct": exam_correct,
 		"exam_total": exam_total,
