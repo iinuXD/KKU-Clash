@@ -50,7 +50,8 @@ func _render_schedule() -> void:
 		return
 
 	current_player_index = clampi(current_player_index, 0, Global.player_data.size() - 1)
-	player_label.text = "ผู้เล่น %d / %d" % [current_player_index + 1, total_players]
+	var faculty := Global.get_faculty(str(Global.player_data[current_player_index].get("faculty_id", "none")))
+	player_label.text = "ผู้เล่น %d / %d · %s" % [current_player_index + 1, total_players, faculty["name"]]
 	previous_button.disabled = current_player_index <= 0
 	next_button.disabled = current_player_index >= total_players - 1
 
@@ -115,6 +116,9 @@ func _add_schedule_cell(class_entry: Dictionary) -> void:
 
 	var label := Label.new()
 	label.text = "—" if subject.is_empty() else subject
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.tooltip_text = subject
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.add_theme_color_override("font_color", Color("#8f7b60") if subject.is_empty() else Color("#4d2318"))

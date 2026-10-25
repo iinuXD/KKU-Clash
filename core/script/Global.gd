@@ -64,6 +64,13 @@ const SUBJECT_POOL: Array[String] = [
 	"เคมี",
 	"ชีววิทยา"
 ]
+const FACULTIES: Array[Dictionary] = [
+	{"id": "none", "name": "ไม่เลือกคณะ", "subject": ""},
+	{"id": "computing", "name": "วิทยาลัยการคอมพิวเตอร์", "subject": "การเขียนโปรแกรมเบื้องต้น"},
+	{"id": "education", "name": "ศึกษาศาสตร์", "subject": "ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู"},
+	{"id": "medicine", "name": "แพทยศาสตร์", "subject": "กายวิภาคศาสตร์เบื้องต้น"},
+	{"id": "law", "name": "นิติศาสตร์", "subject": "กฎหมายเบื้องต้น"}
+]
 const TIMETABLE_DAY_KEYS: Array[String] = ["R1", "R2", "R3", "R4", "R5"]
 const TIMETABLE_PERIODS: Array[Dictionary] = [
 	{"column": 1, "label": "08:00 - 10:00", "start_minutes": 480, "end_minutes": 600},
@@ -72,6 +79,14 @@ const TIMETABLE_PERIODS: Array[Dictionary] = [
 	{"column": 5, "label": "15:00 - 17:00", "start_minutes": 900, "end_minutes": 1020}
 ]
 
+
+func get_faculty(faculty_id: String) -> Dictionary:
+	for faculty in FACULTIES:
+		if faculty["id"] == faculty_id:
+			return faculty
+	return FACULTIES[0]
+
+
 # ฟังก์ชันสำหรับรีเซ็ตและเตรียมข้อมูลผู้เล่น
 func setup_players(count: int) -> void:
 	player_count = count
@@ -79,7 +94,7 @@ func setup_players(count: int) -> void:
 	
 	for i in range(player_count):
 		# เก็บระดับการเรียนแยกรายวิชา โดยไม่กระทบข้อมูลผู้เล่นส่วนอื่น
-		player_data.append({"subject_progress": {}})
+		player_data.append({"subject_progress": {}, "faculty_id": "none"})
 	print(player_count)
 
 
@@ -89,8 +104,10 @@ func ensure_random_timetables(force_regenerate: bool = false) -> void:
 	var used_signatures: Dictionary = {}
 
 	for player_index in range(player_data.size()):
+		var faculty_id: String = get_faculty(str(player_data[player_index].get("faculty_id", "none")))["id"]
 		var existing: Dictionary = player_data[player_index].get("timetable", {})
 		var needs_generation: bool = force_regenerate or not bool(existing.get("generated_randomly", false))
+		needs_generation = needs_generation or str(existing.get("faculty_id", "none")) != faculty_id
 		var signature := ""
 
 		if not needs_generation:
@@ -98,20 +115,24 @@ func ensure_random_timetables(force_regenerate: bool = false) -> void:
 			needs_generation = signature.is_empty() or used_signatures.has(signature)
 
 		if needs_generation:
-			var generated := _generate_random_timetable()
+			var generated := _generate_random_timetable(faculty_id)
 			signature = _timetable_signature(generated)
 			while used_signatures.has(signature):
-				generated = _generate_random_timetable()
+				generated = _generate_random_timetable(faculty_id)
 				signature = _timetable_signature(generated)
 			player_data[player_index]["timetable"] = generated
 
 		used_signatures[signature] = true
 
 
-func _generate_random_timetable() -> Dictionary:
+func _generate_random_timetable(faculty_id: String = "none") -> Dictionary:
+	var faculty := get_faculty(faculty_id)
 	var selected_subjects: Array = SUBJECT_POOL.duplicate()
 	selected_subjects.shuffle()
-	selected_subjects.resize(4)
+	var required_subject: String = faculty["subject"]
+	selected_subjects.resize(4 if required_subject.is_empty() else 3)
+	if not required_subject.is_empty():
+		selected_subjects.push_front(required_subject)
 
 	# Ten weekly classes distributed as 3, 3, 2, 2.
 	var target_counts := [3, 3, 2, 2]
@@ -167,6 +188,7 @@ func _generate_random_timetable() -> Dictionary:
 
 	return {
 		"generated_randomly": true,
+		"faculty_id": faculty["id"],
 		"positions": positions,
 		"counts": subject_counts,
 		"selected_subjects": selected_subjects,

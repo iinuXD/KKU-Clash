@@ -117,7 +117,9 @@ horizontal_alignment = 1
 [node name="SubjectLabel" type="Label" parent="Center/Panel/Content"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
+autowrap_mode = 3
 theme_override_colors/font_color = Color(0.25, 0.11, 0.07, 1)
 theme_override_font_sizes/font_size = 32
 text = "วิชา"
