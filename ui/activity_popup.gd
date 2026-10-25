@@ -11,6 +11,9 @@ signal activity_chosen(activity_name)
 var hover_label: Label
 var idle_tweens: Array[Tween] = []
 var current_place := ""
+var is_resolving := false
+var choice_emitted := false
+var selection_tween: Tween
 
 var activity_data = {
 	"Dorm": {"title": "หอพัก", "img": "pxdorm.png"},
@@ -60,6 +63,11 @@ func _process(_delta: float) -> void:
 		hover_label.global_position = get_global_mouse_position() + Vector2(15, 15)
 
 func open_popup(place_name: String, _player_index: int, place_effects: Dictionary = {}) -> void:
+	if selection_tween and selection_tween.is_valid():
+		selection_tween.kill()
+	is_resolving = false
+	choice_emitted = false
+	close_btn.disabled = false
 	current_place = place_name
 	var data = activity_data.get(place_name, {"title": "สถานที่", "img": "pxdorm.png"})
 	title_label.text = data.get("title", "สถานที่")
@@ -147,6 +155,7 @@ func _clear_activity_cards() -> void:
 			tween.kill()
 	idle_tweens.clear()
 	for child in btn_container.get_children():
+		btn_container.remove_child(child)
 		child.queue_free()
 
 func _start_idle_animation(icon: Control, delay: float) -> void:
@@ -176,13 +185,24 @@ func _on_card_exit(icon: Control) -> void:
 	tween.tween_property(icon, "modulate", Color.WHITE, 0.14)
 
 func _on_activity_pressed(icon: Control, action_name: String) -> void:
+	if is_resolving or choice_emitted or not visible:
+		return
+	is_resolving = true
+	close_btn.disabled = true
+	for card in btn_container.get_children():
+		var button := card.get_child(0).get_child(0) as BaseButton
+		if button:
+			button.disabled = true
 	hover_label.hide()
-	var tween = create_tween()
-	tween.tween_property(icon, "scale", Vector2(0.90, 0.90), 0.07).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(icon, "scale", Vector2(1.06, 1.06), 0.09).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tween.tween_callback(_finish_activity.bind(action_name))
+	selection_tween = create_tween()
+	selection_tween.tween_property(icon, "scale", Vector2(0.90, 0.90), 0.07).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	selection_tween.tween_property(icon, "scale", Vector2(1.06, 1.06), 0.09).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	selection_tween.tween_callback(_finish_activity.bind(action_name))
 
 func _finish_activity(action_name: String) -> void:
+	if choice_emitted or not is_resolving or not visible:
+		return
+	choice_emitted = true
 	hide()
 	activity_chosen.emit(action_name)
 
@@ -230,6 +250,10 @@ func _generate_hover_text(effects: Dictionary) -> String:
 	return text.strip_edges()
 
 func _on_close_pressed() -> void:
+	if is_resolving or choice_emitted or not visible:
+		return
+	is_resolving = true
+	choice_emitted = true
 	hover_label.hide()
 	hide()
 	activity_chosen.emit("ยกเลิก (ไม่ทำกิจกรรม)")

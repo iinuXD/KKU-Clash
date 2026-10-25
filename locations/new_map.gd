@@ -754,7 +754,7 @@ func _force_sleep() -> void:
 	var active_player = player_nodes[current_player_index]
 	active_player.set_movement_enabled(false)
 	var stats = Global.player_data[current_player_index]["stats"]
-	stats["stamina"] = clamp(stats.get("stamina", 0) + 30, 0, 100)
+	stats["stamina"] = clamp(stats.get("stamina", 0) + 30, 0, 200)
 	if player_panel:
 		player_panel.setup_players_ui()
 

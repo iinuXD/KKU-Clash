@@ -1,0 +1,428 @@
+{
+  "test_count": 84,
+  "duplicate_names": [],
+  "identical_normalized_bodies": [],
+  "cases": [
+    {
+      "name": "test_A01_global_stats_respect_limits",
+      "file": "tests/core/test_activities_and_stats.gd",
+      "body_sha256": "2b751f8a4867ea1e9fbf7fd54aab6ef3fd0374d67ea6aeea67c264ff37ee9336"
+    },
+    {
+      "name": "test_A02_food_charges_money_and_restores_hunger",
+      "file": "tests/core/test_activities_and_stats.gd",
+      "body_sha256": "72ecc7bfab83a363cd173fe85cd3dede0f7bfcdc06fb714bc2de7003080cc0df"
+    },
+    {
+      "name": "test_A03_affordability_checks_exact_price_and_insufficient_funds",
+      "file": "tests/core/test_activities_and_stats.gd",
+      "body_sha256": "98da65dd9714e2d083f5eef274a173866a711bb2d00616e5c211816e59d7693c"
+    },
+    {
+      "name": "test_A04_parttime_rewards_money_and_costs_energy",
+      "file": "tests/core/test_activities_and_stats.gd",
+      "body_sha256": "c8ae215a8d81a83a60c6376214fdb5cfdd934e3ab23b80f50d81b1cf2eed9204"
+    },
+    {
+      "name": "test_A05_rest_clamps_energy_to_two_hundred",
+      "file": "tests/core/test_activities_and_stats.gd",
+      "body_sha256": "526e4ff0499b30c5c861815ff810146120da40dcf052708a9c1d04311e4d2212"
+    },
+    {
+      "name": "test_A06_learning_applies_rewards_and_costs_to_active_player_only",
+      "file": "tests/core/test_activities_and_stats.gd",
+      "body_sha256": "32ba6e9bc834d1c0c33e1f71990e46e49a8646846f374d9159a307787da2ea83"
+    },
+    {
+      "name": "test_A07_learning_caps_study_and_detects_fainting",
+      "file": "tests/core/test_activities_and_stats.gd",
+      "body_sha256": "2e1a2da88d1c1d6fa342207cf56d630bedb2d90887eaefae351ed678abb81483"
+    },
+    {
+      "name": "test_A08_exercise_detects_empty_hunger_and_restores_minimum",
+      "file": "tests/core/test_activities_and_stats.gd",
+      "body_sha256": "f0bf92409721174757e70adcfc57442c60f2300be813fa65fc3bf6257e59466a"
+    },
+    {
+      "name": "test_A09_hospital_and_recreation_respect_stat_limits",
+      "file": "tests/core/test_activities_and_stats.gd",
+      "body_sha256": "8b77fc930b96a4c73003960d9b63cc4da54a9f661bae4ea0d3f03ea020faa7f1"
+    },
+    {
+      "name": "test_A10_subject_levels_are_independent_and_capped_at_six",
+      "file": "tests/core/test_activities_and_stats.gd",
+      "body_sha256": "594d729261c36817f4b2c3f320ab854c47f1deb9a032bace16a8d26fe1230e31"
+    },
+    {
+      "name": "test_A11_all_listed_activities_have_time_costs",
+      "file": "tests/core/test_activities_and_stats.gd",
+      "body_sha256": "a99573de5c8645b345fab61819558ce4aec93e6463b09eece6e56e1dc151aafa"
+    },
+    {
+      "name": "test_J01_two_players_complete_ten_days_and_opposite_exam_results",
+      "file": "tests/core/test_controlled_journeys.gd",
+      "body_sha256": "987bda6a6ec1aaf29f67908ea2b0fec4c2e7145724a6564482ec21d9dab97175"
+    },
+    {
+      "name": "test_J02_three_players_keep_full_half_zero_exam_scores_separate",
+      "file": "tests/core/test_controlled_journeys.gd",
+      "body_sha256": "3a733da58b6eb07d64ed7b882824dccea1f8fcf9eac58e2e64f81022eaa2a022"
+    },
+    {
+      "name": "test_J03_four_players_complete_game_with_four_distinct_scores",
+      "file": "tests/core/test_controlled_journeys.gd",
+      "body_sha256": "ecf13c6e8e17a3ee9fe9086970370617450b77ddaf72d0718625f0a75d102ac6"
+    },
+    {
+      "name": "test_J04_new_process_loads_actual_saved_map_and_player_data",
+      "file": "tests/core/test_controlled_journeys.gd",
+      "body_sha256": "096f006575ea0fb1bc172dda6665ee2d3d1e2aa515bdd04989f0063e1aa077bb"
+    },
+    {
+      "name": "test_U01_insufficient_money_rejected_through_actual_activity_button",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "99402b648c7b3e176c4ed1abe9afd633063db52da1d266b95b2a168307ba1727"
+    },
+    {
+      "name": "test_U02_cancel_activity_keeps_money_stats_and_time",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "4abd233eeb26909c0d7a02150d90fb746c2b96c2e2323011cf59e0223a5643ad"
+    },
+    {
+      "name": "test_U03_library_borrow_button_applies_money_study_happiness_and_time",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "e046b90bca0a2ee47c8c2dba550a3c15cedf39d6272b1d13c3c5ca6c37bcc989"
+    },
+    {
+      "name": "test_U04_repeated_activity_button_presses_should_emit_one_choice",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "3ac5d5bd25cd5c10d0f972d8f64ad299687f72eb2976034ef063b84dd142b4bc"
+    },
+    {
+      "name": "test_U05_tutorial_navigation_stops_clock_and_restores_movement",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "8ddc8cfbe030a9e1bb72076e42d627277d29ebecfaf7a68f22fd23ff5be0d52f"
+    },
+    {
+      "name": "test_U06_scenarios_excluded_for_location_cannot_recur",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "40f9ca542679ed23eb998c636b6f7ad4c23658253e4287534a1ebe9b3b9d92da"
+    },
+    {
+      "name": "test_U07_all_scenario_choices_dispatch_correct_effects_once_under_repeated_presses",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "9a689cc5a4a138760c5940490c5f9247a5ad9e2d9370197139412e43f63090aa"
+    },
+    {
+      "name": "test_U08_cards_require_all_reveals_and_deliver_selected_events_once",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "dcef4a1f57c095386b28fb0491805b070c25c988590889009875f2bddedf797f"
+    },
+    {
+      "name": "test_U09_overwrite_cancel_preserves_previous_save_file",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "d453e86577400a7211cfbb999107daab3043febb3b7eb896f6b6066948e744b3"
+    },
+    {
+      "name": "test_U10_overwrite_confirm_writes_new_checkpoint",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "0375c062a800728111f18f1cf77f2bdf85cd7700b39229c8bd3d6890387f3173"
+    },
+    {
+      "name": "test_U11_nearest_place_switches_on_exit_and_handles_freed_area",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "cb125e5ab87e1f63fc6b7380fb24a2a4b0b1c4fec82c9bc65e8bc9e271da7b30"
+    },
+    {
+      "name": "test_U12_paused_interaction_and_key_repeat_do_not_trigger_activity",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "59abda308c2ea20731bd38c69dd24b31bb138db14e64b8748149e3de1dc9d6b2"
+    },
+    {
+      "name": "test_U13_all_blocking_popups_stop_live_clock",
+      "file": "tests/core/test_interface_flows.gd",
+      "body_sha256": "814aaf4fe195d55a57e8f4893c22e980cd9c4780d61db6cb85ed6e1c1992acb6"
+    },
+    {
+      "name": "test_Q01_all_ten_subjects_have_six_valid_question_levels",
+      "file": "tests/core/test_learning_and_exams.gd",
+      "body_sha256": "fd48c59fc72ce01fb950e914b9c6a1806cef66f0cc4af4227374125a99a88f65"
+    },
+    {
+      "name": "test_Q02_faculty_quizzes_and_exams_load_at_every_level",
+      "file": "tests/core/test_learning_and_exams.gd",
+      "body_sha256": "1ae1aedd5dbf3ef9f379cf8ab8edd593c1b84a4a34f083c3d31b22ad2f0b0485"
+    },
+    {
+      "name": "test_Q03_correct_answers_emit_thirty_study_points",
+      "file": "tests/core/test_learning_and_exams.gd",
+      "body_sha256": "d23c48b8fac553d64a7fbee4698d9df8c97840ccb2ef8bb59ded4718865e15e4"
+    },
+    {
+      "name": "test_Q04_incorrect_answers_do_not_reward_study",
+      "file": "tests/core/test_learning_and_exams.gd",
+      "body_sha256": "14393b7c3dc807d2b040606247bcb5dc2d888bd284ed18e05e22668e822a91bb"
+    },
+    {
+      "name": "test_Q05_late_attendance_multiplier_is_applied",
+      "file": "tests/core/test_learning_and_exams.gd",
+      "body_sha256": "f8d95aba528863eab7bae46a98ca924c2d03243d5e830355672296992596e022"
+    },
+    {
+      "name": "test_Q06_timeout_ends_quiz_and_disables_answers",
+      "file": "tests/core/test_learning_and_exams.gd",
+      "body_sha256": "a600318b48603e68c5da178bc24cd874626f5ff037570d7bba4a1afc4848bbfd"
+    },
+    {
+      "name": "test_Q07_exam_emits_correct_count_and_total_without_quiz_reward",
+      "file": "tests/core/test_learning_and_exams.gd",
+      "body_sha256": "59b5ff78babe280386350e724b59369b62c0c7e313c7fee992938628f9d222ad"
+    },
+    {
+      "name": "test_Q08_final_exam_subjects_match_faculty_timetable",
+      "file": "tests/core/test_learning_and_exams.gd",
+      "body_sha256": "5907cb4f2b14d4641cca7cd5da3a38d406dc0b8e6b356e31e3dc7b6fafb46182"
+    },
+    {
+      "name": "test_Q09_invalid_exam_subject_aborts_and_emits_zero_result",
+      "file": "tests/core/test_learning_and_exams.gd",
+      "body_sha256": "7154b6d7a64dbc99a8e660b4bfd27f1507abbcbd49ae7a30fbd2a8b2e94d3737"
+    },
+    {
+      "name": "test_I01_map_starts_two_players_and_only_active_player_can_move",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "8ab9b34f91e44c0347b324bb4b46af10715da17491edc73c790ec5f9ac835a78"
+    },
+    {
+      "name": "test_I02_turn_rotates_and_day_advances_after_all_players",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "7523540d65ba93cf86a71070d3ac6f4a0e22684d3f662d6ace422c0871ebce98"
+    },
+    {
+      "name": "test_I03_pause_stops_clock_and_resume_restores_game",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "64f217f3aa583a578c1267e01f14aa417e61fcf96219e333a3e972832aa54c99"
+    },
+    {
+      "name": "test_I04_real_clock_stops_while_timetable_is_open",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "ff340f1a87bd6c8ab9e3e4b44251b2e33094865290498dd90c0316d712ec7257"
+    },
+    {
+      "name": "test_I05_keyboard_movement_and_diagonal_speed",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "5d18a68124a7312dc1d57451698ecb37730be622e8a94d969879b77be8d9ffeb"
+    },
+    {
+      "name": "test_I06_interaction_emits_only_when_enabled_and_near_a_place",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "6a9c3ba906f3edfd6e83459af765a7970e72271accb87ca43cd7a16a81b6b856"
+    },
+    {
+      "name": "test_I07_three_am_forces_sleep_and_next_wake_is_ten_am",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "e0529af6b1187f2d6edb0e482458564d2d01e05254be94a3d95864b4db7ea060"
+    },
+    {
+      "name": "test_I08_forced_sleep_should_not_reduce_existing_energy",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "e2f7723900149db2a44432ded7ba029c3cd2bd86120fe91a882e63b94b258907"
+    },
+    {
+      "name": "test_I09_loaded_map_state_restores_turn_clock_and_event_history",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "9c8d6299118ff942d4edbad85625a85f74e8810f17507f47a5c1621956d39397"
+    },
+    {
+      "name": "test_I10_scheduled_class_updates_attendance_progress_stats_and_time",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "bc2eb40687afe65e2eb0497b689371c33d836b56ab72c97b322b2e33b93865b7"
+    },
+    {
+      "name": "test_I11_final_exam_runs_four_subjects_and_shows_endgame",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "fedc5fbc306eb6472f7e6892e94efe54a1137c1d6d6703fa43ecfa23b7b33177"
+    },
+    {
+      "name": "test_R01_activity_popup_texture_uid_matches_its_file",
+      "file": "tests/core/test_map_integration.gd",
+      "body_sha256": "9fa3b8c2a190469bb53854dd01c013e7f653f7eff8cd88bc2c1e35aaa61fa55f"
+    },
+    {
+      "name": "test_P01_setup_one_to_four_independent_players",
+      "file": "tests/core/test_players_and_faculties.gd",
+      "body_sha256": "b730dcf4a14ece33454f5548624c3dd89e9d5f158b08244cf623462b82c29358"
+    },
+    {
+      "name": "test_P02_avatar_has_centered_faculty_placeholder",
+      "file": "tests/core/test_players_and_faculties.gd",
+      "body_sha256": "cd402c95eb91abf0366d5e401056ac9beba2765860cef69fc9863ad468ba5ca1"
+    },
+    {
+      "name": "test_P03_faculty_selection_is_saved_for_each_player",
+      "file": "tests/core/test_players_and_faculties.gd",
+      "body_sha256": "352e27d9b49f71d10a6e69698962446bcd540385d68807e14295cd10fb598489"
+    },
+    {
+      "name": "test_P04_leaving_placeholder_uses_general_subjects",
+      "file": "tests/core/test_players_and_faculties.gd",
+      "body_sha256": "a36cabd1ca13b365864e0a1170af7155b1e263e93acf230c842dc9675fe13491"
+    },
+    {
+      "name": "test_P05_every_faculty_has_exactly_one_required_and_three_general_subjects",
+      "file": "tests/core/test_players_and_faculties.gd",
+      "body_sha256": "731e30e9653e6fb767c326d6c5208d69b12257e666bff6818537f5227cbb7a55"
+    },
+    {
+      "name": "test_P06_no_faculty_has_four_general_subjects",
+      "file": "tests/core/test_players_and_faculties.gd",
+      "body_sha256": "4650434c69425d22e1235cdbb125ac3c34153adbe889d4c8f50dd87ec4a4a465"
+    },
+    {
+      "name": "test_P07_legacy_save_keeps_existing_timetable",
+      "file": "tests/core/test_players_and_faculties.gd",
+      "body_sha256": "333dd984bc86ff690f68d8f8bb0d82fc45ba46cb8d4224fbcb1f83b82ec5726f"
+    },
+    {
+      "name": "test_P08_balanced_timetables_with_distinct_schedules_for_four_players",
+      "file": "tests/core/test_players_and_faculties.gd",
+      "body_sha256": "d933e708badb8ccc50549a9f4800893d720196412dcc2ccb8dda0f8f57856cf5"
+    },
+    {
+      "name": "test_P09_reopening_timetable_does_not_reroll_it",
+      "file": "tests/core/test_players_and_faculties.gd",
+      "body_sha256": "290fa846ff61faae0d127ddd540c3676ee7068da957f601dcb19a4e08ff81e52"
+    },
+    {
+      "name": "test_S01_new_game_clears_previous_session",
+      "file": "tests/core/test_save_scores_and_settings.gd",
+      "body_sha256": "972c71b7abeab9f05e551771933d418b0fd1acd6f290dcfe678bc738769cf4fc"
+    },
+    {
+      "name": "test_S02_global_json_roundtrip_preserves_faculty_progress_and_timetable",
+      "file": "tests/core/test_save_scores_and_settings.gd",
+      "body_sha256": "66da44e35de48432babb26514bc75b91aff511dce1f5596aee55da389c9b7ad0"
+    },
+    {
+      "name": "test_S03_checkpoints_are_independent_copies",
+      "file": "tests/core/test_save_scores_and_settings.gd",
+      "body_sha256": "9a72a3b8aae5a0ea4a499dc76fdc02754933f88f6851318447338c178e48f2aa"
+    },
+    {
+      "name": "test_S04_disk_save_load_and_pending_load_is_consumed_once",
+      "file": "tests/core/test_save_scores_and_settings.gd",
+      "body_sha256": "7f7f673a0ed314fa9a662793918b2f28871b1d8184ae74d1651e08749fff3bf4"
+    },
+    {
+      "name": "test_S05_invalid_slots_and_missing_checkpoint_are_rejected",
+      "file": "tests/core/test_save_scores_and_settings.gd",
+      "body_sha256": "99265dc4d2dfd5b6619389c8c2e3d629156b8f8d5c2bc9df5bccfc4c17ff96d0"
+    },
+    {
+      "name": "test_S06_corrupt_and_future_version_saves_are_rejected",
+      "file": "tests/core/test_save_scores_and_settings.gd",
+      "body_sha256": "091db8c94e2be49881d8d8f3cf777746c49e1af72e347c574e607de3ddd5dc8d"
+    },
+    {
+      "name": "test_S07_autosave_writes_updated_checkpoint",
+      "file": "tests/core/test_save_scores_and_settings.gd",
+      "body_sha256": "2d2ea56d86045aa21710e761a5a5d58a32cf0fdcb9f3017a27545d397f1af151"
+    },
+    {
+      "name": "test_C01_final_score_maximum_is_three_thousand",
+      "file": "tests/core/test_save_scores_and_settings.gd",
+      "body_sha256": "9aa3e5f89fb33e78a45b5c1a0e5d2a905452f1bb5ec3b4ae4367bf0b47bcbf57"
+    },
+    {
+      "name": "test_C02_score_ratings_at_boundaries",
+      "file": "tests/core/test_save_scores_and_settings.gd",
+      "body_sha256": "99c856257703ab8e86ab5d25cd370408b8b6e24fef18443b58076acbe7e255d9"
+    },
+    {
+      "name": "test_C03_leaderboard_keeps_top_ten_and_persists",
+      "file": "tests/core/test_save_scores_and_settings.gd",
+      "body_sha256": "c62558d8a5a233e1540568f8fbcad553c4484df48bc241874273851f4056af59"
+    },
+    {
+      "name": "test_C04_music_volume_is_clamped_and_persisted",
+      "file": "tests/core/test_save_scores_and_settings.gd",
+      "body_sha256": "cef4b57fc2bc68ec9c2fb5b454994a4ad947de97bf036477067ff167175e79e0"
+    },
+    {
+      "name": "test_T01_class_timing_boundaries",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "2f99229c7d18ceb7f680219fb7b4fd24ce3de62f913a472d2731c21493ac0c30"
+    },
+    {
+      "name": "test_T02_advance_time_updates_only_active_player",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "9f10a2ab09af6ff0e6c3cff8c33002111d01a40db6960e9f8408d893a014a5a1"
+    },
+    {
+      "name": "test_T03_time_speed_resets_for_all_players_each_day",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "d9a432e2c415d0053a1158b75e4a5efc72d335d8f5acc464e03e2b894890ad15"
+    },
+    {
+      "name": "test_T04_missed_class_refresh_preserves_attended_classes",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "9ff4b3eea6cd3cceda273d0691dcb36dd5f98168914d54803ff85dca4fb0d444"
+    },
+    {
+      "name": "test_T05_end_turn_marks_remaining_classes_missed",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "876cc5d14ddc2d6f5ac7122cef999f8d62969b7937dec36a2ba045d7342e8cb9"
+    },
+    {
+      "name": "test_T06_week_two_reuses_day_but_resets_attendance",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "fd5045e466a46c020b88583784b58e745d3b5242439806612fb6cb241730b80b"
+    },
+    {
+      "name": "test_M01_completed_half_of_classes_gives_fifty_mission_points",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "a0992d458eddf0e72d3433bcb4b56619fbb28e737b945c4a5936608da0df9645"
+    },
+    {
+      "name": "test_M02_mission_completion_requires_correct_place_and_action",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "1494caf1505ba636810c13ab994514775acbaddf6743166d6d1de1f5cddc5ed4"
+    },
+    {
+      "name": "test_M03_duplicate_pending_event_missions_are_not_added",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "34971f3cf6929236add1bae1d3cc7d05037f3ca3dfeb2448596d32eb88808ee0"
+    },
+    {
+      "name": "test_M04_event_missions_count_in_score_and_expire_at_end_of_round",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "967a64ebd3b57eec204afe9543b856f521c905d14cf5901fa64a01912a7edb15"
+    },
+    {
+      "name": "test_E01_event_changes_only_target_player_and_records_history",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "63880553d910b0cd61afc28b7b7e6df3db69137405604edbc841f0263237dc7f"
+    },
+    {
+      "name": "test_E02_event_effects_clamp_stats_and_money",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "ae80fcceddb297f77bce6ec679d8f7aa4131ea72c2880cae5207a8a75edb7bd3"
+    },
+    {
+      "name": "test_E03_scenario_effects_apply_to_active_player",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "3a19bb57f9e3b20f4d30979ec02078fee4f287afefae41858f8560b3752c2f0f"
+    },
+    {
+      "name": "test_E04_scenario_chance_increases_and_caps",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "85ebe7d8440045a0d9465c2b9f6b0b0127a64075ee8c1a8d359a80a92ae3b181"
+    },
+    {
+      "name": "test_E05_event_and_scenario_database_integrity",
+      "file": "tests/core/test_time_missions_events.gd",
+      "body_sha256": "8997698bbe18f6637f3b4624226ff016f36f5eef57b9e406053399ef9c763d0a"
+    }
+  ],
+  "limitation": "Exact textual duplication only; see tests/coverage-matrix.md for semantic overlaps and gaps."
+}

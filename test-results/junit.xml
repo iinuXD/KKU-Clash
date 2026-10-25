@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="GutTests" failures="0" tests="84" >
+  <testsuite name="tests/core/test_activities_and_stats.gd" tests="11" failures="0" skipped="0" time="0.008948" >
+      <testcase name="test_A01_global_stats_respect_limits" assertions="8" status="pass" classname="tests/core/test_activities_and_stats.gd" time="0.000469" >
+      </testcase>
+      <testcase name="test_A02_food_charges_money_and_restores_hunger" assertions="4" status="pass" classname="tests/core/test_activities_and_stats.gd" time="0.000372" >
+      </testcase>
+      <testcase name="test_A03_affordability_checks_exact_price_and_insufficient_funds" assertions="2" status="pass" classname="tests/core/test_activities_and_stats.gd" time="0.000296" >
+      </testcase>
+      <testcase name="test_A04_parttime_rewards_money_and_costs_energy" assertions="3" status="pass" classname="tests/core/test_activities_and_stats.gd" time="0.000312" >
+      </testcase>
+      <testcase name="test_A05_rest_clamps_energy_to_two_hundred" assertions="1" status="pass" classname="tests/core/test_activities_and_stats.gd" time="0.000267" >
+      </testcase>
+      <testcase name="test_A06_learning_applies_rewards_and_costs_to_active_player_only" assertions="6" status="pass" classname="tests/core/test_activities_and_stats.gd" time="0.00456" >
+      </testcase>
+      <testcase name="test_A07_learning_caps_study_and_detects_fainting" assertions="3" status="pass" classname="tests/core/test_activities_and_stats.gd" time="0.000356" >
+      </testcase>
+      <testcase name="test_A08_exercise_detects_empty_hunger_and_restores_minimum" assertions="2" status="pass" classname="tests/core/test_activities_and_stats.gd" time="0.00036" >
+      </testcase>
+      <testcase name="test_A09_hospital_and_recreation_respect_stat_limits" assertions="3" status="pass" classname="tests/core/test_activities_and_stats.gd" time="0.000326" >
+      </testcase>
+      <testcase name="test_A10_subject_levels_are_independent_and_capped_at_six" assertions="3" status="pass" classname="tests/core/test_activities_and_stats.gd" time="0.000968" >
+      </testcase>
+      <testcase name="test_A11_all_listed_activities_have_time_costs" assertions="23" status="pass" classname="tests/core/test_activities_and_stats.gd" time="0.000662" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_controlled_journeys.gd" tests="4" failures="0" skipped="0" time="1.17235" >
+      <testcase name="test_J01_two_players_complete_ten_days_and_opposite_exam_results" assertions="76" status="pass" classname="tests/core/test_controlled_journeys.gd" time="0.113908" >
+      </testcase>
+      <testcase name="test_J02_three_players_keep_full_half_zero_exam_scores_separate" assertions="112" status="pass" classname="tests/core/test_controlled_journeys.gd" time="0.123975" >
+      </testcase>
+      <testcase name="test_J03_four_players_complete_game_with_four_distinct_scores" assertions="148" status="pass" classname="tests/core/test_controlled_journeys.gd" time="0.155866" >
+      </testcase>
+      <testcase name="test_J04_new_process_loads_actual_saved_map_and_player_data" assertions="9" status="pass" classname="tests/core/test_controlled_journeys.gd" time="0.778601" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_interface_flows.gd" tests="13" failures="0" skipped="0" time="22.198954" >
+      <testcase name="test_U01_insufficient_money_rejected_through_actual_activity_button" assertions="3" status="pass" classname="tests/core/test_interface_flows.gd" time="0.273124" >
+      </testcase>
+      <testcase name="test_U02_cancel_activity_keeps_money_stats_and_time" assertions="2" status="pass" classname="tests/core/test_interface_flows.gd" time="0.078868" >
+      </testcase>
+      <testcase name="test_U03_library_borrow_button_applies_money_study_happiness_and_time" assertions="4" status="pass" classname="tests/core/test_interface_flows.gd" time="0.17289" >
+      </testcase>
+      <testcase name="test_U04_repeated_activity_button_presses_should_emit_one_choice" assertions="7" status="pass" classname="tests/core/test_interface_flows.gd" time="0.575528" >
+      </testcase>
+      <testcase name="test_U05_tutorial_navigation_stops_clock_and_restores_movement" assertions="9" status="pass" classname="tests/core/test_interface_flows.gd" time="0.047732" >
+      </testcase>
+      <testcase name="test_U06_scenarios_excluded_for_location_cannot_recur" assertions="3" status="pass" classname="tests/core/test_interface_flows.gd" time="0.001841" >
+      </testcase>
+      <testcase name="test_U07_all_scenario_choices_dispatch_correct_effects_once_under_repeated_presses" assertions="173" status="pass" classname="tests/core/test_interface_flows.gd" time="17.991567" >
+      </testcase>
+      <testcase name="test_U08_cards_require_all_reveals_and_deliver_selected_events_once" assertions="10" status="pass" classname="tests/core/test_interface_flows.gd" time="2.397832" >
+      </testcase>
+      <testcase name="test_U09_overwrite_cancel_preserves_previous_save_file" assertions="4" status="pass" classname="tests/core/test_interface_flows.gd" time="0.046133" >
+      </testcase>
+      <testcase name="test_U10_overwrite_confirm_writes_new_checkpoint" assertions="4" status="pass" classname="tests/core/test_interface_flows.gd" time="0.483279" >
+      </testcase>
+      <testcase name="test_U11_nearest_place_switches_on_exit_and_handles_freed_area" assertions="3" status="pass" classname="tests/core/test_interface_flows.gd" time="0.073971" >
+      </testcase>
+      <testcase name="test_U12_paused_interaction_and_key_repeat_do_not_trigger_activity" assertions="1" status="pass" classname="tests/core/test_interface_flows.gd" time="0.028052" >
+      </testcase>
+      <testcase name="test_U13_all_blocking_popups_stop_live_clock" assertions="7" status="pass" classname="tests/core/test_interface_flows.gd" time="0.028137" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_learning_and_exams.gd" tests="9" failures="0" skipped="0" time="0.088032" >
+      <testcase name="test_Q01_all_ten_subjects_have_six_valid_question_levels" assertions="1561" status="pass" classname="tests/core/test_learning_and_exams.gd" time="0.021173" >
+      </testcase>
+      <testcase name="test_Q02_faculty_quizzes_and_exams_load_at_every_level" assertions="96" status="pass" classname="tests/core/test_learning_and_exams.gd" time="0.03852" >
+      </testcase>
+      <testcase name="test_Q03_correct_answers_emit_thirty_study_points" assertions="3" status="pass" classname="tests/core/test_learning_and_exams.gd" time="0.003309" >
+      </testcase>
+      <testcase name="test_Q04_incorrect_answers_do_not_reward_study" assertions="2" status="pass" classname="tests/core/test_learning_and_exams.gd" time="0.002527" >
+      </testcase>
+      <testcase name="test_Q05_late_attendance_multiplier_is_applied" assertions="1" status="pass" classname="tests/core/test_learning_and_exams.gd" time="0.002513" >
+      </testcase>
+      <testcase name="test_Q06_timeout_ends_quiz_and_disables_answers" assertions="7" status="pass" classname="tests/core/test_learning_and_exams.gd" time="0.002504" >
+      </testcase>
+      <testcase name="test_Q07_exam_emits_correct_count_and_total_without_quiz_reward" assertions="2" status="pass" classname="tests/core/test_learning_and_exams.gd" time="0.003154" >
+      </testcase>
+      <testcase name="test_Q08_final_exam_subjects_match_faculty_timetable" assertions="3" status="pass" classname="tests/core/test_learning_and_exams.gd" time="0.000648" >
+      </testcase>
+      <testcase name="test_Q09_invalid_exam_subject_aborts_and_emits_zero_result" assertions="2" status="pass" classname="tests/core/test_learning_and_exams.gd" time="0.013684" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_map_integration.gd" tests="12" failures="0" skipped="0" time="1.21055" >
+      <testcase name="test_I01_map_starts_two_players_and_only_active_player_can_move" assertions="5" status="pass" classname="tests/core/test_map_integration.gd" time="0.02875" >
+      </testcase>
+      <testcase name="test_I02_turn_rotates_and_day_advances_after_all_players" assertions="8" status="pass" classname="tests/core/test_map_integration.gd" time="0.029319" >
+      </testcase>
+      <testcase name="test_I03_pause_stops_clock_and_resume_restores_game" assertions="4" status="pass" classname="tests/core/test_map_integration.gd" time="0.02805" >
+      </testcase>
+      <testcase name="test_I04_real_clock_stops_while_timetable_is_open" assertions="2" status="pass" classname="tests/core/test_map_integration.gd" time="0.031109" >
+      </testcase>
+      <testcase name="test_I05_keyboard_movement_and_diagonal_speed" assertions="4" status="pass" classname="tests/core/test_map_integration.gd" time="0.029879" >
+      </testcase>
+      <testcase name="test_I06_interaction_emits_only_when_enabled_and_near_a_place" assertions="2" status="pass" classname="tests/core/test_map_integration.gd" time="0.029312" >
+      </testcase>
+      <testcase name="test_I07_three_am_forces_sleep_and_next_wake_is_ten_am" assertions="5" status="pass" classname="tests/core/test_map_integration.gd" time="0.422567" >
+      </testcase>
+      <testcase name="test_I08_forced_sleep_should_not_reduce_existing_energy" assertions="1" status="pass" classname="tests/core/test_map_integration.gd" time="0.515951" >
+      </testcase>
+      <testcase name="test_I09_loaded_map_state_restores_turn_clock_and_event_history" assertions="6" status="pass" classname="tests/core/test_map_integration.gd" time="0.029091" >
+      </testcase>
+      <testcase name="test_I10_scheduled_class_updates_attendance_progress_stats_and_time" assertions="5" status="pass" classname="tests/core/test_map_integration.gd" time="0.030312" >
+      </testcase>
+      <testcase name="test_I11_final_exam_runs_four_subjects_and_shows_endgame" assertions="10" status="pass" classname="tests/core/test_map_integration.gd" time="0.035033" >
+      </testcase>
+      <testcase name="test_R01_activity_popup_texture_uid_matches_its_file" assertions="2" status="pass" classname="tests/core/test_map_integration.gd" time="0.001177" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_players_and_faculties.gd" tests="9" failures="0" skipped="0" time="0.601616" >
+      <testcase name="test_P01_setup_one_to_four_independent_players" assertions="10" status="pass" classname="tests/core/test_players_and_faculties.gd" time="0.000583" >
+      </testcase>
+      <testcase name="test_P02_avatar_has_centered_faculty_placeholder" assertions="4" status="pass" classname="tests/core/test_players_and_faculties.gd" time="0.202963" >
+      </testcase>
+      <testcase name="test_P03_faculty_selection_is_saved_for_each_player" assertions="3" status="pass" classname="tests/core/test_players_and_faculties.gd" time="0.179345" >
+      </testcase>
+      <testcase name="test_P04_leaving_placeholder_uses_general_subjects" assertions="1" status="pass" classname="tests/core/test_players_and_faculties.gd" time="0.181475" >
+      </testcase>
+      <testcase name="test_P05_every_faculty_has_exactly_one_required_and_three_general_subjects" assertions="12" status="pass" classname="tests/core/test_players_and_faculties.gd" time="0.000895" >
+      </testcase>
+      <testcase name="test_P06_no_faculty_has_four_general_subjects" assertions="5" status="pass" classname="tests/core/test_players_and_faculties.gd" time="0.000312" >
+      </testcase>
+      <testcase name="test_P07_legacy_save_keeps_existing_timetable" assertions="1" status="pass" classname="tests/core/test_players_and_faculties.gd" time="0.00069" >
+      </testcase>
+      <testcase name="test_P08_balanced_timetables_with_distinct_schedules_for_four_players" assertions="1700" status="pass" classname="tests/core/test_players_and_faculties.gd" time="0.034127" >
+      </testcase>
+      <testcase name="test_P09_reopening_timetable_does_not_reroll_it" assertions="1" status="pass" classname="tests/core/test_players_and_faculties.gd" time="0.001226" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_save_scores_and_settings.gd" tests="11" failures="0" skipped="0" time="0.052761" >
+      <testcase name="test_S01_new_game_clears_previous_session" assertions="5" status="pass" classname="tests/core/test_save_scores_and_settings.gd" time="0.000435" >
+      </testcase>
+      <testcase name="test_S02_global_json_roundtrip_preserves_faculty_progress_and_timetable" assertions="1" status="pass" classname="tests/core/test_save_scores_and_settings.gd" time="0.001605" >
+      </testcase>
+      <testcase name="test_S03_checkpoints_are_independent_copies" assertions="1" status="pass" classname="tests/core/test_save_scores_and_settings.gd" time="0.000431" >
+      </testcase>
+      <testcase name="test_S04_disk_save_load_and_pending_load_is_consumed_once" assertions="8" status="pass" classname="tests/core/test_save_scores_and_settings.gd" time="0.009392" >
+      </testcase>
+      <testcase name="test_S05_invalid_slots_and_missing_checkpoint_are_rejected" assertions="5" status="pass" classname="tests/core/test_save_scores_and_settings.gd" time="0.000438" >
+      </testcase>
+      <testcase name="test_S06_corrupt_and_future_version_saves_are_rejected" assertions="4" status="pass" classname="tests/core/test_save_scores_and_settings.gd" time="0.003197" >
+      </testcase>
+      <testcase name="test_S07_autosave_writes_updated_checkpoint" assertions="4" status="pass" classname="tests/core/test_save_scores_and_settings.gd" time="0.025917" >
+      </testcase>
+      <testcase name="test_C01_final_score_maximum_is_three_thousand" assertions="2" status="pass" classname="tests/core/test_save_scores_and_settings.gd" time="0.000657" >
+      </testcase>
+      <testcase name="test_C02_score_ratings_at_boundaries" assertions="8" status="pass" classname="tests/core/test_save_scores_and_settings.gd" time="0.000547" >
+      </testcase>
+      <testcase name="test_C03_leaderboard_keeps_top_ten_and_persists" assertions="5" status="pass" classname="tests/core/test_save_scores_and_settings.gd" time="0.007048" >
+      </testcase>
+      <testcase name="test_C04_music_volume_is_clamped_and_persisted" assertions="3" status="pass" classname="tests/core/test_save_scores_and_settings.gd" time="0.003094" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_time_missions_events.gd" tests="15" failures="0" skipped="0" time="0.00968" >
+      <testcase name="test_T01_class_timing_boundaries" assertions="8" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000604" >
+      </testcase>
+      <testcase name="test_T02_advance_time_updates_only_active_player" assertions="3" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000369" >
+      </testcase>
+      <testcase name="test_T03_time_speed_resets_for_all_players_each_day" assertions="2" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000393" >
+      </testcase>
+      <testcase name="test_T04_missed_class_refresh_preserves_attended_classes" assertions="2" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.00033" >
+      </testcase>
+      <testcase name="test_T05_end_turn_marks_remaining_classes_missed" assertions="2" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000399" >
+      </testcase>
+      <testcase name="test_T06_week_two_reuses_day_but_resets_attendance" assertions="4" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000367" >
+      </testcase>
+      <testcase name="test_M01_completed_half_of_classes_gives_fifty_mission_points" assertions="2" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000416" >
+      </testcase>
+      <testcase name="test_M02_mission_completion_requires_correct_place_and_action" assertions="3" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000491" >
+      </testcase>
+      <testcase name="test_M03_duplicate_pending_event_missions_are_not_added" assertions="2" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000327" >
+      </testcase>
+      <testcase name="test_M04_event_missions_count_in_score_and_expire_at_end_of_round" assertions="4" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000338" >
+      </testcase>
+      <testcase name="test_E01_event_changes_only_target_player_and_records_history" assertions="5" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000815" >
+      </testcase>
+      <testcase name="test_E02_event_effects_clamp_stats_and_money" assertions="3" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000418" >
+      </testcase>
+      <testcase name="test_E03_scenario_effects_apply_to_active_player" assertions="3" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000365" >
+      </testcase>
+      <testcase name="test_E04_scenario_chance_increases_and_caps" assertions="3" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.000299" >
+      </testcase>
+      <testcase name="test_E05_event_and_scenario_database_integrity" assertions="50" status="pass" classname="tests/core/test_time_missions_events.gd" time="0.003749" >
+      </testcase>
+  </testsuite>
+</testsuites>

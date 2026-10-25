@@ -1,0 +1,724 @@
+﻿Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [D:/FinalProject/KKU-life-sim/test-results/20261025-232700-716/sandbox/Godot/app_userdata/KKU Clash] for temporary output.
+Godot version:  4.7.0
+GUT version:  9.7.1
+TEST SANDBOX: D:/FinalProject/KKU-life-sim/test-results/20261025-232700-716/sandbox/Godot/app_userdata/KKU Clash
+
+
+res://tests/core/test_activities_and_stats.gd
+* test_A01_global_stats_respect_limits
+2
+* test_A02_food_charges_money_and_restores_hunger
+2
+* test_A03_affordability_checks_exact_price_and_insufficient_funds
+2
+* test_A04_parttime_rewards_money_and_costs_energy
+2
+* test_A05_rest_clamps_energy_to_two_hundred
+2
+* test_A06_learning_applies_rewards_and_costs_to_active_player_only
+2
+ระบบทำงาน! บวกความรู้เพิ่ม: 30 | ตอนนี้รวมเป็น: 30
+* test_A07_learning_caps_study_and_detects_fainting
+2
+ระบบทำงาน! บวกความรู้เพิ่ม: 30 | ตอนนี้รวมเป็น: 400
+* test_A08_exercise_detects_empty_hunger_and_restores_minimum
+2
+* test_A09_hospital_and_recreation_respect_stat_limits
+2
+* test_A10_subject_levels_are_independent_and_capped_at_six
+2
+📚 SAVE LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น : 1 -> 2
+📚 SUBJECT PROGRESS = { "การเขียนโปรแกรมเบื้องต้น": 2 }
+📚 SAVE LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น : 2 -> 3
+📚 SUBJECT PROGRESS = { "การเขียนโปรแกรมเบื้องต้น": 3 }
+📚 SAVE LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น : 3 -> 4
+📚 SUBJECT PROGRESS = { "การเขียนโปรแกรมเบื้องต้น": 4 }
+📚 SAVE LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น : 4 -> 5
+📚 SUBJECT PROGRESS = { "การเขียนโปรแกรมเบื้องต้น": 5 }
+📚 SAVE LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น : 5 -> 6
+📚 SUBJECT PROGRESS = { "การเขียนโปรแกรมเบื้องต้น": 6 }
+📚 SAVE LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น : 6 -> 6
+📚 SUBJECT PROGRESS = { "การเขียนโปรแกรมเบื้องต้น": 6 }
+📚 SAVE LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น : 6 -> 6
+📚 SUBJECT PROGRESS = { "การเขียนโปรแกรมเบื้องต้น": 6 }
+📚 SAVE LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น : 6 -> 6
+📚 SUBJECT PROGRESS = { "การเขียนโปรแกรมเบื้องต้น": 6 }
+📖 LOAD LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น = 6
+📖 LOAD LEVEL | P2 | การเขียนโปรแกรมเบื้องต้น = 1
+📖 LOAD LEVEL | P1 | ภาษาไทย = 1
+* test_A11_all_listed_activities_have_time_costs
+2
+11/11 passed.
+
+
+res://tests/core/test_controlled_journeys.gd
+* test_J01_two_players_complete_ten_days_and_opposite_exam_results
+2
+2
+ภารกิจผู้เล่น 1 รอบ 1: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 1: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 2 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 2: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 2: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 3 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 3: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 3: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 4 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 4: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 4: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 5 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 5: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 5: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 6 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 6: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 6: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 7 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 7: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 7: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 8 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 8: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 8: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 9 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 9: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 9: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 10 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 10: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 10: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 11 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+📖 LOAD LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น = 1
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+📖 LOAD LEVEL | P1 | ภาษาอังกฤษ = 1
+✅ โหลดโจทย์ ภาษาอังกฤษ สำเร็จ | res://data/questions/english.json
+📖 LOAD LEVEL | P1 | ฟิสิกส์ = 1
+✅ โหลดโจทย์ ฟิสิกส์ สำเร็จ | res://data/questions/physics.json
+📖 LOAD LEVEL | P1 | ภาษาไทย = 1
+✅ โหลดโจทย์ ภาษาไทย สำเร็จ | res://data/questions/thai.json
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+📖 LOAD LEVEL | P2 | ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู = 1
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+📖 LOAD LEVEL | P2 | คณิตศาสตร์ = 1
+✅ โหลดโจทย์ คณิตศาสตร์ สำเร็จ | res://data/questions/math.json
+📖 LOAD LEVEL | P2 | ฟิสิกส์ = 1
+✅ โหลดโจทย์ ฟิสิกส์ สำเร็จ | res://data/questions/physics.json
+📖 LOAD LEVEL | P2 | ภาษาไทย = 1
+✅ โหลดโจทย์ ภาษาไทย สำเร็จ | res://data/questions/thai.json
+--- จบรอบของทุกคน! เริ่มรอบที่ 12 ---
+จบเกม!!!
+* test_J02_three_players_keep_full_half_zero_exam_scores_separate
+2
+3
+ภารกิจผู้เล่น 1 รอบ 1: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 1: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 1: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 2 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 2: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 2: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 2: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 3 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 3: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 3: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 3: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 4 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 4: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 4: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 4: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 5 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 5: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 5: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 5: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 6 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 6: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 6: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 6: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 7 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 7: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 7: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 7: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 8 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 8: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 8: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 8: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 9 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 9: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 9: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 9: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 10 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 10: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 10: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 10: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 11 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+📖 LOAD LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น = 1
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+📖 LOAD LEVEL | P1 | ชีววิทยา = 1
+✅ โหลดโจทย์ ชีววิทยา สำเร็จ | res://data/questions/biology.json
+📖 LOAD LEVEL | P1 | คณิตศาสตร์ = 1
+✅ โหลดโจทย์ คณิตศาสตร์ สำเร็จ | res://data/questions/math.json
+📖 LOAD LEVEL | P1 | ภาษาอังกฤษ = 1
+✅ โหลดโจทย์ ภาษาอังกฤษ สำเร็จ | res://data/questions/english.json
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+📖 LOAD LEVEL | P2 | ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู = 1
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+📖 LOAD LEVEL | P2 | คณิตศาสตร์ = 1
+✅ โหลดโจทย์ คณิตศาสตร์ สำเร็จ | res://data/questions/math.json
+📖 LOAD LEVEL | P2 | ชีววิทยา = 1
+✅ โหลดโจทย์ ชีววิทยา สำเร็จ | res://data/questions/biology.json
+📖 LOAD LEVEL | P2 | ภาษาไทย = 1
+✅ โหลดโจทย์ ภาษาไทย สำเร็จ | res://data/questions/thai.json
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+📖 LOAD LEVEL | P3 | กายวิภาคศาสตร์เบื้องต้น = 1
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+📖 LOAD LEVEL | P3 | คณิตศาสตร์ = 1
+✅ โหลดโจทย์ คณิตศาสตร์ สำเร็จ | res://data/questions/math.json
+📖 LOAD LEVEL | P3 | ภาษาไทย = 1
+✅ โหลดโจทย์ ภาษาไทย สำเร็จ | res://data/questions/thai.json
+📖 LOAD LEVEL | P3 | ภาษาอังกฤษ = 1
+✅ โหลดโจทย์ ภาษาอังกฤษ สำเร็จ | res://data/questions/english.json
+--- จบรอบของทุกคน! เริ่มรอบที่ 12 ---
+จบเกม!!!
+* test_J03_four_players_complete_game_with_four_distinct_scores
+2
+4
+ภารกิจผู้เล่น 1 รอบ 1: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 1: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 1: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 4 ---
+ภารกิจผู้เล่น 4 รอบ 1: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 2 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 2: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 2: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 2: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 4 ---
+ภารกิจผู้เล่น 4 รอบ 2: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 3 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 3: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 3: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 3: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 4 ---
+ภารกิจผู้เล่น 4 รอบ 3: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 4 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 4: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 4: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 4: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 4 ---
+ภารกิจผู้เล่น 4 รอบ 4: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 5 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 5: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 5: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 5: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 4 ---
+ภารกิจผู้เล่น 4 รอบ 5: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 6 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 6: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 6: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 6: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 4 ---
+ภารกิจผู้เล่น 4 รอบ 6: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 7 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 7: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 7: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 7: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 4 ---
+ภารกิจผู้เล่น 4 รอบ 7: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 8 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 8: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 8: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 8: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 4 ---
+ภารกิจผู้เล่น 4 รอบ 8: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 9 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 9: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 9: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 9: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 4 ---
+ภารกิจผู้เล่น 4 รอบ 9: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 10 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+ภารกิจผู้เล่น 1 รอบ 10: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 10: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+ภารกิจผู้เล่น 3 รอบ 10: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 4 ---
+ภารกิจผู้เล่น 4 รอบ 10: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 11 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+📖 LOAD LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น = 1
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+📖 LOAD LEVEL | P1 | ฟิสิกส์ = 1
+✅ โหลดโจทย์ ฟิสิกส์ สำเร็จ | res://data/questions/physics.json
+📖 LOAD LEVEL | P1 | ภาษาไทย = 1
+✅ โหลดโจทย์ ภาษาไทย สำเร็จ | res://data/questions/thai.json
+📖 LOAD LEVEL | P1 | คณิตศาสตร์ = 1
+✅ โหลดโจทย์ คณิตศาสตร์ สำเร็จ | res://data/questions/math.json
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+📖 LOAD LEVEL | P2 | ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู = 1
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+📖 LOAD LEVEL | P2 | ชีววิทยา = 1
+✅ โหลดโจทย์ ชีววิทยา สำเร็จ | res://data/questions/biology.json
+📖 LOAD LEVEL | P2 | ภาษาอังกฤษ = 1
+✅ โหลดโจทย์ ภาษาอังกฤษ สำเร็จ | res://data/questions/english.json
+📖 LOAD LEVEL | P2 | เคมี = 1
+✅ โหลดโจทย์ เคมี สำเร็จ | res://data/questions/chemistry.json
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 3 ---
+📖 LOAD LEVEL | P3 | กายวิภาคศาสตร์เบื้องต้น = 1
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+📖 LOAD LEVEL | P3 | คณิตศาสตร์ = 1
+✅ โหลดโจทย์ คณิตศาสตร์ สำเร็จ | res://data/questions/math.json
+📖 LOAD LEVEL | P3 | ชีววิทยา = 1
+✅ โหลดโจทย์ ชีววิทยา สำเร็จ | res://data/questions/biology.json
+📖 LOAD LEVEL | P3 | เคมี = 1
+✅ โหลดโจทย์ เคมี สำเร็จ | res://data/questions/chemistry.json
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 4 ---
+📖 LOAD LEVEL | P4 | กฎหมายเบื้องต้น = 1
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+📖 LOAD LEVEL | P4 | คณิตศาสตร์ = 1
+✅ โหลดโจทย์ คณิตศาสตร์ สำเร็จ | res://data/questions/math.json
+📖 LOAD LEVEL | P4 | ชีววิทยา = 1
+✅ โหลดโจทย์ ชีววิทยา สำเร็จ | res://data/questions/biology.json
+📖 LOAD LEVEL | P4 | ภาษาอังกฤษ = 1
+✅ โหลดโจทย์ ภาษาอังกฤษ สำเร็จ | res://data/questions/english.json
+--- จบรอบของทุกคน! เริ่มรอบที่ 12 ---
+จบเกม!!!
+* test_J04_new_process_loads_actual_saved_map_and_player_data
+2
+4/4 passed.
+
+
+res://tests/core/test_interface_flows.gd
+* test_U01_insufficient_money_rejected_through_actual_activity_button
+2
+* test_U02_cancel_activity_keeps_money_stats_and_time
+2
+* test_U03_library_borrow_button_applies_money_study_happiness_and_time
+2
+* test_U04_repeated_activity_button_presses_should_emit_one_choice
+2
+* test_U05_tutorial_navigation_stops_clock_and_restores_movement
+2
+* test_U06_scenarios_excluded_for_location_cannot_recur
+2
+* test_U07_all_scenario_choices_dispatch_correct_effects_once_under_repeated_presses
+2
+SCENARIO CHECK 1: Dorm choice 0
+SCENARIO CHECK 2: Dorm choice 1
+SCENARIO CHECK 3: Dorm choice 0
+SCENARIO CHECK 4: Dorm choice 1
+SCENARIO CHECK 5: Learn choice 0
+SCENARIO CHECK 6: Learn choice 1
+SCENARIO CHECK 7: Learn choice 2
+SCENARIO CHECK 8: Learn choice 0
+SCENARIO CHECK 9: Learn choice 1
+SCENARIO CHECK 10: Library choice 0
+SCENARIO CHECK 11: Library choice 1
+SCENARIO CHECK 12: Library choice 0
+SCENARIO CHECK 13: Library choice 1
+SCENARIO CHECK 14: Library choice 2
+SCENARIO CHECK 15: Food choice 0
+SCENARIO CHECK 16: Food choice 1
+SCENARIO CHECK 17: Food choice 2
+SCENARIO CHECK 18: Food choice 0
+SCENARIO CHECK 19: Food choice 1
+SCENARIO CHECK 20: Food choice 2
+SCENARIO CHECK 21: Shop choice 0
+SCENARIO CHECK 22: Shop choice 1
+SCENARIO CHECK 23: Shop choice 0
+SCENARIO CHECK 24: Shop choice 1
+SCENARIO CHECK 25: Shop choice 2
+SCENARIO CHECK 26: Hospital choice 0
+SCENARIO CHECK 27: Hospital choice 1
+SCENARIO CHECK 28: Hospital choice 2
+SCENARIO CHECK 29: Hospital choice 0
+SCENARIO CHECK 30: Hospital choice 1
+SCENARIO CHECK 31: Sport choice 0
+SCENARIO CHECK 32: Sport choice 1
+SCENARIO CHECK 33: Sport choice 0
+SCENARIO CHECK 34: Sport choice 1
+SCENARIO CHECK 35: Sport choice 2
+SCENARIO CHECK 36: Fun choice 0
+SCENARIO CHECK 37: Fun choice 1
+SCENARIO CHECK 38: Fun choice 2
+SCENARIO CHECK 39: Fun choice 0
+SCENARIO CHECK 40: Fun choice 1
+SCENARIO CHECK 41: Fun choice 2
+SCENARIO CHECK 42: Fun choice 0
+SCENARIO CHECK 43: Fun choice 1
+* test_U08_cards_require_all_reveals_and_deliver_selected_events_once
+2
+    --- Awaiting 1.0 seconds  ---
+* test_U09_overwrite_cancel_preserves_previous_save_file
+2
+* test_U10_overwrite_confirm_writes_new_checkpoint
+2
+    --- Awaiting 0.5 seconds  ---
+* test_U11_nearest_place_switches_on_exit_and_handles_freed_area
+2
+* test_U12_paused_interaction_and_key_repeat_do_not_trigger_activity
+2
+* test_U13_all_blocking_popups_stop_live_clock
+2
+13/13 passed.
+
+
+res://tests/core/test_learning_and_exams.gd
+* test_Q01_all_ten_subjects_have_six_valid_question_levels
+2
+✅ โหลดโจทย์ ภาษาไทย สำเร็จ | res://data/questions/thai.json
+✅ โหลดโจทย์ คณิตศาสตร์ สำเร็จ | res://data/questions/math.json
+✅ โหลดโจทย์ ภาษาอังกฤษ สำเร็จ | res://data/questions/english.json
+✅ โหลดโจทย์ ฟิสิกส์ สำเร็จ | res://data/questions/physics.json
+✅ โหลดโจทย์ เคมี สำเร็จ | res://data/questions/chemistry.json
+✅ โหลดโจทย์ ชีววิทยา สำเร็จ | res://data/questions/biology.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+* test_Q02_faculty_quizzes_and_exams_load_at_every_level
+2
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู สำเร็จ | res://data/questions/education.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กายวิภาคศาสตร์เบื้องต้น สำเร็จ | res://data/questions/anatomy.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+* test_Q03_correct_answers_emit_thirty_study_points
+2
+✅ โหลดโจทย์ ภาษาไทย สำเร็จ | res://data/questions/thai.json
+* test_Q04_incorrect_answers_do_not_reward_study
+2
+✅ โหลดโจทย์ คณิตศาสตร์ สำเร็จ | res://data/questions/math.json
+* test_Q05_late_attendance_multiplier_is_applied
+2
+✅ โหลดโจทย์ ภาษาไทย สำเร็จ | res://data/questions/thai.json
+* test_Q06_timeout_ends_quiz_and_disables_answers
+2
+✅ โหลดโจทย์ ภาษาอังกฤษ สำเร็จ | res://data/questions/english.json
+* test_Q07_exam_emits_correct_count_and_total_without_quiz_reward
+2
+✅ โหลดโจทย์ กฎหมายเบื้องต้น สำเร็จ | res://data/questions/law.json
+* test_Q08_final_exam_subjects_match_faculty_timetable
+2
+* test_Q09_invalid_exam_subject_aborts_and_emits_zero_result
+2
+❌ ไม่พบไฟล์ที่กำหนดไว้สำหรับวิชา: missing_subject
+9/9 passed.
+
+
+res://tests/core/test_map_integration.gd
+* test_I01_map_starts_two_players_and_only_active_player_can_move
+2
+* test_I02_turn_rotates_and_day_advances_after_all_players
+2
+ภารกิจผู้เล่น 1 รอบ 1: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+ภารกิจผู้เล่น 2 รอบ 1: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 2 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+* test_I03_pause_stops_clock_and_resume_restores_game
+2
+* test_I04_real_clock_stops_while_timetable_is_open
+2
+    60 Orphans
+        * [@PanelContainer@2427:<PanelContainer#587940759185>] + 1
+        * [@PanelContainer@2395:<PanelContainer#586598582658>] + 1
+        * [@PanelContainer@2397:<PanelContainer#586682468739>] + 1
+        * [@PanelContainer@2439:<PanelContainer#588444076450>] + 1
+        * [@PanelContainer@2419:<PanelContainer#587605215968>] + 1
+        * [@PanelContainer@2417:<PanelContainer#587521329889>] + 1
+        * [@PanelContainer@2409:<PanelContainer#587185785612>] + 1
+        * [@PanelContainer@2399:<PanelContainer#586766355278>] + 1
+        * [@PanelContainer@2433:<PanelContainer#588192418640>] + 1
+        * [@PanelContainer@2421:<PanelContainer#587689102172>] + 1
+        * [@PanelContainer@2423:<PanelContainer#587772988309>] + 1
+        * [@PanelContainer@2451:<PanelContainer#588947393476>] + 1
+        * [@PanelContainer@2407:<PanelContainer#587101899752>] + 1
+        * [@PanelContainer@2405:<PanelContainer#587018013674>] + 1
+        * [@PanelContainer@2441:<PanelContainer#588527963158>] + 1
+        * [@PanelContainer@2443:<PanelContainer#588611849240>] + 1
+        * [@PanelContainer@2429:<PanelContainer#588024646681>] + 1
+        * [@PanelContainer@2411:<PanelContainer#587269671979>] + 1
+        * [@PanelContainer@2425:<PanelContainer#587856874764>] + 1
+        * [@PanelContainer@2401:<PanelContainer#586850242014>] + 1
+        * [@PanelContainer@2445:<PanelContainer#588695735826>] + 1
+        * [@PanelContainer@2447:<PanelContainer#588779621908>] + 1
+        * [@PanelContainer@2449:<PanelContainer#588863508151>] + 1
+        * [@PanelContainer@2415:<PanelContainer#587437444864>] + 1
+        * [@PanelContainer@2413:<PanelContainer#587353558785>] + 1
+        * [@PanelContainer@2403:<PanelContainer#586934128448>] + 1
+        * [@PanelContainer@2437:<PanelContainer#588360191829>] + 1
+        * [@PanelContainer@2435:<PanelContainer#588276305755>] + 1
+        * [@PanelContainer@2453:<PanelContainer#589031280618>] + 1
+        * [@PanelContainer@2431:<PanelContainer#588108533751>] + 1
+* test_I05_keyboard_movement_and_diagonal_speed
+2
+* test_I06_interaction_emits_only_when_enabled_and_near_a_place
+2
+* test_I07_three_am_forces_sleep_and_next_wake_is_ten_am
+2
+ภารกิจผู้เล่น 1 รอบ 1: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+    --- Awaiting 0.5 seconds  ---
+ภารกิจผู้เล่น 2 รอบ 1: 0/2 = 0 คะแนน
+--- จบรอบของทุกคน! เริ่มรอบที่ 2 ---
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 1 ---
+* test_I08_forced_sleep_should_not_reduce_existing_energy
+2
+ภารกิจผู้เล่น 1 รอบ 1: 0/2 = 0 คะแนน
+--- เปลี่ยนเทิร์น! ตาของผู้เล่นคนที่ 2 ---
+    --- Awaiting 0.5 seconds  ---
+* test_I09_loaded_map_state_restores_turn_clock_and_event_history
+2
+* test_I10_scheduled_class_updates_attendance_progress_stats_and_time
+2
+📖 LOAD LEVEL | P1 | ภาษาไทย = 1
+✅ โหลดโจทย์ ภาษาไทย สำเร็จ | res://data/questions/thai.json
+📚 SAVE LEVEL | P1 | ภาษาไทย : 1 -> 2
+📚 SUBJECT PROGRESS = { "ภาษาไทย": 2 }
+ระบบทำงาน! บวกความรู้เพิ่ม: 30 | ตอนนี้รวมเป็น: 30
+📖 LOAD LEVEL | P1 | ภาษาไทย = 2
+* test_I11_final_exam_runs_four_subjects_and_shows_endgame
+2
+1
+📖 LOAD LEVEL | P1 | การเขียนโปรแกรมเบื้องต้น = 1
+✅ โหลดโจทย์ การเขียนโปรแกรมเบื้องต้น สำเร็จ | res://data/questions/computing.json
+📖 LOAD LEVEL | P1 | ฟิสิกส์ = 1
+✅ โหลดโจทย์ ฟิสิกส์ สำเร็จ | res://data/questions/physics.json
+📖 LOAD LEVEL | P1 | ภาษาไทย = 1
+✅ โหลดโจทย์ ภาษาไทย สำเร็จ | res://data/questions/thai.json
+📖 LOAD LEVEL | P1 | ภาษาอังกฤษ = 1
+✅ โหลดโจทย์ ภาษาอังกฤษ สำเร็จ | res://data/questions/english.json
+--- จบรอบของทุกคน! เริ่มรอบที่ 12 ---
+จบเกม!!!
+* test_R01_activity_popup_texture_uid_matches_its_file
+2
+12/12 passed.
+
+
+res://tests/core/test_players_and_faculties.gd
+* test_P01_setup_one_to_four_independent_players
+2
+1
+2
+3
+4
+* test_P02_avatar_has_centered_faculty_placeholder
+2
+* test_P03_faculty_selection_is_saved_for_each_player
+2
+* test_P04_leaving_placeholder_uses_general_subjects
+2
+* test_P05_every_faculty_has_exactly_one_required_and_three_general_subjects
+2
+* test_P06_no_faculty_has_four_general_subjects
+2
+* test_P07_legacy_save_keeps_existing_timetable
+2
+* test_P08_balanced_timetables_with_distinct_schedules_for_four_players
+2
+4
+* test_P09_reopening_timetable_does_not_reroll_it
+2
+9/9 passed.
+
+
+res://tests/core/test_save_scores_and_settings.gd
+* test_S01_new_game_clears_previous_session
+2
+* test_S02_global_json_roundtrip_preserves_faculty_progress_and_timetable
+2
+* test_S03_checkpoints_are_independent_copies
+2
+* test_S04_disk_save_load_and_pending_load_is_consumed_once
+2
+* test_S05_invalid_slots_and_missing_checkpoint_are_rejected
+2
+* test_S06_corrupt_and_future_version_saves_are_rejected
+2
+* test_S07_autosave_writes_updated_checkpoint
+2
+* test_C01_final_score_maximum_is_three_thousand
+2
+* test_C02_score_ratings_at_boundaries
+2
+* test_C03_leaderboard_keeps_top_ten_and_persists
+2
+* test_C04_music_volume_is_clamped_and_persisted
+2
+11/11 passed.
+
+
+res://tests/core/test_time_missions_events.gd
+* test_T01_class_timing_boundaries
+2
+* test_T02_advance_time_updates_only_active_player
+2
+* test_T03_time_speed_resets_for_all_players_each_day
+2
+* test_T04_missed_class_refresh_preserves_attended_classes
+2
+* test_T05_end_turn_marks_remaining_classes_missed
+2
+* test_T06_week_two_reuses_day_but_resets_attendance
+2
+* test_M01_completed_half_of_classes_gives_fifty_mission_points
+2
+ภารกิจผู้เล่น 1 รอบ 1: 1/2 = 50 คะแนน
+* test_M02_mission_completion_requires_correct_place_and_action
+2
+* test_M03_duplicate_pending_event_missions_are_not_added
+2
+* test_M04_event_missions_count_in_score_and_expire_at_end_of_round
+2
+ภารกิจผู้เล่น 1 รอบ 1: 3/3 = 100 คะแนน
+* test_E01_event_changes_only_target_player_and_records_history
+2
+* test_E02_event_effects_clamp_stats_and_money
+2
+* test_E03_scenario_effects_apply_to_active_player
+2
+* test_E04_scenario_chance_increases_and_caps
+2
+* test_E05_event_and_scenario_database_integrity
+2
+15/15 passed.
+
+
+
+
+==============================================
+= Run Summary
+==============================================
+
+Totals
+------
+Scripts               8
+Tests                84
+Passing Tests        84
+Asserts            4243
+Time              25.789s
+
+
+---- All tests passed! ----
+
+Results saved to D:\FinalProject\KKU-life-sim\test-results\20261025-232700-716\junit.xml
+
