@@ -8,6 +8,6 @@ func run() -> void:
 		set_exit_code(2)
 		abort()
 		return
-	seed(20261025)
+	seed(20261026)
 	gut.get_tree().root.size = Vector2i(1280, 720)
 	print("TEST SANDBOX: ", OS.get_user_data_dir())

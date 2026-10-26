@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="GutTests" failures="0" tests="68" >
+  <testsuite name="tests/play/test_play_activities.gd" tests="11" failures="0" skipped="0" time="11.868295" >
+      <testcase name="test_PLAY_ACT_01_dorm" assertions="18" status="pass" classname="tests/play/test_play_activities.gd" time="0.380066" >
+      </testcase>
+      <testcase name="test_PLAY_ACT_02_library" assertions="27" status="pass" classname="tests/play/test_play_activities.gd" time="0.423925" >
+      </testcase>
+      <testcase name="test_PLAY_ACT_03_food" assertions="36" status="pass" classname="tests/play/test_play_activities.gd" time="0.500176" >
+      </testcase>
+      <testcase name="test_PLAY_ACT_04_shop" assertions="36" status="pass" classname="tests/play/test_play_activities.gd" time="0.515051" >
+      </testcase>
+      <testcase name="test_PLAY_ACT_05_hospital" assertions="27" status="pass" classname="tests/play/test_play_activities.gd" time="0.430687" >
+      </testcase>
+      <testcase name="test_PLAY_ACT_06_sport_and_fun" assertions="54" status="pass" classname="tests/play/test_play_activities.gd" time="0.855858" >
+      </testcase>
+      <testcase name="test_PLAY_ACT_07_insufficient_funds_from_play" assertions="153" status="pass" classname="tests/play/test_play_activities.gd" time="3.06738" >
+      </testcase>
+      <testcase name="test_PLAY_ACT_08_exact_price_from_play" assertions="153" status="pass" classname="tests/play/test_play_activities.gd" time="3.034664" >
+      </testcase>
+      <testcase name="test_PLAY_ACT_09_cancel" assertions="14" status="pass" classname="tests/play/test_play_activities.gd" time="0.752649" >
+      </testcase>
+      <testcase name="test_PLAY_ACT_10_repeated_choices" assertions="6" status="pass" classname="tests/play/test_play_activities.gd" time="0.363648" >
+      </testcase>
+      <testcase name="test_PLAY_ACT_11_faint_and_stat_caps_from_play" assertions="57" status="pass" classname="tests/play/test_play_activities.gd" time="1.544191" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/play/test_play_class.gd" tests="9" failures="0" skipped="0" time="3.729293" >
+      <testcase name="test_PLAY_CLASS_01_timetable_and_players" assertions="68" status="pass" classname="tests/play/test_play_class.gd" time="0.310819" >
+      </testcase>
+      <testcase name="test_PLAY_CLASS_02_reopen_timetable" assertions="6" status="pass" classname="tests/play/test_play_class.gd" time="0.265849" >
+      </testcase>
+      <testcase name="test_PLAY_CLASS_03_too_early" assertions="3" status="pass" classname="tests/play/test_play_class.gd" time="0.306803" >
+      </testcase>
+      <testcase name="test_PLAY_CLASS_04_wait_and_attend" assertions="3" status="pass" classname="tests/play/test_play_class.gd" time="0.274897" >
+      </testcase>
+      <testcase name="test_PLAY_CLASS_05_cancel_wait_and_attend" assertions="4" status="pass" classname="tests/play/test_play_class.gd" time="0.306988" >
+      </testcase>
+      <testcase name="test_PLAY_CLASS_06_on_time_learning" assertions="4" status="pass" classname="tests/play/test_play_class.gd" time="0.305695" >
+      </testcase>
+      <testcase name="test_PLAY_CLASS_07_late_learning" assertions="2" status="pass" classname="tests/play/test_play_class.gd" time="0.277803" >
+      </testcase>
+      <testcase name="test_PLAY_CLASS_08_missed_and_completed_classes_cannot_repeat" assertions="3" status="pass" classname="tests/play/test_play_class.gd" time="0.370889" >
+      </testcase>
+      <testcase name="test_PLAY_CLASS_09_second_week" assertions="35" status="pass" classname="tests/play/test_play_class.gd" time="1.30955" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/play/test_play_end.gd" tests="6" failures="0" skipped="0" time="61.385979" >
+      <testcase name="test_PLAY_END_01_menu_to_end_single_player" assertions="7" status="pass" classname="tests/play/test_play_end.gd" time="3.533287" >
+      </testcase>
+      <testcase name="test_PLAY_END_02_menu_to_end_multiple_players" assertions="18" status="pass" classname="tests/play/test_play_end.gd" time="19.584352" >
+      </testcase>
+      <testcase name="test_PLAY_END_03_score_from_play" assertions="65" status="pass" classname="tests/play/test_play_end.gd" time="2.505009" >
+      </testcase>
+      <testcase name="test_PLAY_END_04_leaderboard_after_reopen" assertions="14" status="pass" classname="tests/play/test_play_end.gd" time="8.362855" >
+      </testcase>
+      <testcase name="test_PLAY_END_05_restart_clears_progress" assertions="274" status="pass" classname="tests/play/test_play_end.gd" time="23.865004" >
+      </testcase>
+      <testcase name="test_PLAY_END_06_exit_to_menu" assertions="5" status="pass" classname="tests/play/test_play_end.gd" time="3.535472" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/play/test_play_events.gd" tests="9" failures="0" skipped="0" time="18.781894" >
+      <testcase name="test_PLAY_EVENT_01_cards_per_turn" assertions="13" status="pass" classname="tests/play/test_play_events.gd" time="0.439609" >
+      </testcase>
+      <testcase name="test_PLAY_EVENT_02_reveal_before_accepting" assertions="11" status="pass" classname="tests/play/test_play_events.gd" time="0.528712" >
+      </testcase>
+      <testcase name="test_PLAY_EVENT_03_card_details_and_repeat" assertions="11" status="pass" classname="tests/play/test_play_events.gd" time="0.468487" >
+      </testcase>
+      <testcase name="test_PLAY_EVENT_04_effects_and_target_player" assertions="15" status="pass" classname="tests/play/test_play_events.gd" time="0.57201" >
+      </testcase>
+      <testcase name="test_PLAY_EVENT_05_all_reachable_scenario_choices" assertions="302" status="pass" classname="tests/play/test_play_events.gd" time="14.300261" >
+      </testcase>
+      <testcase name="test_PLAY_EVENT_06_repeated_interaction_does_not_retry_scenario" assertions="4" status="pass" classname="tests/play/test_play_events.gd" time="0.455411" >
+      </testcase>
+      <testcase name="test_PLAY_EVENT_07_mission_wrong_then_correct_action" assertions="15" status="pass" classname="tests/play/test_play_events.gd" time="0.559683" >
+      </testcase>
+      <testcase name="test_PLAY_EVENT_08_mission_score_and_expiration" assertions="16" status="pass" classname="tests/play/test_play_events.gd" time="0.714116" >
+      </testcase>
+      <testcase name="test_PLAY_EVENT_09_speed_bonus_and_next_day_reset" assertions="16" status="pass" classname="tests/play/test_play_events.gd" time="0.743605" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/play/test_play_quiz.gd" tests="8" failures="0" skipped="0" time="13.567306" >
+      <testcase name="test_PLAY_QUIZ_01_all_correct" assertions="2" status="pass" classname="tests/play/test_play_quiz.gd" time="0.30646" >
+      </testcase>
+      <testcase name="test_PLAY_QUIZ_02_wrong_and_partial" assertions="6" status="pass" classname="tests/play/test_play_quiz.gd" time="0.905468" >
+      </testcase>
+      <testcase name="test_PLAY_QUIZ_03_timeout_after_partial_answer" assertions="4" status="pass" classname="tests/play/test_play_quiz.gd" time="0.306773" >
+      </testcase>
+      <testcase name="test_PLAY_QUIZ_04_answer_and_confirmation_repeat" assertions="4" status="pass" classname="tests/play/test_play_quiz.gd" time="0.277189" >
+      </testcase>
+      <testcase name="test_PLAY_QUIZ_05_progress_from_scheduled_classes" assertions="75" status="pass" classname="tests/play/test_play_quiz.gd" time="2.925625" >
+      </testcase>
+      <testcase name="test_PLAY_QUIZ_06_exam_subjects_from_faculty" assertions="67" status="pass" classname="tests/play/test_play_quiz.gd" time="2.408856" >
+      </testcase>
+      <testcase name="test_PLAY_QUIZ_07_exam_timeout_score" assertions="63" status="pass" classname="tests/play/test_play_quiz.gd" time="2.326211" >
+      </testcase>
+      <testcase name="test_PLAY_QUIZ_08_every_player_exams_before_end" assertions="119" status="pass" classname="tests/play/test_play_quiz.gd" time="4.110724" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/play/test_play_save.gd" tests="9" failures="0" skipped="0" time="9.324124" >
+      <testcase name="test_PLAY_SAVE_01_four_slots" assertions="28" status="pass" classname="tests/play/test_play_save.gd" time="0.362115" >
+      </testcase>
+      <testcase name="test_PLAY_SAVE_02_cancel_overwrite" assertions="19" status="pass" classname="tests/play/test_play_save.gd" time="0.552976" >
+      </testcase>
+      <testcase name="test_PLAY_SAVE_03_confirm_overwrite" assertions="20" status="pass" classname="tests/play/test_play_save.gd" time="0.606052" >
+      </testcase>
+      <testcase name="test_PLAY_SAVE_04_autosave_after_turn" assertions="15" status="pass" classname="tests/play/test_play_save.gd" time="0.551771" >
+      </testcase>
+      <testcase name="test_PLAY_SAVE_05_fresh_process_load_through_menu" assertions="46" status="pass" classname="tests/play/test_play_save.gd" time="4.229089" >
+      </testcase>
+      <testcase name="test_PLAY_SAVE_06_checkpoint_not_midturn" assertions="12" status="pass" classname="tests/play/test_play_save.gd" time="1.255396" >
+      </testcase>
+      <testcase name="test_PLAY_SAVE_07_empty_load_slot" assertions="5" status="pass" classname="tests/play/test_play_save.gd" time="0.59967" >
+      </testcase>
+      <testcase name="test_PLAY_SAVE_08_tutorial_skip_and_reopen" assertions="8" status="pass" classname="tests/play/test_play_save.gd" time="0.246023" >
+      </testcase>
+      <testcase name="test_PLAY_SAVE_09_volume_control_and_persistence" assertions="13" status="pass" classname="tests/play/test_play_save.gd" time="0.921032" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/play/test_play_start.gd" tests="8" failures="0" skipped="0" time="6.465279" >
+      <testcase name="test_PLAY_START_01_new_game_single" assertions="5" status="pass" classname="tests/play/test_play_start.gd" time="1.211243" >
+      </testcase>
+      <testcase name="test_PLAY_START_02_new_game_multiple" assertions="15" status="pass" classname="tests/play/test_play_start.gd" time="3.692289" >
+      </testcase>
+      <testcase name="test_PLAY_START_03_avatar_layers_wrap" assertions="15" status="pass" classname="tests/play/test_play_start.gd" time="0.219267" >
+      </testcase>
+      <testcase name="test_PLAY_START_04_four_faculties_have_required_subject" assertions="12" status="pass" classname="tests/play/test_play_start.gd" time="0.187721" >
+      </testcase>
+      <testcase name="test_PLAY_START_05_placeholder_and_none" assertions="11" status="pass" classname="tests/play/test_play_start.gd" time="0.194479" >
+      </testcase>
+      <testcase name="test_PLAY_START_06_back_restores_each_player" assertions="4" status="pass" classname="tests/play/test_play_start.gd" time="0.193901" >
+      </testcase>
+      <testcase name="test_PLAY_START_07_back_to_menu" assertions="4" status="pass" classname="tests/play/test_play_start.gd" time="0.465865" >
+      </testcase>
+      <testcase name="test_PLAY_START_08_movement_and_interaction" assertions="8" status="pass" classname="tests/play/test_play_start.gd" time="0.300514" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/play/test_play_time.gd" tests="8" failures="0" skipped="0" time="4.079006" >
+      <testcase name="test_PLAY_TIME_01_normal_clock" assertions="2" status="pass" classname="tests/play/test_play_time.gd" time="0.238917" >
+      </testcase>
+      <testcase name="test_PLAY_TIME_02_separate_player_clocks" assertions="11" status="pass" classname="tests/play/test_play_time.gd" time="0.411912" >
+      </testcase>
+      <testcase name="test_PLAY_TIME_03_day_after_all_players" assertions="59" status="pass" classname="tests/play/test_play_time.gd" time="1.720924" >
+      </testcase>
+      <testcase name="test_PLAY_TIME_04_pause_and_resume" assertions="4" status="pass" classname="tests/play/test_play_time.gd" time="0.215467" >
+      </testcase>
+      <testcase name="test_PLAY_TIME_05_clock_while_popups" assertions="3" status="pass" classname="tests/play/test_play_time.gd" time="0.349845" >
+      </testcase>
+      <testcase name="test_PLAY_TIME_06_midnight" assertions="4" status="pass" classname="tests/play/test_play_time.gd" time="0.218874" >
+      </testcase>
+      <testcase name="test_PLAY_TIME_07_voluntary_sleep" assertions="9" status="pass" classname="tests/play/test_play_time.gd" time="0.422167" >
+      </testcase>
+      <testcase name="test_PLAY_TIME_08_forced_sleep" assertions="14" status="pass" classname="tests/play/test_play_time.gd" time="0.5009" >
+      </testcase>
+  </testsuite>
+</testsuites>
