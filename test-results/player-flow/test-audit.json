@@ -1,0 +1,348 @@
+{
+  "test_count": 68,
+  "duplicate_names": [],
+  "identical_normalized_bodies": [],
+  "cases": [
+    {
+      "name": "test_PLAY_ACT_01_dorm",
+      "file": "tests/play/test_play_activities.gd",
+      "body_sha256": "f3b957521d6f74f4aeffeb93c66b61360bc086619a455ff52838c67c2def1c3f"
+    },
+    {
+      "name": "test_PLAY_ACT_02_library",
+      "file": "tests/play/test_play_activities.gd",
+      "body_sha256": "9745cd5d4d5ed655dbea920c7ecdeb3b0490c84d1f9315f49f947f95861d9718"
+    },
+    {
+      "name": "test_PLAY_ACT_03_food",
+      "file": "tests/play/test_play_activities.gd",
+      "body_sha256": "4fff9bc074d18c87f5d02298552dd0ec3702a8305df7eec9ad8092ec3170dc7f"
+    },
+    {
+      "name": "test_PLAY_ACT_04_shop",
+      "file": "tests/play/test_play_activities.gd",
+      "body_sha256": "29924da9050270ffeac93b5ad57293c14754fd6eece5e2154fb3bffc4cbbdf32"
+    },
+    {
+      "name": "test_PLAY_ACT_05_hospital",
+      "file": "tests/play/test_play_activities.gd",
+      "body_sha256": "0a72703723ad89fd8bf5659b5cb166fb32062920b941307d6a718f69689ad93a"
+    },
+    {
+      "name": "test_PLAY_ACT_06_sport_and_fun",
+      "file": "tests/play/test_play_activities.gd",
+      "body_sha256": "901ee9e0b1873bf5b0385de7ae38cd6970df10d387dbe715df86969d6835df2b"
+    },
+    {
+      "name": "test_PLAY_ACT_07_insufficient_funds_from_play",
+      "file": "tests/play/test_play_activities.gd",
+      "body_sha256": "9f522cac2a678019547af20ce8bd72c0d01253ae53caef18ecf705ff4b27c9cc"
+    },
+    {
+      "name": "test_PLAY_ACT_08_exact_price_from_play",
+      "file": "tests/play/test_play_activities.gd",
+      "body_sha256": "0f8ae102aaacaaef8d83652a21b45df32d2e9cea6b6dc482ca28fd16ee4e8d42"
+    },
+    {
+      "name": "test_PLAY_ACT_09_cancel",
+      "file": "tests/play/test_play_activities.gd",
+      "body_sha256": "da2aa4700918ade266bbaafa3f475ca587d595406abc3fe326a05da46d52fd3d"
+    },
+    {
+      "name": "test_PLAY_ACT_10_repeated_choices",
+      "file": "tests/play/test_play_activities.gd",
+      "body_sha256": "2408966c325761cd6b71d8299531cec2a5ce0a98006fdad5c30e4cebbe7fdac7"
+    },
+    {
+      "name": "test_PLAY_ACT_11_faint_and_stat_caps_from_play",
+      "file": "tests/play/test_play_activities.gd",
+      "body_sha256": "8f4c5de8dd964bc35765f135078e8312011d87bd3ac0f0f81f2d106ae94b3ef5"
+    },
+    {
+      "name": "test_PLAY_CLASS_01_timetable_and_players",
+      "file": "tests/play/test_play_class.gd",
+      "body_sha256": "48367c197ba4f25da3bdce86563e13164364aa14b44f5ed3d9e60edd44941c59"
+    },
+    {
+      "name": "test_PLAY_CLASS_02_reopen_timetable",
+      "file": "tests/play/test_play_class.gd",
+      "body_sha256": "610857dcc60f2bad884b94be5256f289175b0765a577428be76cd9ca67826f98"
+    },
+    {
+      "name": "test_PLAY_CLASS_03_too_early",
+      "file": "tests/play/test_play_class.gd",
+      "body_sha256": "6a788109bd3700ef153230ce03cb71000de449cd831e8b0e5cf00c2b8eed43a0"
+    },
+    {
+      "name": "test_PLAY_CLASS_04_wait_and_attend",
+      "file": "tests/play/test_play_class.gd",
+      "body_sha256": "05aab81d09d5888e519dfab7e12d3a801156bd332be4496b562bf992014f936c"
+    },
+    {
+      "name": "test_PLAY_CLASS_05_cancel_wait_and_attend",
+      "file": "tests/play/test_play_class.gd",
+      "body_sha256": "310138b7de9b763a61477b400fc8e2ddf4ed0ade1633700eb42aaac03b0bc857"
+    },
+    {
+      "name": "test_PLAY_CLASS_06_on_time_learning",
+      "file": "tests/play/test_play_class.gd",
+      "body_sha256": "752b3cc956b981074bc5de93898d243c359a5bf474a55fc5e8e812e6b296f78b"
+    },
+    {
+      "name": "test_PLAY_CLASS_07_late_learning",
+      "file": "tests/play/test_play_class.gd",
+      "body_sha256": "b0983819a5d4c2ca4106c52b6395b52c0afb7b8e9e5954188280eb849865f310"
+    },
+    {
+      "name": "test_PLAY_CLASS_08_missed_and_completed_classes_cannot_repeat",
+      "file": "tests/play/test_play_class.gd",
+      "body_sha256": "bc71ca502f03c8433c4d96072d365abb2bcae87818a488f0fa1704fae76994b4"
+    },
+    {
+      "name": "test_PLAY_CLASS_09_second_week",
+      "file": "tests/play/test_play_class.gd",
+      "body_sha256": "d193f38041edf3f9ab930f23205d545f5c0dedfc9ffdd4b1bf279e061210c5c7"
+    },
+    {
+      "name": "test_PLAY_END_01_menu_to_end_single_player",
+      "file": "tests/play/test_play_end.gd",
+      "body_sha256": "c4e0cdd7166dfa3d98962c6b19f331de6d64cd78acc3cff87201c3157f7d01cc"
+    },
+    {
+      "name": "test_PLAY_END_02_menu_to_end_multiple_players",
+      "file": "tests/play/test_play_end.gd",
+      "body_sha256": "f38d0ce8063d172a396b89927123c1c203d538ecdfc6f9948f996e288d361ee5"
+    },
+    {
+      "name": "test_PLAY_END_03_score_from_play",
+      "file": "tests/play/test_play_end.gd",
+      "body_sha256": "ba9725c224164753c65412968e0695e29127a47131c24f8c76d78a7413113116"
+    },
+    {
+      "name": "test_PLAY_END_04_leaderboard_after_reopen",
+      "file": "tests/play/test_play_end.gd",
+      "body_sha256": "95314e465360333b22e452f465c1b4a529f7ce59df09155ccbacfc880da27039"
+    },
+    {
+      "name": "test_PLAY_END_05_restart_clears_progress",
+      "file": "tests/play/test_play_end.gd",
+      "body_sha256": "3b629e17255d00245bf636724adc80f76bcef5867cf1668b4156f6074cdfa900"
+    },
+    {
+      "name": "test_PLAY_END_06_exit_to_menu",
+      "file": "tests/play/test_play_end.gd",
+      "body_sha256": "8f2ad8a210d3995e365ef0196be038c9eff807b9b89041000439e5762eabb2f5"
+    },
+    {
+      "name": "test_PLAY_EVENT_01_cards_per_turn",
+      "file": "tests/play/test_play_events.gd",
+      "body_sha256": "7f30fc60edfa253f7f4f902a5df61673399d344158b76f73981317de8ec50e58"
+    },
+    {
+      "name": "test_PLAY_EVENT_02_reveal_before_accepting",
+      "file": "tests/play/test_play_events.gd",
+      "body_sha256": "243e0e3c7a62b26824dbf44c4f73a4ff62f17f9274fa959bb21538cb6343348c"
+    },
+    {
+      "name": "test_PLAY_EVENT_03_card_details_and_repeat",
+      "file": "tests/play/test_play_events.gd",
+      "body_sha256": "6978e4ad111c016c8e3528c726dedd8a1723d059d1df764e0bf206a7ef1c74de"
+    },
+    {
+      "name": "test_PLAY_EVENT_04_effects_and_target_player",
+      "file": "tests/play/test_play_events.gd",
+      "body_sha256": "f2ab49fef4b6288cabb59296ea618d6ba0448eeab85b9abf72e5acfa001d73e8"
+    },
+    {
+      "name": "test_PLAY_EVENT_05_all_reachable_scenario_choices",
+      "file": "tests/play/test_play_events.gd",
+      "body_sha256": "85782e0f64432748c80ba8af777bbfbfffb233eccbc3506461d52a9305b79a19"
+    },
+    {
+      "name": "test_PLAY_EVENT_06_repeated_interaction_does_not_retry_scenario",
+      "file": "tests/play/test_play_events.gd",
+      "body_sha256": "109ef5c6189a489b68b2c3a051fe4fa06e0a91997454146d7d5aa5e5d5a48ce5"
+    },
+    {
+      "name": "test_PLAY_EVENT_07_mission_wrong_then_correct_action",
+      "file": "tests/play/test_play_events.gd",
+      "body_sha256": "3ec4a4b0bc78fd95dab2a5b8b739b2b49f5117d3277f19cb80b54d0638b2c6bb"
+    },
+    {
+      "name": "test_PLAY_EVENT_08_mission_score_and_expiration",
+      "file": "tests/play/test_play_events.gd",
+      "body_sha256": "90f352d3d15e1285f92c59481fd73d82eb0418b38e9bc908e691d1b9ed143bfa"
+    },
+    {
+      "name": "test_PLAY_EVENT_09_speed_bonus_and_next_day_reset",
+      "file": "tests/play/test_play_events.gd",
+      "body_sha256": "809fa5a55a432296ba1bb6666f95d9e34c9d421c957784d1cdaf8b834621c7d7"
+    },
+    {
+      "name": "test_PLAY_QUIZ_01_all_correct",
+      "file": "tests/play/test_play_quiz.gd",
+      "body_sha256": "c814ef9e33944cf4c02641d7f7ba26e4b82f8d264578b1923c6223ab98a9993b"
+    },
+    {
+      "name": "test_PLAY_QUIZ_02_wrong_and_partial",
+      "file": "tests/play/test_play_quiz.gd",
+      "body_sha256": "64975d43e7be438b40e4b895c1d625d352847ffa57d6ca520930122a8f8821ee"
+    },
+    {
+      "name": "test_PLAY_QUIZ_03_timeout_after_partial_answer",
+      "file": "tests/play/test_play_quiz.gd",
+      "body_sha256": "33bc305ae2fb27babf95e2b02523c93a16c10c906ab10351a00de5948a2d1c30"
+    },
+    {
+      "name": "test_PLAY_QUIZ_04_answer_and_confirmation_repeat",
+      "file": "tests/play/test_play_quiz.gd",
+      "body_sha256": "c0058f4fd8eb265993cbaf70316050fef8ee7760fb555961e198733f9688e248"
+    },
+    {
+      "name": "test_PLAY_QUIZ_05_progress_from_scheduled_classes",
+      "file": "tests/play/test_play_quiz.gd",
+      "body_sha256": "f5e5b51d034d848bf758b30e53d5a9b8ec691c3b247ba6102e4f9cb50a2ecd58"
+    },
+    {
+      "name": "test_PLAY_QUIZ_06_exam_subjects_from_faculty",
+      "file": "tests/play/test_play_quiz.gd",
+      "body_sha256": "3b8d86547fb45f08670f3a30cb4d2aa9e7f4f7252968178bc9f62a8384c6dcbf"
+    },
+    {
+      "name": "test_PLAY_QUIZ_07_exam_timeout_score",
+      "file": "tests/play/test_play_quiz.gd",
+      "body_sha256": "0f52b97ad8ca95d1bfb531ed23646d6676caa544930d2cb9d1bbfd02676481a1"
+    },
+    {
+      "name": "test_PLAY_QUIZ_08_every_player_exams_before_end",
+      "file": "tests/play/test_play_quiz.gd",
+      "body_sha256": "d4ef64a6198fa9edfe9edc88fd35af0a104fd85bc04aae43bb74b6f5d5b14ceb"
+    },
+    {
+      "name": "test_PLAY_SAVE_01_four_slots",
+      "file": "tests/play/test_play_save.gd",
+      "body_sha256": "f5fd41ccaa4f1ca9762d34266b407d55d76991ef239be433beabed20ce9612dc"
+    },
+    {
+      "name": "test_PLAY_SAVE_02_cancel_overwrite",
+      "file": "tests/play/test_play_save.gd",
+      "body_sha256": "cc9055d3ab64e4310f3565cb25a86825c3d7b64cccad8cdab797c4639bdb503f"
+    },
+    {
+      "name": "test_PLAY_SAVE_03_confirm_overwrite",
+      "file": "tests/play/test_play_save.gd",
+      "body_sha256": "6abd7e1aef3db7c93fed996c2906ca4473bc9058154b7d7e7e149b1f264f93ea"
+    },
+    {
+      "name": "test_PLAY_SAVE_04_autosave_after_turn",
+      "file": "tests/play/test_play_save.gd",
+      "body_sha256": "7c6f7528508479b6ce255441afa67ac21e5e4e3a40ff17b080eb8ca14ca13a43"
+    },
+    {
+      "name": "test_PLAY_SAVE_05_fresh_process_load_through_menu",
+      "file": "tests/play/test_play_save.gd",
+      "body_sha256": "22af0d332e211a902deb205e7e6cf39b818c82f3f297dbd3ed8d625ade48e3ae"
+    },
+    {
+      "name": "test_PLAY_SAVE_06_checkpoint_not_midturn",
+      "file": "tests/play/test_play_save.gd",
+      "body_sha256": "b922acb3801f2274b98ff79c822a2ac11e8d7cf28a558574752b52d669749004"
+    },
+    {
+      "name": "test_PLAY_SAVE_07_empty_load_slot",
+      "file": "tests/play/test_play_save.gd",
+      "body_sha256": "42afbcd4f4f0cebf83c5b9fbb2ef6ce8b984676bec569f77b50ece66f838c62a"
+    },
+    {
+      "name": "test_PLAY_SAVE_08_tutorial_skip_and_reopen",
+      "file": "tests/play/test_play_save.gd",
+      "body_sha256": "98f4e3a0cc99920756be6d84f4f36d576c1900cec685ef33aee9467353fa6c74"
+    },
+    {
+      "name": "test_PLAY_SAVE_09_volume_control_and_persistence",
+      "file": "tests/play/test_play_save.gd",
+      "body_sha256": "1d200491daff929f69e873ab88b483261352db0cd9e9cd5c31611f1079994ed7"
+    },
+    {
+      "name": "test_PLAY_START_01_new_game_single",
+      "file": "tests/play/test_play_start.gd",
+      "body_sha256": "8ce06cd107bf6c179f1f196bdc25a2f13fbf2384e78f3d489a535b219405d2fb"
+    },
+    {
+      "name": "test_PLAY_START_02_new_game_multiple",
+      "file": "tests/play/test_play_start.gd",
+      "body_sha256": "dd403a8498bd266a98de52968a164c4cb0a640d115bb43ba0da229c098b454e7"
+    },
+    {
+      "name": "test_PLAY_START_03_avatar_layers_wrap",
+      "file": "tests/play/test_play_start.gd",
+      "body_sha256": "0f84612de83b6cb68675f7c6260acaf1565218e9e64535585e3f75a2a86e71db"
+    },
+    {
+      "name": "test_PLAY_START_04_four_faculties_have_required_subject",
+      "file": "tests/play/test_play_start.gd",
+      "body_sha256": "60ecea79e144b6839fb5b6ff1e6f610d4b4c33a078bf85f257cc221b0268c914"
+    },
+    {
+      "name": "test_PLAY_START_05_placeholder_and_none",
+      "file": "tests/play/test_play_start.gd",
+      "body_sha256": "ad992e0fa79639351c2ee1b8b634abef421611d13f4f6774cef244232af84bb0"
+    },
+    {
+      "name": "test_PLAY_START_06_back_restores_each_player",
+      "file": "tests/play/test_play_start.gd",
+      "body_sha256": "0ecd5a17ca7a7fbfb312c66e1e9ec4ee744b202a6a6c1731a114011af29fbf28"
+    },
+    {
+      "name": "test_PLAY_START_07_back_to_menu",
+      "file": "tests/play/test_play_start.gd",
+      "body_sha256": "3b94fcb30a192ee5bf72270223edfb181dd2ecf1571d8bfbd20b4ec9e349e44d"
+    },
+    {
+      "name": "test_PLAY_START_08_movement_and_interaction",
+      "file": "tests/play/test_play_start.gd",
+      "body_sha256": "b6e709c3a0ff39c49d93498c44f591cf72a90dff704923a56cf854b6ccec7e3c"
+    },
+    {
+      "name": "test_PLAY_TIME_01_normal_clock",
+      "file": "tests/play/test_play_time.gd",
+      "body_sha256": "260f3e8ccd90cec47ecf0bf0ea479067059af8b792f69e7bd0b669e579e2bc23"
+    },
+    {
+      "name": "test_PLAY_TIME_02_separate_player_clocks",
+      "file": "tests/play/test_play_time.gd",
+      "body_sha256": "3c6c10f9c4cde7b702a077e6912b84494fdee3b92eb7ed27e90e033c477396ed"
+    },
+    {
+      "name": "test_PLAY_TIME_03_day_after_all_players",
+      "file": "tests/play/test_play_time.gd",
+      "body_sha256": "057f578d405f1e0aca485293fb25da8939b3d4ebaeb886e335a43641e0282b10"
+    },
+    {
+      "name": "test_PLAY_TIME_04_pause_and_resume",
+      "file": "tests/play/test_play_time.gd",
+      "body_sha256": "ff3c02c15557b36fc24a82b4cb295e59e02be16470acc7dd24640bb75a2469a5"
+    },
+    {
+      "name": "test_PLAY_TIME_05_clock_while_popups",
+      "file": "tests/play/test_play_time.gd",
+      "body_sha256": "1b72c569173ea1a9c55606fdb5c0f9e25ac58ef806757944cd5fce2f4ea0ad56"
+    },
+    {
+      "name": "test_PLAY_TIME_06_midnight",
+      "file": "tests/play/test_play_time.gd",
+      "body_sha256": "a8a8b4aed922bd10f107b88ce71f2589576569a2d2f96de2c1eee50b2875d28f"
+    },
+    {
+      "name": "test_PLAY_TIME_07_voluntary_sleep",
+      "file": "tests/play/test_play_time.gd",
+      "body_sha256": "491ba69be22ec5328a7db82c25e557e6d8a087fad7db50aca52028b0e82226b0"
+    },
+    {
+      "name": "test_PLAY_TIME_08_forced_sleep",
+      "file": "tests/play/test_play_time.gd",
+      "body_sha256": "b338c479838bd956d60ac44ea06953f330ce03be823359c8ac41df2c2731dd1f"
+    }
+  ],
+  "limitation": "Exact textual duplication only; this does not measure semantic coverage."
+}

@@ -41,7 +41,11 @@ const SUBJECT_FILES = {
 	"ภาษาอังกฤษ": "res://data/questions/english.json",
 	"ฟิสิกส์": "res://data/questions/physics.json",
 	"เคมี": "res://data/questions/chemistry.json",
-	"ชีววิทยา": "res://data/questions/biology.json"
+	"ชีววิทยา": "res://data/questions/biology.json",
+	"การเขียนโปรแกรมเบื้องต้น": "res://data/questions/computing.json",
+	"ความรู้เบื้องต้นเกี่ยวกับวิชาชีพครู": "res://data/questions/education.json",
+	"กายวิภาคศาสตร์เบื้องต้น": "res://data/questions/anatomy.json",
+	"กฎหมายเบื้องต้น": "res://data/questions/law.json"
 }
 
 func _ready() -> void:
@@ -119,7 +123,7 @@ func start_quiz(subject_name: String, subject_level: int = 1, reward_multiplier:
 		return
 	
 	# ทำข้อความส่วนหัวให้กระชับเพื่อไม่ให้ทับเลขข้อและตัวจับเวลา
-	subject_label.text = "%s | ระดับ %d" % [subject_name, display_level]
+	_set_subject_heading("%s | ระดับ %d" % [subject_name, display_level])
 	
 	# สุ่มโจทย์จาก Level ปัจจุบัน แล้วเลือกสูงสุด 3 ข้อ
 	all_questions.shuffle()
@@ -162,10 +166,20 @@ func start_exam(subject_name: String, subject_level: int = 1, exam_question_coun
 		return
 
 	# ชื่อวิชาอาจยาว โดยเฉพาะข้อความที่ผสมภาษาไทยและภาษาอังกฤษ
-	subject_label.text = "สอบ %s | ระดับ %d" % [subject_name, display_level]
+	_set_subject_heading("สอบ %s | ระดับ %d" % [subject_name, display_level])
 	all_questions.shuffle()
 	current_quiz_set = all_questions.slice(0, mini(question_target, all_questions.size()))
 	_load_custom_question()
+
+
+func _set_subject_heading(text: String) -> void:
+	subject_label.text = text
+	subject_label.tooltip_text = text
+	var heading_font: Font = subject_label.get_theme_font("font")
+	var font_size := 26
+	while font_size > 16 and heading_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > subject_label.size.x:
+		font_size -= 1
+	subject_label.add_theme_font_size_override("font_size", font_size)
 
 # ==========================================
 # 2. ระบบโหลดโจทย์ขึ้นหน้าจอ
