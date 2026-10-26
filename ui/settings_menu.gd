@@ -11,12 +11,14 @@ const DISPLAY_MODE_BORDERLESS := 2
 var volume_slider: HSlider
 var volume_value: Label
 var display_mode_option: OptionButton
+var load_saved_display_settings := true
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	z_index = 1100
-	_load_display_settings()
+	if load_saved_display_settings:
+		_load_display_settings()
 	_build_interface()
 	hide()
 
@@ -160,6 +162,8 @@ func _apply_display_mode(mode: int) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 func _load_display_settings() -> void:
+	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
+		return
 	var config := ConfigFile.new()
 	if config.load(DISPLAY_SETTINGS_PATH) != OK:
 		return

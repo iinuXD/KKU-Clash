@@ -23,6 +23,7 @@ func _ready() -> void:
 	save_button.pressed.connect(_on_save_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
 	settings_menu = SETTINGS_MENU_SCENE.instantiate() as SettingsMenu
+	settings_menu.load_saved_display_settings = false
 	add_child(settings_menu)
 	settings_menu.closed.connect(_on_settings_closed)
 	hide()
